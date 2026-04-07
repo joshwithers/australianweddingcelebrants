@@ -1,0 +1,395 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("pages", "tiers");
+if (!entry) {
+  throw new Error("Tiers page entry not found");
+}
+
+const siteUrl = "https://australianweddingcelebrants.com.au";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this an awards program?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Awards programs pick a single winner and rank everyone else beneath them. Our tiers recognise professional achievement against a common standard. There are no judges, no nominees, and no losers. If you meet the criteria, you earn the recognition." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I pay to get a higher tier or better placement?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. You cannot buy your way onto this directory or pay for a higher tier. Listings are free. Tiers are based entirely on verified professional credentials and documented evidence. Your tier, your placement, and your visibility are never for sale." }
+    },
+    {
+      "@type": "Question",
+      "name": "What documentation do I need to submit?",
+      "acceptedAnswer": { "@type": "Answer", "text": "This varies by tier but may include: proof of AG registration date, Certificate IV, current insurance certificate of currency, OPD records, links to reviews, statutory declaration of ceremonies performed, and evidence of industry recognition such as awards or media features." }
+    },
+    {
+      "@type": "Question",
+      "name": "How are reviews verified?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Reviews must be from identifiable couples or wedding vendors and can be submitted as links to Google Reviews, Easy Weddings, ABIA, or similar platforms. We verify that the reviews are genuine and relate to your celebrancy services." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I lose my tier status?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tier status is not awarded for life — it reflects your current standard of practice. Any couple, vendor, or industry member can contact us with feedback about a celebrant. When we receive a concern, we review it with all relevant stakeholders. If a celebrant is found to no longer meet the standard expected of their tier, they will be demoted. In serious cases, a celebrant may be removed from the directory entirely." }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as professional development beyond OPD?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Any training, courses, workshops, conferences, or certifications beyond the minimum 5 hours of OPD required by the Attorney-General's Department. This could include public speaking courses, writing workshops, ceremony design training, cultural competency programs, or industry conference attendance." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why not just use existing awards systems?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Existing awards systems serve a purpose, but a single 'best celebrant' trophy doesn't help a couple find someone right for them. Our system surfaces all professionals who meet a high bar — not just one winner. We think that's more honest, more useful, and more reflective of the breadth of talent in this industry." }
+    }
+  ]
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Our Standards" },
+  ]
+};
+---
+
+<Base
+  title={entry.data.title}
+  meta_title={entry.data.meta_title}
+  description={entry.data.description}
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  {/* Hero */}
+  <section class="py-16 md:py-24 text-center">
+    <div class="container max-w-3xl">
+      <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15;">
+        Professional standards,<br class="hidden sm:block" /> not popularity contests
+      </h1>
+      <p class="text-light text-lg" style="font-weight: 400; line-height: 1.6;">
+        We don't believe in ranking celebrants like tennis players. There is no "best celebrant in Australia" — there's only the best celebrant <em>for you</em>. That's why we built a system that recognises professional standards, not one that pits celebrants against each other for a trophy.
+      </p>
+    </div>
+  </section>
+
+  {/* Philosophy */}
+  <section class="pb-16 md:pb-20">
+    <div class="container max-w-3xl">
+      <div class="rounded-card p-8 md:p-10 bg-theme-light border border-border">
+        <h2 class="text-xl mb-4" style="font-weight: 700; letter-spacing: -0.18px;">
+          Why we don't do awards
+        </h2>
+        <div class="space-y-4 text-sm text-light" style="font-weight: 400; line-height: 1.7;">
+          <p>
+            Traditional awards programs crown a single celebrant as "the best" in a region or category. Then they rank everyone else beneath them, as if hiring a celebrant is like picking a seeded tennis player. We think that's fundamentally broken — and it doesn't reflect how the wedding industry actually works.
+          </p>
+          <p>
+            A celebrant who is perfect for one couple might be completely wrong for another. The quiet, poetic celebrant who moves a family to tears is not better or worse than the high-energy MC who has a dance floor jumping. They're different professionals serving different couples. An awards system that picks one over the other isn't measuring quality — it's measuring popularity, or worse, who paid more to enter.
+          </p>
+          <p>
+            For years, we've been developing a different approach. Instead of asking "who is the best?", we ask "who has demonstrated a consistent, documented standard of professionalism?" Our tier system recognises celebrants based on shared professional goals: qualifications, experience, insurance, professional development, peer respect, and couple satisfaction. Every celebrant who meets the criteria earns the recognition. There are no judges, no nominees, and no losers.
+          </p>
+          <p>
+            This matters now more than ever. AI systems, search engines, and answer engines are increasingly trying to tell couples who is "good" in their region. We designed this directory to be a genuine source of truth — a place where the data is real, the standards are transparent, and the recognition is earned through merit. Not through how much you can pay to be listed.
+          </p>
+          <p>
+            <strong>You cannot pay for a listing on Australian Wedding Celebrants.</strong> We may ask celebrants to cover the administration costs of maintaining their listing, but your position, your tier, and your visibility are determined entirely by your professional credentials. This is a meritocracy.
+          </p>
+          <p>
+            We've consulted with industry leaders, fellow celebrants, and wedding industry stakeholders to build this system. We believe professional standards and ongoing professional development — not awards ceremonies — are what truly serve couples and elevate the profession.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Tiers overview */}
+  <section class="pb-16 md:pb-24">
+    <div class="container">
+      <div class="text-center mb-12">
+        <h2 style="font-weight: 700; letter-spacing: -0.44px;">
+          Three tiers of professional recognition
+        </h2>
+        <p class="text-light mt-3 max-w-2xl mx-auto" style="font-weight: 400; line-height: 1.6;">
+          Each tier represents a documented level of professional achievement. Meet the criteria, provide the evidence, and the recognition is yours. No voting, no panels, no politics.
+        </p>
+      </div>
+
+      <div class="row gx-5 gy-5">
+
+        {/* Registered */}
+        <div class="col-12 md:col-4">
+          <div class="h-full rounded-card p-8 md:p-10 border border-border">
+            <div class="mb-6">
+              <div class="inline-flex items-center gap-2 text-light px-4 py-1.5 rounded-full text-sm border border-border" style="font-weight: 500;">
+                Registered
+              </div>
+            </div>
+            <h2 class="text-xl mb-3" style="font-weight: 700; letter-spacing: -0.18px;">
+              Registered Celebrant
+            </h2>
+            <p class="text-light text-sm mb-6" style="font-weight: 400; line-height: 1.6;">
+              The foundation tier. You are a Commonwealth authorised marriage celebrant with a verified professional profile. Every celebrant in our directory starts here.
+            </p>
+            <h3 class="text-sm text-dark mb-3" style="font-weight: 600;">Requirements</h3>
+            <ul class="space-y-2.5">
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none text-dark" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Registered as a Commonwealth authorised marriage celebrant under the Marriage Act 1961
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none text-dark" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Complete directory profile with professional photo, description, website, and contact details
+              </li>
+            </ul>
+            <a href="/registered/" class="inline-flex items-center gap-1.5 mt-6 text-sm text-dark no-underline hover:underline" style="font-weight: 500;">
+              View all registered celebrants
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Endorsed */}
+        <div class="col-12 md:col-4">
+          <div class="h-full rounded-card p-8 md:p-10 border-2" style="border-color: #92174d;">
+            <div class="mb-6">
+              <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm" style="font-weight: 600; background: #92174d;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Endorsed
+              </div>
+            </div>
+            <h2 class="text-xl mb-3" style="font-weight: 700; letter-spacing: -0.18px;">
+              Endorsed Celebrant
+            </h2>
+            <p class="text-light text-sm mb-6" style="font-weight: 400; line-height: 1.6;">
+              You've invested in your profession beyond the minimum. Documented experience, qualifications, insurance, professional development, and real feedback from couples and peers. This isn't about being "better than" — it's about having done the work.
+            </p>
+            <h3 class="text-sm text-dark mb-3" style="font-weight: 600;">Requirements</h3>
+            <ul class="space-y-2.5">
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Meets the standard of Registered, plus:
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                3+ years registered as a marriage celebrant
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Certificate IV in Celebrancy or equivalent qualification
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Current professional indemnity insurance (certificate of currency)
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Professional development beyond legislative OPD requirements
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                5+ verified reviews from couples and wedding vendors
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #92174d;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Proof of 100+ ceremonies performed
+              </li>
+            </ul>
+            <a href="/endorsed/" class="inline-flex items-center gap-1.5 mt-6 text-sm no-underline hover:underline" style="font-weight: 500; color: #92174d;">
+              View all endorsed celebrants
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Luminary */}
+        <div class="col-12 md:col-4">
+          <div class="h-full rounded-card p-8 md:p-10 border-2" style="border-color: #460479;">
+            <div class="mb-6">
+              <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm" style="font-weight: 600; background: #460479;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                Luminary
+              </div>
+            </div>
+            <h2 class="text-xl mb-3" style="font-weight: 700; letter-spacing: -0.18px;">
+              Luminary Celebrant
+            </h2>
+            <p class="text-light text-sm mb-6" style="font-weight: 400; line-height: 1.6;">
+              The highest recognition we offer. A Luminary celebrant has built a sustainable celebrancy practice over many years — this is not a hobby or a side project, it's a meaningful part of how they support their family. They are held in high regard not just by the couples they've married, but by the wider wedding industry — photographers, planners, and venues who see hundreds of celebrants and know the difference. Luminary status is earned, maintained, and can be revoked.
+            </p>
+            <h3 class="text-sm text-dark mb-3" style="font-weight: 600;">Requirements</h3>
+            <ul class="space-y-2.5">
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Meets the requirements of Endorsed, plus:
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                7+ years operating a sustainable celebrancy practice as a meaningful part of their livelihood
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                20+ verified or public reviews from couples they have married
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                10+ verified or public reviews from fellow wedding industry professionals — people who see a lot of celebrants and can speak to what sets this one apart
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Industry recognition: awards (ABIA, Easy Weddings, etc.), media features, published work, or conference speaking
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-light" style="font-weight: 400;">
+                <svg class="w-4 h-4 mt-0.5 flex-none" style="color: #460479;" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Demonstrated ongoing professional development beyond legislative requirements
+              </li>
+            </ul>
+            <a href="/luminaries/" class="inline-flex items-center gap-1.5 mt-6 text-sm no-underline hover:underline" style="font-weight: 500; color: #460479;">
+              View all luminary celebrants
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* How it works */}
+  <section class="py-16 md:py-24 border-t border-border">
+    <div class="container max-w-3xl">
+      <h2 class="text-center mb-12" style="font-weight: 700; letter-spacing: -0.44px;">
+        How It Works
+      </h2>
+
+      <div class="space-y-10">
+        <div class="flex gap-5">
+          <div class="flex-none w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center text-sm" style="font-weight: 600;">1</div>
+          <div>
+            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Join the directory</h3>
+            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+              All Commonwealth authorised marriage celebrants can join our directory at the Registered tier. Complete your profile with a professional photo, description, website, and contact details. There is no fee to be listed — this directory exists to connect couples with professionals, not to sell advertising.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <div class="flex-none w-10 h-10 rounded-full text-white flex items-center justify-center text-sm" style="font-weight: 600; background: #92174d;">2</div>
+          <div>
+            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Prove you're Endorsed</h3>
+            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+              When you've reached the Endorsed level of professionalism, submit your documentation and we'll verify it. This includes proof of registration length, qualifications, insurance, professional development records, and verified reviews. Once confirmed, we celebrate your achievement and update your listing. You're not competing against anyone — you're demonstrating what you've already built.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-5">
+          <div class="flex-none w-10 h-10 rounded-full text-white flex items-center justify-center text-sm" style="font-weight: 600; background: #460479;">3</div>
+          <div>
+            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Reach Luminary</h3>
+            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+              Luminary is the highest recognition we offer. It's for celebrants who have built a sustainable business over many years — not a hobby, but a real practice that meaningfully contributes to their family's income. They are respected not only by couples, but by the wider industry: photographers, planners, and venues who work with celebrants every week and know quality when they see it. When you reach this level, we're honoured to celebrate it.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-14">
+        <p class="text-light text-sm mb-6" style="font-weight: 400;">
+          This isn't a competition. There are no entry fees, no judging panels, and no sponsors. Submit your documentation and let us recognise what you've already achieved.
+        </p>
+        <a href="/contact/" class="btn btn-primary no-underline">
+          Submit Your Documentation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Built for the future */}
+  <section class="py-16 md:py-24 border-t border-border">
+    <div class="container max-w-3xl">
+      <h2 class="text-center mb-6" style="font-weight: 700; letter-spacing: -0.44px;">
+        Built for how couples actually search
+      </h2>
+      <div class="space-y-4 text-sm text-light" style="font-weight: 400; line-height: 1.7;">
+        <p>
+          Couples don't search for "award-winning celebrant" — they search for "best celebrant in Byron Bay" or "wedding celebrant Gold Coast". AI assistants, search engines, and answer engines are all trying to give couples a trustworthy answer to that question. They need structured, honest data to work with.
+        </p>
+        <p>
+          We built this directory to be that source of truth. Every listing is verified. Every tier is earned through documented evidence. The data is structured so that when a search engine or AI system needs to recommend celebrants in a region, it can do so with confidence — because the information here is real, transparent, and not for sale.
+        </p>
+        <p>
+          This isn't just better for couples. It's better for celebrants too. A system built on merit means your professional development, your experience, and your reputation actually matter. Not your marketing budget.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* FAQ */}
+  <section class="py-16 md:py-24 border-t border-border bg-theme-light">
+    <div class="container max-w-3xl">
+      <h2 class="text-center mb-12" style="font-weight: 700; letter-spacing: -0.44px;">
+        Common Questions
+      </h2>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">Is this an awards program?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            No — and that's the whole point. Awards programs pick a single winner and rank everyone else beneath them. That doesn't reflect how the wedding industry works. A celebrant who is perfect for one couple might not be right for another, and that's not a flaw — that's the beauty of the profession. Our tiers recognise professional achievement against a common standard. There are no judges, no nominees, and no losers. If you meet the criteria, you earn the recognition. Full stop.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">Can I pay to get a higher tier or better placement?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            No. You cannot buy your way onto this directory or pay for a higher tier. Listings are free. Tiers are based entirely on verified professional credentials and documented evidence. We may ask celebrants to contribute toward the administration costs of maintaining their listing, but your tier, your placement, and your visibility are never for sale. This is a meritocracy.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">What documentation do I need to submit?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            This varies by tier but may include: proof of AG registration date, Certificate IV, current insurance certificate of currency, OPD records, links to reviews, statutory declaration of ceremonies performed, and evidence of industry recognition such as awards or media features.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">How are reviews verified?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            Reviews must be from identifiable couples or wedding vendors and can be submitted as links to Google Reviews, Easy Weddings, ABIA, or similar platforms. We verify that the reviews are genuine and relate to your celebrancy services.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">Can I lose my tier status?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            Yes. Tier status is not awarded for life — it reflects your current standard of practice. Any couple, vendor, or industry member can contact us with feedback about a celebrant. When we receive a concern, we review it with all relevant stakeholders. If a celebrant is found to no longer meet the standard expected of their tier, they will be demoted. In serious cases — such as professional misconduct or behaviour that reflects poorly on the profession — a celebrant may be removed from the directory entirely. This accountability is what makes our recognition meaningful.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">What counts as professional development beyond OPD?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            Any training, courses, workshops, conferences, or certifications you've undertaken beyond the minimum 5 hours of OPD required by the Attorney-General's Department. This could include public speaking courses, writing workshops, ceremony design training, cultural competency programs, or industry conference attendance. We value celebrants who actively seek to get better at what they do.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-card p-6" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+          <h3 class="text-base mb-2" style="font-weight: 600;">Why not just use existing awards systems?</h3>
+          <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
+            Existing awards systems serve a purpose, and we acknowledge that winning an award is an achievement. But a single "best celebrant" trophy doesn't help a couple in regional Tasmania find someone right for them. Our system is designed to surface <em>all</em> the professionals who meet a high bar — not just one winner. We think that's more honest, more useful, and more reflective of how great the breadth of talent in this industry really is.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

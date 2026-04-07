@@ -1,0 +1,128 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify, slugify } from "@/lib/utils/textConverter";
+import { getEntry, render } from "astro:content";
+import DirectoryListingsWrapper from "../../components/DirectoryListingsWrapper.astro";
+
+// Get all directory entries
+const directoryItems = await getSinglePage("directory");
+
+// Sort items: featured first, then randomize each group
+const sortedItems = [...directoryItems].sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return Math.random() - 0.5;
+});
+
+// Get all unique locations
+const allLocations = [...new Set(sortedItems.flatMap((entry) => entry.data.location))].sort();
+
+// Get page data
+const pageEntry = await getEntry("pages", "directory");
+if (!pageEntry) {
+  throw new Error("Directory page entry not found");
+}
+const { Content } = await render(pageEntry);
+---
+
+<Base title={pageEntry.data.title}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Australian Wedding Celebrants Directory",
+    "description": "Quality-rated directory of professional wedding celebrants across Australia, with Registered, Endorsed, and Luminary recognition tiers.",
+    "numberOfItems": sortedItems.length,
+    "itemListElement": sortedItems.slice(0, 50).map((entry, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "item": {
+        "@type": "ProfessionalService",
+        "name": entry.data.title,
+        "url": `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
+        "description": entry.data.description || "",
+        "image": typeof entry.data.image === 'object' && entry.data.image?.src ? entry.data.image.src : (entry.data.image || undefined),
+        "telephone": entry.data.phone || undefined,
+        "areaServed": entry.data.location.map(loc => ({ "@type": "AdministrativeArea", "name": loc })),
+      }
+    }))
+  })} />
+  <section class="py-16 md:py-20">
+    <div class="container">
+      {/* Page header */}
+      <div class="text-center mb-12">
+        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px;" set:html={markdownify(pageEntry.data.title)} />
+        <div class="max-w-2xl mx-auto text-light">
+          <Content />
+        </div>
+      </div>
+
+      {/* Browse by type */}
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <a
+          href="/luminaries/"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
+          style="font-weight: 600; background: #460479;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          Luminary Celebrants
+        </a>
+        <a
+          href="/endorsed/"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
+          style="font-weight: 600; background: #92174d;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          Endorsed Celebrants
+        </a>
+        <a
+          href="/registered/"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover"
+          style="font-weight: 500;"
+        >
+          Registered Celebrants
+        </a>
+        <a
+          href="/australia-wide/"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
+          style="font-weight: 500; background: #0e7490;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Australia Wide
+        </a>
+        <a
+          href="/destination-wedding-celebrants/"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
+          style="font-weight: 500; background: #7c3aed;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+          Destination Weddings
+        </a>
+      </div>
+
+      {/* Directory listings with filters */}
+      <DirectoryListingsWrapper
+        featuredOnly={false}
+        showFilters={true}
+      />
+
+      {/* Browse by location */}
+      <div class="mt-20 pt-12 border-t border-border">
+        <h2 class="text-center mb-10" style="font-weight: 600; letter-spacing: -0.44px;">
+          Browse by Location
+        </h2>
+        <div class="flex flex-wrap justify-center gap-3">
+          {allLocations.map((location) => (
+            <a
+              href={`/directory/location/${slugify(location)}/`}
+              class="inline-block px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover"
+              style="font-weight: 500;"
+            >
+              {location}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

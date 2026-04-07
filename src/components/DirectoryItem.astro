@@ -1,0 +1,136 @@
+---
+import { Image } from "astro:assets";
+import { humanize, slugify } from "@/lib/utils/textConverter";
+
+const { item, isFirst = false } = Astro.props;
+const tier = item.data.tier || "registered";
+const tierLink = tier === "luminary" ? "/luminaries/" : tier === "endorsed" ? "/endorsed/" : "/registered/";
+const itemSlug = item.id || item.slug || slugify(item.data.title);
+---
+
+<div class="directory-card-shell mb-6">
+  <div class="directory-card group relative rounded-card overflow-hidden bg-white transition-shadow duration-300 hover:shadow-card-hover" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+    {/* Photography hero — natural aspect ratio, no cropping */}
+    {item.data.image && (
+      <div class="relative overflow-hidden">
+        {typeof item.data.image === "string" ? (
+          <img
+            src={item.data.image}
+            alt={item.data.title}
+            width={600}
+            height={600}
+            class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
+            loading={isFirst ? "eager" : "lazy"}
+            decoding={isFirst ? "sync" : "async"}
+            fetchpriority={isFirst ? "high" : undefined}
+          />
+        ) : (
+          <Image
+            src={item.data.image}
+            alt={item.data.title}
+            width={600}
+            height={600}
+            class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
+            loading={isFirst ? "eager" : "lazy"}
+            decoding={isFirst ? "sync" : "async"}
+            fetchpriority={isFirst ? "high" : undefined}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={isFirst ? 90 : 80}
+            format="webp"
+          />
+        )}
+        {/* Tier badge overlay — linked */}
+        {tier === "luminary" && (
+          <a href={tierLink} class="tier-badge absolute top-3 left-3 text-white px-3 py-1 rounded-badge text-xs flex items-center gap-1.5 no-underline hover:opacity-85 transition-all" style="font-weight: 600; background: #460479; backdrop-filter: blur(4px);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            Luminary
+          </a>
+        )}
+        {tier === "endorsed" && (
+          <a href={tierLink} class="tier-badge absolute top-3 left-3 text-white px-3 py-1 rounded-badge text-xs flex items-center gap-1.5 no-underline hover:opacity-85 transition-all" style="font-weight: 600; background: #92174d; backdrop-filter: blur(4px);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            Endorsed
+          </a>
+        )}
+        {tier === "registered" && (
+          <a href={tierLink} class="tier-badge absolute top-3 left-3 px-3 py-1 rounded-badge text-xs flex items-center gap-1.5 no-underline hover:opacity-85 transition-all" style="font-weight: 500; background: rgba(255,255,255,0.9); color: #6a6a6a; backdrop-filter: blur(4px);">
+            Registered
+          </a>
+        )}
+      </div>
+    )}
+
+    {/* Card details */}
+    <div class="p-4">
+      <div class="flex items-start justify-between gap-3 mb-2">
+        <h3 class="text-base text-dark m-0" style="font-weight: 600; letter-spacing: -0.18px; line-height: 1.25;">
+          {item.data.title}
+        </h3>
+      </div>
+
+      {item.data.location && item.data.location.length > 0 && (
+        <p class="text-sm text-light mb-2" style="font-weight: 400;">
+          {item.data.location.map((loc: string) => humanize(loc)).join(" · ")}
+        </p>
+      )}
+
+      {item.data.description && (
+        <p class="text-sm text-light mb-3 line-clamp-2" style="font-weight: 400;">
+          {item.data.description}
+        </p>
+      )}
+
+      <div class="flex flex-wrap gap-1.5">
+        {item.data.category.map((cat: string) => (
+          <span class="bg-theme-light text-dark px-2 py-0.5 rounded-badge text-xs" style="font-weight: 500;">
+            {humanize(cat)}
+          </span>
+        ))}
+        {item.data.australia_wide && (
+          <a href="/australia-wide/" class="badge-link text-white px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline hover:opacity-85 transition-all" style="font-weight: 500; background: #0e7490;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Australia Wide
+          </a>
+        )}
+        {item.data.international && (
+          <a href="/destination-wedding-celebrants/" class="badge-link text-white px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline hover:opacity-85 transition-all" style="font-weight: 500; background: #7c3aed;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+            Destination Weddings
+          </a>
+        )}
+      </div>
+    </div>
+
+    {/* Stretched link — makes the whole card clickable */}
+    <a href={`/directory/${itemSlug}/`} class="stretched-link" aria-label={item.data.title}></a>
+  </div>
+</div>
+
+<style>
+  .directory-card-shell {
+    break-inside: avoid;
+  }
+
+  /* Natural ratio images */
+  .directory-card-img {
+    height: auto !important;
+  }
+
+  /* Stretched link fills the card */
+  .stretched-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* Tier badge: stays absolute-positioned over the image, above stretched link */
+  .tier-badge {
+    z-index: 2;
+  }
+
+  /* Badge links in the card body sit above the stretched link */
+  .badge-link {
+    position: relative;
+    z-index: 2;
+  }
+</style>

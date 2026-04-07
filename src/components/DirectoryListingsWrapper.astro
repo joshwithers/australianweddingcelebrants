@@ -1,0 +1,55 @@
+---
+import StaticDirectoryListings from './StaticDirectoryListings.astro';
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { slugify } from "@/lib/utils/textConverter";
+
+interface Props {
+  sortBy?: 'alphabetical' | 'random';
+  featuredOnly?: boolean;
+  showFilters?: boolean;
+  title?: string;
+  maxItems?: number;
+}
+
+const { 
+  sortBy = 'alphabetical',
+  featuredOnly = false,
+  showFilters = true,
+  title,
+  maxItems
+} = Astro.props;
+
+// Get all directory entries
+const directoryItems = await getSinglePage("directory");
+
+// Apply random sorting at build time if needed
+if (sortBy === 'random') {
+  for (let i = directoryItems.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [directoryItems[i], directoryItems[j]] = [directoryItems[j], directoryItems[i]];
+  }
+}
+
+// Get active location from URL parameters
+const urlParams = Astro.url.searchParams;
+const activeLocation = urlParams.get('location') || 'all';
+
+// Convert location slug back to location name if needed
+let resolvedActiveLocation = 'all';
+if (activeLocation !== 'all') {
+  // Find the actual location name that matches the slug
+  const allLocations = [...new Set(directoryItems.flatMap(item => item.data.location))];
+  const matchedLocation = allLocations.find(loc => slugify(loc) === activeLocation);
+  resolvedActiveLocation = matchedLocation || 'all';
+}
+---
+
+<StaticDirectoryListings 
+  items={directoryItems}
+  sortBy={sortBy === 'random' ? undefined : sortBy}
+  featuredOnly={featuredOnly}
+  showFilters={showFilters}
+  title={title}
+  maxItems={maxItems}
+  activeLocation={resolvedActiveLocation}
+/>

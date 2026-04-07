@@ -1,0 +1,42 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f0f0f"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff385c"/>
+      <stop offset="100%" stop-color="#ff6b81"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="600" y1="200" x2="600" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff385c" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ff385c" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle radial glow behind logo -->
+  <ellipse cx="600" cy="260" rx="300" ry="200" fill="url(#glow)"/>
+
+  <!-- Decorative lines — subtle geometric accents -->
+  <line x1="0" y1="12" x2="1200" y2="12" stroke="#ff385c" stroke-width="3" opacity="0.8"/>
+  <line x1="100" y1="580" x2="1100" y2="580" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+
+  <!-- Logo mark — centred, large -->
+  <g transform="translate(495, 120) scale(2.3)">
+    <g transform="matrix(1,0,0,1,-4.96953,-10.9259)">
+      <path d="M11.02,77.328L49.071,11.43L49.067,11.43C49.376,10.938 50.016,10.782 50.516,11.071C51.016,11.356 51.2,11.989 50.934,12.5L12.883,78.398C12.743,78.652 12.508,78.84 12.227,78.922C11.95,79 11.649,78.961 11.399,78.816C11.149,78.672 10.965,78.43 10.895,78.148C10.825,77.871 10.868,77.57 11.02,77.324L11.02,77.328ZM82.18,86.965L6.075,86.965C5.786,86.957 5.505,87.066 5.294,87.265C5.087,87.469 4.97,87.75 4.97,88.039C4.97,88.332 5.087,88.609 5.294,88.812C5.505,89.015 5.786,89.125 6.075,89.113L82.177,89.113C82.47,89.125 82.751,89.015 82.958,88.812C83.169,88.609 83.286,88.332 83.286,88.039C83.286,87.75 83.169,87.469 82.958,87.265C82.751,87.066 82.47,86.957 82.177,86.965L82.18,86.965ZM94.86,87.504L56.805,21.602C56.668,21.348 56.43,21.16 56.153,21.078C55.871,21 55.575,21.039 55.325,21.184C55.071,21.328 54.891,21.571 54.817,21.852C54.746,22.129 54.793,22.43 54.942,22.676L92.993,88.578C93.29,89.09 93.95,89.265 94.465,88.969C94.977,88.672 95.153,88.015 94.856,87.5L94.86,87.504ZM44.665,41.551C44.149,41.254 43.493,41.43 43.196,41.941L22.766,77.328C22.606,77.574 22.555,77.879 22.626,78.164C22.696,78.449 22.879,78.696 23.133,78.844C23.391,78.989 23.692,79.024 23.977,78.942C24.258,78.86 24.493,78.664 24.629,78.399L45.059,43.012L45.059,43.016C45.352,42.5 45.177,41.844 44.665,41.551L44.665,41.551ZM35.442,78.942L76.301,78.942C76.895,78.942 77.376,78.461 77.376,77.868C77.376,77.274 76.895,76.789 76.301,76.789L35.442,76.789C34.849,76.789 34.368,77.274 34.368,77.868C34.368,78.461 34.849,78.942 35.442,78.942ZM50.934,31.77C50.637,31.254 49.977,31.078 49.462,31.375C48.95,31.672 48.77,32.332 49.067,32.844L69.501,68.231C69.798,68.747 70.458,68.922 70.97,68.626C71.485,68.329 71.661,67.669 71.364,67.157L50.934,31.77ZM40.387,67.157L49.071,52.118L49.067,52.118C49.262,51.782 49.618,51.579 50.001,51.579C50.383,51.579 50.739,51.782 50.934,52.118L59.618,67.157L59.614,67.157C59.809,67.489 59.809,67.899 59.614,68.231C59.422,68.563 59.067,68.77 58.684,68.77L41.317,68.77C40.934,68.77 40.579,68.563 40.387,68.231C40.192,67.899 40.192,67.489 40.387,67.157L40.387,67.157ZM43.188,66.618L56.821,66.618L50.001,54.806L43.188,66.618Z" fill="#ffffff" fill-rule="nonzero"/>
+    </g>
+  </g>
+
+  <!-- Site name -->
+  <text x="600" y="440" text-anchor="middle" font-family="Inter, -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="42" font-weight="700" letter-spacing="-1" fill="#ffffff">Australian Wedding Celebrants</text>
+
+  <!-- Tagline -->
+  <text x="600" y="485" text-anchor="middle" font-family="Inter, -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="18" font-weight="400" letter-spacing="3" fill="#ffffff" opacity="0.5">FIND YOUR PERFECT CELEBRANT</text>
+
+  <!-- URL -->
+  <text x="600" y="600" text-anchor="middle" font-family="Inter, -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="14" font-weight="500" letter-spacing="1" fill="#ff385c" opacity="0.7">australianweddingcelebrants.com.au</text>
+</svg>

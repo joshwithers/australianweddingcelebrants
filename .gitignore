@@ -1,0 +1,41 @@
+# build output
+dist/
+.output/
+
+# astro
+.astro/
+
+# dependencies
+node_modules/
+
+# worker (deployed separately via Cloudflare)
+worker/
+.wrangler/
+.dev.vars
+
+# environment variables
+.env
+.env.*
+
+# lock files
+yarn.lock
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Legacy/temp files
+public/.htaccess
+new-logo.svg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

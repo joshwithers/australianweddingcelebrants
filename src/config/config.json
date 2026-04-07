@@ -1,0 +1,35 @@
+{
+  "site": {
+    "title": "Australian Wedding Celebrants",
+    "base_url": "https://australianweddingcelebrants.com.au",
+    "base_path": "/",
+    "trailing_slash": true,
+    "favicon": "/favicon.svg",
+    "logo": "/logo.svg",
+    "logo_width": "320",
+    "logo_height": "36",
+    "logo_text": "Australian Wedding Celebrants"
+  },
+
+  "settings": {
+    "pagination": 100,
+    "summary_length": 100
+  },
+
+  "metadata": {
+    "meta_author": "Jarra Burrowill",
+    "meta_image": "/og-image.png",
+    "meta_description": "Australian Wedding Celebrants is the home of Australia's most professional and recognised wedding celebrants. Browse by tier, location, and verified credentials."
+  },
+
+  "params": {
+    "contact_form_action": "https://tardis.withers.co/api/forms/wedding-directories",
+    "copyright": "Copyright 2026 · Australian Wedding Celebrants"
+  },
+
+  "contactinfo": {
+    "address": "PO Box 47 <br/> Sandy Bay, Tasmania, 7005",
+    "email": "hello@australianweddingcelebrants.com.au",
+    "phone": "03 4233 6321"
+  }
+}

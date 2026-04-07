@@ -1,0 +1,641 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
+import { BiGlobe, BiEnvelope, BiPhone, BiMap } from "react-icons/bi";
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const directoryEntries = await getSinglePage("directory");
+
+  return directoryEntries.map((entry) => {
+    const slug = entry.id || slugify(entry.data?.title || "vendor");
+    return {
+      params: { single: slug },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const entrySlug = entry.id || slugify(entry.data?.title || "vendor");
+const { Content } = await render(entry);
+const tier = entry.data.tier || "registered";
+
+const withImagekitWidth = (url: string, width: number) => {
+  if (!url.includes("imagekit.io")) return url;
+  if (url.includes("?")) return url.replace(/\?tr=w-\d+/, `?tr=w-${width}`);
+  return `${url}?tr=w-${width}`;
+};
+
+// Get same-tier celebrants (prefer same location, then same category)
+const allVendors = await getSinglePage("directory");
+const sameTierVendors = allVendors
+  .filter(
+    (vendor) =>
+      vendor.id !== entry.id &&
+      (vendor.data.tier || "registered") === tier
+  );
+
+// Prioritise same location, then same category, then random
+const relatedVendors = sameTierVendors
+  .sort((a, b) => {
+    const aLocMatch = a.data.location.some(loc => entry.data.location.includes(loc)) ? 1 : 0;
+    const bLocMatch = b.data.location.some(loc => entry.data.location.includes(loc)) ? 1 : 0;
+    if (aLocMatch !== bLocMatch) return bLocMatch - aLocMatch;
+    const aCatMatch = a.data.category.some(cat => entry.data.category.includes(cat)) ? 1 : 0;
+    const bCatMatch = b.data.category.some(cat => entry.data.category.includes(cat)) ? 1 : 0;
+    if (aCatMatch !== bCatMatch) return bCatMatch - aCatMatch;
+    return Math.random() - 0.5;
+  })
+  .slice(0, 3);
+
+// Tier display info
+const tierInfo = {
+  registered: {
+    label: "Registered Celebrant",
+    color: "#6a6a6a",
+    borderColor: "#e0e0e0",
+    bg: "#f7f7f7",
+    description: "This celebrant is a Commonwealth authorised marriage celebrant on the Attorney-General's register, with a verified professional profile. A Registered listing means you're working with a legally authorised celebrant who has provided their professional details for your review.",
+    forCouples: "You can be confident this celebrant is legally authorised to solemnise marriages in Australia. Their profile has been verified and includes their professional photo, contact details, and service information.",
+  },
+  endorsed: {
+    label: "Endorsed Celebrant",
+    color: "#92174d",
+    borderColor: "#92174d",
+    bg: "#fdf2f7",
+    description: "This celebrant has been recognised as an Endorsed Celebrant — meaning they've submitted documented proof of at least 5 years' experience, formal qualifications, professional indemnity insurance, ongoing professional development beyond legislative requirements, 5 or more verified reviews from couples and wedding vendors, and 100+ ceremonies performed.",
+    forCouples: "An Endorsed celebrant has gone above and beyond the basics. They've proven their commitment to the profession through years of experience, over 100 ceremonies, verified client satisfaction, and continued investment in their craft. This isn't an award — it's a recognition of documented professionalism.",
+  },
+  luminary: {
+    label: "Luminary Celebrant",
+    color: "#460479",
+    borderColor: "#460479",
+    bg: "#f5f0fa",
+    description: "This celebrant has achieved Luminary status — the highest recognition we offer. They've submitted documented proof of at least 7 years' experience, 20+ reviews from couples they've married, 10+ reviews from fellow wedding vendors, industry recognition through awards or media features, and a demonstrated pattern of contribution to the celebrant profession.",
+    forCouples: "A Luminary celebrant represents the very best in the profession. They've not only built an exceptional track record with 20+ couple reviews and 10+ vendor reviews, but have also made a measurable impact on the industry through awards, mentoring, or community contribution. This recognition celebrates their outstanding commitment to excellence.",
+  },
+};
+
+const currentTierInfo = tierInfo[tier] || tierInfo.registered;
+
+// Tier credential mapping for structured data
+const tierCredentials = {
+  registered: {
+    name: "Registered Celebrant",
+    description: "Commonwealth authorised marriage celebrant with a verified professional profile",
+  },
+  endorsed: {
+    name: "Endorsed Celebrant",
+    description: "Recognised for 3+ years experience, formal qualifications, professional indemnity insurance, ongoing professional development, 5+ verified reviews, and 100+ ceremonies performed",
+  },
+  luminary: {
+    name: "Luminary Celebrant",
+    description: "Highest recognition for 7+ years experience, 20+ couple reviews, 10+ vendor reviews, industry awards, and demonstrated contribution to the profession",
+  },
+};
+
+const currentCredential = tierCredentials[tier] || tierCredentials.registered;
+
+// Prepare schema.org structured data
+const siteUrl = "https://australianweddingcelebrants.com.au";
+const imageUrl = typeof entry.data.image === 'object' && entry.data.image?.src ? entry.data.image.src : (entry.data.image || undefined);
+
+const businessSchema: Record<string, any> = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": entry.data.title,
+  "description": entry.data.description || "",
+  "url": `${siteUrl}/directory/${entry.id}/`,
+  "telephone": entry.data.phone || undefined,
+  "email": entry.data.email || undefined,
+  "image": imageUrl,
+  "address": entry.data.address ? {
+    "@type": "PostalAddress",
+    "streetAddress": entry.data.address.replace(/<br\s*\/?>/gi, ', '),
+    "addressCountry": "AU"
+  } : undefined,
+  "areaServed": entry.data.location.map(loc => ({
+    "@type": "AdministrativeArea",
+    "name": humanize(loc)
+  })),
+  "sameAs": [
+    entry.data.website,
+    entry.data.social?.facebook,
+    entry.data.social?.instagram,
+    entry.data.social?.pinterest,
+  ].filter(Boolean),
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "serviceType": "Wedding Celebrant",
+      "name": "Wedding Ceremony Services",
+    }
+  },
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "professional-recognition",
+    "name": currentCredential.name,
+    "description": currentCredential.description,
+    "recognizedBy": {
+      "@type": "Organization",
+      "name": "Australian Wedding Celebrants",
+      "url": siteUrl
+    }
+  },
+  "knowsAbout": ["Wedding Ceremony", "Marriage Celebrancy", "Civil Marriage"],
+};
+
+// Clean undefined values
+Object.keys(businessSchema).forEach(key => {
+  if (businessSchema[key] === undefined) delete businessSchema[key];
+});
+
+// BreadcrumbList schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Directory", "item": `${siteUrl}/directory/` },
+    { "@type": "ListItem", "position": 3, "name": entry.data.title },
+  ]
+};
+---
+
+<Base
+  title={entry.data.title}
+  meta_title={entry.data.meta_title}
+  description={entry.data.description}
+  image={typeof entry.data.image === "string" ? entry.data.image : entry.data.image?.src}
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <section class="py-12 md:py-16">
+    <div class="container">
+      {/* Breadcrumb */}
+      <nav class="mb-8">
+        <ol class="flex items-center text-sm text-light gap-2" style="font-weight: 400;">
+          <li><a href="/" class="hover:text-dark no-underline">Home</a></li>
+          <li class="text-border">/</li>
+          <li><a href="/directory/" class="hover:text-dark no-underline">Directory</a></li>
+          <li class="text-border">/</li>
+          <li class="text-dark" style="font-weight: 500;">{entry.data.title}</li>
+        </ol>
+      </nav>
+
+      <div class="row items-top gx-5">
+        {/* Hero image */}
+        {entry.data.image ? (
+          <div class="md:col-6 mb-8 md:mb-0">
+            <div class="rounded-card overflow-hidden" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+              {typeof entry.data.image === "string" ? (
+                <img
+                  src={withImagekitWidth(entry.data.image, 600)}
+                  alt={entry.data.title}
+                  width={600}
+                  height={600}
+                  class="profile-hero-img w-full"
+                  loading="eager"
+                />
+              ) : (
+                <Image
+                  src={entry.data.image}
+                  alt={entry.data.title}
+                  width={600}
+                  height={600}
+                  class="profile-hero-img w-full"
+                  loading="eager"
+                />
+              )}
+            </div>
+          </div>
+        ) : null}
+
+        {/* Details */}
+        <div class={entry.data.image ? "md:col-6" : "col-12 max-w-2xl mx-auto"}>
+          <div class="mb-6">
+            {entry.data.logo ? (
+              <div>
+                {typeof entry.data.logo === "string" ? (
+                  <img
+                    src={entry.data.logo}
+                    alt={entry.data.title}
+                    width={200}
+                    height={60}
+                    class="h-16 w-auto object-contain mb-4"
+                    loading="eager"
+                  />
+                ) : (
+                  <Image
+                    src={entry.data.logo}
+                    alt={entry.data.title}
+                    width={200}
+                    height={60}
+                    class="h-16 w-auto object-contain mb-4"
+                    loading="eager"
+                  />
+                )}
+              </div>
+            ) : (
+              <h1 style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;" set:html={markdownify(entry.data.title)} />
+            )}
+
+            {/* Tier badge */}
+            {tier === "luminary" && (
+              <a href="/luminaries/" class="mt-3 inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm no-underline hover:opacity-85 transition-all" style="font-weight: 600; background: #460479;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                Luminary Celebrant
+              </a>
+            )}
+            {tier === "endorsed" && (
+              <a href="/endorsed/" class="mt-3 inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm no-underline hover:opacity-85 transition-all" style="font-weight: 600; background: #92174d;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Endorsed Celebrant
+              </a>
+            )}
+            {tier === "registered" && (
+              <a href="/registered/" class="mt-3 inline-flex items-center gap-2 text-light px-4 py-1.5 rounded-full text-sm border border-border no-underline hover:bg-theme-light transition-all" style="font-weight: 500;">
+                Registered Celebrant
+              </a>
+            )}
+
+            {/* Travel badges */}
+            <div class="flex flex-wrap gap-2 mt-3">
+              {entry.data.australia_wide && (
+                <a href="/australia-wide/" class="inline-flex items-center gap-1.5 text-white px-3 py-1 rounded-full text-sm no-underline hover:opacity-85 transition-all" style="font-weight: 500; background: #0e7490;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  Travels Australia Wide
+                </a>
+              )}
+              {entry.data.international && (
+                <a href="/destination-wedding-celebrants/" class="inline-flex items-center gap-1.5 text-white px-3 py-1 rounded-full text-sm no-underline hover:opacity-85 transition-all" style="font-weight: 500; background: #7c3aed;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+                  Destination Weddings
+                </a>
+              )}
+            </div>
+
+            {entry.data.description && (
+              <p class="mt-4 text-light text-base" style="font-weight: 400; line-height: 1.6;">
+                {entry.data.description}
+              </p>
+            )}
+          </div>
+
+          {/* Contact details */}
+          <div class="mb-6">
+            <ul class="space-y-4">
+              {entry.data.location && (
+                <li class="flex items-center">
+                  <BiMap className="mr-3 h-5 w-5 text-light flex-none" />
+                  <span class="text-sm" style="font-weight: 400;">
+                    {entry.data.location.map((loc, i) => (
+                      <span>
+                        <a
+                          href={`/directory/location/${slugify(loc)}/`}
+                          class="text-dark hover:text-primary no-underline hover:underline"
+                        >
+                          {humanize(loc)}
+                        </a>
+                        {i !== entry.data.location.length - 1 && " · "}
+                      </span>
+                    ))}
+                  </span>
+                </li>
+              )}
+
+              {entry.data.website && (
+                <li class="flex items-center">
+                  <BiGlobe className="mr-3 h-5 w-5 text-light" />
+                  <a
+                    href={entry.data.website}
+                    target="_blank"
+                    rel="noopener"
+                    class="text-sm text-dark hover:text-primary no-underline hover:underline"
+                    style="font-weight: 500;"
+                  >
+                    {entry.data.website.replace(/(^\w+:|^)\/\//, '')}
+                  </a>
+                </li>
+              )}
+
+              {entry.data.email && (
+                <li class="flex items-center">
+                  <BiEnvelope className="mr-3 h-5 w-5 text-light" />
+                  <a
+                    href={`mailto:${entry.data.email}`}
+                    class="text-sm text-dark hover:text-primary no-underline hover:underline"
+                    style="font-weight: 500;"
+                  >
+                    {entry.data.email}
+                  </a>
+                </li>
+              )}
+
+              {entry.data.phone && (
+                <li class="flex items-center">
+                  <BiPhone className="mr-3 h-5 w-5 text-light" />
+                  <a
+                    href={`tel:${entry.data.phone.replace(/\s+/g, '')}`}
+                    class="text-sm text-dark hover:text-primary no-underline hover:underline"
+                    style="font-weight: 500;"
+                  >
+                    {entry.data.phone}
+                  </a>
+                </li>
+              )}
+
+              {entry.data.address && (
+                <li class="flex items-start">
+                  <BiMap className="mr-3 h-5 w-5 text-light mt-0.5 flex-none" />
+                  <div>
+                    <span class="text-sm" set:html={markdownify(entry.data.address)} />
+                  </div>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Social links */}
+          {entry.data.social && (
+            <div class="flex items-center gap-4 mt-6">
+              {entry.data.social.instagram && (
+                <a href={entry.data.social.instagram} aria-label="Follow on Instagram" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-center w-10 h-10 rounded-full bg-theme-light text-dark transition-all duration-200 hover:bg-dark hover:text-white no-underline">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                  </svg>
+                </a>
+              )}
+
+              {entry.data.social.facebook && (
+                <a href={entry.data.social.facebook} aria-label="Follow on Facebook" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-center w-10 h-10 rounded-full bg-theme-light text-dark transition-all duration-200 hover:bg-dark hover:text-white no-underline">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                  </svg>
+                </a>
+              )}
+
+              {entry.data.social.pinterest && (
+                <a href={entry.data.social.pinterest} aria-label="Follow on Pinterest" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-center w-10 h-10 rounded-full bg-theme-light text-dark transition-all duration-200 hover:bg-dark hover:text-white no-underline">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.926-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* CTA buttons */}
+          <div class="flex flex-wrap gap-3 mt-8">
+            {entry.data.website && (
+              <a
+                href={entry.data.website}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-primary no-underline"
+              >
+                Visit Website
+              </a>
+            )}
+            {entry.data.email && (
+              <a
+                href={`mailto:${entry.data.email}`}
+                class="btn btn-outline-primary no-underline"
+              >
+                Get in Touch
+              </a>
+            )}
+          </div>
+
+          {/* Edit listing link */}
+          <div class="mt-6">
+            <a
+              href={`https://api.australianweddingcelebrants.com.au/login?slug=${entrySlug}`}
+              class="text-xs text-light hover:text-dark no-underline hover:underline"
+              style="font-weight: 400;"
+            >
+              Is this your listing? Edit it here
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Content body */}
+      {entry.body && (
+        <div class="content mt-16 pt-12 border-t border-border max-w-3xl mx-auto">
+          {entry.data.logo && (
+            <h1 class="mb-6" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;" set:html={markdownify(entry.data.title)} />
+          )}
+          <Content />
+        </div>
+      )}
+
+      {/* Tier info box */}
+      <div class="mt-20 pt-12 border-t border-border">
+        <div class="rounded-card p-8 md:p-10" style={`border: 2px solid ${currentTierInfo.borderColor}; background: ${currentTierInfo.bg};`}>
+          <div class="flex flex-col md:flex-row md:items-start gap-6">
+            <div class="flex-none">
+              {tier === "luminary" && (
+                <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm" style="font-weight: 600; background: #460479;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                  Luminary
+                </div>
+              )}
+              {tier === "endorsed" && (
+                <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm" style="font-weight: 600; background: #92174d;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                  Endorsed
+                </div>
+              )}
+              {tier === "registered" && (
+                <div class="inline-flex items-center gap-2 text-light px-4 py-1.5 rounded-full text-sm border border-border" style="font-weight: 500;">
+                  Registered
+                </div>
+              )}
+            </div>
+            <div>
+              <h2 class="text-base mb-2 text-dark" style="font-weight: 600; letter-spacing: -0.18px;">
+                What does {currentTierInfo.label} mean for you?
+              </h2>
+              <p class="text-sm text-dark mb-3" style="font-weight: 400; line-height: 1.6;">
+                {currentTierInfo.forCouples}
+              </p>
+              <a href="/tiers/" class="text-sm no-underline hover:underline" style={`color: ${currentTierInfo.color}; font-weight: 500;`}>
+                Learn more about our standards
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Same-tier celebrants */}
+      {relatedVendors.length > 0 && (
+        <div class="mt-16 pt-12 border-t border-border">
+          <h2 class="mb-10" style="font-weight: 600; letter-spacing: -0.44px;">
+            More {currentTierInfo.label}s
+          </h2>
+          <div class="row">
+            {relatedVendors.map((vendor) => {
+              const vendorTier = vendor.data.tier || "registered";
+              const vendorSlug = vendor.id || slugify(vendor.data?.title || "vendor");
+              return (
+                <div class="md:col-4 mb-8">
+                  <a href={`/directory/${vendorSlug}/`} class="group block no-underline">
+                    <div class="rounded-card overflow-hidden bg-white transition-shadow duration-300 hover:shadow-card-hover" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+                      {vendor.data.image && (
+                        <div class="relative overflow-hidden">
+                          {typeof vendor.data.image === "string" ? (
+                            <img
+                              src={withImagekitWidth(vendor.data.image, 400)}
+                              alt={vendor.data.title}
+                              width={400}
+                              height={400}
+                              loading="lazy"
+                              class="related-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
+                            />
+                          ) : (
+                            <Image
+                              src={vendor.data.image}
+                              alt={vendor.data.title}
+                              width={400}
+                              height={400}
+                              loading="lazy"
+                              class="related-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
+                            />
+                          )}
+                          {vendorTier === "luminary" && (
+                            <span class="absolute top-3 left-3 text-white px-3 py-1 rounded-badge text-xs flex items-center gap-1.5" style="font-weight: 600; background: #460479; backdrop-filter: blur(4px);">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                              Luminary
+                            </span>
+                          )}
+                          {vendorTier === "endorsed" && (
+                            <span class="absolute top-3 left-3 text-white px-3 py-1 rounded-badge text-xs flex items-center gap-1.5" style="font-weight: 600; background: #92174d; backdrop-filter: blur(4px);">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                              Endorsed
+                            </span>
+                          )}
+                          {vendorTier === "registered" && (
+                            <span class="absolute top-3 left-3 px-3 py-1 rounded-badge text-xs" style="font-weight: 500; background: rgba(255,255,255,0.9); color: #6a6a6a; backdrop-filter: blur(4px);">
+                              Registered
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <div class="p-4">
+                        <h3 class="text-base mb-1 text-dark" style="font-weight: 600; letter-spacing: -0.18px;">{vendor.data.title}</h3>
+                        {vendor.data.description && (
+                          <p class="text-sm text-light mb-3 line-clamp-2" style="font-weight: 400;">{vendor.data.description}</p>
+                        )}
+                        <div class="flex flex-wrap gap-1.5">
+                          {vendor.data.category.map((cat) => (
+                            <span class="bg-theme-light text-dark px-2 py-0.5 rounded-badge text-xs" style="font-weight: 500;">
+                              {humanize(cat)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Embed badge for celebrant's website */}
+      <div class="mt-16 pt-12 border-t border-border">
+        <details class="group">
+          <summary class="cursor-pointer list-none flex items-center gap-3 text-sm text-light hover:text-dark transition-colors duration-200" style="font-weight: 500;">
+            <svg class="w-5 h-5 transition-transform duration-200 group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Show embed badge for your website
+          </summary>
+          <div class="mt-6 space-y-4">
+            <p class="text-sm text-light" style="font-weight: 400; line-height: 1.6;">
+              Copy this code and paste it into your website to display your Australian Wedding Celebrants tier badge.
+            </p>
+
+            {/* Badge preview */}
+            <div class="p-6 bg-theme-light rounded-card flex justify-center">
+              <div style={`display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;${
+                tier === "luminary" ? "background:#460479;color:#fff;" :
+                tier === "endorsed" ? "background:#92174d;color:#fff;" :
+                "background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;"
+              }`}>
+                {tier === "luminary" && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                )}
+                {tier === "endorsed" && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                )}
+                {currentTierInfo.label}
+              </div>
+            </div>
+
+            {/* Code block */}
+            <div class="relative">
+              <pre class="bg-dark text-white rounded-card p-5 text-xs overflow-x-auto" style="line-height: 1.6;"><code id="embedCode" set:html={
+                tier === "luminary"
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#460479;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z&quot;/&gt;&lt;/svg&gt;Luminary Celebrant&lt;/a&gt;`
+                  : tier === "endorsed"
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#92174d;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z&quot;/&gt;&lt;/svg&gt;Endorsed Celebrant&lt;/a&gt;`
+                  : `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;Registered Celebrant&lt;/a&gt;`
+              } /></pre>
+              <button
+                id="copyBtn"
+                class="absolute top-3 right-3 px-3 py-1.5 rounded-btn text-xs bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
+                style="font-weight: 500;"
+                type="button"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      {/* Back to directory */}
+      <div class="text-center mt-16">
+        <a href="/directory/" class="btn btn-outline-primary no-underline">Back to Directory</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .profile-hero-img {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .related-card-img {
+    height: auto !important;
+    max-height: 300px !important;
+    object-fit: cover;
+    object-position: top center;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('copyBtn');
+    const code = document.getElementById('embedCode');
+    if (!btn || !code) return;
+    btn.addEventListener('click', () => {
+      const text = code.textContent || '';
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    });
+  });
+</script>

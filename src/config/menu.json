@@ -1,0 +1,34 @@
+{
+  "main": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Directory",
+      "url": "/directory/"
+    },
+    {
+      "name": "Our Standards",
+      "url": "/tiers/"
+    },
+    {
+      "name": "About",
+      "url": "/about/"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact/"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Join the Directory",
+      "url": "https://api.australianweddingcelebrants.com.au/login"
+    },
+    {
+      "name": "hello@australianweddingcelebrants.com.au",
+      "url": "mailto:hello@australianweddingcelebrants.com.au"
+    }
+  ]
+}

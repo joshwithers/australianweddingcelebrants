@@ -1,0 +1,81 @@
+---
+import config from "@/config/config.json";
+import menu from "@/config/menu.json";
+import { markdownify } from "@/lib/utils/textConverter";
+---
+
+<footer class="border-t border-border bg-theme-light">
+  <div class="container py-12">
+    <div class="flex flex-col gap-8">
+      {/* Top row: email + copyright */}
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <nav>
+          <ul class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2">
+            {
+              menu.footer.map((item) => (
+                <li>
+                  <a href={item.url} class="text-sm text-light hover:text-dark transition-colors duration-200 no-underline" style="font-weight: 500;">
+                    {item.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <p set:html={markdownify(config.params.copyright)} class="text-sm text-light text-center md:text-right" style="font-weight: 400;" />
+      </div>
+
+      {/* Dev credit */}
+      <div class="flex items-center justify-center pt-4 border-t border-border/50">
+        <p class="dev-credit text-xs text-light tracking-wide" style="font-weight: 400;">
+          Another
+          <a href="https://unpopular.au" target="_blank" rel="noopener noreferrer" class="dev-credit-link no-underline" style="font-weight: 500;">
+            Unpopular
+          </a>
+          website on
+          <a href="https://theinternet.com.au" target="_blank" rel="noopener noreferrer" class="dev-credit-link no-underline" style="font-weight: 500;">
+            The Internet
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .dev-credit {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  .dev-credit-link {
+    color: inherit;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .dev-credit-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #222222;
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .dev-credit:hover .dev-credit-link {
+    color: #222222;
+  }
+
+  .dev-credit-link:hover::after {
+    width: 100%;
+  }
+
+  .dev-credit-link:hover {
+    color: #222222;
+  }
+</style>

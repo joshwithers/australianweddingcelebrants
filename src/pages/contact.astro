@@ -1,0 +1,115 @@
+---
+import Base from "@/layouts/Base.astro";
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import config from "@/config/config.json";
+
+const entry = (await getEntry("pages", "contact")) as CollectionEntry<"pages">;
+const { title, description, meta_title, image } = entry.data;
+---
+
+<Base
+  title={title}
+  meta_title="Contact Us — Australian Wedding Celebrants"
+  description="Get in touch with the Australian Wedding Celebrants team for help with the website, questions about our standards, or general enquiries."
+  image={image}
+>
+  <section class="py-16 md:py-20">
+    <div class="container max-w-2xl">
+      {/* Header */}
+      <div class="text-center mb-12">
+        <h1 style="font-weight: 700; letter-spacing: -0.44px;">Get in Touch</h1>
+        <p class="text-light mt-4 max-w-xl mx-auto" style="font-weight: 400; line-height: 1.6;">
+          Have a question about the website, our standards, or need help with your listing? We'd love to hear from you.
+        </p>
+      </div>
+
+      {/* Info callout */}
+      <div class="rounded-card p-6 mb-10 border border-border bg-theme-light">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 mt-0.5 flex-none text-light" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+          </svg>
+          <div>
+            <p class="text-sm text-dark" style="font-weight: 500;">Looking to book a celebrant?</p>
+            <p class="text-sm text-light mt-1" style="font-weight: 400;">
+              This form is not for booking celebrants. To contact a celebrant about your wedding, visit their profile in the <a href="/directory/" class="text-dark hover:text-primary underline">directory</a> and use the contact details on their page.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Form */}
+      <form
+        class="space-y-6"
+        method="post"
+        action={config.params.contact_form_action}
+      >
+        <div class="row gx-4">
+          <div class="col-12 sm:col-6 mb-6 sm:mb-0">
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+              Your Name <span class="text-primary">*</span>
+            </label>
+            <input class="form-input w-full" name="name" type="text" required placeholder="e.g. Sarah Mitchell" />
+          </div>
+          <div class="col-12 sm:col-6">
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+              Email Address <span class="text-primary">*</span>
+            </label>
+            <input class="form-input w-full" name="email" type="email" required placeholder="hello@example.com" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+            What can we help with? <span class="text-primary">*</span>
+          </label>
+          <select name="subject" required class="form-input w-full">
+            <option value="">Select a topic...</option>
+            <option value="listing_help">Help with my listing</option>
+            <option value="tier_question">Question about tiers / standards</option>
+            <option value="website_issue">Report a website issue</option>
+            <option value="general">General enquiry</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+            Message <span class="text-primary">*</span>
+          </label>
+          <textarea class="form-textarea w-full" name="message" rows="5" required placeholder="Tell us how we can help..."></textarea>
+        </div>
+
+        {/* Honeypot */}
+        <div style="position:absolute;left:-9999px" aria-hidden="true">
+          <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div>
+          <button type="submit" class="btn btn-primary px-10">
+            Send Message
+          </button>
+          <p class="text-xs text-light mt-3" style="font-weight: 400;">
+            We'll get back to you as soon as we can.
+          </p>
+        </div>
+      </form>
+
+      {/* Quick links */}
+      <div class="mt-16 pt-12 border-t border-border text-center">
+        <h2 class="text-base mb-6" style="font-weight: 600; letter-spacing: -0.18px;">Quick links</h2>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="https://api.australianweddingcelebrants.com.au/login" class="inline-block px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover" style="font-weight: 500;">
+            Join or edit your listing
+          </a>
+          <a href="/tiers/" class="inline-block px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover" style="font-weight: 500;">
+            Our standards
+          </a>
+          <a href="/directory/" class="inline-block px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover" style="font-weight: 500;">
+            Browse directory
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

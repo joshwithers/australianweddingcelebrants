@@ -1,0 +1,176 @@
+---
+import DirectoryItem from './DirectoryItem.astro';
+import { humanize, slugify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+
+type DirectoryEntry = CollectionEntry<"directory">;
+
+interface Props {
+  items: DirectoryEntry[];
+  sortBy?: 'alphabetical' | 'random';
+  featuredOnly?: boolean;
+  showFilters?: boolean;
+  title?: string;
+  maxItems?: number;
+  activeLocation?: string;
+}
+
+const {
+  items,
+  sortBy = 'alphabetical',
+  featuredOnly = false,
+  showFilters = true,
+  title,
+  maxItems,
+  activeLocation = 'all'
+} = Astro.props;
+
+// Get all unique locations for filter buttons
+const allLocations = [
+  ...new Set(
+    items.flatMap((item) => item.data.location)
+  ),
+].sort();
+
+// Apply filtering
+let filteredItems = featuredOnly
+  ? items.filter(item => item.data.featured)
+  : items;
+
+// Apply location filter
+if (activeLocation !== "all") {
+  filteredItems = filteredItems.filter((item) =>
+    item.data.location.map(loc => slugify(loc)).includes(slugify(activeLocation))
+  );
+}
+
+// Tier priority: luminary > endorsed > registered
+const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
+
+// Apply sorting
+let sortedItems = [...filteredItems];
+
+switch (sortBy) {
+  case 'alphabetical':
+    sortedItems.sort((a, b) => a.data.title.localeCompare(b.data.title));
+    break;
+  case 'random':
+    for (let i = sortedItems.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [sortedItems[i], sortedItems[j]] = [sortedItems[j], sortedItems[i]];
+    }
+    break;
+}
+
+// Always sort by tier priority first (luminary > endorsed > registered)
+sortedItems.sort((a, b) => {
+  const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
+  const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
+  return tierA - tierB;
+});
+
+// Apply max items limit if specified
+if (maxItems && maxItems > 0) {
+  sortedItems = sortedItems.slice(0, maxItems);
+}
+
+// Split into premium (luminary + endorsed) and registered
+const premiumItems = sortedItems.filter(item => {
+  const t = item.data.tier || "registered";
+  return t === "luminary" || t === "endorsed";
+});
+const registeredItems = sortedItems.filter(item => {
+  const t = item.data.tier || "registered";
+  return t === "registered";
+});
+---
+
+<div class="directory-listings">
+  {title && (
+    <h2 class="text-center mb-10" style="font-weight: 600; letter-spacing: -0.44px;">
+      {title}
+    </h2>
+  )}
+
+  {!title && (
+    <h2 class="sr-only">Directory listings</h2>
+  )}
+
+  {/* Premium celebrants — above the fold, before filters */}
+  {premiumItems.length > 0 && (
+    <div class="mb-12">
+      <div class="masonry-grid">
+        {premiumItems.map((item, index) => (
+          <DirectoryItem item={item} isFirst={index === 0} />
+        ))}
+      </div>
+    </div>
+  )}
+
+  {/* Location filter pills */}
+  {showFilters && (
+    <div class="mb-10">
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <a
+          href="/directory/"
+          class:list={[
+            "inline-block px-4 py-2 rounded-full text-sm no-underline transition-all duration-200 border",
+            activeLocation === "all"
+              ? "bg-dark text-white border-dark"
+              : "bg-white text-dark border-border hover:border-dark"
+          ]}
+          style="font-weight: 500;"
+          aria-label="Show all locations"
+        >
+          All Locations
+        </a>
+
+        {allLocations.map((location) => {
+          const locationSlug = slugify(location);
+          const locationUrl = `/directory/location/${locationSlug}/`;
+
+          return (
+            <a
+              href={locationUrl}
+              class:list={[
+                "inline-block px-4 py-2 rounded-full text-sm no-underline transition-all duration-200 border",
+                activeLocation === location
+                  ? "bg-dark text-white border-dark"
+                  : "bg-white text-dark border-border hover:border-dark"
+              ]}
+              style="font-weight: 500;"
+              aria-label={`View ${humanize(location)} celebrants`}
+            >
+              {humanize(location)}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  {/* Results count */}
+  {showFilters && (
+    <div class="mb-8 text-center">
+      <p class="text-sm text-light" style="font-weight: 400;">
+        Showing {sortedItems.length} {sortedItems.length === 1 ? "celebrant" : "celebrants"}
+        {activeLocation !== "all" && ` in ${humanize(activeLocation)}`}
+        {featuredOnly && " (featured)"}
+      </p>
+    </div>
+  )}
+
+  {/* Registered celebrants grid */}
+  <div class="masonry-grid">
+    {registeredItems.map((item, index) => (
+      <DirectoryItem item={item} isFirst={premiumItems.length === 0 && index === 0} />
+    ))}
+  </div>
+
+  {sortedItems.length === 0 && (
+    <div class="text-center py-16">
+      <p class="text-light text-lg">No celebrants found matching your criteria.</p>
+      <a href="/directory/" class="btn btn-outline-primary mt-4">View All Celebrants</a>
+    </div>
+  )}
+</div>

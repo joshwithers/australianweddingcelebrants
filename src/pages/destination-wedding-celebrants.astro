@@ -1,0 +1,51 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import DirectoryItem from "@/components/DirectoryItem.astro";
+
+const allItems = await getSinglePage("directory");
+const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
+const items = allItems
+  .filter(item => item.data.international === true)
+  .sort((a, b) => {
+    const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
+    const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
+    if (tierA !== tierB) return tierA - tierB;
+    return a.data.title.localeCompare(b.data.title);
+  });
+---
+
+<Base title="Destination Wedding Celebrants" meta_title="Destination Wedding Celebrants — Australian Wedding Celebrants" description="Australian marriage celebrants who travel internationally for destination weddings. Take a piece of home with you — wherever in the world you choose to say 'I do'.">
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #7c3aed;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+          Destination Weddings
+        </div>
+        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;">
+          Destination Wedding Celebrants
+        </h1>
+        <p class="text-light max-w-2xl mx-auto" style="font-weight: 400; line-height: 1.6;">
+          These Australian marriage celebrants travel internationally for destination weddings. Take a piece of home with you — wherever in the world you choose to say "I do". {items.length} celebrant{items.length !== 1 ? "s" : ""} available for destination weddings.
+        </p>
+      </div>
+
+      <div class="masonry-grid">
+        {items.map((item, index) => (
+          <DirectoryItem item={item} isFirst={index === 0} />
+        ))}
+      </div>
+
+      {items.length === 0 && (
+        <div class="text-center py-16">
+          <p class="text-light text-lg">No destination wedding celebrants listed yet. <a href="/contact/" class="text-dark underline">Contact us</a> if you travel internationally.</p>
+        </div>
+      )}
+
+      <div class="text-center mt-12">
+        <a href="/directory/" class="btn btn-outline-primary no-underline">View All Celebrants</a>
+      </div>
+    </div>
+  </section>
+</Base>

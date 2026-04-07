@@ -1,0 +1,27 @@
+.btn {
+  @apply inline-block rounded-btn border px-6 py-3 font-medium transition-all duration-200;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.btn-primary {
+  @apply border-dark bg-dark text-white;
+  &:hover {
+    @apply bg-primary border-primary text-white;
+  }
+}
+
+.btn-outline-primary {
+  @apply border-dark bg-transparent text-dark;
+  &:hover {
+    @apply bg-dark text-white;
+  }
+}
+
+.btn-brand {
+  @apply border-primary bg-primary text-white;
+  &:hover {
+    @apply border-primary text-white;
+    background: #e00b41;
+  }
+}

@@ -1,0 +1,109 @@
+---
+import config from "../config/config.json";
+import { Font } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { plainify, truncateText } from "../lib/utils/textConverter";
+import Footer from "./partials/Footer.astro";
+import Header from "./partials/Header.astro";
+import "../styles/main.scss";
+
+// types for frontmatters
+export interface Props {
+  title?: string;
+  meta_title?: string;
+  description?: string;
+  image?: string | ImageMetadata;
+  noindex?: boolean;
+  canonical?: string;
+}
+
+// distructure frontmatters
+const { title, meta_title, description, image: rawImage, noindex, canonical } =
+  Astro.props;
+
+// Resolve image to string (local images are objects with .src)
+const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : rawImage;
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- favicon -->
+    <link rel="icon" type="image/svg+xml" href={config.site.favicon} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- title -->
+    <title>
+      {plainify(meta_title ? meta_title : title ? title : config.site.title)}
+    </title>
+
+    <!-- canonical url -->
+    <link rel="canonical" href={canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`} />
+
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <!-- meta-description -->
+    <meta
+      name="description"
+      content={truncateText(plainify(
+        description ? description : config.metadata.meta_description
+      ), 160)}
+    />
+
+    <Font
+      cssVariable="--font-inter"
+      preload={[
+        { weight: 400, style: "normal", subset: "latin" },
+        { weight: 700, style: "normal", subset: "latin" }
+      ]}
+    />
+
+    <!-- theme meta -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="author" content={config.metadata.meta_author} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={plainify(meta_title ? meta_title : title ? title : config.site.title)} />
+    <meta property="og:description" content={truncateText(plainify(description ? description : config.metadata.meta_description), 160)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`} />
+    <meta property="og:image" content={image && typeof image === 'string' && image.startsWith('http') ? image : `${config.site.base_url}${image || config.metadata.meta_image}`} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={plainify(meta_title ? meta_title : title ? title : config.site.title)} />
+    <meta name="twitter:description" content={truncateText(plainify(description ? description : config.metadata.meta_description), 160)} />
+    <meta name="twitter:image" content={image && typeof image === 'string' && image.startsWith('http') ? image : `${config.site.base_url}${image || config.metadata.meta_image}`} />
+
+    <!-- Structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": config.site.title,
+      "url": config.site.base_url,
+      "description": truncateText(plainify(description ? description : config.metadata.meta_description), 160),
+      "publisher": {
+        "@type": "Organization",
+        "name": config.site.title,
+        "url": config.site.base_url
+      },
+      "inLanguage": "en-AU",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${config.site.base_url}/search/?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+
+  </head>
+  <body>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

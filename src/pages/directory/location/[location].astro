@@ -1,0 +1,99 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { humanize, slugify } from "@/lib/utils/textConverter";
+import DirectoryItem from "@/components/DirectoryItem.astro";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const directoryItems = await getSinglePage("directory");
+
+  const locations = [
+    ...new Set(
+      directoryItems.flatMap((item) => item.data.location)
+    ),
+  ];
+
+  return locations.map((location) => {
+    return {
+      params: { location: slugify(location) },
+      props: { location, directoryItems },
+    };
+  });
+}
+
+const { location, directoryItems } = Astro.props as {
+  location: string;
+  directoryItems: CollectionEntry<"directory">[];
+};
+
+// Filter vendors by the current location OR australia_wide flag
+const filteredVendors = directoryItems.filter((item) =>
+  item.data.location.some((loc) => slugify(loc) === slugify(location)) ||
+  item.data.australia_wide === true
+);
+
+// Sort vendors: local first within each tier, then australia_wide
+// Order: luminary local, endorsed local, luminary australia-wide, endorsed australia-wide, registered local, registered australia-wide
+const isLocal = (item: CollectionEntry<"directory">) =>
+  item.data.location.some((loc: string) => slugify(loc) === slugify(location));
+const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
+const vendors = filteredVendors.sort((a, b) => {
+  const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
+  const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
+  const localA = isLocal(a) ? 0 : 1;
+  const localB = isLocal(b) ? 0 : 1;
+  // Primary: tier group (luminary+endorsed vs registered)
+  const groupA = tierA <= 1 ? 0 : 1;
+  const groupB = tierB <= 1 ? 0 : 1;
+  if (groupA !== groupB) return groupA - groupB;
+  // Within same group: local before australia-wide
+  if (localA !== localB) return localA - localB;
+  // Within same locality: by tier
+  if (tierA !== tierB) return tierA - tierB;
+  return Math.random() - 0.5;
+});
+---
+
+<Base title={`The Top ${vendors.length} Wedding Celebrants in ${humanize(location)}`}>
+  <section class="py-12 md:py-16">
+    <div class="container">
+      {/* Breadcrumb */}
+      <nav class="mb-8">
+        <ol class="flex items-center text-sm text-light gap-2" style="font-weight: 400;">
+          <li><a href="/" class="hover:text-dark no-underline">Home</a></li>
+          <li class="text-border">/</li>
+          <li><a href="/directory/" class="hover:text-dark no-underline">Directory</a></li>
+          <li class="text-border">/</li>
+          <li class="text-dark" style="font-weight: 500;">{humanize(location)}</li>
+        </ol>
+      </nav>
+
+      {/* Page header */}
+      <div class="text-center mb-12">
+        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;">
+          The Top {vendors.length} Wedding Celebrants in {humanize(location)}
+        </h1>
+        <p class="text-light text-base" style="font-weight: 400;">
+          Discover the best wedding celebrants available in {humanize(location)}
+        </p>
+      </div>
+
+      {vendors.length > 0 ? (
+        <div class="masonry-grid">
+          {vendors.map((item, index) => (
+            <DirectoryItem item={item} isFirst={index === 0} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-light text-lg">No celebrants found in this location.</p>
+        </div>
+      )}
+
+      <div class="text-center mt-12">
+        <a href="/directory/" class="btn btn-outline-primary no-underline">Back to Directory</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,41 @@
+---
+import Base from "@/layouts/Base.astro";
+import SearchBar from "@/layouts/SearchBar";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { slugify } from "@/lib/utils/textConverter";
+
+// Retrieve all directory listings
+const directory = await getSinglePage("directory");
+
+const directoryItems = directory.map((item) => ({
+  slug: item.id || slugify(item.data.title),
+  data: {
+    ...item.data,
+    title: item.data.title,
+    description: item.data.description,
+    // Resolve image to string URL (local images are objects with .src)
+    image: typeof item.data.image === 'object' && item.data.image?.src
+      ? item.data.image.src
+      : item.data.image,
+    location: item.data.location,
+    category: item.data.category,
+    tier: item.data.tier || "registered",
+  },
+  content: item.body || item.data.description || "",
+  type: "directory" as const,
+}));
+
+const searchList = directoryItems;
+---
+
+<Base title={`Search`}>
+  <section class="py-16 md:py-20">
+    <div class="container max-w-3xl">
+      <div class="text-center mb-10">
+        <h1 style="font-weight: 700; letter-spacing: -0.44px;">Search</h1>
+        <p class="text-light mt-3" style="font-weight: 400;">Find celebrants by name, location, or category</p>
+      </div>
+      <SearchBar client:load searchList={searchList} />
+    </div>
+  </section>
+</Base>

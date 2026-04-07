@@ -1,0 +1,74 @@
+import { glob } from "astro/loaders";
+import { defineCollection, z } from "astro:content";
+
+// About collection schema
+const aboutCollection = defineCollection({
+  loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/about" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    image: z.string().optional(),
+    draft: z.boolean().optional(),
+    what_i_do: z.object({
+      title: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          description: z.string(),
+        }),
+      ),
+    }),
+  }),
+});
+
+// Wedding Directory collection schema
+const directoryCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/directory" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    image: z.union([image(), z.string()]).optional(),
+    logo: z.union([image(), z.string()]).optional(),
+    website: z.url().optional(),
+    email: z.email().optional(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+    location: z.array(z.string()).default(["Australia"]),
+    category: z.array(z.string()).default(["Other"]),
+    featured: z.boolean().optional(),
+    australia_wide: z.boolean().optional(),
+    international: z.boolean().optional(),
+    draft: z.boolean().optional(),
+    tier: z.enum(["registered", "endorsed", "luminary"]).default("registered"),
+    slug: z.string().optional(),
+    social: z
+      .object({
+        facebook: z.url().optional(),
+        instagram: z.url().optional(),
+        pinterest: z.url().optional(),
+      })
+      .optional(),
+  }),
+});
+
+// Pages collection schema
+const pagesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/pages" }),
+  schema: z.object({
+    id: z.string().optional(),
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    image: z.string().optional(),
+    layout: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
+// Export collections
+export const collections = {
+  about: aboutCollection,
+  pages: pagesCollection,
+  directory: directoryCollection,
+};
