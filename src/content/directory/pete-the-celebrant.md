@@ -14,7 +14,7 @@ category:
   - Celebrant
   - MC
 featured: true
-tier: endorsed
+tier: luminary
 social:
   facebook: "https://www.facebook.com/petethecelebrant"
   instagram: "https://www.instagram.com/petethecelebrant"
