@@ -220,23 +220,20 @@ const breadcrumbSchema = {
         <div class={entry.data.image ? "md:col-6" : "col-12 max-w-2xl mx-auto"}>
           <div class="mb-6">
             {entry.data.logo ? (
-              <div>
+              <div class="mb-4">
                 {typeof entry.data.logo === "string" ? (
                   <img
                     src={entry.data.logo}
                     alt={entry.data.title}
-                    width={600}
-                    height={120}
-                    class="max-h-20 w-full object-contain object-left mb-4"
+                    class="max-w-full h-auto"
                     loading="eager"
                   />
                 ) : (
                   <Image
                     src={entry.data.logo}
                     alt={entry.data.title}
-                    width={600}
-                    height={120}
-                    class="max-h-20 w-full object-contain object-left mb-4"
+                    width={800}
+                    class="max-w-full h-auto"
                     loading="eager"
                   />
                 )}
