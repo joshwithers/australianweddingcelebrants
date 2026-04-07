@@ -1,7 +1,7 @@
 ---
 title: "Oliver Thomson"
 meta_title: "Oliver Thomson Sydney Marriage Celebrant"
-description: "Sydney Marriage Celebrant offers unique, contemporary ceremonies tailored to reflect your love story. With over a decade of experience, letâs create an unforgettable wedding experience together."
+description: "Sydney Marriage Celebrant offers unique, contemporary ceremonies tailored to reflect your love story. With over a decade of experience, let's create an unforgettable wedding experience together."
 image: "https://ik.imagekit.io/withers/file_jyUME3aV5"
 website: "https://www.oliverthomsoncelebrancy.com"
 email: "info@oliverthomsoncelebrancy.com"
@@ -23,16 +23,16 @@ social:
 ---
 **Oliver Thomson – Marriage Celebrant & MC**
 
-Oliver Thomson is a Sydney-based marriage celebrant with over a decade of experience creating unique, contemporary ceremonies that authentically reflect each couple's love story. Whether you're planning an intimate elopement or a celebration with all your loved ones—including dance-loving Aunt Judy and ring-bearing pets—Oliver specialises in bringing the "wow" factor to weddings whilst keeping the heart and connection at the centre.
+Oliver Thomson is a Sydney-based marriage celebrant with over a decade of experience crafting unique, contemporary ceremonies that genuinely reflect each couple's love story. Whether you're planning an intimate elopement or a full celebration—complete with dance-loving Aunt Judy and ring-bearing pets—Oliver specialises in creating ceremonies with the "wow" factor whilst keeping heart and connection at the centre.
 
-**What to Expect**
+**A Relaxed Approach to Your Day**
 
-Oliver takes a relaxed, light-hearted approach to ceremony design, working closely with couples to craft a seamless and joyous day. He understands that every relationship is different, and he's skilled at creating ceremonies that feel personal, engaging, and genuinely reflective of who you are as a couple. His clients consistently praise his ability to balance heartfelt moments with warmth and humour.
+Oliver works closely with couples to design seamless, joyful ceremonies that feel authentically personal and deeply meaningful. He understands that every relationship is unique, and he's skilled at weaving together heartfelt moments with warmth and humour—creating an experience that truly resonates with you and your guests. His clients consistently praise his ability to balance genuine emotion with an engaging, light-hearted style.
 
-**Experience & Locations**
+**Locations & Availability**
 
-Based in Sydney, Oliver travels throughout the region including the Southern Highlands, Kangaroo Valley, Bathurst, and the Blue Mountains. He's also available for destination weddings further afield. His diverse experience across countless ceremonies means he knows how to handle every detail—from timing and logistics to those meaningful personal touches that make a wedding unforgettable.
+Based in Sydney, Oliver travels throughout the region including the Southern Highlands, Kangaroo Valley, Bathurst, and the Blue Mountains. He's also available for destination weddings further afield. His extensive experience across countless ceremonies means he knows how to manage every detail—from timing and logistics to those meaningful personal touches that make a wedding unforgettable.
 
-**Get in Touch**
+**Let's Create Something Special**
 
-Ready to create something special? Oliver offers tailored wedding, elopement, and MC services. Contact him to discuss your vision and start planning a celebration filled with love, joy, and genuine connection.
+Oliver offers tailored wedding, elopement, and MC services designed around your vision. Get in touch to discuss your celebration and start planning a day filled with love, joy, and genuine connection.
