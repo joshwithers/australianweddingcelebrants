@@ -33,12 +33,18 @@ const filteredVendors = directoryItems.filter((item) =>
   item.data.australia_wide === true
 );
 
+// Fisher-Yates shuffle first for fair random base ordering
+const vendors = [...filteredVendors];
+for (let i = vendors.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [vendors[i], vendors[j]] = [vendors[j], vendors[i]];
+}
+
 // Sort vendors: local first within each tier, then australia_wide
-// Order: luminary local, endorsed local, luminary australia-wide, endorsed australia-wide, registered local, registered australia-wide
 const isLocal = (item: CollectionEntry<"directory">) =>
   item.data.location.some((loc: string) => slugify(loc) === slugify(location));
 const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
-const vendors = filteredVendors.sort((a, b) => {
+vendors.sort((a, b) => {
   const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
   const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
   const localA = isLocal(a) ? 0 : 1;
@@ -51,7 +57,7 @@ const vendors = filteredVendors.sort((a, b) => {
   if (localA !== localB) return localA - localB;
   // Within same locality: by tier
   if (tierA !== tierB) return tierA - tierB;
-  return Math.random() - 0.5;
+  return 0;
 });
 ---
 
