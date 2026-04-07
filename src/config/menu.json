@@ -29,6 +29,14 @@
     {
       "name": "hello@australianweddingcelebrants.com.au",
       "url": "mailto:hello@australianweddingcelebrants.com.au"
+    },
+    {
+      "name": "Terms and Conditions",
+      "url": "/terms/"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy/"
     }
   ]
 }
