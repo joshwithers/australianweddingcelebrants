@@ -7,7 +7,7 @@ logo: "../../assets/directory/the-best-day-5f02c176-logo.webp"
 website: "https://www.thebestday.com.au/"
 email: "jaymie@thebestday.com.au"
 phone: "0405342598"
-address: "14 The Crest Hornsby Heights"
+address: "14 The Crest, Hornsby Heights, NSW"
 location:
   - Sydney
   - Central Coast
@@ -16,7 +16,6 @@ location:
 category:
   - Celebrant
   - MC
-  - Elopement Planner
 australia_wide: true
 international: true
 tier: registered

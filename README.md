@@ -150,7 +150,7 @@ The worker is deployed separately to Cloudflare and is not included in the stati
 
 ## Deployment
 
-The site builds to static HTML and can be deployed to any static hosting. Currently deployed via Netlify with:
+The site builds to static HTML and can be deployed to any static hosting. Currently deployed via Cloudflare Pages with:
 
 - `_redirects` file for URL redirects
 - Automatic builds on push to `main`

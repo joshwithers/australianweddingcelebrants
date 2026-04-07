@@ -5,8 +5,12 @@ import DirectoryItem from "@/components/DirectoryItem.astro";
 
 const allItems = await getSinglePage("directory");
 const items = allItems
-  .filter(item => (item.data.tier || "registered") === "endorsed")
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+  .filter(item => (item.data.tier || "registered") === "endorsed");
+// Fisher-Yates shuffle for fair random ordering
+for (let i = items.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [items[i], items[j]] = [items[j], items[i]];
+}
 ---
 
 <Base title="Endorsed Celebrants" meta_title="Endorsed Celebrants — Australian Wedding Celebrants" description="Browse all Endorsed celebrants — professionals who've proven 3+ years experience, formal qualifications, insurance, 5+ verified reviews, and 100+ ceremonies performed.">

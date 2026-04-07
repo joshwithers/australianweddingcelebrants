@@ -5,8 +5,12 @@ import DirectoryItem from "@/components/DirectoryItem.astro";
 
 const allItems = await getSinglePage("directory");
 const items = allItems
-  .filter(item => (item.data.tier || "registered") === "luminary")
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+  .filter(item => (item.data.tier || "registered") === "luminary");
+// Fisher-Yates shuffle for fair random ordering
+for (let i = items.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [items[i], items[j]] = [items[j], items[i]];
+}
 ---
 
 <Base title="Luminary Celebrants" meta_title="Luminary Celebrants — Australian Wedding Celebrants" description="Meet our Luminary celebrants — the very best in the profession with 7+ years experience, 20+ couple reviews, 10+ vendor reviews, and recognised industry contribution.">

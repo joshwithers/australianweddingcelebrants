@@ -5,8 +5,12 @@ import DirectoryItem from "@/components/DirectoryItem.astro";
 
 const allItems = await getSinglePage("directory");
 const items = allItems
-  .filter(item => (item.data.tier || "registered") === "registered")
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+  .filter(item => (item.data.tier || "registered") === "registered");
+// Fisher-Yates shuffle for fair random ordering
+for (let i = items.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [items[i], items[j]] = [items[j], items[i]];
+}
 ---
 
 <Base title="Registered Celebrants" meta_title="Registered Celebrants — Australian Wedding Celebrants" description="Browse all Registered celebrants in our directory. Every celebrant listed is a Commonwealth authorised marriage celebrant with a verified professional profile.">

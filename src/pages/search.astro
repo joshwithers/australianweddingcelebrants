@@ -7,18 +7,17 @@ import { slugify } from "@/lib/utils/textConverter";
 // Retrieve all directory listings
 const directory = await getSinglePage("directory");
 
+const resolveImage = (img: any) =>
+  typeof img === 'object' && img?.src ? img.src : typeof img === 'string' ? img : undefined;
+
 const directoryItems = directory.map((item) => ({
   slug: item.id || slugify(item.data.title),
   data: {
-    ...item.data,
     title: item.data.title,
-    description: item.data.description,
-    // Resolve image to string URL (local images are objects with .src)
-    image: typeof item.data.image === 'object' && item.data.image?.src
-      ? item.data.image.src
-      : item.data.image,
-    location: item.data.location,
-    category: item.data.category,
+    description: item.data.description || "",
+    image: resolveImage(item.data.image),
+    location: item.data.location || [],
+    category: item.data.category || [],
     tier: item.data.tier || "registered",
   },
   content: item.body || item.data.description || "",

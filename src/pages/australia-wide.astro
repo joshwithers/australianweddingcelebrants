@@ -6,13 +6,18 @@ import DirectoryItem from "@/components/DirectoryItem.astro";
 const allItems = await getSinglePage("directory");
 const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
 const items = allItems
-  .filter(item => item.data.australia_wide === true)
-  .sort((a, b) => {
-    const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
-    const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
-    if (tierA !== tierB) return tierA - tierB;
-    return a.data.title.localeCompare(b.data.title);
-  });
+  .filter(item => item.data.australia_wide === true);
+// Fisher-Yates shuffle first for fair random ordering
+for (let i = items.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [items[i], items[j]] = [items[j], items[i]];
+}
+// Stable sort by tier priority (preserves random order within each tier)
+items.sort((a, b) => {
+  const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
+  const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
+  return tierA - tierB;
+});
 ---
 
 <Base title="Australia Wide Wedding Celebrants" meta_title="Australia Wide Wedding Celebrants — Australian Wedding Celebrants" description="Wedding celebrants who travel Australia wide. No matter where in Australia you're getting married, these celebrants will be there.">
