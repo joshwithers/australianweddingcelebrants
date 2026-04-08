@@ -473,6 +473,57 @@ const breadcrumbSchema = {
         </div>
       </div>
 
+      {/* Embed badge for celebrant's website */}
+      <div class="mt-16 pt-12 border-t border-border">
+        <details class="group">
+          <summary class="cursor-pointer list-none flex items-center gap-3 text-sm text-light hover:text-dark transition-colors duration-200" style="font-weight: 500;">
+            <svg class="w-5 h-5 transition-transform duration-200 group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Show embed badge for your website
+          </summary>
+          <div class="mt-6 space-y-4">
+            <p class="text-sm text-light" style="font-weight: 400; line-height: 1.6;">
+              Copy this code and paste it into your website to display your Australian Wedding Celebrants tier badge.
+            </p>
+
+            {/* Badge preview */}
+            <div class="p-6 bg-theme-light rounded-card flex justify-center">
+              <div style={`display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;${
+                tier === "luminary" ? "background:#460479;color:#fff;" :
+                tier === "endorsed" ? "background:#92174d;color:#fff;" :
+                "background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;"
+              }`}>
+                {tier === "luminary" && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                )}
+                {tier === "endorsed" && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                )}
+                {currentTierInfo.label}
+              </div>
+            </div>
+
+            {/* Code block */}
+            <div class="relative">
+              <pre class="bg-dark text-white rounded-card p-5 text-xs overflow-x-auto" style="line-height: 1.6;"><code id="embedCode" set:html={
+                tier === "luminary"
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#460479;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z&quot;/&gt;&lt;/svg&gt;Luminary Celebrant&lt;/a&gt;`
+                  : tier === "endorsed"
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#92174d;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z&quot;/&gt;&lt;/svg&gt;Endorsed Celebrant&lt;/a&gt;`
+                  : `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;Registered Celebrant&lt;/a&gt;`
+              } /></pre>
+              <button
+                id="copyBtn"
+                class="absolute top-3 right-3 px-3 py-1.5 rounded-btn text-xs bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
+                style="font-weight: 500;"
+                type="button"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+        </details>
+      </div>
+
       {/* Same-tier celebrants */}
       {relatedVendors.length > 0 && (
         <div class="mt-16 pt-12 border-t border-border">
@@ -563,57 +614,6 @@ const breadcrumbSchema = {
           </div>
         </div>
       )}
-
-      {/* Embed badge for celebrant's website */}
-      <div class="mt-16 pt-12 border-t border-border">
-        <details class="group">
-          <summary class="cursor-pointer list-none flex items-center gap-3 text-sm text-light hover:text-dark transition-colors duration-200" style="font-weight: 500;">
-            <svg class="w-5 h-5 transition-transform duration-200 group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Show embed badge for your website
-          </summary>
-          <div class="mt-6 space-y-4">
-            <p class="text-sm text-light" style="font-weight: 400; line-height: 1.6;">
-              Copy this code and paste it into your website to display your Australian Wedding Celebrants tier badge.
-            </p>
-
-            {/* Badge preview */}
-            <div class="p-6 bg-theme-light rounded-card flex justify-center">
-              <div style={`display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;${
-                tier === "luminary" ? "background:#460479;color:#fff;" :
-                tier === "endorsed" ? "background:#92174d;color:#fff;" :
-                "background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;"
-              }`}>
-                {tier === "luminary" && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                )}
-                {tier === "endorsed" && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                )}
-                {currentTierInfo.label}
-              </div>
-            </div>
-
-            {/* Code block */}
-            <div class="relative">
-              <pre class="bg-dark text-white rounded-card p-5 text-xs overflow-x-auto" style="line-height: 1.6;"><code id="embedCode" set:html={
-                tier === "luminary"
-                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#460479;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z&quot;/&gt;&lt;/svg&gt;Luminary Celebrant&lt;/a&gt;`
-                  : tier === "endorsed"
-                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#92174d;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z&quot;/&gt;&lt;/svg&gt;Endorsed Celebrant&lt;/a&gt;`
-                  : `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;Registered Celebrant&lt;/a&gt;`
-              } /></pre>
-              <button
-                id="copyBtn"
-                class="absolute top-3 right-3 px-3 py-1.5 rounded-btn text-xs bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
-                style="font-weight: 500;"
-                type="button"
-              >
-                Copy
-              </button>
-            </div>
-          </div>
-        </details>
-      </div>
 
       {/* Back to directory */}
       <div class="text-center mt-16">
