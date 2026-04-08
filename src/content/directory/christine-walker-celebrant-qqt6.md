@@ -2,8 +2,7 @@
 title: "Christine Walker"
 meta_title: "Christine Walker — Gold Coast Wedding Celebrant | Australian Wedding Celebrants"
 description: "Gold Coast marriage celebrant with 10+ years' experience. Specialising in personalised, stress-free ceremonies from intimate elopements to grand celebrations."
-image: "../../assets/directory/christine-walker-celebrant-qqt6.webp"
-logo: "../../assets/directory/christine-walker-celebrant-qqt6-logo.webp"
+image: "../../assets/directory/christine-walker-celebrant-qqt6-logo.webp"
 website: "https://www.christinewalker.com.au"
 email: "info@christinewalker.com.au"
 phone: "+61424217677"
@@ -18,8 +17,8 @@ category:
 tier: endorsed
 social:
   facebook: "https://www.facebook.com/ChristineWalkerCelebrant"
-  instagram: "https://instagram.com"
 ---
+
 Christine Walker is a qualified civil marriage celebrant based on the Gold Coast, serving couples throughout the Gold Coast, Tweed Heads, Byron Bay, and Gold Coast Hinterland regions. With over a decade of experience officiating weddings, she has built a reputation for creating memorable, personalised ceremonies that reflect each couple's unique love story.
 
 Christine's approach to celebrancy is grounded in professionalism, warmth, and a genuine passion for celebrating commitment. She understands that every couple is different, and she takes pride in tailoring each ceremony to match your vision and values. Whether you're dreaming of an intimate beach elopement, a garden celebration, or a more formal affair, Christine works with you to create a ceremony that feels authentically yours. Her extensive experience in public speaking ensures she commands the room with confidence and grace, making every moment feel special and engaging for you and your guests.
