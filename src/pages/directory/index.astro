@@ -61,39 +61,39 @@ const { Content } = await render(pageEntry);
       <div class="flex flex-wrap justify-center gap-3 mb-12">
         <a
           href="/luminaries/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
-          style="font-weight: 600; background: #460479;"
+          class="pill-luminary inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          style="font-weight: 600;"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          <span class="luminary-icon-wrap"><svg class="luminary-icon-star" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg class="luminary-icon-thumb" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z"/></svg></span>
           Luminary Celebrants
         </a>
         <a
           href="/endorsed/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
-          style="font-weight: 600; background: #92174d;"
+          class="pill-endorsed inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          style="font-weight: 600;"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          <span class="endorsed-icon-wrap"><svg class="endorsed-icon-tick" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg><svg class="endorsed-icon-thumb" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z"/></svg></span>
           Endorsed Celebrants
         </a>
         <a
           href="/registered/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover"
+          class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:bg-theme-light hover:shadow-hover"
           style="font-weight: 500;"
         >
           Registered Celebrants
         </a>
         <a
           href="/australia-wide/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
-          style="font-weight: 500; background: #0e7490;"
+          class="pill-dark inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          style="font-weight: 500;"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           Australia Wide
         </a>
         <a
           href="/destination-wedding-celebrants/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 text-white rounded-full text-sm no-underline transition-all duration-200 hover:opacity-85 hover:shadow-hover"
-          style="font-weight: 500; background: #7c3aed;"
+          class="pill-dark inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          style="font-weight: 500;"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
           Destination Weddings

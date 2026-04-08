@@ -1,7 +1,7 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "astro-auto-import";
 import { defineConfig, fontProviders } from "astro/config";
 import remarkCollapse from "remark-collapse";
@@ -27,6 +27,7 @@ export default defineConfig({
     remotePatterns: [{ protocol: "https" }],
   },
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -39,11 +40,6 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap(),
-    tailwind({
-      config: {
-        applyBaseStyles: false,
-      },
-    }),
     AutoImport({
       imports: [
         "@/shortcodes/Button",

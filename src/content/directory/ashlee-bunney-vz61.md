@@ -10,7 +10,7 @@ address: "20A Tamar Street, Palmyra WA 6157"
 location: ["Perth","Perth Hills","Margaret River","Busselton","Albany"]
 category: ["Celebrant","MC"]
 featured: false
-tier: "registered"
+tier: "endorsed"
 social:
   facebook: "https://www.facebook.com/profile.php?id=100091913397502"
   instagram: "http://www.instagram.com/ashleebunney_householdname"

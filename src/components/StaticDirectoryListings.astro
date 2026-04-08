@@ -116,8 +116,8 @@ const registeredItems = sortedItems.filter(item => {
           class:list={[
             "inline-block px-4 py-2 rounded-full text-sm no-underline transition-all duration-200 border",
             activeLocation === "all"
-              ? "bg-dark text-white border-dark"
-              : "bg-white text-dark border-border hover:border-dark"
+              ? "pill-active bg-dark border-dark"
+              : "bg-white text-dark border-border hover:border-dark hover:bg-theme-light"
           ]}
           style="font-weight: 500;"
           aria-label="Show all locations"
@@ -136,7 +136,7 @@ const registeredItems = sortedItems.filter(item => {
                 "inline-block px-4 py-2 rounded-full text-sm no-underline transition-all duration-200 border",
                 activeLocation === location
                   ? "bg-dark text-white border-dark"
-                  : "bg-white text-dark border-border hover:border-dark"
+                  : "bg-white text-dark border-border hover:border-dark hover:bg-theme-light"
               ]}
               style="font-weight: 500;"
               aria-label={`View ${humanize(location)} celebrants`}

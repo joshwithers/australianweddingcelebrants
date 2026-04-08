@@ -100,7 +100,7 @@ export default function SearchBar({ searchList }: Props) {
         </div>
       )}
 
-      <div className="row">
+      <div className="flex flex-wrap -mx-2">
         {searchResults?.map(({ item }) => (
           <DirectoryResult key={item.slug} item={item} />
         ))}
@@ -114,7 +114,7 @@ function DirectoryResult({ item }: { item: SearchItem }) {
   const tierInfo = tierLabels[tier] || tierLabels.registered;
 
   return (
-    <div className="col-12 sm:col-6 lg:col-4 mb-8">
+    <div className="w-full sm:w-1/2 lg:w-1/3 mb-8 px-2">
       <a
         href={`/directory/${item.slug}/`}
         className="block no-underline group"

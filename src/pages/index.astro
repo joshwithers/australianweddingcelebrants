@@ -11,7 +11,7 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
     {/* Content */}
     <div class="container relative z-10 py-20 md:py-32">
       <div class="hero-content">
-        <h1 class="text-h2-sm md:text-h1 mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15;">
+        <h1 class="text-h2-sm md:text-h1 mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15; color: #86244c;">
           Find Your Perfect<br class="hidden sm:block" /> Wedding Celebrant
         </h1>
         <p class="text-lg max-w-2xl mx-auto mb-10" style="font-weight: 500; line-height: 1.6; color: #444444;">
@@ -29,15 +29,15 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
 
       {/* Tier pills — floating below the CTA */}
       <div class="mt-12 flex flex-wrap items-center justify-center gap-3">
-        <a href="/registered/" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs border border-border bg-white/80 text-light no-underline hover:border-dark hover:text-dark transition-all duration-200" style="font-weight: 500; backdrop-filter: blur(4px);">
+        <a href="/registered/" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs border border-border bg-white/80 text-light no-underline hover:border-dark hover:text-dark hover:bg-white transition-all duration-200" style="font-weight: 500; backdrop-filter: blur(4px);">
           Registered
         </a>
-        <a href="/endorsed/" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs text-white no-underline hover:opacity-90 transition-all duration-200" style="font-weight: 600; background: #92174d;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        <a href="/endorsed/" class="pill-endorsed inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs no-underline transition-all duration-200" style="font-weight: 600;">
+          <span class="endorsed-icon-wrap"><svg class="endorsed-icon-tick" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg><svg class="endorsed-icon-thumb" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z"/></svg></span>
           Endorsed
         </a>
-        <a href="/luminaries/" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs text-white no-underline hover:opacity-90 transition-all duration-200" style="font-weight: 600; background: #460479;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <a href="/luminaries/" class="pill-luminary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs no-underline transition-all duration-200" style="font-weight: 600;">
+          <span class="luminary-icon-wrap"><svg class="luminary-icon-star" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg class="luminary-icon-thumb" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z"/></svg></span>
           Luminary
         </a>
       </div>
@@ -56,9 +56,9 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
         </p>
       </div>
 
-      <div class="row gx-4 gy-4 justify-center">
+      <div class="flex flex-wrap gap-8 justify-center">
         {/* Registered */}
-        <div class="col-12 sm:col-6 md:col-4">
+        <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
           <div class="bg-white rounded-card p-6 h-full border border-border">
             <div class="inline-flex items-center gap-2 text-light px-3 py-1 rounded-full text-xs border border-border mb-4" style="font-weight: 500;">
               Registered
@@ -71,7 +71,7 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
         </div>
 
         {/* Endorsed */}
-        <div class="col-12 sm:col-6 md:col-4">
+        <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
           <div class="bg-white rounded-card p-6 h-full border-2" style="border-color: #92174d;">
             <div class="inline-flex items-center gap-2 text-white px-3 py-1 rounded-full text-xs mb-4" style="font-weight: 600; background: #92174d;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
@@ -85,7 +85,7 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
         </div>
 
         {/* Luminary */}
-        <div class="col-12 sm:col-6 md:col-4">
+        <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
           <div class="bg-white rounded-card p-6 h-full border-2" style="border-color: #460479;">
             <div class="inline-flex items-center gap-2 text-white px-3 py-1 rounded-full text-xs mb-4" style="font-weight: 600; background: #460479;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
@@ -132,26 +132,5 @@ import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.ast
     justify-content: center;
   }
 
-  /* Subtle entrance animation for content */
-  .hero-content {
-    animation: hero-fade-up 0.8s ease-out both;
-  }
-
-  @keyframes hero-fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Reduce motion for accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-content {
-      animation: none;
-    }
-  }
+  /* No entrance animation — content appears immediately with the background */
 </style>

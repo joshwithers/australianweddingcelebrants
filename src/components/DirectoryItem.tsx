@@ -32,7 +32,7 @@ const DirectoryItem: React.FC<DirectoryItemProps> = ({ item, isFirst }) => {
   const logoUrl = getImageUrl(item.data.logo);
 
   return (
-    <div className="mb-8 md:col-6 lg:col-4">
+    <div className="mb-8 w-full md:w-1/2 lg:w-1/3">
       <div className="bg-theme-light rounded p-4 hover:shadow-lg transition duration-300">
         {imageUrl && (
           <a

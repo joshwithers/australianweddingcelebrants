@@ -1,5 +1,5 @@
 html {
-  @apply text-base;
+  font-size: 14px;
 }
 
 body {

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@import "./base.css";
+@import "./components.css";
+@import "./navigation.css";
+@import "./buttons.css";
+@import "./utilities.css";
+
+@theme {
+  /* Colors */
+  --color-text: #222222;
+  --color-light: #6a6a6a;
+  --color-dark: #222222;
+  --color-primary: #ff385c;
+  --color-body: #ffffff;
+  --color-border: #e0e0e0;
+  --color-theme-light: #f7f7f7;
+  --color-theme-dark: #222222;
+
+  /* Fonts — Inter via Astro fonts */
+  --font-primary: var(--font-inter), -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-secondary: var(--font-inter), -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* Font sizes — design guide: 14px body, headings per 1.25 scale */
+  --text-base: 14px;
+  --text-sm: 13px;
+  --text-xs: 12px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-h6: 1rem;
+  --text-h5: 1.25rem;
+  --text-h4: 1.5625rem;
+  --text-h3: 1.953rem;
+  --text-h3-sm: 1.5624rem;
+  --text-h2: 2.441rem;
+  --text-h2-sm: 1.9528rem;
+  --text-h1: 3.052rem;
+  --text-h1-sm: 2.4416rem;
+
+  /* Border radius */
+  --radius-card: 20px;
+  --radius-badge: 14px;
+  --radius-btn: 8px;
+  --radius-large: 32px;
+
+  /* Shadows — three-layer warm lift per design guide */
+  --shadow-card: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;
+  --shadow-card-hover: rgba(0,0,0,0.04) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 4px 12px, rgba(0,0,0,0.14) 0px 8px 16px;
+  --shadow-hover: rgba(0,0,0,0.08) 0px 4px 12px;
+
+  /* Letter spacing */
+  --tracking-heading: -0.44px;
+  --tracking-subheading: -0.18px;
+
+  /* Breakpoints */
+  --breakpoint-sm: 540px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}

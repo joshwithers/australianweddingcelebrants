@@ -45,14 +45,14 @@ const { title, description, meta_title, image } = entry.data;
         method="post"
         action={config.params.contact_form_action}
       >
-        <div class="row gx-4">
-          <div class="col-12 sm:col-6 mb-6 sm:mb-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
             <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
               Your Name <span class="text-primary">*</span>
             </label>
             <input class="form-input w-full" name="name" type="text" required placeholder="e.g. Sarah Mitchell" />
           </div>
-          <div class="col-12 sm:col-6">
+          <div>
             <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
               Email Address <span class="text-primary">*</span>
             </label>
