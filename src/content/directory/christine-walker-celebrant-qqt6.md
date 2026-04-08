@@ -2,7 +2,7 @@
 title: "Christine Walker"
 meta_title: "Christine Walker — Gold Coast Wedding Celebrant | Australian Wedding Celebrants"
 description: "Gold Coast marriage celebrant with 10+ years' experience. Specialising in personalised, stress-free ceremonies from intimate elopements to grand celebrations."
-image: "../../assets/directory/christine-walker-celebrant-qqt6-logo.webp"
+image: "../../assets/directory/christine-walker-celebrant-qqt6.webp"
 website: "https://www.christinewalker.com.au"
 email: "info@christinewalker.com.au"
 phone: "+61424217677"
