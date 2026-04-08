@@ -1,5 +1,5 @@
 ---
-title: "Deborah Lilley Celebrant Services"
+title: "Deborah Lilley"
 meta_title: "Deborah Lilley Adeliade Celebrant Services"
 description: "Adelaide's Celebrant creates vibrant, heartfelt ceremonies tailored to each couple. With over 450 weddings since 2014, expect professionalism mixed with fun."
 image: "https://ik.imagekit.io/withers/file_7NPBLjfge"
@@ -10,7 +10,7 @@ address: "Maslin Beach, South Australia"
 location: ["Adelaide", "Flinders Ranges", "Adelaide Hills", "Victor Harbor", "Fleurieu Peninsula"]
 category: ["Celebrant"]
 featured: false
-tier: "registered"
+tier: "endorsed"
 social:
   facebook: "https://www.facebook.com/deborahlilley.marriagecelebrant"
   instagram: "https://www.instagram.com/deborahlilleycelebrant/"

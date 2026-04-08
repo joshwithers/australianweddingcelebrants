@@ -1,5 +1,5 @@
 ---
-title: "Michelle and Dusty Wedding Ceremonies"
+title: "Michelle and Dusty"
 meta_title: "Hunter Valley Wedding Celebrant Michelle and Dusty Wedding Ceremonies"
 description: "Hunter Valley Wedding Celebrant Michelle and Dusty create personalised ceremonies filled with heart and humour, offering unique styling options to celebrate your love story."
 image: "https://ik.imagekit.io/withers/file_KBObCI448"

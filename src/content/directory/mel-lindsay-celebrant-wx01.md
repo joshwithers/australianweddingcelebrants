@@ -1,5 +1,5 @@
 ---
-title: "Mel Lindsay Celebrant"
+title: "Mel Lindsay"
 meta_title: "Glen Innes Marriage Celebrant"
 description: "Mel Lindsay, a registered marriage celebrant in Glen Innes, offers personalised, creative ceremonies for weddings, naming days, and funerals, reflecting your unique love story."
 image: "https://ik.imagekit.io/withers/file_ReaOd6wYbW"
@@ -10,7 +10,7 @@ address: "10 Glasson Street Glen Innes NSW 2370"
 location: ["Brisbane","Coffs Harbour","Tamworth","Armidale","Northern Rivers NSW"]
 category: ["Celebrant"]
 featured: false
-tier: "registered"
+tier: "endorsed"
 social:
   facebook: "https://facebook.com/mellindsaycelebrant"
   instagram: "https://instagram.com/mel.lindsay.celebrant"

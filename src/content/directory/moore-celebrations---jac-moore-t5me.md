@@ -1,6 +1,6 @@
 ---
-title: "Moore Celebrations - Jac Moore "
-meta_title: "Brisbane Celebrant Jac Moore "
+title: "Moore Celebrations"
+meta_title: "Brisbane Celebrant Jac Moore"
 description: "Brisbane Celebrant Jac Moore creates personalised, meaningful ceremonies with a touch of fun. Expect laughter, heartfelt moments, and attention to detail. Let's chat!"
 image: "https://ik.imagekit.io/withers/file_x8w-M4ReT"
 website: "https://www.moorecelebrations.com.au"
@@ -10,7 +10,7 @@ address: "29 Florrie St, Lutwyche QLD 4030"
 location: ["Brisbane", "Gold Coast", "Scenic Rim Qld", "Sunshine Coast", "Toowoomba"]
 category: ["Celebrant", "MC"]
 featured: false
-tier: "registered"
+tier: "endorsed"
 social:
   facebook: "https://www.facebook.com/moorecelebrationsJM/"
   instagram: "https://www.instagram.com/moorecelebrations/"
