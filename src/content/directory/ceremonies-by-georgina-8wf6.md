@@ -1,38 +1,29 @@
 ---
 title: "Ceremonies by Georgina"
-meta_title: "Ceremonies by Georgina - Bowen Whitsundays Queensland"
-description: "Ceremonies by Georgina offers personalised wedding ceremonies in Bowen Whitsundays, blending a relaxed vibe with heartfelt dedication to make your special day unforgettable."
-image: "https://ik.imagekit.io/withers/file_U9NoOZYC8"
+meta_title: "Ceremonies by Georgina — Whitsundays Wedding Celebrant | Australian Wedding Celebrants"
+description: "Personalised wedding ceremonies in the Whitsundays. Georgina blends relaxed North Queensland warmth with heartfelt dedication to create unforgettable celebrations."
+image: "../../assets/directory/ceremonies-by-georgina-8wf6.webp"
 website: "https://ceremoniesbygeorgina.com.au/"
 email: "email@ceremoniesbygeorgina.com.au"
 phone: "+61439740848"
 address: "6 Howard St, Bowen QLD 4805"
-location: ["Whitsundays"]
-category: ["Celebrant"]
-featured: false
-tier: "registered"
+location:
+  - Whitsundays
+category:
+  - Celebrant
+tier: endorsed
 social:
   facebook: "https://facebook.com/ceremoniesbygeorgina"
   instagram: "https://instagram.com/ceremoniesbygeorgina"
-draft: false
 ---
+Georgina is an Authorised Marriage Celebrant based in beautiful Bowen in the Whitsundays, servicing the region from Ayr through to Airlie Beach and Proserpine. She's your curator of wedding awesomeness—a self-described old-school romantic with a warm, laid-back North Queensland spirit and an infectious enthusiasm for celebration.
 
-**Hello, Lovelies!** I’m Georgina—though when you call or if I'm in a spot of bother, it’s Georgina, but once we've gotten to know each other, it’s just Georgie!
+With a postgraduate degree in adult education and a decade-long career in public speaking, Georgina discovered her true calling as a marriage celebrant in 2020. What began as a casual suggestion from her husband blossomed into a passion that has only deepened with time. The pandemic proved a reinforcing moment, affirming her genuine love for this work and her commitment to being part of couples' journeys. Beyond the ceremonies themselves, Georgina becomes genuinely invested in her couples' stories—often following them on social media long after the big day, because as she says, "you're not getting rid of me that easily!"
 
-I’m an old-school romantic at heart. Pure and simple. However, don’t be fooled by the platinum blonde locks or the George Clooney-esque hair stripe; I’m far from stuffy or boring. As a proud mum of four marvellous boys, I’m a sports-watching, car-loving, thong (the shoe kind) and shorts-wearing North Queensland gal who embraces life with zest!
+Her approach is refreshingly authentic. As a proud mum of four marvellous boys and a self-described emotional ball of fluff, Georgina brings warmth and genuine connection to every ceremony she creates. She's a sports-watching, car-loving, thong-and-shorts-wearing North Queensland gal who embraces life with zest and isn't afraid to let her personality shine. Yet beneath that relaxed exterior lies meticulous attention to detail and an unwavering commitment to perfection. She understands the nuances of ceremony—whether you need her laid-back North Queensland vibe or a more formal approach, she seamlessly adapts to match your vision and desired atmosphere.
 
-Ask my husband, and he’ll tell you that I’m an emotional ball of fluff, tearing up at the slightest heartstring pull—be it movies, TV shows, or even ads. But that’s just a testament to how deeply I cherish each of my couples, who inevitably become like family to me. Yes, I’ll probably follow you on social media long after the ceremony is done—you’re not getting rid of me that easily!
+Georgina specialises in marriage ceremonies, vow renewals, and commitment ceremonies, each crafted with the same dedication to making your day unforgettable. Her expertise lies in weaving your unique story into a ceremony that feels authentically yours—a celebration that resonates with your values, your personality, and the depth of your commitment. She'll handle the important details so you can focus on the moment, and if needed, she'll even play peacemaker with any challenging relatives!
 
-**My Journey to Becoming a Celebrant**
+What couples can expect when they choose Ceremonies by Georgina is a celebrant who genuinely cares about getting every detail right, who listens deeply to understand your vision, and who delivers a ceremony with professionalism, warmth, and heart. She combines her natural public-speaking talent with sincere emotional investment, creating ceremonies that move guests and perfectly capture the essence of your relationship. Her North Queensland authenticity—complete with the occasional colourful word in the right context—brings genuine, relatable humanity to your celebration.
 
-My journey to becoming a celebrant was sparked by a suggestion from my husband, which I initially didn’t give much credence. During a chat about future aspirations—mind you, this was in our 40s—I was contemplating a career change and the possibility of starting my own business. Several career options were tossed around, from bookkeeping to real estate, even adult education, given my postgraduate degree in the field. Yet, none seemed to fit quite right. Hubby then casually mentioned, “What about a celebrant?” It was a seemingly random suggestion, but as the family’s designated public speaker and an avid watcher of sappy films and wedding dress reality shows, it made perfect sense.
-
-I delved into research and after much pondering, decided to embark on this path. Following a year of study, I became an Authorised Marriage Celebrant just as Covid-19 turned the world upside down in 2020—a challenging but reinforcing time that affirmed my love for this career. It’s not merely a job; each couple presents an opportunity to meet new people, hear unique stories, and become part of their journey. Mushy, I know, but entirely true.
-
-**What to Expect When You Choose Me**
-
-When you choose me to be your celebrant, here’s what you can expect: my meticulous attention to detail and commitment to perfection—yes, that’s a positive trait. You’ll also get my laid-back North Queensland vibe; while I might let slip the odd colourful word, I assure you I know when it’s appropriate. I can switch gears to be as formal as required, crafting and delivering your ceremony to match the desired atmosphere. My dedication is unwavering—I will do everything possible to ensure your ceremony goes off without a hitch, even if it means playing referee between you and any challenging relatives.
-
-**Let’s Create Something Beautiful Together**
-
-I’m eager to be part of your story because your happily ever after begins here. For the best celebrant experience in the [Whitsundays](https://ceremoniesbygeorgina.com.au/), let’s create something beautiful together.
+Whether you're planning an intimate gathering or a larger celebration, Georgina approaches each couple as if they're becoming part of her family. That's the promise of Ceremonies by Georgina: your happily ever after begins here, crafted with meticulous care, genuine warmth, and the kind of dedication that makes your special day truly unforgettable.
