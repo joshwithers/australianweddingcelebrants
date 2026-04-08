@@ -1,28 +1,37 @@
 ---
-title: "Deborah Lilley"
-meta_title: "Deborah Lilley Adeliade Celebrant Services"
-description: "Adelaide's Celebrant creates vibrant, heartfelt ceremonies tailored to each couple. With over 450 weddings since 2014, expect professionalism mixed with fun."
+title: "Deborah Lilley Celebrant Services"
+meta_title: "Deborah Lilley — Adelaide Wedding Celebrant | Australian Wedding Celebrants"
+description: "Vibrant Adelaide celebrant creating personalised, heartfelt ceremonies. Over 500 weddings since 2014. Professional, fun, and utterly unique."
 image: "https://ik.imagekit.io/withers/file_7NPBLjfge"
 website: "https://lilley-cmc.com/"
 email: "admin@lilley-cmc.com.au"
 phone: "+61417466100"
 address: "Maslin Beach, South Australia"
-location: ["Adelaide", "Flinders Ranges", "Adelaide Hills", "Victor Harbor", "Fleurieu Peninsula"]
-category: ["Celebrant"]
-featured: false
-tier: "endorsed"
+location:
+  - Adelaide
+  - Flinders Ranges
+  - Adelaide Hills
+  - Victor Harbor
+  - Fleurieu Peninsula
+category:
+  - Celebrant
+  - MC
+  - Elopement Planner
+australia_wide: true
+tier: endorsed
 social:
   facebook: "https://www.facebook.com/deborahlilley.marriagecelebrant"
   instagram: "https://www.instagram.com/deborahlilleycelebrant/"
-draft: false
+  pinterest: "https://au.pinterest.com/deborahlilleycelebrant"
 ---
+Meet Deborah Lilley, a professionally trained Commonwealth registered Marriage Celebrant based in the stunning coastal town of Maslin Beach, South Australia. With over 11 years of experience and more than 500 weddings under her belt since 2014, Deborah brings a unique blend of passion, professionalism, and personality to every ceremony she conducts.
 
-**Imagine a celebrant who embodies fun, quirkiness, happiness, and vibrancy, with a heartfelt touch and a sprinkle of seriousness.** That's me! I am committed to crafting ceremonies that are anything but dull, bringing joy and personality to your special day. Every ceremony I conduct is a unique celebration tailored to the couple, whether it's a grand affair or an intimate gathering.
+Deborah's approach to celebrancy is refreshingly unconventional. She believes that no two couples are the same, so no two ceremonies should be either. Her philosophy is simple: your ceremony is about you, your love, and your way of doing things. There are no rules, no must-dos—just your dreams brought to life with her expertise as the glue holding your vision together. Whether you're planning an intimate elopement or a grand celebration with 200 of your closest friends and family, Deborah has the flexibility and creativity to make it happen seamlessly.
 
-**Since becoming a [Celebrant](https://lilley-cmc.com/) in 2014**, I have had the privilege of officiating over 450 legal weddings and more than 100 non-legal ceremonies across beautiful locations such as Adelaide, the Flinders Ranges, the Adelaide Hills, Victor Harbor, and the Fleurieu Peninsula. With me, you are assured of being in safe, capable hands, where professionalism meets a bubbly, approachable demeanour.
+What sets Deborah apart is her vibrant, fun-loving personality combined with genuine professionalism and meticulous organisation. Young at heart with a fabulous spirit, she adores creating ceremonies that resonate deeply with each couple, leaving guests feeling they've witnessed something truly remarkable. Her passion for public speaking means every word is delivered with clarity and confidence, whether amplified by microphone or spoken intimately. She's equally skilled as a wedding MC and elopement planner, often becoming a trusted advisor and coordinator throughout the entire planning journey.
 
-**I am a vibrant, fun-loving individual who remains young at heart, even in my fabulous fifties.** I adore animals and have a passion for everything retro or vintage, from the flapper days of the 1920s to the rock-and-roll era of the 1950s, not to mention a love for Star Wars and all things sci-fi. My flexibility and inclusivity allow me to work creatively with you, ensuring your ceremony is just as you envision it. I am here to bring your dreams to life, making sure everything falls into place seamlessly on the day.
+Deborah's personal interests—from vintage and retro aesthetics to Star Wars and sci-fi—inform her creative approach. She's passionate about inclusivity and supports marriage equality for all couples, regardless of religion, race, or gender. Her flexibility allows her to work creatively with you, whether you're drawn to the glamour of the 1920s flapper era, the rock-and-roll vibrancy of the 1950s, or contemporary celebrations that reflect your unique story.
 
-**Public speaking is a skill I hold dear**, and I deliver with clarity and confidence, whether using a microphone or not. Being a professional Celebrant and MC is not just my job—it's my passion. My business motto, ‘My passion, Your wedding, Your way’, perfectly encapsulates my dedication to making your day as unique and special as you are.
+Serving Adelaide, the Flinders Ranges, Adelaide Hills, Victor Harbor, and the Fleurieu Peninsula, Deborah also travels Australia wide for couples seeking her celebrancy services. She takes immense pride in handling all the detail work—from explaining marriage law essentials like name changes and Medicare implications to managing paperwork with ease. Each couple receives a personalised copy of their ceremony script as a keepsake to cherish forever.
 
-**I take immense pride in delivering ceremonies that resonate with each couple**, leaving guests feeling as though they've witnessed something truly remarkable. As a keepsake, each couple receives the personalised script used on their day, a memento to cherish forever.
+Deborah's business motto—'My passion, Your wedding, Your way'—perfectly encapsulates her dedication. She's committed to crafting ceremonies that are anything but dull, bringing joy, personality, and heartfelt meaning to your special day. With Deborah, you're in safe, capable hands where professionalism meets a bubbly, approachable demeanour, ensuring your vision becomes reality.

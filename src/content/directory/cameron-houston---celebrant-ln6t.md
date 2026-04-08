@@ -1,28 +1,35 @@
 ---
 title: "Cameron Houston"
-meta_title: "Cameron Houston - Marriage ceremonies and life celebrations in Melbourne and beyond. "
-description: "Cameron Houston is an authorised Marriage Celebrant in Melbourne, specialising in meaningful weddings and life celebrations across Victoria, ensuring a memorable legal ceremony."
-image: "https://ik.imagekit.io/withers/file_cJr75Jkz_"
+meta_title: "Cameron Houston — Melbourne Wedding Celebrant | Australian Wedding Celebrants"
+description: "Authorised Marriage Celebrant in Melbourne specialising in meaningful, personalised wedding ceremonies across Victoria's most beautiful locations."
+image: "../../assets/directory/cameron-houston---celebrant-ln6t.webp"
 website: "https://www.cameronhouston.com.au/"
 email: "celebrant@cameronhouston.com.au"
 phone: "+61403672750"
 address: "12 Hastings Road Hawthorn East VIC 3123"
-location: ["Melbourne", "Dandenong Ranges", "Yarra Valley", "Mornington Peninsula", "Great Ocean Road"]
-category: ["Celebrant"]
-featured: false
-tier: "registered"
+location:
+  - Melbourne
+  - Dandenong Ranges
+  - Yarra Valley
+  - Mornington Peninsula
+  - Great Ocean Road
+category:
+  - Celebrant
+tier: registered
 social:
   facebook: "https://www.facebook.com/profile.php?id=100078732593682"
   instagram: "https://instagram.com/cameron_houston_celebrant"
-draft: false
 ---
+Cameron Houston is an authorised Marriage Celebrant dedicated to creating memorable, meaningful ceremonies that authentically celebrate love in all its forms. Based between Melbourne's vibrant eastern suburbs and Victoria's stunning Surf Coast, Cameron brings warmth, professionalism, and genuine passion to every celebration, whether it's a marriage ceremony, commitment ceremony, vow renewal, or life celebration.
 
-**Hello, my name is Cameron Houston**, and I am an authorised Marriage Celebrant dedicated to making your wedding day the most memorable and joyous occasion of your life. With a wealth of experience and a genuine passion for celebrating love, I am here to guide you through every step of your special day.
+With extensive experience guiding couples through their special days, Cameron understands that your wedding is one of the most important moments of your life. His approach is thoughtful and personalised—he takes the time to truly understand your unique story, culture, beliefs, and values, weaving these elements into a ceremony that feels authentically yours. Cameron is a proud supporter of marriage equality and believes in celebrating love in all its beautiful forms, ensuring every couple feels honoured and represented.
 
-**Though I split my time between Melbourne’s vibrant eastern suburbs and the breathtaking beauty of Victoria’s Surf Coast**, I am more than happy to discuss creating a bespoke ceremony anywhere from the bustling heart of Melbourne to the serene settings of the Dandenong Ranges, Yarra Valley, Macedon Ranges, or along the stunning Surf Coast. My commitment is to ensure that your ceremony is both a personal and legally binding celebration of your love.
+Cameron's style strikes the perfect balance between reverence and joy. Comfortable speaking in front of large audiences, he keeps ceremonies smooth, serene, and seamlessly orchestrated without ever overshadowing the couple. His role is to keep you calm and collected whilst ensuring your guests remain engaged and the day's events unfold beautifully. He maintains a light-hearted, joyous atmosphere that honours the profound significance of your wedding day whilst keeping everyone relaxed and connected.
 
-**I specialise in crafting** [marriage ceremonies](https://www.cameronhouston.com.au/), commitment ceremonies, and vow renewals that genuinely reflect your unique story, culture, and beliefs. As a proud supporter of marriage equality, I embrace love in all its beautiful forms and am committed to making sure each ceremony is a true reflection of the couple's individuality.
+Whether you're planning an intimate gathering or a grand celebration, Cameron specialises in crafting ceremonies that are as unique and individual as your love story. He works closely with couples to ensure their ceremony reflects their personality, their journey together, and what matters most to them. His attention to detail and commitment to excellence means you can trust that every word, every moment, and every element will be thoughtfully considered.
 
-**Comfortable in front of large audiences**, I promise not to overshadow your day but instead to keep things smooth and serene. My role is to keep you calm and collected, ensuring your guests are engaged and the day's events unfold seamlessly. I respect the profound significance of your wedding day while maintaining a light-hearted and joyous atmosphere for everyone involved.
+Cameron is happy to travel throughout Victoria to create your perfect ceremony. He regularly celebrates weddings across Melbourne's bustling heart, the serene beauty of the Dandenong Ranges, the renowned wine regions of the Yarra Valley and Macedon Ranges, the coastal charm of the Mornington Peninsula, and the dramatic landscapes of the Great Ocean Road. No matter where your vision takes you, Cameron is here to help bring it to life.
 
-**If you're seeking a** [Celebrant](https://www.cameronhouston.com.au/) **in Melbourne, the Dandenong Ranges, Yarra Valley, Mornington Peninsula, or along the Great Ocean Road**, I would be honoured to help you create a ceremony that is as unique and special as your love story.
+As a member of the Australian Federation of Civil Celebrants, Cameron is committed to the highest standards of professionalism and integrity. He has been recognised as a Top Wedding Celebrant by Vogue Ballroom and Vines of the Yarra Valley, a testament to his dedication and the trust couples place in him.
+
+If you're seeking a celebrant in Melbourne, the Dandenong Ranges, Yarra Valley, Mornington Peninsula, or along the Great Ocean Road, Cameron would be honoured to help you create a ceremony that celebrates your love story in a way that feels uniquely, perfectly yours.
