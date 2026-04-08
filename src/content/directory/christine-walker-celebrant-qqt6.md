@@ -1,28 +1,35 @@
 ---
 title: "Christine Walker"
-meta_title: "Christine Walker Celebrant"
-description: "Christine Walker Celebrant, a Gold Coast expert with nearly 20 years of experience, brings joy and humour to your wedding, ensuring unforgettable memories."
-image: "https://ik.imagekit.io/withers/file_YC_fZD9El"
+meta_title: "Christine Walker — Gold Coast Wedding Celebrant | Australian Wedding Celebrants"
+description: "Gold Coast marriage celebrant with 10+ years' experience. Specialising in personalised, stress-free ceremonies from intimate elopements to grand celebrations."
+image: "../../assets/directory/christine-walker-celebrant-qqt6.webp"
+logo: "../../assets/directory/christine-walker-celebrant-qqt6-logo.webp"
 website: "https://www.christinewalker.com.au"
 email: "info@christinewalker.com.au"
 phone: "+61424217677"
 address: "28 Coolibah Road Gaven QLD 4211"
-location: ["Gold Coast", "Tweed Heads", "Byron Bay", "Gold Coast Hinterland"]
-category: ["Celebrant"]
-featured: false
-tier: "registered"
+location:
+  - Gold Coast
+  - Tweed Heads
+  - Byron Bay
+  - Gold Coast Hinterland
+category:
+  - Celebrant
+tier: endorsed
 social:
   facebook: "https://www.facebook.com/ChristineWalkerCelebrant"
   instagram: "https://instagram.com"
-draft: false
 ---
+Christine Walker is a qualified civil marriage celebrant based on the Gold Coast, serving couples throughout the Gold Coast, Tweed Heads, Byron Bay, and Gold Coast Hinterland regions. With over a decade of experience officiating weddings, she has built a reputation for creating memorable, personalised ceremonies that reflect each couple's unique love story.
 
-**Christine Walker** is not just a celebrant; she is a cherished figure in the Gold Coast, Tweed Heads, Byron Bay, and Gold Coast Hinterland regions. With an impressive career spanning nearly two decades, Christine has become synonymous with excellence and dedication in the wedding industry. Her passion for love and commitment is evident in every ceremony she officiates, having joyfully presided over 2,000 weddings. Her expertise and warmth make her the [celebrant](https://www.christinewalker.com.au) of choice for couples starting their journey of marriage.
+Christine's approach to celebrancy is grounded in professionalism, warmth, and a genuine passion for celebrating commitment. She understands that every couple is different, and she takes pride in tailoring each ceremony to match your vision and values. Whether you're dreaming of an intimate beach elopement, a garden celebration, or a more formal affair, Christine works with you to create a ceremony that feels authentically yours. Her extensive experience in public speaking ensures she commands the room with confidence and grace, making every moment feel special and engaging for you and your guests.
 
-**Christine's personal life** is as inspiring as her professional one. She has been happily married for 54 years to the same wonderful man, a testament to her deep understanding of marital bonds. Her family is her pride and joy, with three beautiful children and six delightful grandchildren who light up her life.
+Known for her infectious sense of humour and adaptable nature, Christine brings positivity and ease to the entire celebrancy process. She recognises that planning a wedding can feel overwhelming, so she's committed to making the experience stress-free from start to finish. Her innovative Ceremony Builder tool puts you in control, allowing couples to take an active role in crafting their vows and shaping their ceremony, creating something truly individual and inspiring.
 
-**Among her many accolades**, Christine has had the honour of officiating the weddings of well-known personalities, including the glamorous Margot Robbie and the vibrant Ashy Bines. This speaks volumes about her reputation and the trust placed in her by those seeking a truly memorable ceremony.
+Christine's service offerings extend beyond weddings. She also specialises in baby naming ceremonies, creating elegant and professional celebrations to welcome new arrivals into families and communities. Whether it's a milestone moment or a significant life event, she brings the same dedication and care to every ceremony she officiates.
 
-**Known for her infectious sense of humour** and adaptable nature, Christine brings positivity and a happy spirit to every situation. Her extensive experience in public speaking ensures she commands a crowd with confidence and grace, making each ceremony unique and engaging.
+Throughout her career, Christine has had the privilege of marrying couples from all walks of life—from young couples embarking on their journey together to those rediscovering love later in life. She has officiated ceremonies across the globe, from New Zealand and South Africa to Bali, Hawaii, and the United States, bringing her expertise and warm presence to celebrations in diverse settings.
 
-**With Christine Walker at the helm**, you can be assured that your wedding ceremony will be a beautifully orchestrated event. Her professionalism and personal touch guarantee a day filled with unforgettable memories, leaving a lasting impression on all who attend.
+What sets Christine apart is her commitment to the integrity, detail, and sensitivity of each ceremony. She promises to provide a professional, discreet, innovative, and uniquely tailored experience. Her clients consistently praise her organisation, helpfulness, and genuine passion for her work, noting how she makes them feel at ease and ensures their special day unfolds exactly as they've imagined.
+
+When you choose Christine Walker as your celebrant, you're selecting someone who truly listens to your needs, respects your vision, and delivers a ceremony that creates lasting memories for you and everyone who shares in your celebration.
