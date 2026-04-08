@@ -8,7 +8,7 @@ const tierLink = tier === "luminary" ? "/luminaries/" : tier === "endorsed" ? "/
 const itemSlug = item.id || item.slug || slugify(item.data.title);
 ---
 
-<div class="directory-card-shell mb-6">
+<div class="directory-card-shell">
   <div class="directory-card group relative rounded-card overflow-hidden bg-white transition-shadow duration-300 hover:shadow-card-hover" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
     {/* Photography hero — natural aspect ratio, no cropping */}
     {item.data.image && (
@@ -109,6 +109,7 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
 <style>
   .directory-card-shell {
     break-inside: avoid;
+    padding-bottom: 1.5rem;
   }
 
   /* Natural ratio images */
