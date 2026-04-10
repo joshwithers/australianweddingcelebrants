@@ -33,8 +33,8 @@ function lazyLoadImages() {
 
 // Preload critical resources
 function preloadCriticalResources() {
-  // Preload the first few images that are likely to be above the fold
-  const criticalImages = document.querySelectorAll('.directory-listings .row > div:nth-child(-n+3) img');
+  // Preload the first few card images that are likely above the fold
+  const criticalImages = document.querySelectorAll('.masonry-grid .directory-card-shell:nth-child(-n+3) img');
   criticalImages.forEach(img => {
     if (img.src && !img.complete) {
       const link = document.createElement('link');

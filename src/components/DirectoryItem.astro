@@ -12,13 +12,13 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
   <div class="directory-card group relative rounded-card overflow-hidden bg-white transition-shadow duration-300 hover:shadow-card-hover" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
     {/* Photography hero — natural aspect ratio, no cropping */}
     {item.data.image && (
-      <div class="relative overflow-hidden">
+      <div class="directory-card-image-wrap relative overflow-hidden">
         {typeof item.data.image === "string" ? (
           <img
             src={item.data.image}
             alt={item.data.title}
             width={600}
-            height={600}
+            height={400}
             class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
             loading={isFirst ? "eager" : "lazy"}
             decoding={isFirst ? "sync" : "async"}
@@ -29,7 +29,7 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
             src={item.data.image}
             alt={item.data.title}
             width={600}
-            height={600}
+            height={400}
             class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
             loading={isFirst ? "eager" : "lazy"}
             decoding={isFirst ? "sync" : "async"}
@@ -110,11 +110,27 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
   .directory-card-shell {
     break-inside: avoid;
     padding-bottom: 1.5rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
   }
 
-  /* Natural ratio images */
+  /* Image wrapper — reserves space and provides placeholder bg */
+  .directory-card-image-wrap {
+    background: #f0f0f0;
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Images fade in smoothly and fill the reserved space */
   .directory-card-img {
-    height: auto !important;
+    height: 100% !important;
+    width: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: cardImgFadeIn 0.4s ease forwards;
+  }
+
+  @keyframes cardImgFadeIn {
+    to { opacity: 1; }
   }
 
   /* Stretched link fills the card */
