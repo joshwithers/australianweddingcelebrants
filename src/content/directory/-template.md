@@ -25,6 +25,23 @@ tier: registered # registered | endorsed | luminary
 #   facebook: "https://facebook.com/example"
 #   instagram: "https://instagram.com/example"
 #   pinterest: "https://pinterest.com/example"
+
+# ── Premium profile fields ────────────────────────────────────────────────
+# Luminary tier only: feature video + 3-image gallery
+# youtube: "https://www.youtube.com/watch?v=VIDEO_ID"
+# gallery:
+#   - "../../assets/directory/example-gallery-1.jpg"
+#   - "../../assets/directory/example-gallery-2.jpg"
+#   - "../../assets/directory/example-gallery-3.jpg"
+#
+# Luminary + Endorsed tiers: up to 3 testimonials
+# testimonials:
+#   - quote: "Short, specific praise from the couple."
+#     author: "Couple's names"
+#     role: "Married in Location, Year"
+#   - quote: "Another testimonial."
+#     author: "Couple's names"
+#     role: "Married in Location, Year"
 ---
 
 Write the celebrant's bio and any additional content here.
