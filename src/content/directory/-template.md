@@ -27,7 +27,8 @@ tier: registered # registered | endorsed | luminary
 #   pinterest: "https://pinterest.com/example"
 
 # ── Premium profile fields ────────────────────────────────────────────────
-# Luminary tier only: feature video + 3-image gallery
+# Luminary tier only: feature video, 3-image gallery, custom page background
+# background_color: "#faf7f5"
 # youtube: "https://www.youtube.com/watch?v=VIDEO_ID"
 # gallery:
 #   - "../../assets/directory/example-gallery-1.jpg"

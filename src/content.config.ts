@@ -52,6 +52,8 @@ const directoryCollection = defineCollection({
     // Premium profile fields — Luminary tier only.
     youtube: z.url().optional(),
     gallery: z.array(z.union([image(), z.string()])).max(3).optional(),
+    // Hex colour (e.g. "#faf7f5") applied to the profile page background.
+    background_color: z.string().regex(/^#[0-9a-fA-F]{3,8}$/).optional(),
     // Testimonials — Luminary and Endorsed tiers.
     testimonials: z
       .array(

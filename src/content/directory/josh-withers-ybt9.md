@@ -24,6 +24,7 @@ featured: true
 australia_wide: true
 international: true
 tier: luminary
+background_color: "#faf7f5"
 youtube: https://www.youtube.com/watch?v=P_U8h23DpgM
 social:
   facebook: "https://facebook.com/withersweddings"

@@ -39,6 +39,7 @@ Key fields on a directory entry: `title`, `description`, `image`, `logo`, `websi
 **Tier-gated premium fields (optional):**
 - `youtube` — Luminary only. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
 - `gallery` — Luminary only. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
+- `background_color` — Luminary only. Hex colour (e.g. `"#faf7f5"`) applied to the entire profile page background.
 - `testimonials` — Luminary + Endorsed. Up to 3 items `{ quote, author, role? }`. Emits `schema.org/Review` JSON-LD.
 
 Luminary profiles use a centered hero layout (logo/name top, large centered profile photo, contact details below) in `[single].astro`. Endorsed and Registered use the standard two-column layout. Add premium fields to a listing in the frontmatter; the layout picks them up automatically.

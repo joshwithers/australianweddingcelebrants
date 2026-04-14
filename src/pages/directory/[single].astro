@@ -181,6 +181,9 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 3, "name": entry.data.title },
   ]
 };
+
+// Luminary-only custom page background (hex colour).
+const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
 ---
 
 <Base
@@ -193,7 +196,7 @@ const breadcrumbSchema = {
   <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
   <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
-  <section class="py-12 md:py-16">
+  <section class="py-12 md:py-16" style={pageBg ? `background-color: ${pageBg};` : undefined}>
     <div class="container">
       {/* Breadcrumb */}
       <nav class="mb-8">
