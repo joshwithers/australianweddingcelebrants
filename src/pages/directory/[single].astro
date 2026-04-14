@@ -314,15 +314,6 @@ const breadcrumbSchema = {
             )}
           </div>
 
-          <div class="mt-6">
-            <a
-              href={`https://api.australianweddingcelebrants.com.au/login?slug=${entrySlug}`}
-              class="text-xs text-light hover:text-dark no-underline hover:underline"
-              style="font-weight: 400;"
-            >
-              Is this your listing? Edit it here
-            </a>
-          </div>
         </div>
       ) : (
         <div class="flex flex-wrap items-start gap-10">
@@ -443,15 +434,6 @@ const breadcrumbSchema = {
               )}
             </div>
 
-            <div class="mt-6">
-              <a
-                href={`https://api.australianweddingcelebrants.com.au/login?slug=${entrySlug}`}
-                class="text-xs text-light hover:text-dark no-underline hover:underline"
-                style="font-weight: 400;"
-              >
-                Is this your listing? Edit it here
-              </a>
-            </div>
           </div>
         </div>
       )}
@@ -525,14 +507,35 @@ const breadcrumbSchema = {
         </div>
       </div>
 
-      {/* Embed badge for celebrant's website */}
+      {/* Celebrant tools — embed badge + edit listing (for profile owners) */}
       <div class="mt-16 pt-12">
         <details class="group">
           <summary class="cursor-pointer list-none flex items-center gap-3 text-sm text-light hover:text-dark transition-colors duration-200" style="font-weight: 500;">
-            <svg class="w-5 h-5 transition-transform duration-200 group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Show embed badge for your website
+            <svg class="w-5 h-5 transition-transform duration-200 group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Is this your listing? Edit it or grab your badge
           </summary>
-          <div class="mt-6 space-y-4">
+          <div class="mt-6 space-y-6">
+            {/* Edit listing */}
+            <div class="flex items-start gap-4">
+              <svg class="w-5 h-5 text-light flex-none mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20h9" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="flex-1">
+                <h3 class="text-sm text-dark mb-1" style="font-weight: 600;">Manage your profile</h3>
+                <p class="text-sm text-light mb-2" style="font-weight: 400; line-height: 1.6;">
+                  Sign in to update your photos, bio, contact details and more.
+                </p>
+                <a
+                  href={`https://api.australianweddingcelebrants.com.au/login?slug=${entrySlug}`}
+                  class="text-sm text-dark hover:text-primary no-underline hover:underline"
+                  style="font-weight: 500;"
+                >
+                  Edit this listing →
+                </a>
+              </div>
+            </div>
+
+            <div class="border-t border-border"></div>
+
+            <h3 class="text-sm text-dark" style="font-weight: 600;">Embed your tier badge</h3>
             <p class="text-sm text-light" style="font-weight: 400; line-height: 1.6;">
               Copy this code and paste it into your website to display your Australian Wedding Celebrants tier badge.
             </p>
