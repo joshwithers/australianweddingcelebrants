@@ -1,13 +1,13 @@
 ---
 import config from "../config/config.json";
 import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 import type { ImageMetadata } from "astro";
 import { plainify, truncateText } from "../lib/utils/textConverter";
 import Footer from "./partials/Footer.astro";
 import Header from "./partials/Header.astro";
 import "../styles/main.css";
 
-// types for frontmatters
 export interface Props {
   title?: string;
   meta_title?: string;
@@ -15,11 +15,19 @@ export interface Props {
   image?: string | ImageMetadata;
   noindex?: boolean;
   canonical?: string;
+  /** OpenGraph object type — "website" (default), "profile" for celebrant pages, etc. */
+  og_type?: string;
 }
 
-// distructure frontmatters
-const { title, meta_title, description, image: rawImage, noindex, canonical } =
-  Astro.props;
+const {
+  title,
+  meta_title,
+  description,
+  image: rawImage,
+  noindex,
+  canonical,
+  og_type = "website",
+} = Astro.props;
 
 // Resolve image to string (local images are objects with .src)
 const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : rawImage;
@@ -61,6 +69,8 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
       ]}
     />
 
+    <ClientRouter />
+
     <!-- theme meta -->
     <meta name="theme-color" content="#ffffff" />
     <meta name="author" content={config.metadata.meta_author} />
@@ -68,7 +78,7 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     <!-- Open Graph -->
     <meta property="og:title" content={plainify(meta_title ? meta_title : title ? title : config.site.title)} />
     <meta property="og:description" content={truncateText(plainify(description ? description : config.metadata.meta_description), 160)} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={og_type} />
     <meta property="og:url" content={canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`} />
     <meta property="og:image" content={image && typeof image === 'string' && image.startsWith('http') ? image : `${config.site.base_url}${image || config.metadata.meta_image}`} />
 

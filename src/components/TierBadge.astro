@@ -1,0 +1,38 @@
+---
+// Tier badge overlaid on directory card images. Links to the tier landing page.
+// For taller/standalone pills, use a plain `.pill-luminary` / `.pill-endorsed` link
+// with <TierIcon /> inside.
+import TierIcon from "./TierIcon.astro";
+
+type Tier = "luminary" | "endorsed" | "registered";
+
+interface Props {
+  tier: Tier;
+}
+
+const { tier } = Astro.props;
+
+const hrefs = {
+  luminary: "/luminaries/",
+  endorsed: "/endorsed/",
+  registered: "/registered/",
+} as const;
+
+const labels = {
+  luminary: "Luminary",
+  endorsed: "Endorsed",
+  registered: "Registered",
+} as const;
+---
+
+<a
+  href={hrefs[tier]}
+  class:list={[
+    "tier-badge",
+    `tier-badge--${tier}`,
+    "absolute top-3 left-3 px-3 py-1 rounded-badge text-xs flex items-center gap-1.5 no-underline transition-all",
+  ]}
+>
+  {tier !== "registered" && <TierIcon tier={tier} />}
+  {labels[tier]}
+</a>

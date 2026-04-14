@@ -1,0 +1,35 @@
+---
+// Crossfading icon pair for tier pills/badges.
+// On parent hover, the primary icon fades out and the thumbs-up fades in.
+// Works inside any element using the matching tier pill class
+// (e.g. .pill-luminary, .tier-badge--luminary).
+type Tier = "luminary" | "endorsed" | "registered";
+
+interface Props {
+  tier: Tier;
+  size?: number;
+}
+
+const { tier, size = 12 } = Astro.props;
+---
+
+{tier === "luminary" && (
+  <span class="luminary-icon-wrap">
+    <svg class="luminary-icon-star" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+    </svg>
+    <svg class="luminary-icon-thumb" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z" />
+    </svg>
+  </span>
+)}
+{tier === "endorsed" && (
+  <span class="endorsed-icon-wrap">
+    <svg class="endorsed-icon-tick" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+    </svg>
+    <svg class="endorsed-icon-thumb" width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66a4.8 4.8 0 0 0-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84A2.33 2.33 0 0 0 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z" />
+    </svg>
+  </span>
+)}

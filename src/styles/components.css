@@ -202,10 +202,31 @@
   @apply text-[#DB2C23] border-current;
 }
 
-/* tier badges — proper hover colors, not opacity hacks */
-.tier-badge[style*="#460479"]:hover { background: #350360 !important; }
-.tier-badge[style*="#92174d"]:hover { background: #7a1340 !important; }
-.tier-badge[style*="rgba(255"]:hover { background: rgba(255,255,255,1) !important; color: #222 !important; }
+/* tier badges — card overlays, backdrop-blurred */
+.tier-badge {
+  backdrop-filter: blur(4px);
+}
+.tier-badge--luminary {
+  background: #460479;
+  color: #f5f5f5;
+  font-weight: 600;
+}
+.tier-badge--luminary:hover { background: #350360; }
+.tier-badge--endorsed {
+  background: #92174d;
+  color: #f5f5f5;
+  font-weight: 600;
+}
+.tier-badge--endorsed:hover { background: #7a1340; }
+.tier-badge--registered {
+  background: rgba(255, 255, 255, 0.9);
+  color: #6a6a6a;
+  font-weight: 500;
+}
+.tier-badge--registered:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #222;
+}
 
 .badge-link[style*="#222"]:hover { background: #ff385c !important; }
 
@@ -242,12 +263,12 @@
   justify-content: center;
 }
 .pill-endorsed:hover .endorsed-icon-tick,
-.tier-badge[style*="#92174d"]:hover .endorsed-icon-tick {
+.tier-badge--endorsed:hover .endorsed-icon-tick {
   opacity: 0;
   transform: scale(0.5);
 }
 .pill-endorsed:hover .endorsed-icon-thumb,
-.tier-badge[style*="#92174d"]:hover .endorsed-icon-thumb {
+.tier-badge--endorsed:hover .endorsed-icon-thumb {
   opacity: 1;
   transform: scale(1);
 }
@@ -273,25 +294,25 @@
   justify-content: center;
 }
 .pill-luminary:hover .luminary-icon-star,
-.tier-badge[style*="#460479"]:hover .luminary-icon-star {
+.tier-badge--luminary:hover .luminary-icon-star {
   opacity: 0;
   transform: scale(0.5);
 }
 .pill-luminary:hover .luminary-icon-thumb,
-.tier-badge[style*="#460479"]:hover .luminary-icon-thumb {
+.tier-badge--luminary:hover .luminary-icon-thumb {
   opacity: 1;
   transform: scale(1);
 }
 
 /* luminary badge — laser beam glow on hover, smooth fade */
 .pill-luminary,
-.tier-badge[style*="#460479"] {
+.tier-badge--luminary {
   transition: box-shadow 0.4s ease, text-shadow 0.4s ease;
   box-shadow: 0 0 0 rgba(168, 85, 247, 0);
 }
 
 .pill-luminary:hover,
-.tier-badge[style*="#460479"]:hover {
+.tier-badge--luminary:hover {
   box-shadow:
     0 0 8px rgba(168, 85, 247, 0.6),
     0 0 20px rgba(168, 85, 247, 0.35),

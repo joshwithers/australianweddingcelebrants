@@ -4,8 +4,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "astro-auto-import";
 import { defineConfig, fontProviders } from "astro/config";
-import remarkCollapse from "remark-collapse";
-import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
 import { fileURLToPath, URL } from "node:url";
 
@@ -54,15 +52,6 @@ export default defineConfig({
     mdx(),
   ],
   markdown: {
-    remarkPlugins: [
-      remarkToc,
-      [
-        remarkCollapse,
-        {
-          test: "Table of contents",
-        },
-      ],
-    ],
     shikiConfig: {
       theme: "one-dark-pro",
       wrap: true,
