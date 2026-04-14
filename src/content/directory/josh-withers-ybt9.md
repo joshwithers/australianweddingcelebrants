@@ -24,10 +24,15 @@ featured: true
 australia_wide: true
 international: true
 tier: luminary
+youtube: https://www.youtube.com/watch?v=P_U8h23DpgM
 social:
   facebook: "https://facebook.com/withersweddings"
   instagram: "https://instagram.com/hellojoshwithers"
   pinterest: "https://au.pinterest.com/hellojoshwithers/"
+gallery:
+   - "../../assets/directory/josh-withers-celebrant-1.jpg"
+   - "../../assets/directory/josh-withers-celebrant-2.jpg"
+   - "../../assets/directory/josh-withers-celebrant-3.jpg"
 ---
 Josh Withers is one of Australia's most sought-after marriage celebrants, renowned for creating personalised, unscripted ceremonies that couples describe as genuinely unforgettable. Based in Hobart, Tasmania—which he considers his favourite part of the world—Josh has solemnised over 2,900 weddings since 2009, travelling across all Australian states and territories and more than 24 countries worldwide. His distinctive approach to ceremony design and his ability to craft meaningful celebrations filled with warmth, honesty, and joy have earned him recognition in prestigious publications including the New York Times, Vogue, Marie Claire, and Hello May, establishing him as a trusted choice for adventurous couples seeking authenticity and genuine connection.
 

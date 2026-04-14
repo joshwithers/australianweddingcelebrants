@@ -238,7 +238,7 @@ const breadcrumbSchema = {
             <div class="luminary-hero__photo mx-auto mb-8">
               {typeof entry.data.image === "string" ? (
                 <img
-                  src={withImagekitWidth(entry.data.image, 720)}
+                  src={withImagekitWidth(entry.data.image, 1200)}
                   alt={entry.data.title}
                   loading="eager"
                 />
@@ -246,7 +246,8 @@ const breadcrumbSchema = {
                 <Image
                   src={entry.data.image}
                   alt={entry.data.title}
-                  width={720}
+                  widths={[480, 720, 1080, 1360]}
+                  sizes="(min-width: 1024px) 680px, (min-width: 768px) 560px, 90vw"
                   loading="eager"
                   quality={90}
                 />
@@ -689,13 +690,25 @@ const breadcrumbSchema = {
 
   /* Luminary hero — large centered photo with a soft frame */
   .luminary-hero__photo {
-    width: min(420px, 80%);
+    width: min(420px, 90%);
     border-radius: 24px;
     overflow: hidden;
     box-shadow:
       rgba(70, 4, 121, 0.08) 0px 0px 0px 1px,
       rgba(0, 0, 0, 0.06) 0px 8px 24px,
       rgba(0, 0, 0, 0.08) 0px 16px 40px;
+  }
+
+  @media (min-width: 768px) {
+    .luminary-hero__photo {
+      width: min(560px, 80%);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .luminary-hero__photo {
+      width: min(680px, 75%);
+    }
   }
 
   .luminary-hero__photo :global(img) {
