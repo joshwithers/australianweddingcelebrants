@@ -49,6 +49,20 @@ const directoryCollection = defineCollection({
         pinterest: z.url().optional(),
       })
       .optional(),
+    // Premium profile fields — Luminary tier only.
+    youtube: z.url().optional(),
+    gallery: z.array(z.union([image(), z.string()])).max(3).optional(),
+    // Testimonials — Luminary and Endorsed tiers.
+    testimonials: z
+      .array(
+        z.object({
+          quote: z.string(),
+          author: z.string(),
+          role: z.string().optional(),
+        }),
+      )
+      .max(3)
+      .optional(),
   }),
 });
 

@@ -1,0 +1,127 @@
+---
+// YouTube embed facade — renders the poster image and only loads the iframe
+// after a click. Zero JS dependency, no cookies until the user opts in.
+interface Props {
+  url: string;
+  title?: string;
+}
+
+const { url, title = "Video" } = Astro.props;
+
+// Extract the video ID from any common YouTube URL shape.
+const idMatch = url.match(
+  /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/,
+);
+const videoId = idMatch?.[1];
+---
+
+{videoId && (
+  <div class="profile-video">
+    <button
+      type="button"
+      class="profile-video__poster"
+      aria-label={`Play video: ${title}`}
+      data-video-id={videoId}
+    >
+      <img
+        src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        width="1280"
+        height="720"
+      />
+      <span class="profile-video__play" aria-hidden="true">
+        <svg viewBox="0 0 68 48" width="68" height="48">
+          <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74 0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#f00" />
+          <path d="M45 24L27 14v20" fill="#fff" />
+        </svg>
+      </span>
+    </button>
+  </div>
+)}
+
+<style>
+  .profile-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+  }
+
+  .profile-video__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .profile-video__poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, filter 0.3s ease;
+  }
+
+  .profile-video__poster:hover img,
+  .profile-video__poster:focus-visible img {
+    transform: scale(1.03);
+    filter: brightness(0.9);
+  }
+
+  .profile-video__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .profile-video__poster:hover .profile-video__play {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .profile-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-video__poster img,
+    .profile-video__play {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const bindVideoFacades = () => {
+    document.querySelectorAll<HTMLButtonElement>(".profile-video__poster").forEach((btn) => {
+      if (btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.videoId;
+        if (!id) return;
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        iframe.title = btn.getAttribute("aria-label") ?? "Video";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        btn.replaceWith(iframe);
+      });
+    });
+  };
+
+  bindVideoFacades();
+  document.addEventListener("astro:page-load", bindVideoFacades);
+</script>

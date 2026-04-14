@@ -1,0 +1,79 @@
+---
+// 3-up image gallery shown on Luminary celebrant profiles.
+// Accepts locally-imported images (ImageMetadata) or remote URL strings.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  images: (ImageMetadata | string)[];
+  alt: string;
+}
+
+const { images, alt } = Astro.props;
+---
+
+{images.length > 0 && (
+  <div class="profile-gallery">
+    {images.slice(0, 3).map((img) => (
+      <figure class="profile-gallery__item">
+        {typeof img === "string" ? (
+          <img src={img} alt={alt} loading="lazy" decoding="async" />
+        ) : (
+          <Image
+            src={img}
+            alt={alt}
+            widths={[400, 800, 1200]}
+            sizes="(max-width: 768px) 100vw, 33vw"
+            loading="lazy"
+            decoding="async"
+            format="webp"
+          />
+        )}
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  .profile-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .profile-gallery {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  .profile-gallery__item {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #f0f0f0;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+  }
+
+  .profile-gallery__item :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .profile-gallery__item:hover :global(img) {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-gallery__item :global(img) {
+      transition: none;
+    }
+    .profile-gallery__item:hover :global(img) {
+      transform: none;
+    }
+  }
+</style>

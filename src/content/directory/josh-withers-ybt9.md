@@ -27,6 +27,23 @@ social:
   facebook: "https://facebook.com/withersweddings"
   instagram: "https://instagram.com/hellojoshwithers"
   pinterest: "https://au.pinterest.com/hellojoshwithers/"
+# Luminary-only premium fields (uncomment and fill in when ready):
+# youtube: "https://www.youtube.com/watch?v=VIDEO_ID"
+# gallery:
+#   - "../../assets/directory/josh-gallery-1.jpg"
+#   - "../../assets/directory/josh-gallery-2.jpg"
+#   - "../../assets/directory/josh-gallery-3.jpg"
+# Testimonials are supported on Luminary and Endorsed tiers (up to 3):
+# testimonials:
+#   - quote: "The ceremony felt like a warm conversation — every guest told us afterwards it was the best wedding they'd been to."
+#     author: "Sam & Alex"
+#     role: "Married in Hobart, 2024"
+#   - quote: "Josh wrote something entirely from scratch for us. No templates, just our story, told beautifully."
+#     author: "Priya & James"
+#     role: "Married in Byron Bay, 2023"
+#   - quote: "Calm, funny, and genuinely present. We didn't want the ceremony to end."
+#     author: "Mia & Tom"
+#     role: "Eloped in Iceland, 2024"
 ---
 Josh Withers is one of Australia's most experienced and travelled marriage celebrants, based in Hobart, Tasmania. Since 2009, he has officiated over 2,900 weddings across all Australian states and territories, and in more than 50 countries worldwide—from Europe and North America to Asia and New Zealand. His reputation for crafting meaningful, joyful ceremonies has earned him recognition in prestigious publications including the New York Times, Vogue, Marie Claire, and Hello May, making him a sought-after choice for couples seeking something authentic and genuinely memorable.
 

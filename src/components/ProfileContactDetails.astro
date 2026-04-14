@@ -1,0 +1,101 @@
+---
+// Icon list of contact details for a celebrant profile.
+// `centered` flips alignment and tightens spacing for the Luminary centered layout.
+import { BiGlobe, BiEnvelope, BiPhone, BiMap } from "react-icons/bi";
+import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
+
+interface Props {
+  location?: string[];
+  website?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  centered?: boolean;
+}
+
+const { location, website, email, phone, address, centered = false } = Astro.props;
+---
+
+<ul class:list={["space-y-4", centered && "profile-contacts--centered"]}>
+  {location && location.length > 0 && (
+    <li class="flex items-center">
+      <BiMap className="mr-3 h-5 w-5 text-light flex-none" />
+      <span class="text-sm" style="font-weight: 400;">
+        {location.map((loc, i) => (
+          <span>
+            <a
+              href={`/directory/location/${slugify(loc)}/`}
+              class="text-dark hover:text-primary no-underline hover:underline"
+            >
+              {humanize(loc)}
+            </a>
+            {i !== location.length - 1 && " · "}
+          </span>
+        ))}
+      </span>
+    </li>
+  )}
+
+  {website && (
+    <li class="flex items-center">
+      <BiGlobe className="mr-3 h-5 w-5 text-light" />
+      <a
+        href={website}
+        target="_blank"
+        rel="noopener"
+        class="text-sm text-dark hover:text-primary no-underline hover:underline"
+        style="font-weight: 500;"
+      >
+        {website.replace(/(^\w+:|^)\/\//, "")}
+      </a>
+    </li>
+  )}
+
+  {email && (
+    <li class="flex items-center">
+      <BiEnvelope className="mr-3 h-5 w-5 text-light" />
+      <a
+        href={`mailto:${email}`}
+        class="text-sm text-dark hover:text-primary no-underline hover:underline"
+        style="font-weight: 500;"
+      >
+        {email}
+      </a>
+    </li>
+  )}
+
+  {phone && (
+    <li class="flex items-center">
+      <BiPhone className="mr-3 h-5 w-5 text-light" />
+      <a
+        href={`tel:${phone.replace(/\s+/g, "")}`}
+        class="text-sm text-dark hover:text-primary no-underline hover:underline"
+        style="font-weight: 500;"
+      >
+        {phone}
+      </a>
+    </li>
+  )}
+
+  {address && (
+    <li class="flex items-start">
+      <BiMap className="mr-3 h-5 w-5 text-light mt-0.5 flex-none" />
+      <div>
+        <span class="text-sm" set:html={markdownify(address)} />
+      </div>
+    </li>
+  )}
+</ul>
+
+<style>
+  .profile-contacts--centered {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+  }
+
+  .profile-contacts--centered > li {
+    margin: 0 !important;
+  }
+</style>

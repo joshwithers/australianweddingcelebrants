@@ -36,6 +36,13 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 
 Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `australia_wide`, `international`, `social.{facebook,instagram,pinterest}`.
 
+**Tier-gated premium fields (optional):**
+- `youtube` — Luminary only. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
+- `gallery` — Luminary only. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
+- `testimonials` — Luminary + Endorsed. Up to 3 items `{ quote, author, role? }`. Emits `schema.org/Review` JSON-LD.
+
+Luminary profiles use a centered hero layout (logo/name top, large centered profile photo, contact details below) in `[single].astro`. Endorsed and Registered use the standard two-column layout. Add premium fields to a listing in the frontmatter; the layout picks them up automatically.
+
 ## Component architecture
 
 - `src/layouts/Base.astro` — root layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`). Accepts `og_type` for per-page overrides (`"profile"` on celebrant pages).
