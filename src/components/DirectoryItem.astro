@@ -29,7 +29,6 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
             src={item.data.image}
             alt={item.data.title}
             width={600}
-            height={400}
             class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
             loading={isFirst ? "eager" : "lazy"}
             decoding={isFirst ? "sync" : "async"}
@@ -114,17 +113,15 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
     contain-intrinsic-size: auto 400px;
   }
 
-  /* Image wrapper — reserves space and provides placeholder bg */
+  /* Image wrapper — placeholder bg while image loads */
   .directory-card-image-wrap {
     background: #f0f0f0;
-    aspect-ratio: 3 / 2;
   }
 
-  /* Images fade in smoothly and fill the reserved space */
+  /* Natural ratio images — height follows source aspect ratio */
   .directory-card-img {
-    height: 100% !important;
+    height: auto !important;
     width: 100%;
-    object-fit: cover;
     opacity: 0;
     animation: cardImgFadeIn 0.4s ease forwards;
   }
