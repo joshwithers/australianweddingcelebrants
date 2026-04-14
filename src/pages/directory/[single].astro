@@ -208,15 +208,6 @@ const breadcrumbSchema = {
 
       {tier === "luminary" ? (
         <div class="luminary-hero text-center max-w-4xl mx-auto">
-          <a
-            href="/luminaries/"
-            class="pill-luminary inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm no-underline transition-all mb-6"
-            style="font-weight: 600;"
-          >
-            <TierIcon tier="luminary" size={14} />
-            Luminary Celebrant
-          </a>
-
           {entry.data.logo ? (
             <>
               <h1 class="sr-only" set:html={markdownify(entry.data.title)} />
@@ -249,8 +240,6 @@ const breadcrumbSchema = {
                 <img
                   src={withImagekitWidth(entry.data.image, 720)}
                   alt={entry.data.title}
-                  width={720}
-                  height={720}
                   loading="eager"
                 />
               ) : (
@@ -258,7 +247,6 @@ const breadcrumbSchema = {
                   src={entry.data.image}
                   alt={entry.data.title}
                   width={720}
-                  height={720}
                   loading="eager"
                   quality={90}
                 />
@@ -266,22 +254,24 @@ const breadcrumbSchema = {
             </div>
           )}
 
-          {(entry.data.australia_wide || entry.data.international) && (
-            <div class="flex flex-wrap justify-center gap-2 mb-6">
-              {entry.data.australia_wide && (
-                <a href="/australia-wide/" class="pill-dark inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm no-underline transition-all" style="font-weight: 500;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                  Travels Australia Wide
-                </a>
-              )}
-              {entry.data.international && (
-                <a href="/destination-wedding-celebrants/" class="pill-dark inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm no-underline transition-all" style="font-weight: 500;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
-                  Destination Weddings
-                </a>
-              )}
-            </div>
-          )}
+          <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <a href="/luminaries/" class="pill-luminary inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm no-underline transition-all" style="font-weight: 600;">
+              <TierIcon tier="luminary" size={14} />
+              Luminary Celebrant
+            </a>
+            {entry.data.australia_wide && (
+              <a href="/australia-wide/" class="pill-dark inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm no-underline transition-all" style="font-weight: 500;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Travels Australia Wide
+              </a>
+            )}
+            {entry.data.international && (
+              <a href="/destination-wedding-celebrants/" class="pill-dark inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm no-underline transition-all" style="font-weight: 500;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+                Destination Weddings
+              </a>
+            )}
+          </div>
 
           {entry.data.description && (
             <p class="text-light text-lg max-w-2xl mx-auto mb-8" style="font-weight: 400; line-height: 1.6;">
