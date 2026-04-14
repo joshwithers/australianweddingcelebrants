@@ -602,8 +602,6 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
                             <img
                               src={withImagekitWidth(vendor.data.image, 400)}
                               alt={vendor.data.title}
-                              width={400}
-                              height={400}
                               loading="lazy"
                               class="related-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
                             />
@@ -612,7 +610,6 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
                               src={vendor.data.image}
                               alt={vendor.data.title}
                               width={400}
-                              height={400}
                               loading="lazy"
                               class="related-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
                             />
@@ -689,9 +686,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
 
   .related-card-img {
     height: auto !important;
-    max-height: 300px !important;
-    object-fit: cover;
-    object-position: top center;
+    width: 100%;
   }
 
   /* Luminary hero — large centered photo with a soft frame */
