@@ -5,16 +5,23 @@ description: "Kirk Samuel Goodsell is a Perth-based wedding celebrant with 18 ye
 image: "https://i.weddinghero.com.au/gallery/4168/preview_kirk-samuel-goodsell_jcmv8LRm.jpg"
 website: "https://www.kirksamuel.com.au"
 email: "kirk@kirksamuel.com.au"
+background_color: "#f2f2f2"
+youtube: https://www.youtube.com/watch?v=sZS5TdStp9o
+logo: "../../assets/directory/kirk-celebrant.svg"
 phone: "+61404566077"
 address: "Alfred Cove, WA 6154"
 location: ["Perth"]
 category: ["Celebrant", "MC"]
-featured: false
+featured: true
 tier: "luminary"
 social:
   facebook: "https://www.facebook.com/kirkgoodsellcivilcelebrant/"
   instagram: "https://www.instagram.com/kirkgoodsellcelebrant/"
 draft: false
+gallery:
+   - "../../assets/directory/kirk1.jpg"
+   - "../../assets/directory/kirk2.jpg"
+   - "../../assets/directory/kirk3.jpg"
 ---
 
 **Kirk Samuel Goodsell** is one of Australia's most experienced wedding celebrants, based in Perth with over 18 years in the industry and more than 1,000 weddings to his name. What started as a passion project in Melbourne in 2008 became a full-time calling when he relocated to Perth in 2015, and he hasn't looked back since.
