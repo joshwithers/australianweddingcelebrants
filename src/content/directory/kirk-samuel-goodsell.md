@@ -19,9 +19,9 @@ social:
   instagram: "https://www.instagram.com/kirkgoodsellcelebrant/"
 draft: false
 gallery:
-   - "../../assets/directory/kirk1.jpg"
-   - "../../assets/directory/kirk2.jpg"
-   - "../../assets/directory/kirk3.jpg"
+   - "../../assets/directory/kirk1.avif"
+   - "../../assets/directory/kirk2.avif"
+   - "../../assets/directory/kirk3.avif"
 ---
 
 **Kirk Samuel Goodsell** is one of Australia's most experienced wedding celebrants, based in Perth with over 18 years in the industry and more than 1,000 weddings to his name. What started as a passion project in Melbourne in 2008 became a full-time calling when he relocated to Perth in 2015, and he hasn't looked back since.
