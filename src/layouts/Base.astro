@@ -17,6 +17,8 @@ export interface Props {
   canonical?: string;
   /** OpenGraph object type — "website" (default), "profile" for celebrant pages, etc. */
   og_type?: string;
+  /** Optional hex colour applied to the body background so the translucent header picks it up. */
+  page_bg?: string;
 }
 
 const {
@@ -27,6 +29,7 @@ const {
   noindex,
   canonical,
   og_type = "website",
+  page_bg,
 } = Astro.props;
 
 // Resolve image to string (local images are objects with .src)
@@ -109,7 +112,11 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     })} />
 
   </head>
-  <body data-page={Astro.url.pathname === "/" ? "home" : undefined}>
+  <body
+    data-page={Astro.url.pathname === "/" ? "home" : undefined}
+    data-page-bg={page_bg ? "" : undefined}
+    style={page_bg ? `background-color: ${page_bg}; --page-bg: ${page_bg};` : undefined}
+  >
     <Header />
     <main id="main-content">
       <slot />

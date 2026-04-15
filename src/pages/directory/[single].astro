@@ -192,6 +192,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
   description={entry.data.description}
   image={typeof entry.data.image === "string" ? entry.data.image : entry.data.image?.src}
   og_type="profile"
+  page_bg={pageBg}
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
   <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

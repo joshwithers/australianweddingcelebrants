@@ -3,6 +3,30 @@
   @apply py-16 md:py-20;
 }
 
+/* Frosted-glass header background — translucent white with backdrop blur. */
+.header {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+}
+
+/* Pages with a custom page background (luminary profiles): let the tint fully
+   show through — fully transparent header, relying on backdrop blur. */
+body[data-page-bg] .header {
+  background-color: transparent;
+  backdrop-filter: saturate(1.6) blur(18px);
+  -webkit-backdrop-filter: saturate(1.6) blur(18px);
+}
+
+@supports not ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
+  .header {
+    background-color: rgba(255, 255, 255, 0.92);
+  }
+  body[data-page-bg] .header {
+    background-color: var(--page-bg);
+  }
+}
+
 /* Homepage: header hidden at top, revealed once the user scrolls past the hero fold. */
 body[data-page="home"] .header {
   position: fixed;
