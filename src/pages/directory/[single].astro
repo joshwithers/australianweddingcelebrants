@@ -63,7 +63,7 @@ const tierInfo = {
     color: "#6a6a6a",
     borderColor: "#e0e0e0",
     bg: "#f7f7f7",
-    description: "This celebrant is a Commonwealth authorised marriage celebrant on the Attorney-General's register, with a verified professional profile. A Registered listing means you're working with a legally authorised celebrant who has provided their professional details for your review.",
+    description: "This celebrant is a Commonwealth authorised marriage celebrant on the Attorney-General's register, holds a Certificate IV in Celebrancy or equivalent qualification, and has a verified professional profile. A Registered listing means you're working with a legally authorised, qualified celebrant who has provided their professional details for your review.",
     forCouples: "You can be confident this celebrant is legally authorised to solemnise marriages in Australia. Their profile has been verified and includes their professional photo, contact details, and service information.",
   },
   endorsed: {
@@ -71,7 +71,7 @@ const tierInfo = {
     color: "#92174d",
     borderColor: "#92174d",
     bg: "#fdf2f7",
-    description: "This celebrant has been recognised as an Endorsed Celebrant — meaning they've submitted documented proof of at least 5 years' experience, formal qualifications, professional indemnity insurance, ongoing professional development beyond legislative requirements, 5 or more verified reviews from couples and wedding vendors, and 100+ ceremonies performed.",
+    description: "This celebrant has been recognised as an Endorsed Celebrant — meaning they've submitted documented proof of at least 3 years' experience, professional indemnity insurance, ongoing professional development beyond legislative requirements, 6 or more verified reviews from couples and 3 or more from fellow wedding vendors, and 100+ ceremonies performed.",
     forCouples: "An Endorsed celebrant has gone above and beyond the basics. They've proven their commitment to the profession through years of experience, over 100 ceremonies, verified client satisfaction, and continued investment in their craft. This isn't an award — it's a recognition of documented professionalism.",
   },
   luminary: {
@@ -79,8 +79,8 @@ const tierInfo = {
     color: "#460479",
     borderColor: "#460479",
     bg: "#f5f0fa",
-    description: "This celebrant has achieved Luminary status — the highest recognition we offer. They've submitted documented proof of at least 7 years' experience, 20+ reviews from couples they've married, 10+ reviews from fellow wedding vendors, industry recognition through awards or media features, and a demonstrated pattern of contribution to the celebrant profession.",
-    forCouples: "A Luminary celebrant represents the very best in the profession. They've not only built an exceptional track record with 20+ couple reviews and 10+ vendor reviews, but have also made a measurable impact on the industry through awards, mentoring, or community contribution. This recognition celebrates their outstanding commitment to excellence.",
+    description: "This celebrant has achieved Luminary status — the highest recognition we offer. They've submitted documented proof of at least 7 years' experience, 18+ verified reviews from couples they've married, 9+ reviews from fellow wedding vendors, industry recognition through awards or media features, and a demonstrated pattern of contribution to the celebrant profession.",
+    forCouples: "A Luminary celebrant represents the very best in the profession — endorsed by both clients and industry. They've not only built an exceptional track record with 18+ verified couple reviews and 9+ vendor reviews, but have also made a measurable impact on the industry through awards, mentoring, or community contribution. This recognition celebrates their outstanding commitment to excellence.",
   },
 };
 
@@ -90,15 +90,15 @@ const currentTierInfo = tierInfo[tier] || tierInfo.registered;
 const tierCredentials = {
   registered: {
     name: "Registered Celebrant",
-    description: "Commonwealth authorised marriage celebrant with a verified professional profile",
+    description: "Commonwealth authorised marriage celebrant with a Certificate IV in Celebrancy or equivalent qualification and a verified professional profile",
   },
   endorsed: {
     name: "Endorsed Celebrant",
-    description: "Recognised for 3+ years experience, formal qualifications, professional indemnity insurance, ongoing professional development, 5+ verified reviews, and 100+ ceremonies performed",
+    description: "Recognised for 3+ years experience, professional indemnity insurance, ongoing professional development, 6+ verified reviews from couples and 3+ from fellow wedding vendors, and 100+ ceremonies performed",
   },
   luminary: {
     name: "Luminary Celebrant",
-    description: "Highest recognition for 7+ years experience, 20+ couple reviews, 10+ vendor reviews, industry awards, and demonstrated contribution to the profession",
+    description: "Highest recognition for 7+ years experience, 18+ verified reviews from couples and 9+ from fellow wedding vendors, industry awards, and demonstrated contribution to the profession",
   },
 };
 

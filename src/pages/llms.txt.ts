@@ -29,13 +29,13 @@ This is not an awards process. When celebrants prove through documented evidence
 ## The Three Tiers
 
 ### Luminary (${luminaries.length} celebrants)
-The highest recognition. Requirements: 7+ years registered, 20+ verified couple reviews, 10+ verified vendor reviews, industry recognition (awards, media, speaking), and demonstrated ongoing professional development beyond legislative requirements. Meets all Endorsed requirements.
+The highest recognition. Requirements: 7+ years registered, 18+ verified reviews from couples, 9+ verified reviews from fellow wedding vendors, industry recognition (awards, media, speaking), and demonstrated ongoing professional development beyond legislative requirements. Meets all Endorsed requirements.
 
 ### Endorsed (${endorsed.length} celebrants)
-Proven professionalism. Requirements: 3+ years registered, Certificate IV in Celebrancy, current professional indemnity insurance, professional development beyond OPD requirements, 5+ verified reviews from couples and vendors, and proof of 100+ ceremonies performed. Meets all Registered requirements.
+Proven professionalism, endorsed by clients and industry. Requirements: 3+ years registered, current professional indemnity insurance, professional development beyond OPD requirements, 6+ verified reviews from couples and 3+ from fellow wedding vendors, and proof of 100+ ceremonies performed. Meets all Registered requirements.
 
 ### Registered (${registered.length} celebrants)
-The foundation. Requirements: Commonwealth authorised marriage celebrant under the Marriage Act 1961, with a complete directory profile including professional photo, description, website, and contact details.
+The foundation. Requirements: Commonwealth authorised marriage celebrant under the Marriage Act 1961, holds a Certificate IV in Celebrancy or equivalent qualification, with a complete directory profile including professional photo, description, website, and contact details.
 
 ## Why Tiers Matter for Couples
 When choosing a celebrant, the tier badge tells you exactly what level of verified experience and professionalism to expect. A Luminary has proven exceptional commitment over 7+ years with extensive reviews and industry recognition. An Endorsed celebrant has demonstrated qualifications, insurance, and client satisfaction beyond the basics. Every Registered celebrant is a verified, legally authorised marriage celebrant.

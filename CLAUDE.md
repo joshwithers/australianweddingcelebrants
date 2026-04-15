@@ -15,9 +15,9 @@ Celebrants are classified into three recognition tiers (see `src/content.config.
 
 | Tier | Colour | Requirements (summary) |
 |---|---|---|
-| `registered` | Light grey | Commonwealth authorised celebrant with complete profile. |
-| `endorsed` | `#92174d` magenta | 3+ yrs, qualified, insured, 5+ reviews, 100+ ceremonies. |
-| `luminary` | `#460479` purple | 7+ yrs, 20+ couple reviews, 10+ vendor reviews, industry recognition. |
+| `registered` | Light grey | Commonwealth authorised celebrant with Cert IV (or equivalent) and complete profile. |
+| `endorsed` | `#92174d` magenta | 3+ yrs, insured, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies. |
+| `luminary` | `#460479` purple | 7+ yrs, 18+ couple reviews, 9+ vendor reviews, industry recognition. |
 
 Tier visuals:
 - `src/components/TierBadge.astro` — pill overlayed on a listing card image.

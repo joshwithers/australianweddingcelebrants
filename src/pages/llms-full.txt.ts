@@ -90,7 +90,7 @@ Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a 
 
 What makes this directory different is our three-tier recognition system. This is not an awards process or a pay-to-play directory. Tiers are earned by submitting documented evidence of professional achievement. There are no judges, no nominees, and no competition between celebrants. When a celebrant proves they've reached a tier, we award it and celebrate the accomplishment.
 
-Celebrants are always striving to improve and move up the tiers. A Registered celebrant may be working toward their Certificate IV, building their review portfolio, or gaining the years of experience needed for Endorsed. An Endorsed celebrant may be pursuing industry awards, mentoring other celebrants, or building toward the 20+ couple reviews and 10+ vendor reviews required for Luminary. The system rewards continuous professional growth.
+Celebrants are always striving to improve and move up the tiers. A Registered celebrant may be building their review portfolio, gaining insurance, or accumulating the years of experience needed for Endorsed. An Endorsed celebrant may be pursuing industry awards, mentoring other celebrants, or building toward the 18+ couple reviews and 9+ vendor reviews required for Luminary. The system rewards continuous professional growth.
 
 ---
 
@@ -102,8 +102,8 @@ Luminary is the highest recognition Australian Wedding Celebrants can offer. It 
 
 - All requirements of the Endorsed tier, plus:
 - 7+ years registered as a marriage celebrant
-- 20+ verified or public reviews from couples they have married
-- 10+ verified or public reviews from fellow wedding vendors
+- 18+ verified or public reviews from couples they have married
+- 9+ verified or public reviews from fellow wedding vendors
 - Industry recognition: awards (ABIA, Easy Weddings, etc.), media features, published work, or conference speaking
 - Demonstrated ongoing professional development beyond legislative requirements
 
@@ -115,10 +115,10 @@ Endorsed celebrants have submitted documented proof that they exceed the standar
 
 - All requirements of the Registered tier, plus:
 - 3+ years registered as a marriage celebrant
-- Certificate IV in Celebrancy or equivalent qualification
 - Current professional indemnity insurance (certificate of currency)
 - Professional development beyond legislative OPD requirements
-- 5+ verified reviews from couples and wedding vendors
+- 6+ verified reviews from couples they have married
+- 3+ verified reviews from fellow wedding vendors
 - Proof of 100+ ceremonies performed
 
 An Endorsed badge means this celebrant has gone above and beyond the basics through years of experience, verified client satisfaction, and continued investment in their craft.
@@ -128,9 +128,10 @@ An Endorsed badge means this celebrant has gone above and beyond the basics thro
 Every celebrant in the directory starts at the Registered tier. To be listed, a celebrant must:
 
 - Be registered as a Commonwealth authorised marriage celebrant under the Marriage Act 1961
+- Hold a Certificate IV in Celebrancy or equivalent qualification
 - Have a complete directory profile with professional photo, description, website, and contact details
 
-A Registered listing means you are working with a legally authorised celebrant who has provided their professional details for review.
+A Registered listing means you are working with a legally authorised, qualified celebrant who has provided their professional details for review.
 
 ---
 
@@ -138,9 +139,9 @@ A Registered listing means you are working with a legally authorised celebrant w
 
 Choosing a wedding celebrant is one of the most personal decisions in wedding planning. The tier system helps couples understand what level of verified experience and professionalism to expect:
 
-- **Luminary**: Exceptional. 7+ years, 20+ couple reviews, 10+ vendor reviews, industry awards. The very best.
-- **Endorsed**: Proven. 3+ years, qualified, insured, 100+ ceremonies, 5+ verified reviews. Above and beyond.
-- **Registered**: Verified. Legally authorised marriage celebrant with a complete professional profile.
+- **Luminary**: Exceptional. 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards. Endorsed by clients and industry alike — the very best.
+- **Endorsed**: Proven. 3+ years, insured, 100+ ceremonies, 6+ couple reviews and 3+ vendor reviews. Above and beyond.
+- **Registered**: Verified. Legally authorised marriage celebrant with Certificate IV in Celebrancy and a complete professional profile.
 
 These tiers are earned through documented evidence — never purchased. To book a celebrant for your wedding, visit their profile and use the website link to contact them directly.
 

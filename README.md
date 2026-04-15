@@ -85,9 +85,9 @@ Celebrants are recognised across three tiers based on documented evidence of exp
 
 | Tier | Colour | Description |
 |------|--------|-------------|
-| **Luminary** | Purple `#460479` | 7+ years, 20+ couple reviews, 10+ vendor reviews, industry awards, demonstrated contribution to the profession |
-| **Endorsed** | Magenta `#92174d` | 3+ years, Cert IV, insurance, professional development beyond OPD, 5+ reviews, 100+ ceremonies |
-| **Registered** | Grey `#6a6a6a` | Commonwealth authorised marriage celebrant with a verified professional profile |
+| **Luminary** | Purple `#460479` | 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards, demonstrated contribution to the profession |
+| **Endorsed** | Magenta `#92174d` | 3+ years, insurance, professional development beyond OPD, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies |
+| **Registered** | Grey `#6a6a6a` | Commonwealth authorised marriage celebrant with Certificate IV (or equivalent) and a verified professional profile |
 
 ## Worker API
 

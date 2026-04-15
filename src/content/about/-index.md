@@ -27,7 +27,7 @@ Our three tiers — Registered, Endorsed, and Luminary — each represent a prov
 
 **For couples**
 
-Choosing a celebrant is one of the most personal decisions in your wedding planning. Our tier system gives you a clear, trustworthy signal. A Luminary celebrant has 7+ years of experience, 20+ couple reviews, 10+ vendor reviews, and recognised industry contribution. An Endorsed celebrant has proven qualifications, insurance, 100+ ceremonies, and client satisfaction. Every Registered celebrant is a verified, active marriage celebrant. You can browse with confidence knowing these tiers are earned, not bought.
+Choosing a celebrant is one of the most personal decisions in your wedding planning. Our tier system gives you a clear, trustworthy signal. A Luminary celebrant has 7+ years of experience, 18+ verified reviews from couples, 9+ from fellow wedding vendors, and recognised industry contribution — endorsed by both clients and industry. An Endorsed celebrant has proven insurance, 100+ ceremonies, and 6+ verified reviews from couples and 3+ from fellow wedding vendors. Every Registered celebrant is a verified, active marriage celebrant who holds a Certificate IV in Celebrancy or equivalent. You can browse with confidence knowing these tiers are earned, not bought.
 
 **For celebrants**
 
