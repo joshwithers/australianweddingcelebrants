@@ -3,6 +3,32 @@
   @apply py-16 md:py-20;
 }
 
+/* Homepage: header hidden at top, revealed once the user scrolls past the hero fold. */
+body[data-page="home"] .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+
+body[data-page="home"] .header.header--revealed {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] .header {
+    transition: none;
+  }
+}
+
 /* masonry grid for directory cards — three server-rendered variants
    (mobile/tablet/desktop) toggled via media queries. Each variant
    distributes items round-robin across columns so reading order is

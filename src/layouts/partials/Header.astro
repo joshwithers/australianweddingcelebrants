@@ -124,6 +124,66 @@ const { main }: { main: NavigationLink[] } = menu;
     });
   };
 
+  // Home hero: reveal header on scroll, fade-up the hero logo.
+  // AbortController lets us cleanly tear down on ClientRouter navigation.
+  let heroScrollAbort: AbortController | null = null;
+
+  const bindHomeHeroScroll = () => {
+    heroScrollAbort?.abort();
+
+    const header = document.querySelector<HTMLElement>(".header");
+    const isHome = document.body.dataset.page === "home";
+    if (!header) return;
+
+    if (!isHome) {
+      header.classList.remove("header--revealed");
+      return;
+    }
+
+    heroScrollAbort = new AbortController();
+    const { signal } = heroScrollAbort;
+
+    const heroLogo = document.querySelector<HTMLElement>(".hero-logo");
+    const heroSection = document.querySelector<HTMLElement>(".hero-section");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let pending = false;
+    const update = () => {
+      pending = false;
+      const y = window.scrollY;
+
+      if (y > 80) header.classList.add("header--revealed");
+      else header.classList.remove("header--revealed");
+
+      if (!reduceMotion) {
+        const progress = Math.min(y / 400, 1);
+
+        if (heroLogo) {
+          heroLogo.style.opacity = String(1 - progress);
+          heroLogo.style.transform =
+            `translateY(${(-56 * progress).toFixed(2)}px) scale(${(1 - 0.18 * progress).toFixed(3)})`;
+        }
+
+        if (heroSection) {
+          heroSection.style.setProperty("--hero-bg-scale", (1 + 0.08 * progress).toFixed(4));
+        }
+      }
+    };
+
+    const onScroll = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true, signal });
+  };
+
   bindNavToggle();
-  document.addEventListener("astro:page-load", bindNavToggle);
+  bindHomeHeroScroll();
+  document.addEventListener("astro:page-load", () => {
+    bindNavToggle();
+    bindHomeHeroScroll();
+  });
 </script>

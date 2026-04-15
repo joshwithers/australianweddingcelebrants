@@ -109,7 +109,7 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     })} />
 
   </head>
-  <body>
+  <body data-page={Astro.url.pathname === "/" ? "home" : undefined}>
     <Header />
     <main id="main-content">
       <slot />
