@@ -13,6 +13,7 @@ interface Props {
   title?: string;
   maxItems?: number;
   activeLocation?: string;
+  premiumTiers?: Array<'luminary' | 'endorsed'>;
 }
 
 const {
@@ -22,7 +23,8 @@ const {
   showFilters = true,
   title,
   maxItems,
-  activeLocation = 'all'
+  activeLocation = 'all',
+  premiumTiers = ['luminary', 'endorsed']
 } = Astro.props;
 
 // Get all unique locations for filter buttons
@@ -74,15 +76,14 @@ if (maxItems && maxItems > 0) {
   sortedItems = sortedItems.slice(0, maxItems);
 }
 
-// Split into premium (luminary + endorsed) and registered
-const premiumItems = sortedItems.filter(item => {
-  const t = item.data.tier || "registered";
-  return t === "luminary" || t === "endorsed";
-});
-const registeredItems = sortedItems.filter(item => {
-  const t = item.data.tier || "registered";
-  return t === "registered";
-});
+// Split into premium (configurable — defaults to luminary + endorsed) and the rest
+const premiumTierSet = new Set<string>(premiumTiers);
+const premiumItems = sortedItems.filter(item =>
+  premiumTierSet.has(item.data.tier || "registered")
+);
+const registeredItems = sortedItems.filter(item =>
+  !premiumTierSet.has(item.data.tier || "registered")
+);
 ---
 
 <div class="directory-listings">

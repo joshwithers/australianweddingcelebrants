@@ -9,14 +9,16 @@ interface Props {
   showFilters?: boolean;
   title?: string;
   maxItems?: number;
+  premiumTiers?: Array<'luminary' | 'endorsed'>;
 }
 
-const { 
+const {
   sortBy = 'alphabetical',
   featuredOnly = false,
   showFilters = true,
   title,
-  maxItems
+  maxItems,
+  premiumTiers
 } = Astro.props;
 
 // Get all directory entries
@@ -44,7 +46,7 @@ if (activeLocation !== 'all') {
 }
 ---
 
-<StaticDirectoryListings 
+<StaticDirectoryListings
   items={directoryItems}
   sortBy={sortBy === 'random' ? undefined : sortBy}
   featuredOnly={featuredOnly}
@@ -52,4 +54,5 @@ if (activeLocation !== 'all') {
   title={title}
   maxItems={maxItems}
   activeLocation={resolvedActiveLocation}
+  premiumTiers={premiumTiers}
 />

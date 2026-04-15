@@ -10,6 +10,7 @@ address: "Gold Coast, QLD"
 location: ["Gold Coast", "Brisbane", "Byron Bay"]
 category: ["Celebrant", "MC", "DJ"]
 featured: false
+logo: "../../assets/directory/celebrant-lady-love_love-buzz.png"
 australia_wide: true
 international: true
 tier: "luminary"
