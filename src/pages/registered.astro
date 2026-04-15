@@ -1,7 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import DirectoryItem from "@/components/DirectoryItem.astro";
+import MasonryGrid from "@/components/MasonryGrid.astro";
 
 const allItems = await getSinglePage("directory");
 const items = allItems
@@ -28,11 +28,7 @@ for (let i = items.length - 1; i > 0; i--) {
         </p>
       </div>
 
-      <div class="masonry-grid">
-         {items.map((item, index) => (
-           <DirectoryItem item={item} isFirst={index === 0} />
-         ))}
-       </div>
+      <MasonryGrid items={items} />
 
       {items.length === 0 && (
         <div class="text-center py-16">

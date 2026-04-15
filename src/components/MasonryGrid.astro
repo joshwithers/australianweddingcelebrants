@@ -1,0 +1,59 @@
+---
+import DirectoryItem from "./DirectoryItem.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  items: CollectionEntry<"directory">[];
+  prioritizeFirst?: boolean;
+}
+
+const { items, prioritizeFirst = true } = Astro.props;
+
+function splitColumns<T>(arr: T[], n: number): T[][] {
+  const cols: T[][] = Array.from({ length: n }, () => []);
+  arr.forEach((item, i) => cols[i % n].push(item));
+  return cols;
+}
+
+const cols2 = splitColumns(items, 2);
+const cols3 = splitColumns(items, 3);
+---
+
+{items.length > 0 && (
+  <>
+    {/* Mobile: single column in source order */}
+    <div class="masonry-grid masonry-grid--mobile">
+      {items.map((item, index) => (
+        <DirectoryItem item={item} isFirst={prioritizeFirst && index === 0} />
+      ))}
+    </div>
+
+    {/* Tablet: 2 columns, round-robin */}
+    <div class="masonry-grid masonry-grid--tablet">
+      {cols2.map((col, colIdx) => (
+        <div class="masonry-col">
+          {col.map((item, itemIdx) => (
+            <DirectoryItem
+              item={item}
+              isFirst={prioritizeFirst && colIdx === 0 && itemIdx === 0}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+
+    {/* Desktop: 3 columns, round-robin */}
+    <div class="masonry-grid masonry-grid--desktop">
+      {cols3.map((col, colIdx) => (
+        <div class="masonry-col">
+          {col.map((item, itemIdx) => (
+            <DirectoryItem
+              item={item}
+              isFirst={prioritizeFirst && colIdx === 0 && itemIdx === 0}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  </>
+)}

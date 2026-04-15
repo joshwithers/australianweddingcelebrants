@@ -3,17 +3,41 @@
   @apply py-16 md:py-20;
 }
 
-/* masonry grid for directory cards */
+/* masonry grid for directory cards — three server-rendered variants
+   (mobile/tablet/desktop) toggled via media queries. Each variant
+   distributes items round-robin across columns so reading order is
+   left-to-right, top-to-bottom. */
 .masonry-grid {
-  columns: 1;
-  column-gap: 1.5rem;
+  display: none;
+  gap: 1.5rem;
+}
 
-  @media (min-width: 768px) {
-    columns: 2;
+.masonry-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.masonry-grid--mobile {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .masonry-grid--mobile {
+    display: none;
   }
+  .masonry-grid--tablet {
+    display: flex;
+  }
+}
 
-  @media (min-width: 1024px) {
-    columns: 3;
+@media (min-width: 1024px) {
+  .masonry-grid--tablet {
+    display: none;
+  }
+  .masonry-grid--desktop {
+    display: flex;
   }
 }
 

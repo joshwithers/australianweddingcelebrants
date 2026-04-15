@@ -1,5 +1,5 @@
 ---
-import DirectoryItem from './DirectoryItem.astro';
+import MasonryGrid from './MasonryGrid.astro';
 import { humanize, slugify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 
@@ -100,11 +100,7 @@ const registeredItems = sortedItems.filter(item =>
   {/* Premium celebrants — above the fold, before filters */}
   {premiumItems.length > 0 && (
     <div class="mb-12">
-      <div class="masonry-grid">
-        {premiumItems.map((item, index) => (
-          <DirectoryItem item={item} isFirst={index === 0} />
-        ))}
-      </div>
+      <MasonryGrid items={premiumItems} />
     </div>
   )}
 
@@ -162,11 +158,7 @@ const registeredItems = sortedItems.filter(item =>
   )}
 
   {/* Registered celebrants grid */}
-  <div class="masonry-grid">
-    {registeredItems.map((item, index) => (
-      <DirectoryItem item={item} isFirst={premiumItems.length === 0 && index === 0} />
-    ))}
-  </div>
+  <MasonryGrid items={registeredItems} prioritizeFirst={premiumItems.length === 0} />
 
   {sortedItems.length === 0 && (
     <div class="text-center py-16">

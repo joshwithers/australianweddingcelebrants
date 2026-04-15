@@ -33,8 +33,13 @@ function lazyLoadImages() {
 
 // Preload critical resources
 function preloadCriticalResources() {
-  // Preload the first few card images that are likely above the fold
-  const criticalImages = document.querySelectorAll('.masonry-grid .directory-card-shell:nth-child(-n+3) img');
+  // Preload the first few card images that are likely above the fold.
+  // Variants: mobile stack → first 3 children; tablet/desktop → first card of each column.
+  const criticalImages = document.querySelectorAll(
+    '.masonry-grid--mobile > .directory-card-shell:nth-child(-n+3) img, ' +
+    '.masonry-grid--tablet .masonry-col > .directory-card-shell:first-child img, ' +
+    '.masonry-grid--desktop .masonry-col > .directory-card-shell:first-child img'
+  );
   criticalImages.forEach(img => {
     if (img.src && !img.complete) {
       const link = document.createElement('link');

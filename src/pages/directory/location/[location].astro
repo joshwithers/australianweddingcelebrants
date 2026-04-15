@@ -2,7 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { humanize, slugify } from "@/lib/utils/textConverter";
-import DirectoryItem from "@/components/DirectoryItem.astro";
+import MasonryGrid from "@/components/MasonryGrid.astro";
 import type { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
@@ -86,11 +86,7 @@ vendors.sort((a, b) => {
       </div>
 
       {vendors.length > 0 ? (
-        <div class="masonry-grid">
-          {vendors.map((item, index) => (
-            <DirectoryItem item={item} isFirst={index === 0} />
-          ))}
-        </div>
+        <MasonryGrid items={vendors} />
       ) : (
         <div class="text-center py-16">
           <p class="text-light text-lg">No celebrants found in this location.</p>
