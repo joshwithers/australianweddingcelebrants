@@ -2,7 +2,7 @@
 title: "Robyn Pattison"
 meta_title: "Robyn Pattison — Sydney & Southern Highlands Wedding Celebrant | Australian Wedding Celebrants"
 description: "Award-winning Sydney marriage celebrant with 15+ years experience. Specialising in inclusive, multicultural ceremonies and reception MC services for all couples."
-image: "../../assets/directory/robyn-pattison-621ac2a8.webp"
+image: "../../assets/directory/rp-Celebrant2.jpg"
 logo: "../../assets/directory/rp-pixie-2.png"
 background_color: "#fefaf1"
 website: "https://www.robynpattison.com.au"

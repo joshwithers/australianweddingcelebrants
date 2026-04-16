@@ -18,7 +18,7 @@ const externalDims =
 ---
 
 <div class="directory-card-shell">
-  <div class="directory-card group relative rounded-card bg-white transition-shadow duration-300" style="box-shadow: rgba(0,0,0,0.04) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 2px 8px, rgba(0,0,0,0.08) 0px 4px 12px;">
+  <div class="directory-card group relative rounded-card bg-white transition-shadow duration-300" data-tier={tier}>
     {/* Photography hero — natural aspect ratio, no cropping. External URLs
         use pre-probed dimensions (see scripts/probe-external-images.mjs) so
         the browser reserves correct aspect-ratio space and PageSpeed doesn't
@@ -57,7 +57,7 @@ const externalDims =
     {/* Card details */}
     <div class="p-4">
       <div class="flex gap-3 mb-2 justify-center">
-        {tier === "luminary" && item.data.logo ? (
+        {(tier === "luminary" || tier === "endorsed") && item.data.logo ? (
           <div class="directory-card-logo" style="width: 90%; display: flex; justify-content: center;">
             {typeof item.data.logo === "string" ? (
               <img
@@ -175,5 +175,29 @@ const externalDims =
   .badge-link {
     position: relative;
     z-index: 2;
+  }
+
+  /* Tier-tinted card chrome — subtle coloured shadow + border ring.
+     Registered cards stay neutral. Bump the opacity values here if you
+     want bolder emphasis for premium tiers. */
+  .directory-card[data-tier="registered"] {
+    box-shadow:
+      rgba(0, 0, 0, 0.04) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.06) 0px 2px 8px,
+      rgba(0, 0, 0, 0.08) 0px 4px 12px;
+  }
+
+  .directory-card[data-tier="luminary"] {
+    box-shadow:
+      rgba(70, 4, 121, 0.24) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.03) 0px 2px 6px,
+      rgba(70, 4, 121, 0.14) 0px 4px 14px;
+  }
+
+  .directory-card[data-tier="endorsed"] {
+    box-shadow:
+      rgba(146, 23, 77, 0.24) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.03) 0px 2px 6px,
+      rgba(146, 23, 77, 0.14) 0px 4px 14px;
   }
 </style>
