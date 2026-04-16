@@ -7,7 +7,14 @@ website: "https://www.ashleebunney.com.au/wedding-celebrant"
 email: "ashlee@ashleebunney.com.au"
 phone: "+61439634471"
 address: "20A Tamar Street, Palmyra WA 6157"
-location: ["Perth","Perth Hills","Margaret River","Busselton","Albany"]
+location:
+  - Perth
+  - Swan Valley
+  - Perth Hills
+  - Margaret River
+  - Busselton
+  - Dunsborough
+  - Albany
 category: ["Celebrant","MC"]
 featured: false
 tier: "endorsed"

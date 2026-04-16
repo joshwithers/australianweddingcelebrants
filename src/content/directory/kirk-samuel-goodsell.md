@@ -10,7 +10,13 @@ youtube: https://www.youtube.com/watch?v=sZS5TdStp9o
 logo: "../../assets/directory/kirk-celebrant.svg"
 phone: "+61404566077"
 address: "Alfred Cove, WA 6154"
-location: ["Perth"]
+location:
+  - Perth
+  - Swan Valley
+  - Perth Hills
+  - Margaret River
+  - Busselton
+  - Dunsborough
 category: ["Celebrant", "MC"]
 featured: true
 tier: "luminary"

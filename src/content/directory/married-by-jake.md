@@ -9,14 +9,9 @@ email: "hello@marriedbyjake.com"
 address: "Brisbane, QLD, Australia"
 location:
   - Brisbane
-  - Sydney
   - Byron Bay
   - Gold Coast
   - Sunshine Coast
-  - Melbourne
-  - Adelaide
-  - Perth
-  - Darwin
 category:
   - Celebrant
   - MC

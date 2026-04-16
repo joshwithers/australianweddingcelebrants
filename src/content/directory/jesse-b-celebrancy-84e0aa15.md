@@ -12,6 +12,11 @@ australia_wide: true
 international: true
 location:
   - Perth
+  - Swan Valley
+  - Perth Hills
+  - Margaret River
+  - Busselton
+  - Dunsborough
 category:
   - Celebrant
   - MC
