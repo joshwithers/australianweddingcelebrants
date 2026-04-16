@@ -1,5 +1,5 @@
 ---
-title: "Deborah Lilley Celebrant Services"
+title: "Deborah Lilley"
 meta_title: "Deborah Lilley — Adelaide Wedding Celebrant | Australian Wedding Celebrants"
 description: "Vibrant Adelaide celebrant creating personalised, heartfelt ceremonies. Over 500 weddings since 2014. Professional, fun, and utterly unique."
 image: "https://ik.imagekit.io/withers/file_7NPBLjfge"
