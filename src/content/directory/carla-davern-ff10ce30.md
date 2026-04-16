@@ -1,5 +1,5 @@
 ---
-title: "Celebrant & MC & singer"
+title: "Carla Davern"
 meta_title: "Carla Davern — Sydney Wedding Celebrant | Australian Wedding Celebrants"
 description: "Sydney wedding celebrant, MC, and singer, Carla Davern creates personalised, joyful ceremonies. With 15+ years' experience and a background in professional performance, she brings warmth and authenticity to your special day."
 image: "../../assets/directory/celebrant-mc-singer-ff10ce30.webp"

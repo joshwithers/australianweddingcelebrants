@@ -9,10 +9,10 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
 ---
 
 <div class="directory-card-shell">
-  <div class="directory-card group relative rounded-card overflow-hidden bg-white transition-shadow duration-300 hover:shadow-card-hover" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;">
+  <div class="directory-card group relative rounded-card bg-white transition-shadow duration-300" style="box-shadow: rgba(0,0,0,0.04) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 2px 8px, rgba(0,0,0,0.08) 0px 4px 12px;">
     {/* Photography hero — natural aspect ratio, no cropping */}
     {item.data.image && (
-      <div class="directory-card-image-wrap relative overflow-hidden">
+      <div class="directory-card-image-wrap relative overflow-hidden" style="border-radius: var(--radius-card) var(--radius-card) 0 0;">
         {typeof item.data.image === "string" ? (
           <img
             src={item.data.image}
@@ -44,14 +44,36 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
 
     {/* Card details */}
     <div class="p-4">
-      <div class="flex items-start justify-between gap-3 mb-2">
-        <h3 class="text-base text-dark m-0" style="font-weight: 600; letter-spacing: -0.18px; line-height: 1.25;">
-          {item.data.title}
-        </h3>
+      <div class:list={["flex gap-3 mb-2", tier === "luminary" && item.data.logo ? "justify-center" : "items-start justify-between"]}>
+        {tier === "luminary" && item.data.logo ? (
+          <div class="directory-card-logo" style="width: 90%; display: flex; justify-content: center;">
+            {typeof item.data.logo === "string" ? (
+              <img
+                src={item.data.logo}
+                alt={item.data.title}
+                class="max-w-full max-h-24 h-auto w-auto"
+                loading="lazy"
+              />
+            ) : (
+              <Image
+                src={item.data.logo}
+                alt={item.data.title}
+                width={400}
+                class="max-w-full max-h-24 h-auto w-auto"
+                loading="lazy"
+                format="webp"
+              />
+            )}
+          </div>
+        ) : (
+          <h3 class="text-base text-dark m-0" style="font-weight: 600; letter-spacing: -0.18px; line-height: 1.25;">
+            {item.data.title}
+          </h3>
+        )}
       </div>
 
       {item.data.location && item.data.location.length > 0 && (
-        <p class="text-sm text-light mb-2" style="font-weight: 400;">
+        <p class="text-sm text-light mb-2 text-center" style="font-weight: 600;">
           {item.data.location.map((loc: string) => humanize(loc)).join(" · ")}
         </p>
       )}
@@ -68,19 +90,23 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
             {humanize(cat)}
           </span>
         ))}
-        {item.data.australia_wide && (
-          <a href="/australia-wide/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #222; color: #f5f5f5;">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            Australia Wide
-          </a>
-        )}
-        {item.data.international && (
-          <a href="/destination-wedding-celebrants/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #222; color: #f5f5f5;">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
-            Destination Weddings
-          </a>
-        )}
       </div>
+      {(item.data.australia_wide || item.data.international) && (
+        <div class="flex flex-wrap gap-1.5 mt-2">
+          {item.data.australia_wide && (
+            <a href="/australia-wide/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Australia Wide
+            </a>
+          )}
+          {item.data.international && (
+            <a href="/destination-wedding-celebrants/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+              Destination Weddings
+            </a>
+          )}
+        </div>
+      )}
     </div>
 
     {/* Stretched link — makes the whole card clickable */}
@@ -92,8 +118,6 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
   .directory-card-shell {
     break-inside: avoid;
     padding-bottom: 1.5rem;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 400px;
   }
 
   /* Image wrapper — placeholder bg while image loads */

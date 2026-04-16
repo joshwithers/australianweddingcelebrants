@@ -27,6 +27,8 @@ const { entry } = Astro.props;
 const entrySlug = entry.id || slugify(entry.data?.title || "vendor");
 const { Content } = await render(entry);
 const tier = entry.data.tier || "registered";
+const isPremium = tier === "endorsed" || tier === "luminary";
+const websiteRel = isPremium ? "noopener" : "noopener nofollow noreferrer";
 
 const withImagekitWidth = (url: string, width: number) => {
   if (!url.includes("imagekit.io")) return url;
@@ -291,6 +293,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
               email={entry.data.email}
               phone={entry.data.phone}
               address={entry.data.address}
+              tier={tier}
               centered
             />
           </div>
@@ -307,7 +310,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
 
           <div class="flex flex-wrap justify-center gap-3">
             {entry.data.website && (
-              <a href={entry.data.website} target="_blank" rel="noopener" class="btn btn-primary no-underline">
+              <a href={entry.data.website} target="_blank" rel={websiteRel} class="btn btn-primary no-underline">
                 Visit Website
               </a>
             )}
@@ -349,7 +352,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
 
           <div class={entry.data.image ? "flex-1 min-w-0" : "w-full max-w-2xl mx-auto"}>
             <div class="mb-6">
-              {entry.data.logo ? (
+              {entry.data.logo && isPremium ? (
                 <div class="mb-4">
                   {typeof entry.data.logo === "string" ? (
                     <img
@@ -427,7 +430,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
 
             <div class="flex flex-wrap gap-3 mt-8">
               {entry.data.website && (
-                <a href={entry.data.website} target="_blank" rel="noopener" class="btn btn-primary no-underline">
+                <a href={entry.data.website} target="_blank" rel={websiteRel} class="btn btn-primary no-underline">
                   Visit Website
                 </a>
               )}
@@ -445,7 +448,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
       {/* Content body */}
       {entry.body && (
         <div class="content mt-16 pt-12 border-t border-border max-w-3xl mx-auto">
-          {entry.data.logo && tier !== "luminary" && (
+          {entry.data.logo && tier === "endorsed" && (
             <h1 class="mb-6" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;" set:html={markdownify(entry.data.title)} />
           )}
           <Content />

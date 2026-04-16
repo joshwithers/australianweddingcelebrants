@@ -11,9 +11,11 @@ interface Props {
   phone?: string;
   address?: string;
   centered?: boolean;
+  tier?: string;
 }
 
-const { location, website, email, phone, address, centered = false } = Astro.props;
+const { location, website, email, phone, address, centered = false, tier = "registered" } = Astro.props;
+const websiteRel = tier === "registered" ? "noopener nofollow noreferrer" : "noopener";
 ---
 
 <ul class:list={["space-y-4", centered && "profile-contacts--centered"]}>
@@ -42,7 +44,7 @@ const { location, website, email, phone, address, centered = false } = Astro.pro
       <a
         href={website}
         target="_blank"
-        rel="noopener"
+        rel={websiteRel}
         class="text-sm text-dark hover:text-primary no-underline hover:underline"
         style="font-weight: 500;"
       >
