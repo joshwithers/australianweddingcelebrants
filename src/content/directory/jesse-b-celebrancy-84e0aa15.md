@@ -3,19 +3,23 @@ title: "Jesse B Celebrancy"
 meta_title: "Jesse Burford — Perth Wedding Celebrant & MC | Australian Wedding Celebrants"
 description: "Relaxed, interactive ceremonies that feel natural and run smoothly. Celebrant and MC serving Perth and Australia wide."
 image: "../../assets/directory/jesse-b-celebrancy-84e0aa15.webp"
+logo: "../../assets/directory/jesseb-logo.png"
 website: "https://jessebcelebrancy.com"
 email: "hello@jessebcelebrancy.com"
 phone: "0459196610"
-address: "28 Saltbush Street, Wandi WA, Australia"
+address: "Perth, Western Australia"
+australia_wide: true
+international: true
 location:
-  - Based in Perth
-  - available Australia wide.
+  - Perth
 category:
   - Celebrant
   - MC
-australia_wide: true
-international: true
 tier: endorsed
+gallery:
+   - "../../assets/directory/jesseb1.jpg"
+   - "../../assets/directory/jesseb2.jpg"
+   - "../../assets/directory/jesseb3.jpg"
 ---
 Jesse Burford is a Commonwealth authorised Marriage Celebrant and Master of Ceremonies based in Perth, bringing over 17 years of performance experience and more than 150 weddings as a dedicated celebrant to every celebration he leads. With a background that includes 750+ weddings through the Perth Marriage Office, Jesse has honed a distinctive approach that transforms the ceremony from a formal obligation into a genuinely enjoyable highlight of your wedding day.
 
@@ -29,4 +33,4 @@ Behind the scenes, Jesse is deeply committed to preparation and detail. He belie
 
 Whether you're planning an intimate garden ceremony in Perth, a bold celebration in a regional location, or a destination wedding anywhere across Australia or internationally, Jesse brings the same professionalism, warmth, and expertise to every event. His 16+ years as a performer means he knows how to read a room, adapt on the fly, and deliver a ceremony that feels personal, polished, and perfectly suited to you both.
 
-Jesse B Celebrancy is available Australia wide and for international destination weddings. He works with couples who want a ceremony that feels natural, memorable, and genuinely theirs—one that their guests will talk about for all the right reasons.
+Jesse is available Australia wide and for international destination weddings. He works with couples who want a ceremony that feels natural, memorable, and genuinely theirs—one that their guests will talk about for all the right reasons.

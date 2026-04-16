@@ -40,25 +40,26 @@ for (let i = vendors.length - 1; i > 0; i--) {
   [vendors[i], vendors[j]] = [vendors[j], vendors[i]];
 }
 
-// Sort vendors: local first within each tier, then australia_wide
+// Sort vendors by an explicit priority:
+//   0. Luminary, local
+//   1. Endorsed, local
+//   2. Luminary, travels Australia-wide (non-local)
+//   3. Registered, local
+//   4. Endorsed, travels Australia-wide (non-local)
+//   5. Registered, travels Australia-wide (non-local)
 const isLocal = (item: CollectionEntry<"directory">) =>
   item.data.location.some((loc: string) => slugify(loc) === slugify(location));
-const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
-vendors.sort((a, b) => {
-  const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
-  const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
-  const localA = isLocal(a) ? 0 : 1;
-  const localB = isLocal(b) ? 0 : 1;
-  // Primary: tier group (luminary+endorsed vs registered)
-  const groupA = tierA <= 1 ? 0 : 1;
-  const groupB = tierB <= 1 ? 0 : 1;
-  if (groupA !== groupB) return groupA - groupB;
-  // Within same group: local before australia-wide
-  if (localA !== localB) return localA - localB;
-  // Within same locality: by tier
-  if (tierA !== tierB) return tierA - tierB;
-  return 0;
-});
+const rankOf = (item: CollectionEntry<"directory">) => {
+  const tier = item.data.tier || "registered";
+  const local = isLocal(item);
+  if (tier === "luminary"   && local)  return 0;
+  if (tier === "endorsed"   && local)  return 1;
+  if (tier === "luminary"   && !local) return 2;
+  if (tier === "registered" && local)  return 3;
+  if (tier === "endorsed"   && !local) return 4;
+  return 5; // registered, non-local
+};
+vendors.sort((a, b) => rankOf(a) - rankOf(b));
 ---
 
 <Base title={`The Top ${vendors.length} Wedding Celebrants in ${humanize(location)}`}>

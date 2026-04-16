@@ -36,9 +36,9 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 
 Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `australia_wide`, `international`, `social.{facebook,instagram,pinterest}`.
 
-**Tier-gated premium fields (optional):**
-- `youtube` — Luminary only. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
-- `gallery` — Luminary only. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
+**Premium profile fields (optional):**
+- `youtube` — Available to all tiers. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
+- `gallery` — Available to all tiers. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
 - `background_color` — Luminary only. Hex colour (e.g. `"#faf7f5"`) applied to the entire profile page background.
 - `testimonials` — Luminary + Endorsed. Up to 3 items `{ quote, author, role? }`. Emits `schema.org/Review` JSON-LD.
 

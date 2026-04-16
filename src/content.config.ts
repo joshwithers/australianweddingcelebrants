@@ -49,7 +49,7 @@ const directoryCollection = defineCollection({
         pinterest: z.url().optional(),
       })
       .optional(),
-    // Premium profile fields — Luminary tier only.
+    // Premium profile fields — available to all tiers.
     youtube: z.url().optional(),
     gallery: z.array(z.union([image(), z.string()])).max(3).optional(),
     // Hex colour (e.g. "#faf7f5") applied to the profile page background.

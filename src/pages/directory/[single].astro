@@ -455,15 +455,15 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
         </div>
       )}
 
-      {/* Luminary-only: YouTube feature video */}
-      {tier === "luminary" && entry.data.youtube && (
+      {/* YouTube feature video */}
+      {entry.data.youtube && (
         <div class="mt-16 max-w-4xl mx-auto">
           <ProfileVideo url={entry.data.youtube} title={`Meet ${entry.data.title}`} />
         </div>
       )}
 
-      {/* Luminary-only: gallery */}
-      {tier === "luminary" && entry.data.gallery && entry.data.gallery.length > 0 && (
+      {/* Gallery */}
+      {entry.data.gallery && entry.data.gallery.length > 0 && (
         <div class="mt-12 max-w-5xl mx-auto">
           <ProfileGallery images={entry.data.gallery} alt={`Work by ${entry.data.title}`} />
         </div>
