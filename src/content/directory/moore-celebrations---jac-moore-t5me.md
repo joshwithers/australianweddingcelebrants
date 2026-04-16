@@ -7,7 +7,14 @@ website: "https://www.moorecelebrations.com.au"
 email: "jac@moorecelebrations.com.au"
 phone: "+61432205562"
 address: "29 Florrie St, Lutwyche QLD 4030"
-location: ["Brisbane", "Gold Coast", "Scenic Rim Qld", "Sunshine Coast", "Toowoomba"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
+  - Toowoomba
 category: ["Celebrant", "MC"]
 featured: false
 tier: "endorsed"

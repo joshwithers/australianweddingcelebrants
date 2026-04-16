@@ -7,7 +7,14 @@ website: "https://celebrantladylove.com/annie/"
 email: "hello@celebrantladylove.com"
 phone: "+61415141335"
 address: "Gold Coast, QLD"
-location: ["Gold Coast", "Brisbane", "Byron Bay"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
+  - Sunshine Coast
 category: ["Celebrant", "MC", "DJ"]
 featured: false
 logo: "../../assets/directory/celebrant-lady-love_love-buzz.png"

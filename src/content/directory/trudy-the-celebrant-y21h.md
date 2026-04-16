@@ -7,7 +7,14 @@ website: "https://www.trudythecelebrant.com.au/"
 email: "trudy@trudythecelebrant.com.au"
 phone: "+61433581003"
 address: "Mitchelton, Queensland"
-location: ["Brisbane","Gold Coast Hinterland","Scenic Rim Qld","Sunshine Coast"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
+  - Sunshine Coast
 category: ["Celebrant"]
 featured: false
 tier: "registered"

@@ -7,7 +7,13 @@ website: "https://www.viviennecelebrant.com.au/"
 email: "viv@viviennecelebrant.com.au"
 phone: "+61421311264"
 address: "145 Gemvale Road, Mudgeeraba QLD 4213"
-location: ["Brisbane","Tweed Heads","Gold Coast","Gold Coast Hinterland","Scenic Rim Qld"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
 category: ["Celebrant"]
 featured: false
 tier: "registered"

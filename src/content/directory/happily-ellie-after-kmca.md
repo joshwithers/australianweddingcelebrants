@@ -7,7 +7,11 @@ website: "https://www.happilyellieafter.com.au"
 email: "hi@happilyellieafter.com.au"
 phone: "+61479180401"
 address: "2/3 Frog Rock Crescent, Reedy Creek, the 4227"
-location: ["Gold Coast", "Brisbane", "Tweed Heads", "Byron Bay", "Gold Coast Hinterland"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
 category: ["Celebrant"]
 featured: false
 tier: "registered"

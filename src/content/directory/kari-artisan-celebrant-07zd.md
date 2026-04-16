@@ -7,7 +7,11 @@ website: "https://karicelebrations.com"
 email: "kari@karicelebrations.com"
 phone: "+61437714965"
 address: "Sunshine Coast, Queensland"
-location: ["Noosa","Sunshine Coast","Sunshine Coast Hinterland","Gold Coast Hinterland","Byron Bay"]
+location:
+  - Gold Coast
+  - Brisbane
+  - Sunshine Coast
+  - Sunshine Coast Hinterland
 category: ["Celebrant"]
 featured: false
 tier: "registered"

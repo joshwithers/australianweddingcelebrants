@@ -6,12 +6,12 @@ image: "../../assets/directory/christine-walker-celebrant-qqt6.webp"
 website: "https://www.christinewalker.com.au"
 email: "info@christinewalker.com.au"
 phone: "+61424217677"
-address: "28 Coolibah Road Gaven QLD 4211"
+address: "Gaven, Queensland"
 location:
   - Gold Coast
-  - Tweed Heads
-  - Byron Bay
-  - Gold Coast Hinterland
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
 category:
   - Celebrant
 tier: endorsed

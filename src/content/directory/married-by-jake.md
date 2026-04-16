@@ -12,6 +12,9 @@ location:
   - Byron Bay
   - Gold Coast
   - Sunshine Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
 category:
   - Celebrant
   - MC

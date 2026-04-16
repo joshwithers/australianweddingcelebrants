@@ -6,8 +6,14 @@ image: "https://ik.imagekit.io/withers/file_9PlddiXUY"
 website: "https://www.ceremoniesbysacha.com"
 email: "ceremonies.by.sacha@gmail.com"
 phone: "+61481566766"
-address: "Inverness Way, Parkwood"
-location: ["Tweed Heads", "Gold Coast", "Gold Coast Hinterland", "Scenic Rim Qld", "Brisbane"]
+address: "Parkwood, Queensland"
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
 category: ["Celebrant", "MC", "Elopement Planner"]
 featured: false
 tier: "registered"

@@ -7,7 +7,13 @@ website: "https://sunkissedcelebrations.com"
 email: "traceyrosecelebrant@gmail.com"
 phone: "+61417631019"
 address: "GOLDEN BEACH, Queensland"
-location: ["Sunshine Coast", "Brisbane", "Gold Coast", "Gold Coast Hinterland", "Sunshine Coast Hinterland"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Brisbane
+  - Sunshine Coast Hinterland
+  - Sunshine Coast
 category: ["Celebrant"]
 featured: false
 tier: "registered"

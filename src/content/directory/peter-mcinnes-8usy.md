@@ -7,7 +7,14 @@ website: "https://www.celebrantpetermcinnes.com.au/"
 email: "mcinnes71@hotmail.com"
 phone: "+61419716296"
 address: "P O Box 2343Wellington Point AUS 4160"
-location: ["Brisbane","Gold Coast","Gold Coast Hinterland","Sunshine Coast"]
+location:
+  - Gold Coast
+  - Tamborine Mountain
+  - Scenic Rim
+  - Tweed Coast
+  - Byron Bay
+  - Brisbane
+  - Sunshine Coast
 category: ["Celebrant","On-the-Day Wedding Coordinator"]
 featured: false
 tier: "registered"
