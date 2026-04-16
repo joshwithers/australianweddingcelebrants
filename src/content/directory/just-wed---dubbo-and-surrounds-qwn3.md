@@ -7,7 +7,8 @@ website: "https://www.justwednow.com/"
 email: "justwednow@gmail.com"
 phone: "+61493633671"
 address: "Narromine NSW"
-location: ["Dubbo", "Central West NSW"]
+location:
+  - Dubbo
 category: ["Celebrant", "Elopement Planner"]
 featured: false
 tier: "registered"

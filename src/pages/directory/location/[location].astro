@@ -1,9 +1,11 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { humanize, slugify } from "@/lib/utils/textConverter";
+import { humanize, plainify, slugify, truncateText } from "@/lib/utils/textConverter";
 import MasonryGrid from "@/components/MasonryGrid.astro";
+import LocationMap from "@/components/LocationMap.astro";
 import { getEntry, render, type CollectionEntry } from "astro:content";
+import config from "@/config/config.json";
 
 export async function getStaticPaths() {
   const directoryItems = await getSinglePage("directory");
@@ -65,9 +67,75 @@ vendors.sort((a, b) => rankOf(a) - rankOf(b));
 // Hand-edit src/content/location-blurbs/<slug>.md to override.
 const blurbEntry = await getEntry("locationBlurbs", slugify(location));
 const BlurbContent = blurbEntry ? (await render(blurbEntry)).Content : null;
+
+const humanLocation = humanize(location);
+const pageTitle = `The Top ${vendors.length} Wedding Celebrants in ${humanLocation}`;
+
+// Per-page meta description: prefer the blurb's opening sentence; fall back to
+// a generated string when no blurb exists yet.
+const metaDescription = blurbEntry
+  ? truncateText(plainify(blurbEntry.body || "").replace(/\s+/g, " ").trim(), 155)
+  : `Browse ${vendors.length} wedding celebrants serving ${humanLocation}. Verified profiles, contact details, and the right marriage celebrant for your wedding day.`;
+
+const siteUrl = config.site.base_url;
+const pageUrl = `${siteUrl}/directory/location/${slugify(location)}/`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": `${siteUrl}/` },
+    { "@type": "ListItem", "position": 2, "name": "Directory", "item": `${siteUrl}/directory/` },
+    { "@type": "ListItem", "position": 3, "name": humanLocation, "item": pageUrl },
+  ],
+};
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": pageTitle,
+  "description": metaDescription,
+  "url": pageUrl,
+  "inLanguage": "en-AU",
+  "isPartOf": { "@type": "WebSite", "name": config.site.title, "url": siteUrl },
+  "about": {
+    "@type": "Place",
+    "name": `${humanLocation}, Australia`,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": humanLocation,
+      "addressCountry": "AU",
+    },
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": pageTitle,
+    "numberOfItems": vendors.length,
+    "itemListOrder": "https://schema.org/ItemListOrderAscending",
+    "itemListElement": vendors.map((vendor, i) => {
+      const slug = vendor.id || slugify(vendor.data?.title || "vendor");
+      const item: Record<string, any> = {
+        "@type": "ListItem",
+        "position": i + 1,
+        "url": `${siteUrl}/directory/${slug}/`,
+        "name": vendor.data.title,
+      };
+      const img = vendor.data.image;
+      if (typeof img === "string") {
+        item.image = img;
+      } else if (img && typeof img === "object" && "src" in img) {
+        item.image = `${siteUrl}${(img as { src: string }).src}`;
+      }
+      return item;
+    }),
+  },
+};
 ---
 
-<Base title={`The Top ${vendors.length} Wedding Celebrants in ${humanize(location)}`}>
+<Base title={pageTitle} description={metaDescription}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+
   <section class="py-12 md:py-16">
     <div class="container">
       {/* Breadcrumb */}
@@ -104,6 +172,15 @@ const BlurbContent = blurbEntry ? (await render(blurbEntry)).Content : null;
           <p class="text-light text-lg">No celebrants found in this location.</p>
         </div>
       )}
+
+      {/* Map of the region — click-to-load facade. Helps with regional context for users
+          and gives the page another locally-grounded asset for search engines. */}
+      <div class="mt-16 max-w-5xl mx-auto">
+        <h2 class="text-center mb-6 text-dark" style="font-weight: 600; letter-spacing: -0.18px;">
+          {humanLocation} on the map
+        </h2>
+        <LocationMap location={humanLocation} />
+      </div>
 
       <div class="text-center mt-12">
         <a href="/directory/" class="btn btn-outline-primary no-underline">Back to Directory</a>

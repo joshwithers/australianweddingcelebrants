@@ -1,0 +1,42 @@
+---
+// Google Maps embed for a location. Uses the no-API-key embed URL
+// (`maps.google.com/maps?...&output=embed`), so it works without configuration.
+interface Props {
+  location: string;
+  zoom?: number;
+}
+
+const { location, zoom = 10 } = Astro.props;
+const query = encodeURIComponent(`${location}, Australia`);
+const mapUrl = `https://maps.google.com/maps?q=${query}&z=${zoom}&output=embed`;
+---
+
+<div class="location-map">
+  <iframe
+    src={mapUrl}
+    title={`Google Map of ${location}`}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<style>
+  .location-map {
+    width: 100%;
+    height: 480px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.04) 0px 2px 6px,
+      rgba(0, 0, 0, 0.08) 0px 6px 12px;
+  }
+
+  .location-map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
