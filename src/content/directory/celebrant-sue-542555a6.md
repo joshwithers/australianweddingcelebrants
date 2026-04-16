@@ -1,5 +1,5 @@
 ---
-title: "Celebrant Sue"
+title: "Sue Raward"
 meta_title: "Sue Raward — Gold Coast Wedding Celebrant | Australian Wedding Celebrants"
 description: "Gold Coast marriage celebrant with 10+ years experience and 800+ weddings. Personalised, professional, and fun ceremonies that celebrate your unique love story."
 image: "../../assets/directory/celebrant-sue-542555a6.webp"
@@ -15,12 +15,9 @@ location:
   - Tweed Coast
   - Byron Bay
   - Brisbane
-  - Interstate
-  - Overseas
 category:
   - Celebrant
   - MC
-australia_wide: true
 tier: registered
 social:
   facebook: "https://www.facebook.com/celebrantsue"
