@@ -1,11 +1,21 @@
 html {
   font-size: 14px;
+  /* Match body so iOS rubber-band scroll past the top doesn't reveal a
+     different background colour. Pages that override --page-bg pick that up
+     via the body[style] inline rule from Base.astro. */
+  background-color: var(--page-bg, var(--color-body));
 }
 
 body {
   @apply bg-body font-primary font-normal leading-relaxed text-dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Respect notch / rounded-corner safe areas on iOS Safari when the page
+     is viewed with viewport-fit=cover. The header itself stays sticky at
+     top:0 — content below the header still flows under the system UI when
+     scrolled, which is the expected Safari behaviour. */
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
 }
 
 h1,

@@ -19,6 +19,9 @@ export interface Props {
   og_type?: string;
   /** Optional hex colour applied to the body background so the translucent header picks it up. */
   page_bg?: string;
+  /** Mobile browser chrome colour. Defaults to page_bg, then to white. Match the
+   *  page's top-of-page colour so the URL bar feels seamless on Safari/Chrome mobile. */
+  theme_color?: string;
 }
 
 const {
@@ -30,7 +33,11 @@ const {
   canonical,
   og_type = "website",
   page_bg,
+  theme_color,
 } = Astro.props;
+
+// Browser chrome colour — explicit override > page bg > white.
+const themeColor = theme_color || page_bg || "#ffffff";
 
 // Resolve image to string (local images are objects with .src)
 const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : rawImage;
@@ -40,7 +47,7 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
 <html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
     <!-- favicon -->
     <link rel="icon" type="image/svg+xml" href={config.site.favicon} />
@@ -75,7 +82,8 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     <ClientRouter />
 
     <!-- theme meta -->
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="author" content={config.metadata.meta_author} />
 
     <!-- Open Graph -->
