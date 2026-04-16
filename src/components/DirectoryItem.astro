@@ -2,23 +2,35 @@
 import { Image } from "astro:assets";
 import { humanize, slugify } from "@/lib/utils/textConverter";
 import TierBadge from "./TierBadge.astro";
+import externalImageDimensions from "@/data/external-image-dimensions.json";
 
 const { item, isFirst = false } = Astro.props;
 const tier = item.data.tier || "registered";
 const itemSlug = item.id || item.slug || slugify(item.data.title);
+
+// Look up pre-probed dimensions for external image URLs (populated by
+// scripts/probe-external-images.mjs). Falls back to undefined when the
+// URL hasn't been probed or the probe failed.
+const externalDims =
+  typeof item.data.image === "string"
+    ? (externalImageDimensions as Record<string, { width: number; height: number }>)[item.data.image]
+    : undefined;
 ---
 
 <div class="directory-card-shell">
   <div class="directory-card group relative rounded-card bg-white transition-shadow duration-300" style="box-shadow: rgba(0,0,0,0.04) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 2px 8px, rgba(0,0,0,0.08) 0px 4px 12px;">
-    {/* Photography hero — natural aspect ratio, no cropping */}
+    {/* Photography hero — natural aspect ratio, no cropping. External URLs
+        use pre-probed dimensions (see scripts/probe-external-images.mjs) so
+        the browser reserves correct aspect-ratio space and PageSpeed doesn't
+        flag declared/actual mismatches. */}
     {item.data.image && (
       <div class="directory-card-image-wrap relative overflow-hidden" style="border-radius: var(--radius-card) var(--radius-card) 0 0;">
         {typeof item.data.image === "string" ? (
           <img
             src={item.data.image}
             alt={item.data.title}
-            width={600}
-            height={400}
+            width={externalDims?.width}
+            height={externalDims?.height}
             class="directory-card-img w-full group-hover:scale-[1.03] transition-transform duration-500"
             loading={isFirst ? "eager" : "lazy"}
             decoding={isFirst ? "sync" : "async"}
@@ -66,9 +78,9 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
             )}
           </div>
         ) : (
-          <h3 class="text-base text-dark m-0 text-center" style="font-weight: 600; letter-spacing: -0.18px; line-height: 1.25;">
+          <h2 class="text-base text-dark m-0 text-center" style="font-weight: 600; letter-spacing: -0.18px; line-height: 1.25;">
             {item.data.title}
-          </h3>
+          </h2>
         )}
       </div>
 
@@ -92,16 +104,16 @@ const itemSlug = item.id || item.slug || slugify(item.data.title);
         ))}
       </div>
       {(item.data.australia_wide || item.data.international) && (
-        <div class="flex flex-wrap gap-1.5 mt-2">
+        <div class="flex flex-wrap gap-2 mt-3">
           {item.data.australia_wide && (
-            <a href="/australia-wide/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <a href="/australia-wide/" class="badge-link px-3 py-2 rounded-badge text-xs inline-flex items-center gap-1.5 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444; min-height: 32px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               Australia Wide
             </a>
           )}
           {item.data.international && (
-            <a href="/destination-wedding-celebrants/" class="badge-link px-2 py-0.5 rounded-badge text-xs flex items-center gap-1 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+            <a href="/destination-wedding-celebrants/" class="badge-link px-3 py-2 rounded-badge text-xs inline-flex items-center gap-1.5 no-underline transition-all" style="font-weight: 500; background: #e8e8e8; color: #444; min-height: 32px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
               Destination Weddings
             </a>
           )}

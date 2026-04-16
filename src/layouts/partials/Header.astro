@@ -33,7 +33,7 @@ const { main }: { main: NavigationLink[] } = menu;
     <button
       id="nav-toggle"
       type="button"
-      class="nav-toggle order-2 flex cursor-pointer items-center text-dark md:hidden"
+      class="nav-toggle order-2 ml-1 inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full text-dark transition-colors duration-200 hover:bg-theme-light md:hidden"
       aria-expanded="false"
       aria-controls="nav-menu"
       aria-label="Toggle navigation menu"
@@ -88,7 +88,7 @@ const { main }: { main: NavigationLink[] } = menu;
 
     <div class="order-1 ml-auto flex items-center md:order-2 md:ml-0">
       <a
-        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-theme-light text-dark transition-colors duration-200 hover:text-primary"
+        class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-theme-light text-dark transition-colors duration-200 hover:text-primary"
         href="/search/"
         title="Search"
         aria-label="Search"

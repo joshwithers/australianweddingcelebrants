@@ -4,6 +4,30 @@ One-off Node scripts for content generation. Not part of the build — run them 
 
 ---
 
+## `probe-external-images.mjs`
+
+Probes every external (`http://` / `https://`) image URL referenced from celebrant frontmatter (`image`, `logo`, `gallery`) and writes the dimensions to `src/data/external-image-dimensions.json`.
+
+**Why:** `DirectoryItem.astro` reads that JSON to emit correct `width`/`height` attributes on `<img>` tags for remote images. Without this, the browser either reserves wrong-aspect-ratio space (PageSpeed flags "Displays images with incorrect aspect ratio") or no space at all (causes CLS). Local images go through Astro's `<Image>` and don't need this — their dimensions are read from disk at build time.
+
+**Usage:**
+
+```sh
+npm run probe:external-images
+```
+
+Or directly: `node scripts/probe-external-images.mjs`. No API key required.
+
+**Behaviour:**
+
+- Runs probes in parallel (concurrency 6, 8s timeout each).
+- Existing entries are preserved if a fresh probe fails (so a temporarily-down server doesn't wipe the cache).
+- Output is sorted by URL for stable diffs.
+
+**When to run:** any time a celebrant's external image URL changes, or after adding a new celebrant with an external image. Migrating an external URL to a local asset (`../../assets/directory/...`) is preferred where possible — local images are optimised by Astro automatically.
+
+---
+
 ## `generate-location-blurbs.mjs`
 
 Generates SEO body copy for `/directory/location/<slug>/` pages. Each blurb appears above the celebrant grid and gives search engines / LLMs substantive, region-specific content to index for queries like "wedding celebrants in Perth".

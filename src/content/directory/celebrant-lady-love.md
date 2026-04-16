@@ -2,7 +2,7 @@
 title: "Celebrant Lady Love"
 meta_title: "Gold Coast Wedding Celebrant Annie — Celebrant Lady Love"
 description: "Annie from Celebrant Lady Love is a Gold Coast wedding celebrant with a decade of experience, known for fun, quirky, and deeply personal ceremonies delivered worldwide."
-image: "https://celebrantladylove.com/wp-content/uploads/2020/08/IMG_4047-scaled.jpg"
+image: "../../assets/directory/anniemoz.jpg"
 website: "https://celebrantladylove.com/annie/"
 email: "hello@celebrantladylove.com"
 phone: "+61415141335"
