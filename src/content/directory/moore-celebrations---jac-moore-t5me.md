@@ -2,7 +2,7 @@
 title: "Moore Celebrations"
 meta_title: "Brisbane Celebrant Jac Moore"
 description: "Brisbane Celebrant Jac Moore creates personalised, meaningful ceremonies with a touch of fun. Expect laughter, heartfelt moments, and attention to detail. Let's chat!"
-image: "https://ik.imagekit.io/withers/file_x8w-M4ReT"
+image: "../../assets/directory/moore-celebrations---jac-moore-t5me-image.jpg"
 website: "https://www.moorecelebrations.com.au"
 email: "jac@moorecelebrations.com.au"
 phone: "+61432205562"

@@ -2,7 +2,7 @@
 title: "Trudy the Celebrant"
 meta_title: "Trudy the Brisbane Celebrant"
 description: "Trudy the Brisbane Celebrant offers over 15 years of experience in crafting personalised and memorable wedding ceremonies across South East Queensland."
-image: "https://ik.imagekit.io/withers/Trudy_the_Brisbane_Celebrant_photo_credit_Cloud_Catcher_Studio_jFrbcOVi9"
+image: "../../assets/directory/trudy-the-celebrant-y21h-image.jpg"
 website: "https://www.trudythecelebrant.com.au/"
 email: "trudy@trudythecelebrant.com.au"
 phone: "+61433581003"

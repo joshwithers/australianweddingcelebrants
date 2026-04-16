@@ -2,7 +2,7 @@
 title: "Kirk Samuel Goodsell"
 meta_title: "Perth Wedding Celebrant Kirk Samuel Goodsell"
 description: "Kirk Samuel Goodsell is a Perth-based wedding celebrant with 18 years of experience and over 1,000 weddings. Known for modern, fun, and deeply personal ceremonies."
-image: "https://i.weddinghero.com.au/gallery/4168/preview_kirk-samuel-goodsell_jcmv8LRm.jpg"
+image: "../../assets/directory/kirk-samuel-goodsell-image.jpg"
 website: "https://www.kirksamuel.com.au"
 email: "kirk@kirksamuel.com.au"
 background_color: "#f2f2f2"

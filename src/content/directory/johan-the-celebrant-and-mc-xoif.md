@@ -2,7 +2,7 @@
 title: "Johan the Celebrant"
 meta_title: "Johan the Celebrant and Wedding MC Sydney"
 description: "Johan the Celebrant offers personalised, fun, and memorable wedding ceremonies in Sydney. With 10+ years of experience, he handles all legalities and provides MC services. Trustworthy and rated in Sydney's top 5, he ensures your special day reflects your unique love story. www.johanthecelebrant.com.au"
-image: "https://ik.imagekit.io/withers/file_8zgj1P8I8"
+image: "../../assets/directory/johan-the-celebrant-and-mc-xoif-image.jpg"
 website: "https://www.johanthecelebrant.com.au/"
 email: "hello@johanthecelebrant.com.au"
 phone: "+61411324076"

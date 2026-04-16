@@ -2,7 +2,7 @@
 title: "Sun Kissed Celebrations"
 meta_title: "Tracey Rose Celebrant - Sun Kissed Celebrations"
 description: "Tracey Rose is an authorised celebrant on the Sunshine Coast, specialising in creating personalised wedding ceremonies, vow renewals, and elopements with charm and humour."
-image: "https://ik.imagekit.io/withers/file_13M61xV_k"
+image: "../../assets/directory/sun-kissed-celebrations-6ek8-image.jpg"
 website: "https://sunkissedcelebrations.com"
 email: "traceyrosecelebrant@gmail.com"
 phone: "+61417631019"

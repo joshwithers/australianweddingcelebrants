@@ -2,7 +2,7 @@
 title: "Mona ChungChao"
 meta_title: "Unique Personalised ceremony Mona ChungChao"
 description: "Unique Personalised Ceremony by Mona ChungChao crafts heartfelt, tailored ceremonies reflecting your love story, ensuring a memorable experience for all."
-image: "https://ik.imagekit.io/withers/file_2CvdVhiQc"
+image: "../../assets/directory/mona-chungchao-melbourne-civil-marriage-celebrant-hppa-image.jpg"
 website: "https://www.melbournecivilmarriagecelebrant.com.au/"
 email: "monacchao@gmail.com"
 phone: "+61403773312"

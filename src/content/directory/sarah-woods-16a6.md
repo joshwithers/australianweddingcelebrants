@@ -2,7 +2,7 @@
 title: "Sarah Woods"
 meta_title: "Port Douglas Wedding Celebrant Sarah Woods"
 description: "Sarah Woods is a Port Douglas wedding celebrant offering enjoyable and modern ceremonies, intimate elopements, and vow renewals tailored to your unique love story."
-image: "https://ik.imagekit.io/withers/file_iTWoAx4F5"
+image: "../../assets/directory/sarah-woods-16a6-image.jpg"
 website: "https://www.idoceremony.com.au"
 email: "info@idoceremony.com.au"
 phone: "+61432846405"

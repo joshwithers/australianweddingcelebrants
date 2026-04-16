@@ -2,7 +2,7 @@
 title: "Sally Bruce"
 meta_title: "Sally Bruce Perth Elopement Celebrant"
 description: "Sally Bruce is a Perth elopement and wedding celebrant offering non-traditional, eco-friendly ceremonies. Personalised vows, intimate settings, and stress-free planning."
-image: "https://ik.imagekit.io/withers/file_1nwu3h5jG"
+image: "../../assets/directory/sally-bruce-celebrant-zzv0-image.jpg"
 website: "https://www.sallybrucecelebrant.com.au"
 email: "hello@sallybrucecelebrant.com.au"
 phone: "+61407001404"

@@ -2,7 +2,7 @@
 title: "I do Canberra Celebrations"
 meta_title: "Canberra (ACT region)"
 description: "Registered Canberra Celebrant specialising in \"legals only\" weddings. With 5 years' experience, Steph offers flexible, bespoke ceremonies in beautiful locations."
-image: "https://ik.imagekit.io/withers/file_njZclV4sn"
+image: "../../assets/directory/i-do-canberra-celebrations-j1rn-image.jpg"
 website: "https://www.idocanberracelebrations.com.au/"
 email: "stephnorris23@gmail.com"
 phone: "+61418481466"

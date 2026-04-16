@@ -2,7 +2,7 @@
 title: "Joyful Occasions"
 meta_title: "Joyful Occasions Celebrant Sydney"
 description: "Joyful Occasions Celebrant Sydney offers personalised wedding ceremonies, from intimate elopements to large celebrations. Your ceremony, your way!"
-image: "https://ik.imagekit.io/withers/file_JKRn1_bi4"
+image: "../../assets/directory/joyful-occasions-8jmp-image.jpg"
 website: "https://joyfuloccasions.com.au"
 email: "joy@joyfuloccasions.com.au"
 phone: "+61407304236"

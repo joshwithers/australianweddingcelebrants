@@ -4,6 +4,41 @@ One-off Node scripts for content generation. Not part of the build — run them 
 
 ---
 
+## `offline-external-images.mjs`
+
+Downloads every external (`http://` / `https://`) image referenced from celebrant frontmatter (`image`, `logo`, `gallery`), saves to `src/assets/directory/`, and rewrites the source markdown to point at the local copy.
+
+**Why:** local assets go through Astro's `<Image>` pipeline — auto-optimised to webp, served at multiple widths, with correct intrinsic dimensions baked in. No PageSpeed aspect-ratio warnings, no CLS, no dependency on third-party origins staying up.
+
+**Usage:**
+
+```sh
+# Preview without downloading or mutating files:
+node scripts/offline-external-images.mjs --dry-run
+
+# Do it:
+npm run offline:external-images
+
+# Re-download even if a local copy already exists:
+node scripts/offline-external-images.mjs --force
+
+# Just one celebrant (slug = filename without .md):
+node scripts/offline-external-images.mjs --only celebrant-lady-love
+```
+
+**Naming:** `<celebrant-slug>-image.<ext>`, `<celebrant-slug>-logo.<ext>`, `<celebrant-slug>-gallery-1.<ext>`, etc. Extension comes from the server's `Content-Type` header, falling back to the URL extension and finally `.jpg`.
+
+**Behaviour:**
+
+- Mutates source markdown in place — review with `git diff` before committing.
+- Failed downloads (HTTP errors, refused connections) leave the source URL untouched so the page still renders. Failed URLs are listed at the end of the run.
+- Existing local-asset paths (`../../assets/...`) are skipped entirely.
+- After running, also run `npm run probe:external-images` to prune now-unused entries from the dimension cache.
+
+**When to run:** after adding a new celebrant whose photo is hosted externally, or as a one-off cleanup to localise the whole directory.
+
+---
+
 ## `probe-external-images.mjs`
 
 Probes every external (`http://` / `https://`) image URL referenced from celebrant frontmatter (`image`, `logo`, `gallery`) and writes the dimensions to `src/data/external-image-dimensions.json`.

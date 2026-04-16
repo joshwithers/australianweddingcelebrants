@@ -2,7 +2,7 @@
 title: "Michelle and Dusty"
 meta_title: "Hunter Valley Wedding Celebrant Michelle and Dusty Wedding Ceremonies"
 description: "Hunter Valley Wedding Celebrant Michelle and Dusty create personalised ceremonies filled with heart and humour, offering unique styling options to celebrate your love story."
-image: "https://ik.imagekit.io/withers/file_KBObCI448"
+image: "../../assets/directory/michelle-and-dusty-wedding-ceremonies-oln3-image.jpg"
 website: "https://www.facebook.com/michelleanddustyweddings/"
 email: "michelleanddustyweddings@outlook.com"
 phone: "+61425715134"

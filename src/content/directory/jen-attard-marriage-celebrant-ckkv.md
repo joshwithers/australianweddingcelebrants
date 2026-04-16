@@ -2,7 +2,7 @@
 title: "Jen Attard"
 meta_title: "Jen Attard Adelaide, South Australia Celebrant"
 description: "Jen Attard is a marriage celebrant in Adelaide and Port Douglas, offering personalised ceremonies for big weddings or simple legal ceremonies. Visit: jenattard.com.au"
-image: "https://ik.imagekit.io/withers/file_C99BGBMov"
+image: "../../assets/directory/jen-attard-marriage-celebrant-ckkv-image.jpg"
 website: "https://jenattard.com.au"
 email: "hello@jenattard.com.au"
 phone: "+61484841416"

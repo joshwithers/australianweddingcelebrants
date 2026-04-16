@@ -2,7 +2,7 @@
 title: "Carlee Hay"
 meta_title: "Sunshine Coast, Marriage Celebrant, Carlee Hay "
 description: "Carlee Hay is a professional marriage celebrant in Queensland, creating personal and meaningful ceremonies from the Sunshine Coast to Brisbane for a joyful experience."
-image: "https://ik.imagekit.io/withers/file_5hsqWDtfn"
+image: "../../assets/directory/carlee-hay-celebrant-aqt8-image.jpg"
 website: "https://www.celebrantcarlee.com.au"
 email: "celebrantcarlee@gmail.com"
 phone: "+61401423426"

@@ -2,7 +2,7 @@
 title: "Kerri Watkins"
 meta_title: "Moreton Island Celebrant Kerri Watkins"
 description: "Eloping to Moreton Island? Kerri Watkins is a passionate celebrant who creates unforgettable, personalised ceremonies filled with love and laughter."
-image: "https://ik.imagekit.io/withers/file_f2pjgEoD6"
+image: "../../assets/directory/kerri-watkins-yb0d-image.jpg"
 website: "https://www.kerriwatkinscelebrant.com.au/"
 email: "kerri@kerriwatkinscelebrant.com.au"
 phone: "+61433145969"

@@ -2,7 +2,7 @@
 title: "Kari Artisan"
 meta_title: "Kari Celebrant Sunshine Coast"
 description: "Kari Celebrant offers uniquely crafted, meaningful ceremonies on the Sunshine Coast, specialising in weddings, elopements, and multicultural celebrations since 2008."
-image: "https://ik.imagekit.io/withers/file_hpnvCpU_b"
+image: "../../assets/directory/kari-artisan-celebrant-07zd-image.jpg"
 website: "https://karicelebrations.com"
 email: "kari@karicelebrations.com"
 phone: "+61437714965"

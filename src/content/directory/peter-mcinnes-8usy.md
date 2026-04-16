@@ -2,7 +2,7 @@
 title: "Peter McInnes"
 meta_title: "Peter McInnes Brisbane Wedding Celebrant"
 description: "Experienced religious celebrant since 1999, specialising in Anglican, Civil, and modern Christian ceremonies. Tailored services based on the Australian Prayer Book."
-image: "https://ik.imagekit.io/withers/file_H6-rM3Quu"
+image: "../../assets/directory/peter-mcinnes-8usy-image.jpg"
 website: "https://www.celebrantpetermcinnes.com.au/"
 email: "mcinnes71@hotmail.com"
 phone: "+61419716296"

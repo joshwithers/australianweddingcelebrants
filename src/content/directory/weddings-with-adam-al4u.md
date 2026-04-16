@@ -2,7 +2,7 @@
 title: "Weddings With Adam"
 meta_title: "Weddings With Adam - Melbourne Wedding Celebrant and MC Adam Jackson"
 description: "Weddings With Adam offers bespoke wedding ceremonies and MC services in Melbourne. With over 15 years of experience, Adam crafts personalised ceremonies that reflect each couple's unique love story while ensuring a stress-free planning process."
-image: "https://ik.imagekit.io/withers/file_P1I2uCTPf"
+image: "../../assets/directory/weddings-with-adam-al4u-image.jpg"
 website: "https://www.weddingswithadam.com.au"
 email: "adam@weddingswithadam.com.au"
 phone: "+61411033393"

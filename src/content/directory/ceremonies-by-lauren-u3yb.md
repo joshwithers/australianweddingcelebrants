@@ -2,7 +2,7 @@
 title: "Ceremonies by Lauren"
 meta_title: "Melbourne wedding celebrant ceremony Lauren Jackson"
 description: "Lauren Jackson is an inner-city Melbourne celebrant crafting unforgettable ceremonies for busy professionals, blending warmth and professionalism for your perfect day."
-image: "https://ik.imagekit.io/withers/file_mHjK93DSW"
+image: "../../assets/directory/ceremonies-by-lauren-u3yb-image.jpg"
 website: "https://ceremoniesbylauren.com.au"
 email: "lauren@ceremoniesbylauren.com.au"
 phone: "+61409156329"

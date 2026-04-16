@@ -2,7 +2,7 @@
 title: "Ceremonies by Sacha"
 meta_title: "Gold Coast, Brisbane and Scenic Rim Celebrant Sacha Clark"
 description: "Sacha Clark is a celebrant in Gold Coast, Brisbane, and Scenic Rim, specialising in heartfelt, relaxed ceremonies for all couples. Customised and stress-free experiences are her priority."
-image: "https://ik.imagekit.io/withers/file_9PlddiXUY"
+image: "../../assets/directory/ceremonies-by-sacha-cpn1-image.jpg"
 website: "https://www.ceremoniesbysacha.com"
 email: "ceremonies.by.sacha@gmail.com"
 phone: "+61481566766"

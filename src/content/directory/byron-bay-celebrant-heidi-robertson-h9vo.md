@@ -2,7 +2,7 @@
 title: "Heidi Robertson"
 meta_title: "Byron Bay Celebrant Heidi Robertson"
 description: "Byron Bay Celebrant Heidi Robertson offers calming, professional wedding services across Northern Rivers, Tweed Heads, Gold Coast, and Brisbane, blending expertise with fun."
-image: "https://ik.imagekit.io/withers/file_fbeV41ay-"
+image: "../../assets/directory/byron-bay-celebrant-heidi-robertson-h9vo-image.jpg"
 website: "https://www.byronbaycelebrant.com.au"
 email: "heidi@byronbaycelebrant.com.au"
 phone: "+61404047313"

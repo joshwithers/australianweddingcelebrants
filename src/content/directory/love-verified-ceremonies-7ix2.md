@@ -2,7 +2,7 @@
 title: "Love Verified Ceremonies"
 meta_title: "Love Verified Ceremonies - Brisbane Celebrant (Jessica McDougall)"
 description: "Love Verified Ceremonies, led by Brisbane Celebrant Jessica McDougall, offers elegant, personalised wedding ceremonies with no hidden costs across Redland Coast and beyond."
-image: "https://ik.imagekit.io/withers/file_v_RevbYUrt"
+image: "../../assets/directory/love-verified-ceremonies-7ix2-image.jpg"
 website: "https://www.loveverifiedceremonies.com/"
 email: "loveverifiedceremonies@gmail.com"
 phone: "+61433111397"

@@ -2,7 +2,7 @@
 title: "Majenta Moon"
 meta_title: "Newcastle & Hunter Valley Wedding Celebrant Jen Majenta Moon"
 description: "Newcastle & Hunter Valley Celebrant Jen Majenta Moon crafts unique, heartfelt ceremonies tailored to your love story, ensuring a memorable experience for you and your guests."
-image: "https://ik.imagekit.io/withers/file_Twf3ueS9g"
+image: "../../assets/directory/majenta-moon-b7wz-image.jpg"
 website: "https://majentamoon.com/"
 email: "hello@majentamoon.com"
 phone: "+61414342366"

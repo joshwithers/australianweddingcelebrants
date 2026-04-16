@@ -2,7 +2,7 @@
 title: "Just Wed"
 meta_title: "Dubbo celebrant Just Wed"
 description: "Just Wed offers quick, easy, and affordable Registry Office-style weddings, elopements, and Legals-Only ceremonies in Dubbo and Central West NSW. Marry your way!"
-image: "https://ik.imagekit.io/withers/file_uGBbXGYfv"
+image: "../../assets/directory/just-wed---dubbo-and-surrounds-qwn3-image.jpg"
 website: "https://www.justwednow.com/"
 email: "justwednow@gmail.com"
 phone: "+61493633671"

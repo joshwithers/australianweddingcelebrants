@@ -2,7 +2,7 @@
 title: "Melissa Price"
 meta_title: "Melissa Price Marriage Celebrant + MC"
 description: "Melissa Price is a warm and engaging Marriage Celebrant and MC, creating unique, heartfelt ceremonies filled with romance and laughter. Let's make your day magical!"
-image: "https://ik.imagekit.io/withers/file_vZTqP3RWE"
+image: "../../assets/directory/melissa-price-0hvv-image.jpg"
 website: "https://www.melissapricecelebrant.com/"
 email: "hello@melissapricecelebrant.com"
 phone: "+61419778194"

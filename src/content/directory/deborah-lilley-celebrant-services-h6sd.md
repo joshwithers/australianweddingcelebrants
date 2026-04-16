@@ -2,7 +2,7 @@
 title: "Deborah Lilley"
 meta_title: "Deborah Lilley — Adelaide Wedding Celebrant | Australian Wedding Celebrants"
 description: "Vibrant Adelaide celebrant creating personalised, heartfelt ceremonies. Over 500 weddings since 2014. Professional, fun, and utterly unique."
-image: "https://ik.imagekit.io/withers/file_7NPBLjfge"
+image: "../../assets/directory/deborah-lilley-celebrant-services-h6sd-image.jpg"
 website: "https://lilley-cmc.com/"
 email: "admin@lilley-cmc.com.au"
 phone: "+61417466100"

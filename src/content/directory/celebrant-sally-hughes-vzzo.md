@@ -2,7 +2,7 @@
 title: "Sally Hughes"
 meta_title: "Sally Hughes Melbourne Marriage Celebrant"
 description: "Sally Hughes is a highly experienced Melbourne Marriage Celebrant known for her engaging, humorous, and heartfelt ceremonies, ensuring a memorable experience for all."
-image: "https://ik.imagekit.io/withers/Celebrant-Sally-Hughes-2024---By-Jerome-Cole-Hi-Res-Portrait_QK0AxqDms"
+image: "../../assets/directory/celebrant-sally-hughes-vzzo-image.jpg"
 website: "https://celebrantsallyhughes.com.au"
 email: "sally@celebrantsallyhughes.com.au"
 phone: "+61414281615"

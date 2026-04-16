@@ -2,7 +2,7 @@
 title: "Oliver Thomson"
 meta_title: "Oliver Thomson Sydney Marriage Celebrant"
 description: "Sydney Marriage Celebrant offers unique, contemporary ceremonies tailored to reflect your love story. With over a decade of experience, let's create an unforgettable wedding experience together."
-image: "https://ik.imagekit.io/withers/file_jyUME3aV5"
+image: "../../assets/directory/oliver-thomson-celebrancy-4d75-image.jpg"
 logo: "../../assets/directory/Oliver+Thomson-01.png"
 background_color: "#f5eceb"
 website: "https://www.oliverthomsoncelebrancy.com"

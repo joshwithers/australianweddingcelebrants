@@ -2,7 +2,7 @@
 title: "Ceremonies by Rosie"
 meta_title: "Ceremonies by Rosie Marriage Celebrant in FNQ"
 description: "Ceremonies by Rosie is an experienced marriage celebrant in Far North Queensland, specialising in unique, vibrant, and personalised wedding ceremonies in stunning locations."
-image: "https://ik.imagekit.io/withers/file_y_FGXC-mr"
+image: "../../assets/directory/ceremonies-by-rosie-0zg7-image.jpg"
 website: "https://sites.google.com/view/ceremoniesbyrosie-com-au/home"
 email: "thecelebrant@ceremoniesbyrosie.com.au"
 phone: "+61439394066"

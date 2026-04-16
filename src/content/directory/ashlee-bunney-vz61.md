@@ -2,7 +2,7 @@
 title: "Ashlee Bunney"
 meta_title: "Perth Wedding Celebrant & MC Ashlee Bunney"
 description: "Ashlee Bunney is a bold and fun Perth wedding celebrant and MC, creating personalised, memorable ceremonies and seamless receptions that celebrate love in all forms."
-image: "https://ik.imagekit.io/withers/file_-ssbJssNh"
+image: "../../assets/directory/ashlee-bunney-vz61-image.jpg"
 website: "https://www.ashleebunney.com.au/wedding-celebrant"
 email: "ashlee@ashleebunney.com.au"
 phone: "+61439634471"

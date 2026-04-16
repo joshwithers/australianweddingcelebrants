@@ -2,7 +2,7 @@
 title: "Renee the Celebrant"
 meta_title: "Renee the Celebrant (MC, & DJ)"
 description: "Renee the Celebrant (MC & DJ) specialises in alternative and queer weddings, offering a unique 'One Woman Show' package that combines celebrant, MC, and DJ services."
-image: "https://ik.imagekit.io/withers/file_3bbWD9iuX"
+image: "../../assets/directory/renee-the-celebrant-nrcm-image.jpg"
 website: "https://www.reneethecelebrant.com.au/"
 email: "info@reneethecelebrant.com.au"
 phone: "+61415726262"

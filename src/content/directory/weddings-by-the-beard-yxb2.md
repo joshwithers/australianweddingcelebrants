@@ -2,7 +2,7 @@
 title: "Weddings by the Beard"
 meta_title: "Melbourne Marriage Celebrant Weddings by the Beard"
 description: "Weddings by the Beard offers personalised, fun, and engaging ceremonies in Melbourne. Celebrant Lachie crafts unique experiences for all couples, ensuring a memorable day."
-image: "https://ik.imagekit.io/withers/file_F0cZQg3do"
+image: "../../assets/directory/weddings-by-the-beard-yxb2-image.jpg"
 website: "https://weddingsbythebeard.com/"
 email: "lachlan@weddingsbythebeard.com"
 phone: "+61480143944"

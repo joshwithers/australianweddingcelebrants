@@ -2,7 +2,7 @@
 title: "Andrea Calodolce"
 meta_title: "Kingsgrove Marriage Celebrant Andrea Calodolce"
 description: "Andrea Calodolce, a registered marriage celebrant in Kingsgrove, offers personalised, heartfelt ceremonies across Sydney. Experienced and inclusive, she crafts authentic celebrations reflecting each couple's unique love story."
-image: "https://ik.imagekit.io/withers/file_7PYETvObl"
+image: "../../assets/directory/andrea-calodolce-ceremonies-e2v6-image.jpg"
 website: "https://andreacalodolce.com.au/"
 email: "hello@andreacalodolceceremonies.com.au"
 phone: "+61422460164"

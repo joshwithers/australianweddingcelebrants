@@ -2,7 +2,7 @@
 title: "Venita Manning"
 meta_title: "Brisbane Marriage Celebrant"
 description: "Brisbane Marriage Celebrant Venita creates warm, fun, and personalised wedding ceremonies that ensure unforgettable moments for couples and their guests."
-image: "https://ik.imagekit.io/withers/file_pHjQ0sRwls"
+image: "../../assets/directory/venita-manning-celebrant-nj4z-image.jpg"
 website: "https://www.venitamanning.com.au"
 email: "venita.manning@gmail.com"
 phone: "+61412728866"

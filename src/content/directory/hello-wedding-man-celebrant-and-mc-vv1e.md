@@ -2,7 +2,7 @@
 title: "Hello Wedding Man"
 meta_title: "Hello Wedding Man Perth Wedding Celebrant "
 description: "Adam Mitchell, Hello Wedding Man, is a top Perth celebrant known for his warm, fun approach and custom-crafted ceremonies that truly reflect your love story. Visit www.helloweddingman.com.au for details."
-image: "https://ik.imagekit.io/withers/file_I6KKp6NRT"
+image: "../../assets/directory/hello-wedding-man-celebrant-and-mc-vv1e-image.jpg"
 website: "https://www.helloweddingman.com.au/"
 email: "adam@helloweddingman.com.au"
 phone: "+61400330013"

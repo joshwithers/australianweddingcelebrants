@@ -2,7 +2,7 @@
 title: "Lifelong Celebrations Officiated by Jo"
 meta_title: "Bayside Melbourne Wedding Celebrant"
 description: "Jo Dalton, your Bayside Melbourne Wedding Celebrant, crafts unique ceremonies across Melbourne and beyond. Experience warmth and joy tailored to your love story."
-image: "https://ik.imagekit.io/withers/file_47FMZwFAua"
+image: "../../assets/directory/lifelong-celebrations-officiated-by-jo-f0rv-image.jpg"
 website: "https://lifelongcelebrations.com.au/"
 email: "jo@lifelongcelebrations.com.au"
 phone: "+61408658430"

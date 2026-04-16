@@ -2,7 +2,7 @@
 title: "Happily Ellie After"
 meta_title: "Gold Coast Wedding Celebrant"
 description: "Affordable Gold Coast wedding celebrant offering personalised, bilingual ceremonies in English and Spanish. Specialising in elopements, micro weddings, and vow renewals. Visit www.happilyellieafter.com.au for details."
-image: "https://ik.imagekit.io/withers/file_1IiUe-dQm"
+image: "../../assets/directory/happily-ellie-after-kmca-image.jpg"
 website: "https://www.happilyellieafter.com.au"
 email: "hi@happilyellieafter.com.au"
 phone: "+61479180401"

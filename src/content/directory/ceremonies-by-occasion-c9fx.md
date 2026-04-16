@@ -2,7 +2,7 @@
 title: "Ceremonies by Occasion"
 meta_title: "Western Australian Marriage Celebrant Lorraine Lavery"
 description: "Western Australian Marriage Celebrant Lorraine Lavery crafts warm, heartfelt ceremonies tailored to each couple, ensuring a relaxed and enjoyable experience."
-image: "https://ik.imagekit.io/withers/file_uo_ZhJAvU"
+image: "../../assets/directory/ceremonies-by-occasion-c9fx-image.jpg"
 website: "https://ceremoniesbyoccasion.com.au/"
 email: "llavery20@gmail.com"
 phone: "+61417965712"

@@ -2,7 +2,7 @@
 title: "Marry Me Nicky"
 meta_title: "Nicky Surnicky, Sydney Wedding Celebrant"
 description: "Nicky Surnicky, Sydney Wedding Celebrant, creates fun and engaging ceremonies that are memorable and authentic. Based in the Sutherland Shire, Nicky brings laughter to your special day."
-image: "https://ik.imagekit.io/withers/file_pOdIii4uK"
+image: "../../assets/directory/marry-me-nicky-jo11-image.jpg"
 website: "https://www.marrymenicky.com.au"
 email: "hello@marrymenicky.com.au"
 phone: "+61405509494"

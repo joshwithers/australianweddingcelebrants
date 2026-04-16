@@ -2,7 +2,7 @@
 title: "Married By Ali"
 meta_title: "Adelaide wedding celebrant Ali Phillips"
 description: "Adelaide wedding celebrant Ali Phillips creates warm, engaging ceremonies with effortless style. A romance-lover and travel enthusiast, she makes every couple feel at ease."
-image: "https://ik.imagekit.io/withers/file_FxgXTaNKDF"
+image: "../../assets/directory/married-by-ali-ufki-image.jpg"
 website: "https://www.marriedbyali.com.au/"
 email: "marriedbyali@gmail.com"
 phone: "+61417873855"

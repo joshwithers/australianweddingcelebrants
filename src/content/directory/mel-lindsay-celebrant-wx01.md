@@ -2,7 +2,7 @@
 title: "Mel Lindsay"
 meta_title: "Glen Innes Marriage Celebrant"
 description: "Mel Lindsay, a registered marriage celebrant in Glen Innes, offers personalised, creative ceremonies for weddings, naming days, and funerals, reflecting your unique love story."
-image: "https://ik.imagekit.io/withers/file_ReaOd6wYbW"
+image: "../../assets/directory/mel-lindsay-celebrant-wx01-image.jpg"
 website: "https://mellindsaycelebrant.com.au"
 email: "melissa_lindsay1@hotmail.com"
 phone: "+61407492548"

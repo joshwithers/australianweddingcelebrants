@@ -2,7 +2,7 @@
 title: "Robbie Fincham"
 meta_title: "Melbourne Marriage Celebrant Robbie Fincham"
 description: "Melbourne Marriage Celebrant Robbie Fincham creates personalised, stress-free ceremonies reflecting your unique love story. With over 15 years of experience, Robbie ensures a memorable experience for all couples. Contact for an obligation-free chat."
-image: "https://ik.imagekit.io/withers/file_KZPGAQBB_"
+image: "../../assets/directory/robbie-fincham-celebrant-k5y1-image.jpg"
 website: "https://www.robbiefincham.com.au"
 email: "robbie@robbiefincham.com.au"
 phone: "+61409937021"

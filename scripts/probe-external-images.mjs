@@ -104,7 +104,16 @@ async function main() {
   console.log(`Found ${urls.length} external image URLs.`);
 
   const existing = loadExisting();
-  const cache = { ...existing };
+  // Start with only entries still referenced by some celebrant — drops stale
+  // URLs (e.g. images that have since been migrated to local assets).
+  const referenced = new Set(urls);
+  const cache = {};
+  let pruned = 0;
+  for (const [url, dims] of Object.entries(existing)) {
+    if (referenced.has(url)) cache[url] = dims;
+    else pruned += 1;
+  }
+  if (pruned > 0) console.log(`Pruning ${pruned} stale cache entrie(s).`);
 
   const results = await runPool(urls, CONCURRENCY, async (url) => {
     const dims = await probeOne(url);

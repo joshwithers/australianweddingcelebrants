@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "format": "prettier -w .",
     "generate:location-blurbs": "node scripts/generate-location-blurbs.mjs",
-    "probe:external-images": "node scripts/probe-external-images.mjs"
+    "probe:external-images": "node scripts/probe-external-images.mjs",
+    "offline:external-images": "node scripts/offline-external-images.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",

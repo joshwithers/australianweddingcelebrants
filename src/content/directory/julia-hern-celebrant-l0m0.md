@@ -2,7 +2,7 @@
 title: "Julia Hern"
 meta_title: "Hobart Weddings Julia Hern Celebrant"
 description: "Hobart Weddings Julia Hern Celebrant offers personalised ceremonies across Tasmania, tailored to your unique style and vision, ensuring a memorable experience."
-image: "https://ik.imagekit.io/withers/file_MDOEjh_X_"
+image: "../../assets/directory/julia-hern-celebrant-l0m0-image.jpg"
 website: "https://www.juliahern.com"
 email: "julia@juliahern.com"
 phone: "+61408852027"

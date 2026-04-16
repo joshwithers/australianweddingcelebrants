@@ -2,7 +2,7 @@
 title: "Vivienne Celebrant"
 meta_title: "Gold Coast Wedding Celebrant Vivienne Celebrant"
 description: "Gold Coast Wedding Celebrant Vivienne creates personalised, heartfelt ceremonies that reflect your unique love story. With warmth and experience, she ensures a stress-free experience from start to finish."
-image: "https://ik.imagekit.io/withers/file__flSjUA36m"
+image: "../../assets/directory/vivienne-celebrant-7yyr-image.jpg"
 website: "https://www.viviennecelebrant.com.au/"
 email: "viv@viviennecelebrant.com.au"
 phone: "+61421311264"

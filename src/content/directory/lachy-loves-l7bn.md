@@ -2,7 +2,7 @@
 title: "Lachy Loves"
 meta_title: "Lachy Loves – Brisbane Marriage Celebrant & Content Creator"
 description: "Lachy Loves is a Brisbane marriage celebrant and content creator specialising in modern, inclusive, and joyful ceremonies. Offering personalised services for diverse love stories, including LGBTQIA+ and non-traditional weddings, Lachy crafts memorable experiences that reflect each couple's essence. Discover more at lachyloves.com."
-image: "https://ik.imagekit.io/withers/file_iAn0WE_ej"
+image: "../../assets/directory/lachy-loves-l7bn-image.jpg"
 website: "https://lachyloves.com"
 email: "hello@lachyloves.com"
 phone: "+61411340744"
