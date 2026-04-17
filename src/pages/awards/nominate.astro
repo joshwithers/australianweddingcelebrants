@@ -133,10 +133,10 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
 
         <div class="space-y-5">
           <div>
-            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">Award title</label>
+            <label class="block text-sm text-dark mb-1" style="font-weight: 600;">Award title</label>
+            <p class="text-xs text-light mb-3" style="font-weight: 400;">Tap a suggestion to use it, or type your own below.</p>
             <div id="preview-suggestions" class="flex flex-wrap gap-2 mb-3"></div>
             <input id="preview-title" type="text" class="form-input w-full" maxlength="120" />
-            <p class="text-xs text-light mt-2" style="font-weight: 400;">Pick a suggestion above or edit the title directly.</p>
           </div>
 
           <div>
@@ -222,13 +222,6 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
       color: #fff;
       border-color: #222;
     }
-
-    .suggestion-chip__tone {
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      opacity: 0.6;
-    }
   </style>
 
   <script is:inline define:vars={{ slugMap, DRAFT_ENDPOINT, SEND_ENDPOINT }}>
@@ -282,7 +275,7 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
           btn.setAttribute("aria-pressed", i === 0 ? "true" : "false");
           btn.dataset.title = s.title || "";
           btn.dataset.emoji = s.emoji || "🏆";
-          btn.innerHTML = `<span aria-hidden="true">${s.emoji || "🏆"}</span><span>${s.title || ""}</span>${s.tone ? `<span class="suggestion-chip__tone">${s.tone}</span>` : ""}`;
+          btn.innerHTML = `<span aria-hidden="true">${s.emoji || "🏆"}</span><span>${s.title || ""}</span>`;
           btn.addEventListener("click", () => {
             suggestionsEl.querySelectorAll(".suggestion-chip").forEach(c => c.setAttribute("aria-pressed", "false"));
             btn.setAttribute("aria-pressed", "true");
