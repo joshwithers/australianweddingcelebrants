@@ -38,16 +38,22 @@ src/
 │   ├── theme.json       # Colours, fonts, design tokens
 │   └── social.json      # Social media links
 ├── content/             # Content collections (Markdown/MDX)
-│   ├── directory/       # Celebrant listings (~54 profiles)
+│   ├── directory/       # Celebrant listings (~58 profiles)
 │   ├── about/           # About page
 │   └── pages/           # Static pages (contact, tiers, 404)
 ├── content.config.ts    # Collection schemas (Zod validation)
+├── components/
+│   ├── DirectoryItem.astro     # Celebrant card (with award corner marker)
+│   ├── ProfileAwards.astro     # "Trophy Shelf" on celebrant profile
+│   ├── TierBadge.astro / TierIcon.astro
+│   └── ...
 ├── layouts/             # Page layouts, header, footer
 │   ├── Base.astro       # HTML wrapper with SEO/meta tags
 │   ├── partials/        # Header.astro, Footer.astro
 │   ├── SearchBar.tsx    # Fuse.js search component
 │   └── shortcodes/      # MDX components (Button, Accordion, Tabs, etc.)
-├── lib/utils/           # Helpers (slugify, date format, sorting, taxonomy)
+├── lib/utils/           # Helpers (slugify, date format, sorting, taxonomy, awards)
+│   └── awards.ts        # deriveAwards() — single source of truth for a celebrant's awards
 ├── pages/               # File-based routes
 │   ├── index.astro      # Homepage with hero and featured listings
 │   ├── directory/       # Directory listing, individual profiles, location pages
@@ -58,6 +64,8 @@ src/
 │   ├── registered.astro # Registered tier celebrants
 │   ├── australia-wide.astro           # Celebrants who travel nationally
 │   ├── destination-wedding-celebrants.astro  # International celebrants
+│   ├── awards.astro                   # Awards yearbook (grouped by year)
+│   ├── awards/nominate.astro          # Nomination form with AI-drafted award titles
 │   ├── terms.astro      # Terms and conditions
 │   ├── privacy.astro    # Privacy policy
 │   ├── submit.astro     # Redirects to worker login
@@ -89,6 +97,20 @@ Celebrants are recognised across three tiers based on documented evidence of exp
 | **Endorsed** | Magenta `#92174d` | 3+ years, insurance, professional development beyond OPD, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies |
 | **Registered** | Grey `#6a6a6a` | Commonwealth authorised marriage celebrant with Certificate IV (or equivalent) and a verified professional profile |
 
+## Awards
+
+A yearbook of recognitions sits alongside the tier system, celebrating celebrants for specific moments and regional standout work.
+
+- **Sources** — two feed the system:
+  - `awards[]` in a listing's frontmatter (free-form title, optional emoji/region/note, required year).
+  - `year_started` in a listing's frontmatter — `src/lib/utils/awards.ts#deriveAwards` generates a synthetic "Class of {year}" 🎓 award so every celebrant with a start year has at least one Trophy Shelf entry.
+- **Display surfaces**:
+  - `/awards/` — yearbook page grouping every award across the directory by year, newest first. Emits `CollectionPage` + `ItemList` + `FAQPage` + `BreadcrumbList` JSON-LD.
+  - `ProfileAwards.astro` ("Trophy Shelf") — renders a celebrant's awards on their profile, with `schema.org/Thing` + `additionalType: Award` JSON-LD per item, linked to the business `@id`.
+  - `DirectoryItem.astro` — the most recent award surfaces as an emoji corner marker on the celebrant's directory card.
+- **Nominations** — anyone can nominate a celebrant at `/awards/nominate/`. The form posts to the worker's `award-nomination` endpoint, Claude drafts an award title and justification, the nominator approves the wording, and `award-nomination/send` emails the review to the admin. Approved nominations are added to the celebrant's `awards[]` in the repo.
+- **No enum** — titles are free-form by design ("Celebrant of the Year", "Most Likely to Make the Groom Cry"), so there are no auto-generated per-award landing pages.
+
 ## Worker API
 
 The backend API (`worker/src/index.js`) at `api.australianweddingcelebrants.com.au` handles:
@@ -101,6 +123,7 @@ The backend API (`worker/src/index.js`) at `api.australianweddingcelebrants.com.
 - **Admin listing editor** — direct GitHub editing of any listing with AI bio tools
 - **Admin review & approve** — review submissions, set tier, push to GitHub
 - **Bulk email** — compose and send to all listed celebrants via Resend with AI cleanup
+- **Award nominations** — `award-nomination` drafts an award title/emoji/justification from a nominator's story using Claude; `award-nomination/send` emails the approved wording to the admin for review
 - **Delayed notifications** — celebrant approval emails sent 15 minutes after approval (cron trigger)
 - **GitHub integration** — listings and assets pushed directly to the repo
 
@@ -171,6 +194,25 @@ international: false
 social:
   instagram: "https://instagram.com/..."
   facebook: "https://facebook.com/..."
+
+# Premium profile fields (all optional)
+year_started: 2018          # Drives the synthetic "Class of 2018" 🎓 award on the Trophy Shelf
+youtube: "https://youtube.com/watch?v=..."   # Click-to-load facade, any tier
+gallery:                    # Up to 3 images, any tier
+  - "../../assets/directory/slug-1.webp"
+  - "../../assets/directory/slug-2.webp"
+background_color: "#faf7f5" # Luminary tier only — hex colour for the profile page background
+testimonials:               # Up to 3, Luminary + Endorsed tiers
+  - quote: "They made the whole day feel easy."
+    author: "Sam & Alex"
+    role: "Married May 2025"
+awards:                     # Any tier; titles are free-form
+  - title: "Celebrant of the Year"
+    emoji: "🏆"
+    region: "NSW"
+    year: 2025
+    note: "Voted by vendors at the Hunter Valley Wedding Expo."
+
 draft: false
 ---
 
@@ -185,7 +227,7 @@ Celebrant's full bio in Markdown (target 600+ words for SEO)...
 | `src/styles/main.css` | Tailwind v4 `@theme` tokens (colours, fonts, shadows, radii, breakpoints) |
 | `src/config/config.json` | Site title, URL, contact info, form endpoints |
 | `src/config/theme.json` | Design tokens consumed by theme (colours, font scale) |
-| `src/config/menu.json` | Header and footer navigation |
+| `src/config/menu.json` | Header and footer navigation (Home, Directory, Our Standards, Awards, About, Contact) |
 | `tsconfig.json` | TypeScript config with `@` path alias |
 
 ## Design System

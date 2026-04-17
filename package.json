@@ -19,7 +19,7 @@
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.2",
-    "astro": "^6.1.4",
+    "astro": "^6.1.7",
     "astro-auto-import": "^0.5.1",
     "date-fns": "^4.1.0",
     "fuse.js": "^7.0.0",
