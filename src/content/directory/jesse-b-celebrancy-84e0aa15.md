@@ -25,6 +25,7 @@ gallery:
    - "../../assets/directory/jesseb1.jpg"
    - "../../assets/directory/jesseb2.jpg"
    - "../../assets/directory/jesseb3.jpg"
+year_started: 2020
 ---
 Jesse Burford is a Commonwealth authorised Marriage Celebrant and Master of Ceremonies based in Perth, bringing over 17 years of performance experience and more than 150 weddings as a dedicated celebrant to every celebration he leads. With a background that includes 750+ weddings through the Perth Marriage Office, Jesse has honed a distinctive approach that transforms the ceremony from a formal obligation into a genuinely enjoyable highlight of your wedding day.
 
