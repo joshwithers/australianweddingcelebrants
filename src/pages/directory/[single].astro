@@ -483,7 +483,7 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
         const shelf = deriveAwards(entry.data);
         return shelf.length > 0 ? (
           <div class="mt-16 max-w-5xl mx-auto">
-            <ProfileAwards awards={shelf} subjectName={entry.data.title} />
+            <ProfileAwards awards={shelf} subjectName={entry.data.title} subjectSlug={entrySlug} />
           </div>
         ) : null;
       })()}

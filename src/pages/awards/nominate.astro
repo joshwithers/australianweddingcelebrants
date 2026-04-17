@@ -1,0 +1,394 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { slugify } from "@/lib/utils/textConverter";
+
+const allItems = await getSinglePage("directory");
+const slugMap: Record<string, string> = {};
+for (const item of allItems) {
+  const slug = item.id || slugify(item.data?.title || "vendor");
+  slugMap[slug] = item.data.title;
+}
+
+const currentYear = new Date().getUTCFullYear();
+const years = [currentYear, currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4, currentYear - 5];
+
+const WORKER_BASE = "https://api.australianweddingcelebrants.com.au";
+const DRAFT_ENDPOINT = `${WORKER_BASE}/award-nomination`;
+const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
+---
+
+<Base
+  title="Nominate a Celebrant for an Award"
+  meta_title="Nominate a Celebrant — Australian Wedding Celebrants"
+  description="Tell us why an Australian wedding celebrant deserves a Trophy Shelf award. We'll read every nomination."
+>
+  <section class="py-16 md:py-20">
+    <div class="container max-w-2xl">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #222;">
+          <span aria-hidden="true">🏆</span>
+          Nominate a celebrant
+        </div>
+        <h1 style="font-weight: 700; letter-spacing: -0.44px;">Add to their Trophy Shelf</h1>
+        <p class="text-light mt-4 max-w-xl mx-auto" style="font-weight: 400; line-height: 1.6;">
+          Know a celebrant who deserves recognition — serious, silly, or somewhere in between? Tell us what they did and we'll draft an award. You get to approve the wording before anything is sent.
+        </p>
+      </div>
+
+      {/* Step 1 — initial form */}
+      <form id="nominate-form" class="space-y-6">
+        <div>
+          <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+            Celebrant you're nominating <span class="text-primary">*</span>
+          </label>
+          <input
+            class="form-input w-full"
+            name="celebrant"
+            id="celebrant"
+            type="text"
+            required
+            placeholder="Start typing a celebrant's name…"
+            autocomplete="off"
+          />
+          <p class="text-xs text-light mt-2" id="celebrant-hint" style="font-weight: 400;">
+            Tip: nominate from a celebrant's profile page to pre-fill this.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+              Your name <span class="text-primary">*</span>
+            </label>
+            <input class="form-input w-full" name="nominator_name" type="text" required placeholder="e.g. Sarah Mitchell" />
+          </div>
+          <div>
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+              Your email <span class="text-primary">*</span>
+            </label>
+            <input class="form-input w-full" name="nominator_email" type="email" required placeholder="hello@example.com" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+            Year the moment happened <span class="text-primary">*</span>
+          </label>
+          <select name="year" required class="form-input w-full">
+            {years.map((y) => <option value={y}>{y}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm text-dark mb-2" style="font-weight: 600;">
+            What did they do that was so good? <span class="text-primary">*</span>
+          </label>
+          <textarea
+            class="form-textarea w-full"
+            name="story"
+            rows="7"
+            required
+            minlength="40"
+            placeholder="Be specific. What happened? Why was it great? The more colourful the better — we'll polish the wording."
+          ></textarea>
+          <p class="text-xs text-light mt-2" style="font-weight: 400;">
+            Minimum 40 characters. We'll suggest an award title based on what you write.
+          </p>
+        </div>
+
+        <div style="position:absolute;left:-9999px" aria-hidden="true">
+          <input type="text" name="_hp" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div id="nominate-error" class="hidden text-sm" style="color:#dc2626;font-weight:500;"></div>
+
+        <div>
+          <button type="submit" id="nominate-submit" class="btn btn-primary px-10">
+            Draft my nomination
+          </button>
+          <p class="text-xs text-light mt-3" style="font-weight: 400;">
+            Claude will read your nomination and propose an award. You'll get to confirm the wording next.
+          </p>
+        </div>
+      </form>
+
+      {/* Step 2 — processing */}
+      <div id="nominate-processing" class="hidden text-center py-16">
+        <div class="nominate-spinner" aria-hidden="true"></div>
+        <h2 class="mt-6" style="font-weight: 600; letter-spacing: -0.22px;">Drafting the award…</h2>
+        <p class="text-light mt-2" style="font-weight: 400;">Claude is reading your nomination and suggesting a title. This usually takes a few seconds.</p>
+      </div>
+
+      {/* Step 3 — preview */}
+      <div id="nominate-preview" class="hidden">
+        <div class="rounded-card p-6 mb-6" style="background:#fdfaf6;border:1px solid #f0e6d9;">
+          <p class="text-xs uppercase tracking-wide" style="font-weight: 600; color: #92704c; letter-spacing: 0.8px;">Draft award</p>
+          <div class="mt-4 text-center">
+            <div id="preview-emoji" style="font-size: 2.75rem; line-height: 1;">🏆</div>
+            <h2 id="preview-title-display" class="mt-3" style="font-weight: 700; letter-spacing: -0.22px;"></h2>
+            <p id="preview-celebrant" class="text-light text-sm mt-1" style="font-weight: 500;"></p>
+          </div>
+        </div>
+
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">Award title</label>
+            <div id="preview-suggestions" class="flex flex-wrap gap-2 mb-3"></div>
+            <input id="preview-title" type="text" class="form-input w-full" maxlength="120" />
+            <p class="text-xs text-light mt-2" style="font-weight: 400;">Pick a suggestion above or edit the title directly.</p>
+          </div>
+
+          <div>
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">Emoji</label>
+            <input id="preview-emoji-input" type="text" class="form-input" style="max-width: 7rem; text-align: center; font-size: 1.25rem;" maxlength="4" />
+          </div>
+
+          <div>
+            <label class="block text-sm text-dark mb-2" style="font-weight: 600;">Justification</label>
+            <textarea id="preview-justification" class="form-textarea w-full" rows="4" maxlength="400"></textarea>
+            <p class="text-xs text-light mt-2" style="font-weight: 400;">This is the short reason we'll publish with the award. Tweak if you'd like.</p>
+          </div>
+        </div>
+
+        <div id="preview-error" class="hidden text-sm mt-6" style="color:#dc2626;font-weight:500;"></div>
+
+        <div class="flex flex-wrap gap-3 mt-8">
+          <button type="button" id="preview-send" class="btn btn-primary px-8">
+            Looks good — send it to Josh
+          </button>
+          <button type="button" id="preview-back" class="btn btn-outline-primary">
+            Edit nomination
+          </button>
+        </div>
+      </div>
+
+      {/* Step 4 — success */}
+      <div id="nominate-success" class="hidden text-center py-12">
+        <div style="font-size: 3rem; line-height: 1;" aria-hidden="true">🏆</div>
+        <h2 class="mt-4" style="font-weight: 700; letter-spacing: -0.22px;">Nomination sent</h2>
+        <p class="text-light mt-3 max-w-md mx-auto" style="font-weight: 400; line-height: 1.6;">
+          Thanks — Josh has it in his inbox. If it fits, it'll appear on the celebrant's Trophy Shelf.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mt-8">
+          <a href="/awards/" class="btn btn-primary no-underline">See the Trophy Shelves</a>
+          <a href="/directory/" class="btn btn-outline-primary no-underline">Back to directory</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .nominate-spinner {
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      border: 3px solid #eee;
+      border-top-color: #222;
+      margin: 0 auto;
+      animation: nominateSpin 0.9s linear infinite;
+    }
+
+    @keyframes nominateSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nominate-spinner { animation-duration: 2s; }
+    }
+
+    .suggestion-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 9999px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #222;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    }
+
+    .suggestion-chip:hover {
+      border-color: #222;
+      background: #fafafa;
+    }
+
+    .suggestion-chip[aria-pressed="true"] {
+      background: #222;
+      color: #fff;
+      border-color: #222;
+    }
+
+    .suggestion-chip__tone {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      opacity: 0.6;
+    }
+  </style>
+
+  <script is:inline define:vars={{ slugMap, DRAFT_ENDPOINT, SEND_ENDPOINT }}>
+    document.addEventListener("astro:page-load", () => {
+      const form = document.getElementById("nominate-form");
+      if (!form) return;
+
+      const processingEl = document.getElementById("nominate-processing");
+      const previewEl = document.getElementById("nominate-preview");
+      const successEl = document.getElementById("nominate-success");
+      const errorEl = document.getElementById("nominate-error");
+      const previewErrorEl = document.getElementById("preview-error");
+
+      const titleInput = document.getElementById("preview-title");
+      const titleDisplay = document.getElementById("preview-title-display");
+      const emojiDisplay = document.getElementById("preview-emoji");
+      const emojiInput = document.getElementById("preview-emoji-input");
+      const justificationInput = document.getElementById("preview-justification");
+      const previewCelebrant = document.getElementById("preview-celebrant");
+      const suggestionsEl = document.getElementById("preview-suggestions");
+
+      const celebrantInput = document.getElementById("celebrant");
+      const celebrantHint = document.getElementById("celebrant-hint");
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get("slug");
+      if (slug && slugMap[slug]) {
+        celebrantInput.value = slugMap[slug];
+        celebrantHint.textContent = "Pre-filled from their profile. Change it here if you meant a different celebrant.";
+      }
+
+      function show(el) { el.classList.remove("hidden"); }
+      function hide(el) { el.classList.add("hidden"); }
+      function showError(target, msg) {
+        target.textContent = msg;
+        show(target);
+      }
+      function clearError(target) {
+        target.textContent = "";
+        hide(target);
+      }
+
+      // Keep the original form data around so /send can re-send the full nomination.
+      let originalData = null;
+
+      function bindSuggestionChips(suggestions) {
+        suggestionsEl.innerHTML = "";
+        suggestions.forEach((s, i) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "suggestion-chip";
+          btn.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+          btn.dataset.title = s.title || "";
+          btn.dataset.emoji = s.emoji || "🏆";
+          btn.innerHTML = `<span aria-hidden="true">${s.emoji || "🏆"}</span><span>${s.title || ""}</span>${s.tone ? `<span class="suggestion-chip__tone">${s.tone}</span>` : ""}`;
+          btn.addEventListener("click", () => {
+            suggestionsEl.querySelectorAll(".suggestion-chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+            btn.setAttribute("aria-pressed", "true");
+            titleInput.value = btn.dataset.title;
+            emojiInput.value = btn.dataset.emoji;
+            syncDisplay();
+          });
+          suggestionsEl.appendChild(btn);
+        });
+      }
+
+      function syncDisplay() {
+        titleDisplay.textContent = titleInput.value || "Your award title";
+        emojiDisplay.textContent = emojiInput.value || "🏆";
+      }
+
+      titleInput?.addEventListener("input", syncDisplay);
+      emojiInput?.addEventListener("input", syncDisplay);
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearError(errorEl);
+
+        const data = new FormData(form);
+        originalData = data;
+
+        hide(form);
+        show(processingEl);
+
+        try {
+          const res = await fetch(DRAFT_ENDPOINT, { method: "POST", body: data });
+          const payload = await res.json();
+
+          if (!res.ok || payload.error) {
+            throw new Error(payload.error || "We couldn't draft the award right now. Please try again.");
+          }
+
+          // Populate preview
+          const suggestions = payload.suggestions || [];
+          const first = suggestions[0] || { title: "", emoji: "🏆" };
+
+          titleInput.value = first.title || "";
+          emojiInput.value = first.emoji || "🏆";
+          justificationInput.value = payload.justification || "";
+          previewCelebrant.textContent = `for ${data.get("celebrant")} · ${data.get("year")}`;
+          bindSuggestionChips(suggestions);
+          syncDisplay();
+
+          hide(processingEl);
+          show(previewEl);
+          previewEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (err) {
+          hide(processingEl);
+          show(form);
+          showError(errorEl, err.message || "Something went wrong. Please try again.");
+        }
+      });
+
+      document.getElementById("preview-back")?.addEventListener("click", () => {
+        clearError(previewErrorEl);
+        hide(previewEl);
+        show(form);
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      document.getElementById("preview-send")?.addEventListener("click", async () => {
+        clearError(previewErrorEl);
+        const title = (titleInput.value || "").trim();
+        if (!title) {
+          showError(previewErrorEl, "Please give the award a title.");
+          return;
+        }
+        if (!originalData) {
+          showError(previewErrorEl, "Session lost. Please start again.");
+          return;
+        }
+
+        const body = new FormData();
+        body.set("celebrant", originalData.get("celebrant") || "");
+        body.set("nominator_name", originalData.get("nominator_name") || "");
+        body.set("nominator_email", originalData.get("nominator_email") || "");
+        body.set("year", originalData.get("year") || "");
+        body.set("story", originalData.get("story") || "");
+        body.set("chosen_title", title);
+        body.set("chosen_emoji", (emojiInput.value || "🏆").trim());
+        body.set("justification", (justificationInput.value || "").trim());
+
+        const btn = document.getElementById("preview-send");
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+
+        try {
+          const res = await fetch(SEND_ENDPOINT, { method: "POST", body });
+          const payload = await res.json();
+          if (!res.ok || payload.error) {
+            throw new Error(payload.error || "We couldn't send your nomination. Please try again.");
+          }
+          hide(previewEl);
+          show(successEl);
+          successEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (err) {
+          showError(previewErrorEl, err.message || "Something went wrong. Please try again.");
+          btn.disabled = false;
+          btn.textContent = "Looks good — send it to Josh";
+        }
+      });
+    });
+  </script>
+</Base>

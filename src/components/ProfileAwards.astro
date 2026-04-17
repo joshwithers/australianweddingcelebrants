@@ -12,10 +12,12 @@ interface Award {
 interface Props {
   awards: Award[];
   subjectName: string;
+  subjectSlug: string;
 }
 
-const { awards, subjectName } = Astro.props;
+const { awards, subjectName, subjectSlug } = Astro.props;
 const items = (awards || []).slice().sort((a, b) => b.year - a.year);
+const nominateHref = `/awards/nominate/?slug=${encodeURIComponent(subjectSlug)}`;
 
 // schema.org has no dedicated Award type — use Thing with additionalType.
 const awardSchema = items.map((a) => ({
@@ -38,7 +40,7 @@ const awardSchema = items.map((a) => ({
       Trophy Shelf
     </h2>
     <p class="profile-awards__intro">
-      Awards {subjectName} has won. <a href="/contact/" class="profile-awards__nominate">Nominate {subjectName} for an award.</a>
+      Awards {subjectName} has won. <a href={nominateHref} class="profile-awards__nominate">Nominate {subjectName} for an award.</a>
     </p>
     <ul class="profile-awards__grid">
       {items.map((a) => (
