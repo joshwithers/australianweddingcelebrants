@@ -39,7 +39,7 @@ Most couples walk into their ceremony feeling at least a little nervous. Maybe y
 
 Based in Hobart, Tasmania — the part of the world he loves most — Josh has been a marriage celebrant for over 17 years. In that time he's married more than 2,900 couples across every Australian state and territory and in 24 countries. His work has been featured in the New York Times, Vogue, Marie Claire, and Hello May. But what actually matters to the couples who book him is simpler than any credential: Josh makes the ceremony feel warm, meaningful, and genuinely enjoyable.
 
-**Your Ceremony, Written From Scratch**
+**Your Ceremony, Created From Scratch**
 
 Every ceremony Josh creates starts with a blank page. No templates, no recycled paragraphs, no "insert names here." Through relaxed conversations over coffee or a video call, he gets to know your story — what matters to you as individuals, what drew you together, how you see your future. That conversation becomes the foundation for a ceremony that feels unmistakably yours: personal, honest, and full of the moments and details that make your relationship what it is.
 
