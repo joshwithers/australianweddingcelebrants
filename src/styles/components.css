@@ -5,11 +5,17 @@
 
 /* Frosted-glass header — always transparent with backdrop blur, no colour
    tint. Do NOT add `background-color` here; pages with a custom page_bg must
-   show through cleanly, and non-tinted pages rely on blur alone. */
+   show through cleanly, and non-tinted pages rely on blur alone. Bottom
+   edge uses a soft warm shadow (matches the site's three-layer card shadow
+   language) rather than a crisp border — a hairline reads as harsh next to
+   the blur. */
 .header {
   background-color: transparent;
   backdrop-filter: saturate(1.4) blur(14px);
   -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.02),
+    0 6px 16px -8px rgba(0, 0, 0, 0.08);
 }
 
 @supports not ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {

@@ -1,6 +1,6 @@
 # Australian Wedding Celebrants
 
-A professional and free directory of Australia's wedding celebrants, featuring a three-tier recognition system that highlights quality and professionalism in the industry. An anti-awards system.
+A professional and free directory of Australia's wedding celebrants, featuring a three-tier recognition system and a community-driven awards yearbook that celebrates standout celebrants across Australia.
 
 ---
 
