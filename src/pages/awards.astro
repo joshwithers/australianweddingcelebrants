@@ -52,6 +52,20 @@ for (const y of years) {
 }
 
 const total = flat.length;
+const uniqueCelebrants = new Set(flat.map((a) => a.celebrantSlug)).size;
+const earliestYear = years.length ? Math.min(...years) : null;
+const latestYear = years.length ? Math.max(...years) : null;
+
+// Region histogram — only explicit regional awards carry a region.
+const regionCounts = new Map<string, number>();
+for (const a of flat) {
+  if (!a.region) continue;
+  regionCounts.set(a.region, (regionCounts.get(a.region) ?? 0) + 1);
+}
+const topRegion = [...regionCounts.entries()].sort((a, b) => b[1] - a[1])[0] || null;
+
+// Build timestamp — used for CollectionPage datePublished/dateModified.
+const buildDate = new Date().toISOString();
 
 // Structured data — CollectionPage wrapping an ItemList of awards.
 // Each list item references the celebrant's profile by @id so the
@@ -65,7 +79,11 @@ const itemListElement = flat
   .sort((a, b) => (b.year - a.year) || a.title.localeCompare(b.title))
   .map((a, i) => {
     const celebrantUrl = `${siteUrl}/directory/${a.celebrantSlug}/`;
-    const name = [a.emoji, a.title].filter(Boolean).join(" ").trim();
+    // Self-contained name so a single excerpted list entry still makes sense:
+    // "🏆 Celebrant of the Year — Jane Smith (NSW, 2025)".
+    const baseName = [a.emoji, a.title].filter(Boolean).join(" ").trim();
+    const parenthetical = [a.region, a.year].filter(Boolean).join(", ");
+    const name = `${baseName} — ${a.celebrantName}${parenthetical ? ` (${parenthetical})` : ""}`;
     const description = [
       a.region ? `Awarded for ${a.region}` : null,
       a.year ? `in ${a.year}` : null,
@@ -92,7 +110,15 @@ const collectionSchema = {
   "url": awardsPageUrl,
   "name": "Celebrant Awards",
   "description": "A yearbook of awards given to Australian wedding celebrants — regional, industry, and the delightfully silly.",
+  "inLanguage": "en-AU",
+  "datePublished": buildDate,
+  "dateModified": buildDate,
   "isPartOf": { "@type": "WebSite", "@id": `${siteUrl}/#website` },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Australian Wedding Celebrants",
+    "url": siteUrl,
+  },
   "mainEntity": {
     "@type": "ItemList",
     "name": "Australian wedding celebrant awards",
@@ -110,16 +136,59 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 2, "name": "Awards", "item": awardsPageUrl },
   ],
 };
+
+// FAQ — short, declarative answers designed for GEO (LLM citation)
+// and on-page reader value. Keep each answer self-contained and factual.
+const faqs = [
+  {
+    q: "What are the awards on this page?",
+    a: `Recognitions given to Australian wedding celebrants listed in the Australian Wedding Celebrants directory. Entries include industry and regional honours, "Class of" year markers showing when a celebrant began practising, and playful community commendations nominated by couples, guests and fellow wedding vendors.`,
+  },
+  {
+    q: "Who awards them?",
+    a: `Most entries come through public nominations at /awards/nominate/ — couples, guests or other wedding vendors submit a short story about why the celebrant deserves recognition, and the directory editors publish nominations that fit. Industry award entries (such as Australian Celebrations Awards honours) are added directly by the editors from public announcements.`,
+  },
+  {
+    q: "Can I nominate a celebrant?",
+    a: `Yes. Visit /awards/nominate/, describe what the celebrant did, and a draft award title is generated for you to approve. Nominations are reviewed before appearing on the celebrant's Trophy Shelf and on this page.`,
+  },
+  {
+    q: "Are these official industry awards?",
+    a: `Only entries that explicitly name an industry body (e.g. the Australian Celebrations Awards) are official industry honours. The remainder are community recognitions and "Class of…" year-started markers — they reflect real work but are curated by this directory rather than issued by an accrediting organisation.`,
+  },
+  {
+    q: "How often is this page updated?",
+    a: `Every time the directory is rebuilt, which happens whenever a new listing, nomination or award is accepted — typically several times a week.`,
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a },
+  })),
+};
+
+// Intro prose — factual, declarative, with specific numbers.
+// Built so LLMs can excerpt a single sentence and still say something true.
+const yearSpan = earliestYear && latestYear && earliestYear !== latestYear
+  ? `${earliestYear}–${latestYear}`
+  : latestYear
+    ? `${latestYear}`
+    : null;
 ---
 
 <Base
   title="Celebrant Awards"
   meta_title="Celebrant Awards — Australian Wedding Celebrants"
-  description="A yearbook of celebrant awards — from Celebrant of the Year nods to the delightfully silly. Grouped by year, most recent first."
+  description="A yearbook of celebrant awards — Celebrant of the Year nods, regional recognition, and the delightfully silly. Grouped by year, most recent first."
 >
   <section class="py-12 md:py-16">
     <div class="container">
-      <div class="text-center mb-12 max-w-2xl mx-auto">
+      <div class="text-center mb-10 max-w-3xl mx-auto">
         <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #222;">
           <span aria-hidden="true">🏆</span>
           Awards
@@ -128,9 +197,42 @@ const breadcrumbSchema = {
           Celebrant Awards
         </h1>
         <p class="text-light" style="font-weight: 400; line-height: 1.6;">
-          A yearbook of recognitions given to Australian wedding celebrants — regional, industry, and the delightfully silly. Grouped by year, most recent first.
+          The Australian Wedding Celebrants Awards are a yearbook of recognitions given to wedding celebrants across Australia — from industry honours and regional "Celebrant of the Year" nods to playful community commendations nominated by couples, guests and fellow wedding vendors. Entries are grouped by year, most recent first.
+          {total > 0 && yearSpan && (
+            <>
+              {" "}As of the latest build, {total} {total === 1 ? "recognition" : "recognitions"} {total === 1 ? "has" : "have"} been recorded across {uniqueCelebrants} {uniqueCelebrants === 1 ? "celebrant" : "celebrants"}, covering {yearSpan}.
+            </>
+          )}
         </p>
+
+        <div class="mt-6 flex flex-wrap gap-3 justify-center">
+          <a href="/awards/nominate/" class="btn btn-primary no-underline">Nominate a celebrant</a>
+          <a href="/directory/" class="btn btn-outline-primary no-underline">Browse the directory</a>
+        </div>
       </div>
+
+      {total > 0 && (
+        <dl class="awards-stats max-w-4xl mx-auto mb-16" aria-label="Awards at a glance">
+          <div class="awards-stat">
+            <dt>Recognitions</dt>
+            <dd>{total}</dd>
+          </div>
+          <div class="awards-stat">
+            <dt>Celebrants recognised</dt>
+            <dd>{uniqueCelebrants}</dd>
+          </div>
+          <div class="awards-stat">
+            <dt>Years covered</dt>
+            <dd>{years.length}</dd>
+          </div>
+          {topRegion && (
+            <div class="awards-stat">
+              <dt>Most-awarded region</dt>
+              <dd>{topRegion[0]}</dd>
+            </div>
+          )}
+        </dl>
+      )}
 
       {years.length === 0 ? (
         <div class="text-center py-16">
@@ -139,9 +241,11 @@ const breadcrumbSchema = {
       ) : (
         <div class="awards-year-stack max-w-5xl mx-auto">
           {years.map((year) => (
-            <section class="awards-year">
+            <section class="awards-year" id={`year-${year}`}>
               <h2 class="awards-year__heading">
-                <span class="awards-year__number">{year}</span>
+                <a href={`#year-${year}`} class="awards-year__anchor no-underline">
+                  <span class="awards-year__number">{year}</span>
+                </a>
                 <span class="awards-year__count">
                   {byYear.get(year)!.length} {byYear.get(year)!.length === 1 ? "award" : "awards"}
                 </span>
@@ -179,21 +283,88 @@ const breadcrumbSchema = {
         {total} {total === 1 ? "award" : "awards"} across {years.length} {years.length === 1 ? "year" : "years"}.
       </p>
 
-      <div class="text-center mt-8">
-        <a href="/directory/" class="btn btn-outline-primary no-underline">Browse all celebrants</a>
+      <section class="awards-faq max-w-3xl mx-auto mt-20" aria-label="Frequently asked questions">
+        <h2 class="awards-faq__heading">About these awards</h2>
+        <dl class="awards-faq__list">
+          {faqs.map((f) => (
+            <div class="awards-faq__item">
+              <dt>{f.q}</dt>
+              <dd>{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <div class="text-center mt-14">
+        <a href="/awards/nominate/" class="btn btn-primary no-underline">Nominate a celebrant for an award</a>
       </div>
     </div>
   </section>
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
   <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 </Base>
 
 <style>
+  .awards-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 640px) {
+    .awards-stats {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  .awards-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    background: #fdfaf6;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.03) 0px 2px 6px;
+  }
+
+  .awards-stat dt {
+    order: 2;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6a6a6a;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  .awards-stat dd {
+    order: 1;
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
   .awards-year-stack {
     display: flex;
     flex-direction: column;
     gap: 3.5rem;
+  }
+
+  .awards-year {
+    scroll-margin-top: 6rem;
   }
 
   .awards-year__heading {
@@ -203,6 +374,15 @@ const breadcrumbSchema = {
     margin: 0 0 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid #eee;
+  }
+
+  .awards-year__anchor {
+    color: inherit;
+    transition: opacity 0.15s ease;
+  }
+
+  .awards-year__anchor:hover {
+    opacity: 0.7;
   }
 
   .awards-year__number {
@@ -348,5 +528,44 @@ const breadcrumbSchema = {
     font-weight: 400;
     line-height: 1.55;
     font-style: italic;
+  }
+
+  .awards-faq__heading {
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 1.5rem;
+  }
+
+  .awards-faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .awards-faq__item {
+    padding: 1.25rem 1.5rem;
+    background: #fdfaf6;
+    border-radius: 14px;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.03) 0px 2px 6px;
+  }
+
+  .awards-faq__item dt {
+    font-weight: 600;
+    color: #222;
+    letter-spacing: -0.1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .awards-faq__item dd {
+    margin: 0;
+    color: #555;
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: 0.9375rem;
   }
 </style>

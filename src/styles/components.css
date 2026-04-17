@@ -3,27 +3,18 @@
   @apply py-16 md:py-20;
 }
 
-/* Frosted-glass header background — translucent white with backdrop blur. */
+/* Frosted-glass header — always transparent with backdrop blur, no colour
+   tint. Do NOT add `background-color` here; pages with a custom page_bg must
+   show through cleanly, and non-tinted pages rely on blur alone. */
 .header {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: transparent;
   backdrop-filter: saturate(1.4) blur(14px);
   -webkit-backdrop-filter: saturate(1.4) blur(14px);
 }
 
-/* Pages with a custom page background (luminary profiles): let the tint fully
-   show through — fully transparent header, relying on backdrop blur. */
-body[data-page-bg] .header {
-  background-color: transparent;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
 @supports not ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
   .header {
-    background-color: rgba(255, 255, 255, 0.92);
-  }
-  body[data-page-bg] .header {
-    background-color: var(--page-bg);
+    background-color: var(--page-bg, rgba(255, 255, 255, 0.92));
   }
 }
 
