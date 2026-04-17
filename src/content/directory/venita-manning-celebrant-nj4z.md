@@ -9,6 +9,7 @@ phone: "+61412728866"
 address: "77 Streisand Dr, McDowall QLD 4053"
 location: ["Brisbane"]
 category: ["Celebrant"]
+year_started: 2008
 featured: false
 tier: "registered"
 social:

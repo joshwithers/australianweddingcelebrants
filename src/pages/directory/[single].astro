@@ -120,6 +120,14 @@ const sameAs = [
   entry.data.social?.pinterest,
 ].filter(Boolean);
 
+// Awards for both the visible Trophy Shelf and the schema.org `award` property.
+const shelfAwards = deriveAwards(entry.data);
+const awardStrings = shelfAwards.map((a) => {
+  const parts = [a.emoji, a.title].filter(Boolean).join(" ").trim();
+  const suffix = [a.region, a.year].filter(Boolean).join(", ");
+  return suffix ? `${parts} (${suffix})` : parts;
+});
+
 const businessSchema: Record<string, any> = {
   "@context": "https://schema.org",
   "@type": ["ProfessionalService", "LocalBusiness"],
@@ -147,7 +155,9 @@ const businessSchema: Record<string, any> = {
     "url": businessUrl,
     "image": imageUrl,
     "sameAs": sameAs,
+    "award": awardStrings.length > 0 ? awardStrings : undefined,
   },
+  "award": awardStrings.length > 0 ? awardStrings : undefined,
   "makesOffer": {
     "@type": "Offer",
     "itemOffered": {
@@ -479,14 +489,16 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
       )}
 
       {/* Awards — trophy shelf of regional + fun recognitions */}
-      {(() => {
-        const shelf = deriveAwards(entry.data);
-        return shelf.length > 0 ? (
-          <div class="mt-16 max-w-5xl mx-auto">
-            <ProfileAwards awards={shelf} subjectName={entry.data.title} subjectSlug={entrySlug} />
-          </div>
-        ) : null;
-      })()}
+      {shelfAwards.length > 0 && (
+        <div class="mt-16 max-w-5xl mx-auto">
+          <ProfileAwards
+            awards={shelfAwards}
+            subjectName={entry.data.title}
+            subjectSlug={entrySlug}
+            subjectId={businessUrl}
+          />
+        </div>
+      )}
 
       {/* Tier info box */}
       <div class="mt-20 pt-12">

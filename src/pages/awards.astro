@@ -52,6 +52,64 @@ for (const y of years) {
 }
 
 const total = flat.length;
+
+// Structured data — CollectionPage wrapping an ItemList of awards.
+// Each list item references the celebrant's profile by @id so the
+// knowledge graph joins this page's entries to the per-profile Award
+// fragments emitted by ProfileAwards.astro.
+const siteUrl = "https://australianweddingcelebrants.com.au";
+const awardsPageUrl = `${siteUrl}/awards/`;
+
+const itemListElement = flat
+  .slice()
+  .sort((a, b) => (b.year - a.year) || a.title.localeCompare(b.title))
+  .map((a, i) => {
+    const celebrantUrl = `${siteUrl}/directory/${a.celebrantSlug}/`;
+    const name = [a.emoji, a.title].filter(Boolean).join(" ").trim();
+    const description = [
+      a.region ? `Awarded for ${a.region}` : null,
+      a.year ? `in ${a.year}` : null,
+      a.note,
+    ].filter(Boolean).join(" — ");
+    return {
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": celebrantUrl,
+      "item": {
+        "@type": "Thing",
+        "additionalType": "https://schema.org/Award",
+        "name": name,
+        "description": description || undefined,
+        "about": { "@id": celebrantUrl, "name": a.celebrantName },
+      },
+    };
+  });
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": awardsPageUrl,
+  "url": awardsPageUrl,
+  "name": "Celebrant Awards",
+  "description": "A yearbook of awards given to Australian wedding celebrants — regional, industry, and the delightfully silly.",
+  "isPartOf": { "@type": "WebSite", "@id": `${siteUrl}/#website` },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Australian wedding celebrant awards",
+    "numberOfItems": total,
+    "itemListOrder": "https://schema.org/ItemListOrderDescending",
+    "itemListElement": itemListElement,
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Awards", "item": awardsPageUrl },
+  ],
+};
 ---
 
 <Base
@@ -126,6 +184,9 @@ const total = flat.length;
       </div>
     </div>
   </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 </Base>
 
 <style>

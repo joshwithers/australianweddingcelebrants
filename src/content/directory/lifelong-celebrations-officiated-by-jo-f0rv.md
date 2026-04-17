@@ -15,6 +15,7 @@ social:
   facebook: "https://facebook.com"
   instagram: "https://www.instagram.com/lifelongcelebrations/"
 draft: false
+year_started: 2024
 ---
 
 **Hello, I'm Jo Dalton**, your ideal choice for a wedding [Celebrant](https://lifelongcelebrations.com.au/) in the enchanting region of Bayside Melbourne. Based in the picturesque suburb of Brighton, I extend my services throughout Melbourne, Geelong, the Great Ocean Road, the Dandenong Ranges, and the Mornington Peninsula. With a reputation as a highly regarded and sought-after professional, my expertise and passion make me your go-to for crafting a ceremony as unique and special as your love story.

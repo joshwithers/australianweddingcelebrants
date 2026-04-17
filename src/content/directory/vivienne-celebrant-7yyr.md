@@ -7,6 +7,7 @@ website: "https://www.viviennecelebrant.com.au/"
 email: "viv@viviennecelebrant.com.au"
 phone: "+61421311264"
 address: "145 Gemvale Road, Mudgeeraba QLD 4213"
+year_started: 2017
 location:
   - Gold Coast
   - Tamborine Mountain

@@ -17,6 +17,7 @@ location:
   - Sunshine Coast
 category: ["Celebrant"]
 featured: false
+year_started: 2008
 tier: "registered"
 social:
   facebook: "https://www.facebook.com/TrudytheCelebrant"

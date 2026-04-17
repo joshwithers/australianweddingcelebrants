@@ -16,6 +16,7 @@ location:
   - Dunsborough
   - Albany
 category: ["Celebrant","MC"]
+year_started: 2023
 featured: false
 tier: "endorsed"
 social:

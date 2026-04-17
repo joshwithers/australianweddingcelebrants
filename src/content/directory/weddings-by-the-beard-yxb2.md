@@ -11,6 +11,7 @@ location: ["Melbourne","Geelong","Ballarat","Bendigo"]
 category: ["Celebrant"]
 featured: false
 tier: "registered"
+year_started: 2022
 social:
   facebook: "https://www.facebook.com/profile.php?id=100075270380750"
   instagram: "https://www.instagram.com/weddingsbythebeard/"

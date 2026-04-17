@@ -5,6 +5,7 @@ description: "Weddings With Adam offers bespoke wedding ceremonies and MC servic
 image: "../../assets/directory/weddings-with-adam-al4u-image.jpg"
 website: "https://www.weddingswithadam.com.au"
 email: "adam@weddingswithadam.com.au"
+year_started: 2018
 phone: "+61411033393"
 address: "2/33 Myrtle Street Ivanhoe 3079"
 location: ["Melbourne", "Mornington Peninsula", "Yarra Valley", "Dandenong Ranges", "Geelong"]

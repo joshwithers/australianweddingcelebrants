@@ -6,6 +6,7 @@ image: "../../assets/directory/the-best-day-5f02c176.webp"
 logo: "../../assets/directory/the-best-day-5f02c176-logo.webp"
 website: "https://www.thebestday.com.au/"
 email: "jaymie@thebestday.com.au"
+year_started: 2025
 phone: "0405342598"
 address: "14 The Crest, Hornsby Heights, NSW"
 location:

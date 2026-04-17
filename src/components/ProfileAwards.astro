@@ -13,13 +13,16 @@ interface Props {
   awards: Award[];
   subjectName: string;
   subjectSlug: string;
+  subjectId?: string;
 }
 
-const { awards, subjectName, subjectSlug } = Astro.props;
+const { awards, subjectName, subjectSlug, subjectId } = Astro.props;
 const items = (awards || []).slice().sort((a, b) => b.year - a.year);
 const nominateHref = `/awards/nominate/?slug=${encodeURIComponent(subjectSlug)}`;
 
 // schema.org has no dedicated Award type — use Thing with additionalType.
+// `about` references the business entity by @id so crawlers connect
+// each award fragment to the main ProfessionalService/LocalBusiness node.
 const awardSchema = items.map((a) => ({
   "@context": "https://schema.org",
   "@type": "Thing",
@@ -30,7 +33,9 @@ const awardSchema = items.map((a) => ({
     a.year ? `in ${a.year}` : null,
     a.note,
   ].filter(Boolean).join(" — "),
-  "about": { "@type": "Person", "name": subjectName },
+  "about": subjectId
+    ? { "@id": subjectId, "name": subjectName }
+    : { "@type": "Person", "name": subjectName },
 }));
 ---
 
