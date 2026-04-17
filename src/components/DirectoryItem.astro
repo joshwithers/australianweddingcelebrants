@@ -8,6 +8,14 @@ const { item, isFirst = false } = Astro.props;
 const tier = item.data.tier || "registered";
 const itemSlug = item.id || item.slug || slugify(item.data.title);
 
+// Show the most recent award as a corner marker; tooltip carries the full title.
+const topAward = Array.isArray(item.data.awards) && item.data.awards.length > 0
+  ? [...item.data.awards].sort((a: any, b: any) => b.year - a.year)[0]
+  : null;
+const topAwardLabel = topAward
+  ? [topAward.title, topAward.region, topAward.year].filter(Boolean).join(" — ")
+  : "";
+
 // Look up pre-probed dimensions for external image URLs (populated by
 // scripts/probe-external-images.mjs). Falls back to undefined when the
 // URL hasn't been probed or the probe failed.
@@ -51,6 +59,11 @@ const externalDims =
           />
         )}
         <TierBadge tier={tier} />
+        {topAward && (
+          <span class="award-marker" title={topAwardLabel} aria-label={topAwardLabel}>
+            <span aria-hidden="true">{topAward.emoji || "🏆"}</span>
+          </span>
+        )}
       </div>
     )}
 
@@ -169,6 +182,26 @@ const externalDims =
   /* Tier badge: stays absolute-positioned over the image, above stretched link */
   .tier-badge {
     z-index: 2;
+  }
+
+  /* Award marker — top-right corner emoji pill, above stretched link */
+  .award-marker {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    line-height: 1;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 6px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+    cursor: help;
   }
 
   /* Badge links in the card body sit above the stretched link */

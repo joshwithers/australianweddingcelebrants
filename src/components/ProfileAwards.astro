@@ -1,0 +1,160 @@
+---
+// Awards "trophy shelf" — playful, free-text recognitions (regional or fun).
+// Emits schema.org/Person awards as Thing / Award-style JSON-LD fragments.
+interface Award {
+  title: string;
+  emoji?: string;
+  region?: string;
+  year: number;
+  note?: string;
+}
+
+interface Props {
+  awards: Award[];
+  subjectName: string;
+}
+
+const { awards, subjectName } = Astro.props;
+const items = (awards || []).slice().sort((a, b) => b.year - a.year);
+
+// schema.org has no dedicated Award type — use Thing with additionalType.
+const awardSchema = items.map((a) => ({
+  "@context": "https://schema.org",
+  "@type": "Thing",
+  "additionalType": "https://schema.org/Award",
+  "name": [a.emoji, a.title].filter(Boolean).join(" ").trim(),
+  "description": [
+    a.region ? `Awarded for ${a.region}` : null,
+    a.year ? `in ${a.year}` : null,
+    a.note,
+  ].filter(Boolean).join(" — "),
+  "about": { "@type": "Person", "name": subjectName },
+}));
+---
+
+{items.length > 0 && (
+  <section class="profile-awards" aria-label="Awards and recognitions">
+    <h2 class="profile-awards__heading">
+      On the trophy shelf
+    </h2>
+    <ul class="profile-awards__grid">
+      {items.map((a) => (
+        <li class="profile-awards__card">
+          <span class="profile-awards__emoji" aria-hidden="true">{a.emoji || "🏆"}</span>
+          <h3 class="profile-awards__title">{a.title}</h3>
+          <p class="profile-awards__meta">
+            {a.region && <span>{a.region}</span>}
+            {a.region && <span aria-hidden="true"> · </span>}
+            <span>{a.year}</span>
+          </p>
+          {a.note && <p class="profile-awards__note">{a.note}</p>}
+        </li>
+      ))}
+    </ul>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(awardSchema)} />
+  </section>
+)}
+
+<style>
+  .profile-awards {
+    display: block;
+  }
+
+  .profile-awards__heading {
+    font-weight: 600;
+    letter-spacing: -0.44px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .profile-awards__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .profile-awards__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .profile-awards__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .profile-awards__card {
+    position: relative;
+    margin: 0;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background: #fdfaf6;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.04) 0px 2px 6px,
+      rgba(0, 0, 0, 0.08) 0px 4px 10px;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .profile-awards__card:nth-child(3n + 1) { --tilt: -0.8deg; }
+  .profile-awards__card:nth-child(3n + 2) { --tilt: 0.6deg; }
+  .profile-awards__card:nth-child(3n + 3) { --tilt: -0.3deg; }
+
+  .profile-awards__card:hover {
+    transform: rotate(0deg) translateY(-2px);
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.06) 0px 4px 12px,
+      rgba(0, 0, 0, 0.12) 0px 8px 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-awards__card,
+    .profile-awards__card:hover {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .profile-awards__emoji {
+    display: block;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .profile-awards__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #222;
+    letter-spacing: -0.18px;
+    line-height: 1.35;
+  }
+
+  .profile-awards__meta {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: #6a6a6a;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+
+  .profile-awards__note {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    color: #555;
+    font-weight: 400;
+    line-height: 1.55;
+    font-style: italic;
+  }
+</style>

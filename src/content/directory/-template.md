@@ -55,6 +55,21 @@ draft: true      # set false to publish
 #   - quote: "Another testimonial."
 #     author: "Couple's names"
 #     role: "Married in Location, Year"
+
+# ── Awards ────────────────────────────────────────────────────────────────
+# Free-text recognitions — regional ("Celebrant of the Year"), fun, or
+# industry. `title` and `year` are required; `emoji`, `region`, and `note`
+# are optional. The most recent award surfaces as a corner marker on the
+# directory card; the full list renders as a trophy shelf on the profile.
+# awards:
+#   - title: "Celebrant of the Year"
+#     emoji: "🏆"
+#     region: "Hobart"
+#     year: 2026
+#   - title: "Most Likely to Make the Groom Cry"
+#     emoji: "😭"
+#     year: 2025
+#     note: "Three Kleenex boxes at one ceremony."
 ---
 
 Write the celebrant's bio and any additional content here. Target 600+ words for SEO.

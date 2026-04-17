@@ -41,6 +41,7 @@ Key fields on a directory entry: `title`, `description`, `image`, `logo`, `websi
 - `gallery` — Available to all tiers. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
 - `background_color` — Luminary only. Hex colour (e.g. `"#faf7f5"`) applied to the entire profile page background.
 - `testimonials` — Luminary + Endorsed. Up to 3 items `{ quote, author, role? }`. Emits `schema.org/Review` JSON-LD.
+- `awards` — Available to all tiers. Free-text recognitions (regional, fun, or industry). Each item `{ title, year, emoji?, region?, note? }`. The most recent award surfaces as an emoji corner marker on the directory card (`DirectoryItem.astro`); the full list renders as a "trophy shelf" via `ProfileAwards.astro` on the profile page, sorted newest-first, with playful tilt and a `schema.org/Thing` + `additionalType: Award` JSON-LD fragment per item. Titles are free-form ("Celebrant of the Year", "Most Likely to Make the Groom Cry") — there's intentionally no enum, so SEO landing pages per award category aren't auto-generated.
 
 Luminary profiles use a centered hero layout (logo/name top, large centered profile photo, contact details below) in `[single].astro`. Endorsed and Registered use the standard two-column layout. Add premium fields to a listing in the frontmatter; the layout picks them up automatically.
 

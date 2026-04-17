@@ -65,6 +65,21 @@ const directoryCollection = defineCollection({
       )
       .max(3)
       .optional(),
+    // Awards — free-text, playful "staff Christmas party" style recognitions.
+    // Title is free text so each award can be as cute or serious as needed.
+    // Region is optional (not every award is regional). Year is required so
+    // awards can be grouped on /awards/[year]/ pages in future.
+    awards: z
+      .array(
+        z.object({
+          title: z.string(),
+          emoji: z.string().optional(),
+          region: z.string().optional(),
+          year: z.number(),
+          note: z.string().optional(),
+        }),
+      )
+      .optional(),
   }),
 });
 

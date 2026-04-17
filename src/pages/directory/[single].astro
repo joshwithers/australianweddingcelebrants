@@ -10,6 +10,7 @@ import ProfileSocialLinks from "@/components/ProfileSocialLinks.astro";
 import ProfileVideo from "@/components/ProfileVideo.astro";
 import ProfileGallery from "@/components/ProfileGallery.astro";
 import ProfileTestimonials from "@/components/ProfileTestimonials.astro";
+import ProfileAwards from "@/components/ProfileAwards.astro";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -473,6 +474,13 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
       {(tier === "luminary" || tier === "endorsed") && entry.data.testimonials && entry.data.testimonials.length > 0 && (
         <div class="mt-16 max-w-5xl mx-auto">
           <ProfileTestimonials testimonials={entry.data.testimonials} subjectName={entry.data.title} />
+        </div>
+      )}
+
+      {/* Awards — trophy shelf of regional + fun recognitions */}
+      {entry.data.awards && entry.data.awards.length > 0 && (
+        <div class="mt-16 max-w-5xl mx-auto">
+          <ProfileAwards awards={entry.data.awards} subjectName={entry.data.title} />
         </div>
       )}
 
