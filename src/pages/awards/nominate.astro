@@ -146,8 +146,8 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
 
           <div>
             <label class="block text-sm text-dark mb-2" style="font-weight: 600;">Justification</label>
-            <textarea id="preview-justification" class="form-textarea w-full" rows="4" maxlength="400"></textarea>
-            <p class="text-xs text-light mt-2" style="font-weight: 400;">This is the short reason we'll publish with the award. Tweak if you'd like.</p>
+            <textarea id="preview-justification" class="form-textarea w-full" rows="3" maxlength="200"></textarea>
+            <p class="text-xs text-light mt-2" style="font-weight: 400;">Published publicly under the award on the celebrant's profile and the awards page, so keep it tight — one sentence is ideal.</p>
           </div>
         </div>
 
@@ -155,7 +155,7 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
 
         <div class="flex flex-wrap gap-3 mt-8">
           <button type="button" id="preview-send" class="btn btn-primary px-8">
-            Looks good — send it to Josh
+            Looks good — send it to the website admin
           </button>
           <button type="button" id="preview-back" class="btn btn-outline-primary">
             Edit nomination
@@ -168,7 +168,7 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
         <div style="font-size: 3rem; line-height: 1;" aria-hidden="true">🏆</div>
         <h2 class="mt-4" style="font-weight: 700; letter-spacing: -0.22px;">Nomination sent</h2>
         <p class="text-light mt-3 max-w-md mx-auto" style="font-weight: 400; line-height: 1.6;">
-          Thanks — Josh has it in his inbox. If it fits, it'll appear on the celebrant's Trophy Shelf.
+          Thanks — the website admin has it in their inbox. If it fits, it'll appear on the celebrant's Trophy Shelf.
         </p>
         <div class="flex flex-wrap justify-center gap-3 mt-8">
           <a href="/awards/" class="btn btn-primary no-underline">See the Trophy Shelves</a>
@@ -200,27 +200,47 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
     .suggestion-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 0.9rem;
+      gap: 0.45rem;
+      padding: 0.6rem 1rem;
       border-radius: 9999px;
       background: #fff;
-      border: 1px solid #e0e0e0;
-      font-size: 0.875rem;
-      font-weight: 500;
+      border: 1.5px solid #222;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: #222;
       cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
     }
 
     .suggestion-chip:hover {
-      border-color: #222;
-      background: #fafafa;
+      background: #222;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .suggestion-chip:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
     }
 
     .suggestion-chip[aria-pressed="true"] {
-      background: #222;
+      background: #92174d;
       color: #fff;
-      border-color: #222;
+      border-color: #92174d;
+      box-shadow: 0 2px 8px rgba(146, 23, 77, 0.25);
+    }
+
+    .suggestion-chip[aria-pressed="true"]:hover {
+      background: #7a1340;
+      border-color: #7a1340;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .suggestion-chip,
+      .suggestion-chip:hover,
+      .suggestion-chip:active { transform: none; transition: background 0.2s ease, color 0.2s ease; }
     }
   </style>
 
@@ -379,7 +399,7 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
         } catch (err) {
           showError(previewErrorEl, err.message || "Something went wrong. Please try again.");
           btn.disabled = false;
-          btn.textContent = "Looks good — send it to Josh";
+          btn.textContent = "Looks good — send it to the website admin";
         }
       });
     });
