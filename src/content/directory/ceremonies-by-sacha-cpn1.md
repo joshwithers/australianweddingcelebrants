@@ -1,7 +1,7 @@
 ---
 title: "Ceremonies by Sacha"
-meta_title: "Gold Coast, Brisbane and Scenic Rim Celebrant Sacha Clark"
-description: "Sacha Clark is a celebrant in Gold Coast, Brisbane, and Scenic Rim, specialising in heartfelt, relaxed ceremonies for all couples. Customised and stress-free experiences are her priority."
+meta_title: "Sacha Clark — Gold Coast Wedding Celebrant | Australian Wedding Celebrants"
+description: "Sacha Clark is a Gold Coast celebrant specialising in calm, inclusive ceremonies for all couples. Elopements, micro-weddings, and personalised celebrations."
 image: "../../assets/directory/ceremonies-by-sacha-cpn1-image.jpg"
 website: "https://www.ceremoniesbysacha.com"
 email: "ceremonies.by.sacha@gmail.com"
@@ -14,26 +14,25 @@ location:
   - Tweed Coast
   - Byron Bay
   - Brisbane
-category: ["Celebrant", "MC", "Elopement Planner"]
-featured: false
-tier: "registered"
+category:
+  - Celebrant
+  - MC
+  - Elopement Planner
+tier: endorsed
 social:
   facebook: "https://www.facebook.com/ceremoniesbysacha"
   instagram: "https://www.instagram.com/ceremoniesbysacha"
-draft: false
 ---
+Sacha Clark is a warm, grounded Gold Coast celebrant who creates meaningful, stress-free wedding ceremonies across the Gold Coast, Brisbane, Scenic Rim, Tamborine Mountain, and the Tweed Coast. With a background in marketing, university lecturing, and corporate coaching, Sacha brings meticulous attention to detail, active listening, and genuine professionalism to every celebration she conducts.
 
-**Are you dreaming of an elegantly laid-back ceremony that is both heartfelt and relaxed?**  
-Look no further—I'm Sacha Clark, your dedicated [Celebrant, MC, and Elopement Planner](https://www.ceremoniesbysacha.com) serving Tweed Heads, the sunny Gold Coast, its lush Hinterland, the picturesque Scenic Rim, and vibrant Brisbane. I am here to make your special day seamless and unforgettable.
+Qualified to perform both marriage and funeral ceremonies in Australia and the UK, Sacha is known for her calm presence, inclusive approach, and commitment to making every couple feel supported and celebrated. Her philosophy is simple yet profound: create custom ceremonies with no templates or AI, listen intently to capture the essence of each couple's story, and deliver an experience that feels relaxed, authentic, and deeply personal.
 
-**My passion lies in helping you say 'I Do' just the way you've always imagined.**  
-I take pride in crafting calm and inclusive ceremonies that celebrate your love and commitment in a meaningful and authentic manner. With an eye for the little details, my approach ensures you feel at ease, relaxed, and truly comfortable throughout the experience. While I specialise in intimate elopements and micro-weddings, I am equally delighted to officiate grand celebrations. Known for my sensitivity and understanding, I frequently work with anxious, neuro-divergent couples, blended families, and those who wish to include their beloved fur-babies.
+Sacha's approach is grounded in people-first values. She specialises in working with anxious and neuro-divergent couples, blended families, and anyone seeking a welcoming, inclusive celebration. She brings neuro-aware and sensory-considerate ceremony design to every event, ensuring clear guidance through legal requirements and calm, organised support from first contact through to ceremony day. Her inclusive language and practices mean everyone—regardless of background, family structure, or identity—feels genuinely welcome and celebrated.
 
-**With a background in Marketing, I bring a meticulous attention to detail, active listening skills, and a high level of professionalism to every event.**  
-My goal is to make the entire process as stress-free and enjoyable as possible.
+Whether you're dreaming of an intimate elopement for two, a micro-wedding with up to 35 guests, a grand celebration with hundreds, or a registry-style legal ceremony, Sacha tailors her services to suit your vision. She offers wedding and MC packages with seamless reception support, registry-style legals delivered with warmth and efficiency, elopement and micro-wedding packages (ceremony-only or inclusive with photography), and thoughtful funeral services. Her flexible approach works beautifully across beaches, private venues, homes, and meaningful locations throughout her service areas.
 
-**A bit about me:**  
-Originally from Esk, Brisbane, and Rickmansworth (UK), I now call the beautiful Gold Coast my home. Before becoming a Civil Celebrant, I was a Marketing Director, University Lecturer, and Corporate Coach. Qualified to perform marriage and funeral ceremonies in both the UK and Australia, I am proud to be a continuously learning Ally, using pronouns She/Her. I cherish my family and pets, adore great coffee, gin & tonic, and sunsets, and am passionate about my role in your special day. I have little patience for loud talkers, dead batteries, and dishonesty.
+With a distinctly relaxed yet elegant style—complete with a pop of colour and signature red lipstick—Sacha creates a calm, comfortable space where couples can be fully present. She's known for the little touches that matter: a tissue tucked into vows, genuine attentiveness to detail, and an unwavering focus on making the entire process enjoyable rather than overwhelming. Her five-star reviews across Easy Weddings, Google, and the ABIA reflect her reputation for making everything feel easy.
 
-**What I do is simple yet profound:**  
-I create custom ceremonies—no templates, no AI. I listen intently to capture the essence of your story. I communicate openly through email, in-person meetings, video calls, and phone chats. I bring a touch of casual elegance with a pop of colour, red lipstick, and a calm presence. Above all, I strive to make things relaxed and easy, allowing you to enjoy every moment of your day.
+Originally from Esk and Brisbane, with roots in Rickmansworth, UK, Sacha now calls the beautiful Gold Coast home. A proudly continuous learning Ally using she/her pronouns, she cherishes family, pets, great coffee, gin and tonics, and sunsets. Above all, she's passionate about her role in your special day—helping you say 'I do' exactly as you've always imagined, with clarity, warmth, and ease.
+
+Ready to start? Sacha invites you to begin with a planning call to discover which ceremony option is right for you.
