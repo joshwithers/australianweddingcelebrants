@@ -11,6 +11,7 @@ import ProfileVideo from "@/components/ProfileVideo.astro";
 import ProfileGallery from "@/components/ProfileGallery.astro";
 import ProfileTestimonials from "@/components/ProfileTestimonials.astro";
 import ProfileAwards from "@/components/ProfileAwards.astro";
+import { deriveAwards } from "@/lib/utils/awards";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -478,11 +479,14 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
       )}
 
       {/* Awards — trophy shelf of regional + fun recognitions */}
-      {entry.data.awards && entry.data.awards.length > 0 && (
-        <div class="mt-16 max-w-5xl mx-auto">
-          <ProfileAwards awards={entry.data.awards} subjectName={entry.data.title} />
-        </div>
-      )}
+      {(() => {
+        const shelf = deriveAwards(entry.data);
+        return shelf.length > 0 ? (
+          <div class="mt-16 max-w-5xl mx-auto">
+            <ProfileAwards awards={shelf} subjectName={entry.data.title} />
+          </div>
+        ) : null;
+      })()}
 
       {/* Tier info box */}
       <div class="mt-20 pt-12">

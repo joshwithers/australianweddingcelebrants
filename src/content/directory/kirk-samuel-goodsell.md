@@ -18,6 +18,7 @@ location:
   - Busselton
   - Dunsborough
 category: ["Celebrant", "MC"]
+year_started: 2008
 featured: true
 tier: "luminary"
 social:

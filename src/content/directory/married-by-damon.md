@@ -6,6 +6,7 @@ image: "../../assets/directory/damon.webp"
 logo: "../../assets/directory/damon.png"
 background_color: "#fafafa"
 website: "https://marriedbydamon.com"
+year_started: 2014
 email: "hello@marriedbydamon.com"
 phone: "0422 273 593"
 location:

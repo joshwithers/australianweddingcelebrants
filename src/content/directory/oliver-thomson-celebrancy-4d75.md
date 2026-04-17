@@ -9,6 +9,7 @@ website: "https://www.oliverthomsoncelebrancy.com"
 email: "info@oliverthomsoncelebrancy.com"
 phone: "+61413707220"
 address: "Sydney, NSW"
+year_started: 2014
 location:
   - Sydney
   - Southern Highlands

@@ -1,0 +1,291 @@
+---
+import Base from "@/layouts/Base.astro";
+import { Image } from "astro:assets";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { slugify } from "@/lib/utils/textConverter";
+import { deriveAwards } from "@/lib/utils/awards";
+
+type AwardEntry = {
+  title: string;
+  emoji?: string;
+  region?: string;
+  year: number;
+  note?: string;
+  celebrantName: string;
+  celebrantSlug: string;
+  celebrantImage: any;
+};
+
+const allItems = await getSinglePage("directory");
+
+// Flatten all awards across all listings, tagged with celebrant info.
+// deriveAwards handles both explicit awards and the synthetic "Class of"
+// award generated from year_started.
+const flat: AwardEntry[] = [];
+for (const item of allItems) {
+  const awards = deriveAwards(item.data);
+  if (awards.length === 0) continue;
+  const slug = item.id || slugify(item.data?.title || "vendor");
+  for (const a of awards) {
+    flat.push({
+      title: a.title,
+      emoji: a.emoji,
+      region: a.region,
+      year: a.year,
+      note: a.note,
+      celebrantName: item.data.title,
+      celebrantSlug: slug,
+      celebrantImage: item.data.image,
+    });
+  }
+}
+
+// Group by year, newest first; within a year, sort alphabetically by title.
+const byYear = new Map<number, AwardEntry[]>();
+for (const a of flat) {
+  if (!byYear.has(a.year)) byYear.set(a.year, []);
+  byYear.get(a.year)!.push(a);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+for (const y of years) {
+  byYear.get(y)!.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+const total = flat.length;
+---
+
+<Base
+  title="Celebrant Awards"
+  meta_title="Celebrant Awards — Australian Wedding Celebrants"
+  description="A yearbook of celebrant awards — from Celebrant of the Year nods to the delightfully silly. Grouped by year, most recent first."
+>
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <div class="text-center mb-12 max-w-2xl mx-auto">
+        <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #222;">
+          <span aria-hidden="true">🏆</span>
+          Awards
+        </div>
+        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;">
+          Celebrant Awards
+        </h1>
+        <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+          A yearbook of recognitions given to Australian wedding celebrants — regional, industry, and the delightfully silly. Grouped by year, most recent first.
+        </p>
+      </div>
+
+      {years.length === 0 ? (
+        <div class="text-center py-16">
+          <p class="text-light text-lg">No awards yet.</p>
+        </div>
+      ) : (
+        <div class="awards-year-stack max-w-5xl mx-auto">
+          {years.map((year) => (
+            <section class="awards-year">
+              <h2 class="awards-year__heading">
+                <span class="awards-year__number">{year}</span>
+                <span class="awards-year__count">
+                  {byYear.get(year)!.length} {byYear.get(year)!.length === 1 ? "award" : "awards"}
+                </span>
+              </h2>
+              <ul class="awards-grid">
+                {byYear.get(year)!.map((a) => (
+                  <li class="awards-card">
+                    <a href={`/directory/${a.celebrantSlug}/`} class="awards-card__link no-underline">
+                      <span class="awards-card__emoji" aria-hidden="true">{a.emoji || "🏆"}</span>
+                      <h3 class="awards-card__title">{a.title}</h3>
+                      {a.region && <p class="awards-card__region">{a.region}</p>}
+                      <div class="awards-card__celebrant">
+                        {a.celebrantImage && (
+                          <span class="awards-card__avatar">
+                            {typeof a.celebrantImage === "string" ? (
+                              <img src={a.celebrantImage} alt="" loading="lazy" />
+                            ) : (
+                              <Image src={a.celebrantImage} alt="" width={80} height={80} loading="lazy" />
+                            )}
+                          </span>
+                        )}
+                        <span class="awards-card__name">{a.celebrantName}</span>
+                      </div>
+                      {a.note && <p class="awards-card__note">{a.note}</p>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )}
+
+      <p class="text-center text-sm text-light mt-16" style="font-weight: 400;">
+        {total} {total === 1 ? "award" : "awards"} across {years.length} {years.length === 1 ? "year" : "years"}.
+      </p>
+
+      <div class="text-center mt-8">
+        <a href="/directory/" class="btn btn-outline-primary no-underline">Browse all celebrants</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .awards-year-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .awards-year__heading {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .awards-year__number {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #222;
+  }
+
+  .awards-year__count {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #6a6a6a;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .awards-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .awards-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .awards-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .awards-card {
+    margin: 0;
+  }
+
+  .awards-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background: #fdfaf6;
+    border-radius: 18px;
+    text-align: center;
+    color: inherit;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.04) 0px 2px 6px,
+      rgba(0, 0, 0, 0.08) 0px 4px 10px;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .awards-card:nth-child(3n + 1) .awards-card__link { --tilt: -0.8deg; }
+  .awards-card:nth-child(3n + 2) .awards-card__link { --tilt: 0.6deg; }
+  .awards-card:nth-child(3n + 3) .awards-card__link { --tilt: -0.3deg; }
+
+  .awards-card__link:hover {
+    transform: rotate(0deg) translateY(-3px);
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.06) 0px 4px 12px,
+      rgba(0, 0, 0, 0.14) 0px 10px 24px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .awards-card__link,
+    .awards-card__link:hover {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .awards-card__emoji {
+    display: block;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .awards-card__title {
+    margin: 0 0 0.25rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #222;
+    letter-spacing: -0.18px;
+    line-height: 1.35;
+  }
+
+  .awards-card__region {
+    margin: 0 0 1rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #6a6a6a;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+
+  .awards-card__celebrant {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .awards-card__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    overflow: hidden;
+    flex: none;
+    background: #eee;
+  }
+
+  .awards-card__avatar :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .awards-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #222;
+    letter-spacing: -0.1px;
+  }
+
+  .awards-card__note {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    color: #555;
+    font-weight: 400;
+    line-height: 1.55;
+    font-style: italic;
+  }
+</style>

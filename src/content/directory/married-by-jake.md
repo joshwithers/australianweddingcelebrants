@@ -22,6 +22,7 @@ australia_wide: true
 international: true
 tier: luminary
 background_color: "#f6f7f3"
+year_started: 2012
 social:
   facebook: "https://facebook.com/MarriedByJake"
   instagram: "https://instagram.com/marriedbyjake"

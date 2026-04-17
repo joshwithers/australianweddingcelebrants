@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { humanize, slugify } from "@/lib/utils/textConverter";
+import { deriveAwards } from "@/lib/utils/awards";
 import TierBadge from "./TierBadge.astro";
 import externalImageDimensions from "@/data/external-image-dimensions.json";
 
@@ -9,9 +10,8 @@ const tier = item.data.tier || "registered";
 const itemSlug = item.id || item.slug || slugify(item.data.title);
 
 // Show the most recent award as a corner marker; tooltip carries the full title.
-const topAward = Array.isArray(item.data.awards) && item.data.awards.length > 0
-  ? [...item.data.awards].sort((a: any, b: any) => b.year - a.year)[0]
-  : null;
+const allAwards = deriveAwards(item.data);
+const topAward = allAwards[0] || null;
 const topAwardLabel = topAward
   ? [topAward.title, topAward.region, topAward.year].filter(Boolean).join(" — ")
   : "";

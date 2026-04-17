@@ -65,6 +65,10 @@ const directoryCollection = defineCollection({
       )
       .max(3)
       .optional(),
+    // Year the celebrant started in the profession. Used to auto-generate a
+    // "Class of {year}" award on their Trophy Shelf so every celebrant has
+    // at least one recognition.
+    year_started: z.number().int().optional(),
     // Awards — free-text, playful "staff Christmas party" style recognitions.
     // Title is free text so each award can be as cute or serious as needed.
     // Region is optional (not every award is regional). Year is required so

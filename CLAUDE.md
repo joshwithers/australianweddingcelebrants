@@ -41,7 +41,8 @@ Key fields on a directory entry: `title`, `description`, `image`, `logo`, `websi
 - `gallery` — Available to all tiers. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
 - `background_color` — Luminary only. Hex colour (e.g. `"#faf7f5"`) applied to the entire profile page background.
 - `testimonials` — Luminary + Endorsed. Up to 3 items `{ quote, author, role? }`. Emits `schema.org/Review` JSON-LD.
-- `awards` — Available to all tiers. Free-text recognitions (regional, fun, or industry). Each item `{ title, year, emoji?, region?, note? }`. The most recent award surfaces as an emoji corner marker on the directory card (`DirectoryItem.astro`); the full list renders as a "trophy shelf" via `ProfileAwards.astro` on the profile page, sorted newest-first, with playful tilt and a `schema.org/Thing` + `additionalType: Award` JSON-LD fragment per item. Titles are free-form ("Celebrant of the Year", "Most Likely to Make the Groom Cry") — there's intentionally no enum, so SEO landing pages per award category aren't auto-generated.
+- `awards` — Available to all tiers. Free-text recognitions (regional, fun, or industry). Each item `{ title, year, emoji?, region?, note? }`. The most recent award surfaces as an emoji corner marker on the directory card (`DirectoryItem.astro`); the full list renders as a "Trophy Shelf" via `ProfileAwards.astro` on the profile page, sorted newest-first, with playful tilt and a `schema.org/Thing` + `additionalType: Award` JSON-LD fragment per item. Titles are free-form ("Celebrant of the Year", "Most Likely to Make the Groom Cry") — there's intentionally no enum, so SEO landing pages per award category aren't auto-generated.
+- `year_started` — Year the celebrant began working. Automatically generates a synthetic `Class of {year}` 🎓 award via `src/lib/utils/awards.ts#deriveAwards`, so every celebrant has at least one Trophy Shelf entry. `deriveAwards` is the single source of truth for awards display (used by `DirectoryItem.astro`, `[single].astro`, and `/awards/`); explicit awards rank above the synthetic Class entry when years tie.
 
 Luminary profiles use a centered hero layout (logo/name top, large centered profile photo, contact details below) in `[single].astro`. Endorsed and Registered use the standard two-column layout. Add premium fields to a listing in the frontmatter; the layout picks them up automatically.
 
@@ -60,6 +61,7 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `/directory/location/[location]/` — filtered by location.
 - `/luminaries/`, `/endorsed/`, `/registered/` — tier landing pages.
 - `/australia-wide/`, `/destination-wedding-celebrants/` — travel-scope pages.
+- `/awards/` — yearbook of all awards across all listings, grouped by year (newest first). Reads the `awards` field from every directory entry.
 - `/search/` — React-powered fuzzy search.
 
 ## Conventions

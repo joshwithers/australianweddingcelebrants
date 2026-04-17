@@ -9,6 +9,7 @@ website: "https://www.robynpattison.com.au"
 email: "robyn@robynpattison.com.au"
 phone: "0413886026"
 address: "Sydney NSW"
+year_started: 2008
 location:
   - Sydney
   - Southern Highlands

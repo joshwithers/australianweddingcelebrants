@@ -18,6 +18,7 @@ tier: luminary
 social:
   facebook: "https://www.facebook.com/petethecelebrant"
   instagram: "https://www.instagram.com/petethecelebrant"
+year_started: 2016
 ---
 **Pete The Celebrant** is a Melbourne-based marriage celebrant and MC specialising in creating relaxed, authentic, and engaging wedding ceremonies that celebrate each couple's unique story. With a 5-star Google rating from 187 reviews, Pete has established himself as one of Melbourne's most trusted and sought-after celebrants, known for delivering ceremonies that seamlessly blend heartfelt sentiment with genuine humour.
 

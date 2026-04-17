@@ -57,6 +57,11 @@ draft: true      # set false to publish
 #     role: "Married in Location, Year"
 
 # ── Awards ────────────────────────────────────────────────────────────────
+# `year_started` is the year the celebrant began working — it auto-generates
+# a "Class of {year}" 🎓 award so every celebrant has something on their
+# Trophy Shelf even before any other awards are given.
+# year_started: 2015
+#
 # Free-text recognitions — regional ("Celebrant of the Year"), fun, or
 # industry. `title` and `year` are required; `emoji`, `region`, and `note`
 # are optional. The most recent award surfaces as a corner marker on the

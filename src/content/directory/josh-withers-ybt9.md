@@ -34,6 +34,14 @@ gallery:
    - "../../assets/directory/josh-withers-celebrant-1.jpg"
    - "../../assets/directory/josh-withers-celebrant-2.jpg"
    - "../../assets/directory/josh-withers-celebrant-3.jpg"
+year_started: 2009
+awards:
+  - title: "Nerdiest Celebrant of the Year"
+    emoji: "🤓"
+    year: 2026
+  - title: "Nerdiest Celebrant of the Year"
+    emoji: "🤓"
+    year: 2025
 ---
 Most couples walk into their ceremony feeling at least a little nervous. Maybe you've heard that the ceremony is the part you just "get through" before the real fun starts. Josh Withers believes the opposite — that your ceremony should be the best part of your entire wedding day, and that you should walk through it with a big smile, feeling genuinely amazing about this moment you're sharing with the person you love and the people who matter most to you.
 

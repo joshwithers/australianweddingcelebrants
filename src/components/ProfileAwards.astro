@@ -35,8 +35,11 @@ const awardSchema = items.map((a) => ({
 {items.length > 0 && (
   <section class="profile-awards" aria-label="Awards and recognitions">
     <h2 class="profile-awards__heading">
-      On the trophy shelf
+      Trophy Shelf
     </h2>
+    <p class="profile-awards__intro">
+      Awards {subjectName} has won. <a href="/contact/" class="profile-awards__nominate">Nominate {subjectName} for an award.</a>
+    </p>
     <ul class="profile-awards__grid">
       {items.map((a) => (
         <li class="profile-awards__card">
@@ -63,8 +66,31 @@ const awardSchema = items.map((a) => ({
   .profile-awards__heading {
     font-weight: 600;
     letter-spacing: -0.44px;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     text-align: center;
+  }
+
+  .profile-awards__intro {
+    margin: 0 auto 2rem;
+    max-width: 36rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: #6a6a6a;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .profile-awards__nominate {
+    color: #222;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(34, 34, 34, 0.25);
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .profile-awards__nominate:hover {
+    text-decoration-color: #222;
   }
 
   .profile-awards__grid {

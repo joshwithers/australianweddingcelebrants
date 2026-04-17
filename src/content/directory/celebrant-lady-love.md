@@ -21,6 +21,7 @@ logo: "../../assets/directory/celebrant-lady-love_love-buzz.png"
 australia_wide: true
 international: true
 tier: "luminary"
+year_started: 2014
 social:
   facebook: "https://www.facebook.com/celebrantladylove"
   instagram: "https://instagram.com/celebrantladylove"
