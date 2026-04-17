@@ -110,21 +110,6 @@ const awardSchema = items.map((a) => ({
     gap: 1.25rem;
   }
 
-  @media (min-width: 640px) {
-    .profile-awards__card {
-      width: calc((100% - 1.25rem) / 2);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .profile-awards__grid {
-      gap: 1.5rem;
-    }
-    .profile-awards__card {
-      width: calc((100% - 3rem) / 3);
-    }
-  }
-
   .profile-awards__card {
     position: relative;
     margin: 0;
@@ -144,6 +129,21 @@ const awardSchema = items.map((a) => ({
   .profile-awards__card:nth-child(3n + 1) { --tilt: -0.8deg; }
   .profile-awards__card:nth-child(3n + 2) { --tilt: 0.6deg; }
   .profile-awards__card:nth-child(3n + 3) { --tilt: -0.3deg; }
+
+  @media (min-width: 640px) {
+    .profile-awards__card {
+      width: calc((100% - 1.25rem) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .profile-awards__grid {
+      gap: 1.5rem;
+    }
+    .profile-awards__card {
+      width: calc((100% - 3rem) / 3);
+    }
+  }
 
   .profile-awards__card:hover {
     transform: rotate(0deg) translateY(-2px);
