@@ -310,26 +310,30 @@ const faqSchema = {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1.25rem;
   }
 
+  .awards-card {
+    margin: 0;
+    width: 100%;
+  }
+
   @media (min-width: 640px) {
-    .awards-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .awards-card {
+      width: calc((100% - 1.25rem) / 2);
     }
   }
 
   @media (min-width: 1024px) {
     .awards-grid {
-      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
-  }
-
-  .awards-card {
-    margin: 0;
+    .awards-card {
+      width: calc((100% - 3rem) / 3);
+    }
   }
 
   .awards-card__link {

@@ -104,27 +104,31 @@ const awardSchema = items.map((a) => ({
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1.25rem;
   }
 
   @media (min-width: 640px) {
-    .profile-awards__grid {
-      grid-template-columns: repeat(2, 1fr);
+    .profile-awards__card {
+      width: calc((100% - 1.25rem) / 2);
     }
   }
 
   @media (min-width: 1024px) {
     .profile-awards__grid {
-      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
+    }
+    .profile-awards__card {
+      width: calc((100% - 3rem) / 3);
     }
   }
 
   .profile-awards__card {
     position: relative;
     margin: 0;
+    width: 100%;
     padding: 1.75rem 1.5rem 1.5rem;
     background: #fdfaf6;
     border-radius: 18px;
