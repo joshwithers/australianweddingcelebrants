@@ -7,6 +7,7 @@ export type Award = {
 };
 
 type AwardSource = {
+  title?: string;
   awards?: Award[];
   year_started?: number;
 };
@@ -22,10 +23,14 @@ export function deriveAwards(data: AwardSource): Award[] {
 
   const synthetic: (Award & { __synthetic?: true })[] = [];
   if (typeof data.year_started === "number") {
+    const subject = data.title?.trim();
     synthetic.push({
       title: `Class of ${data.year_started}`,
       emoji: "🎓",
       year: data.year_started,
+      note: subject
+        ? `${subject} became an authorised celebrant in ${data.year_started}.`
+        : undefined,
       __synthetic: true,
     });
   }

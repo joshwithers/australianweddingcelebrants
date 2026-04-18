@@ -1,5 +1,5 @@
 ---
-title: "Jesse B Celebrancy"
+title: "Jesse B"
 meta_title: "Jesse Burford — Perth Wedding Celebrant & MC | Australian Wedding Celebrants"
 description: "Relaxed, interactive ceremonies that feel natural and run smoothly. Celebrant and MC serving Perth and Australia wide."
 image: "../../assets/directory/jesse-b-celebrancy-84e0aa15.webp"
