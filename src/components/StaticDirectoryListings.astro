@@ -64,11 +64,18 @@ switch (sortBy) {
     break;
 }
 
-// Always sort by tier priority first (luminary > endorsed > registered)
+// Sort by tier priority (luminary > endorsed > registered), then by explicit
+// award count (more awards first) within a tier. The stable sort preserves
+// the prior random/alphabetical order as a final tiebreaker. Synthetic
+// "Class of {year}" entries aren't counted — everyone has one, so they'd
+// add no signal.
+const awardCount = (item: DirectoryEntry) =>
+  Array.isArray(item.data.awards) ? item.data.awards.length : 0;
 sortedItems.sort((a, b) => {
   const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
   const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
-  return tierA - tierB;
+  if (tierA !== tierB) return tierA - tierB;
+  return awardCount(b) - awardCount(a);
 });
 
 // Apply max items limit if specified
