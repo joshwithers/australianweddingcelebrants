@@ -1,5 +1,5 @@
 ---
-title: "Brisbane Wedding Celebrant"
+title: "Kath Tilly"
 meta_title: "Kath Tilly — Brisbane & Sunshine Coast Wedding Celebrant | Australian Wedding Celebrants"
 description: "Modern, relaxed wedding and elopement celebrant for down-to-earth couples. Personalised ceremonies that celebrate both partners equally."
 image: "../../assets/directory/brisbane-wedding-celebrant-58595839.webp"
@@ -16,7 +16,7 @@ category:
   - Celebrant
 australia_wide: true
 year_started: 2015
-tier: registered
+tier: luminary
 social:
   facebook: "https://www.facebook.com/share/1CGesEZB7o/"
   instagram: "https://www.instagram.com/kathtilly_celebrant?igsh=c2FjYXU3NGRwYmg5"
