@@ -36,9 +36,10 @@ gallery:
    - "../../assets/directory/josh-withers-celebrant-3.jpg"
 year_started: 2009
 awards:
-  - title: "Nerdiest Celebrant of the Year"
-    emoji: "🤓"
+  - title: "Made It Feel Like Us"
+    emoji: "💕"
     year: 2026
+    note: "Made a multicultural wedding feel effortless and deeply personal, with genuine support for a bride navigating English as a second language."
   - title: "Nerdiest Celebrant of the Year"
     emoji: "🤓"
     year: 2025

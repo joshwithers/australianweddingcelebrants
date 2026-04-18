@@ -25,6 +25,11 @@ year_started: 2014
 social:
   facebook: "https://www.facebook.com/celebrantladylove"
   instagram: "https://instagram.com/celebrantladylove"
+awards:
+  - title: "Ceremony & Dancefloor Double Threat"
+    emoji: "🎤"
+    year: 2026
+    note: "Annie crafted a deeply personal ceremony that moved guests to tears, then kept the dancefloor packed all night—the complete celebration package."
 ---
 
 **Annie** is the creative force behind [Celebrant Lady Love](https://celebrantladylove.com), a Gold Coast-based celebrancy brand known for ceremonies that are anything but ordinary. With a decade of weddings and hundreds of ceremonies under her belt, Annie has built a reputation for creating unique, individualised celebrations filled with fun, personality, and genuine heart.
