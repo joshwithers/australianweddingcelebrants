@@ -18,6 +18,7 @@ category:
 australia_wide: true
 year_started: 2015
 tier: luminary
+background_celebrant: "#f8f8f8"
 social:
   facebook: "https://www.facebook.com/kathtillyweddingcelebrant"
   instagram: "https://www.instagram.com/kathtilly_celebrant"
