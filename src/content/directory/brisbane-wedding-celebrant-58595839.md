@@ -12,14 +12,15 @@ location:
   - Brisbane
   - Sunshine Coast
   - Noosa
+  - Sunshine Coast Hinterland
 category:
   - Celebrant
 australia_wide: true
 year_started: 2015
 tier: luminary
 social:
-  facebook: "https://www.facebook.com/share/1CGesEZB7o/"
-  instagram: "https://www.instagram.com/kathtilly_celebrant?igsh=c2FjYXU3NGRwYmg5"
+  facebook: "https://www.facebook.com/kathtillyweddingcelebrant"
+  instagram: "https://www.instagram.com/kathtilly_celebrant"
 ---
 Kath Tilly is a Brisbane-based wedding celebrant who specialises in creating relaxed, personalised ceremonies for down-to-earth couples who want their wedding day to be authentically theirs. She's part of a new wave of professional celebrants who approach ceremonies with a fresh perspective, blending modern sensibilities with meaningful tradition to create celebrations that feel genuine and memorable.
 
