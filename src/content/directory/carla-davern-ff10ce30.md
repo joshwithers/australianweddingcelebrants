@@ -3,19 +3,20 @@ title: "Carla Davern"
 meta_title: "Carla Davern — Sydney Wedding Celebrant | Australian Wedding Celebrants"
 description: "Sydney wedding celebrant, MC, and singer, Carla Davern creates personalised, joyful ceremonies. With 15+ years' experience and a background in professional performance, she brings warmth and authenticity to your special day."
 image: "../../assets/directory/celebrant-mc-singer-ff10ce30.webp"
+logo: "../../assets/directory/carladavern.png"
 website: "https://www.carladavern.com.au"
 email: "carladavernmarriagecelebrant1@gmail.com"
 phone: "0412572018"
 address: "151 Galston road Hornsby Heights 2077"
 location:
-  - Sydney and surrounds
+  - Sydney
   - Hunter Valley
-  - Southern highlands
+  - Southern Highlands
 category:
   - Celebrant
   - MC
 australia_wide: true
-tier: registered
+tier: endorsed
 social:
   facebook: "https://www.facebook.com/carladaverncelebrant"
   instagram: "https://www.instagram.com/carladaverncelebrant/"
