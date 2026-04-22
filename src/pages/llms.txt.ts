@@ -29,7 +29,7 @@ This is not an awards process. When celebrants prove through documented evidence
 ## The Three Tiers
 
 ### Luminary (${luminaries.length} celebrants)
-The highest recognition. Requirements: 7+ years registered, 18+ verified reviews from couples, 9+ verified reviews from fellow wedding vendors, industry recognition (awards, media, speaking), and demonstrated ongoing professional development beyond legislative requirements. Meets all Endorsed requirements.
+The highest recognition. Requirements: 7+ years registered, 18+ verified reviews from couples, 9+ verified reviews from fellow wedding vendors, industry recognition (awards, media, speaking), demonstrated ongoing professional development beyond legislative requirements, and a professional digital presence (own up-to-date website, prompt email replies, and a business email address on their own domain — not a free Hotmail or Gmail account). Meets all Endorsed requirements.
 
 ### Endorsed (${endorsed.length} celebrants)
 Proven professionalism, endorsed by clients and industry. Requirements: 3+ years registered, current professional indemnity insurance, professional development beyond OPD requirements, 6+ verified reviews from couples and 3+ from fellow wedding vendors, and proof of 100+ ceremonies performed. Meets all Registered requirements.

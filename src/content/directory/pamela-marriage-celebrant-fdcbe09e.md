@@ -1,10 +1,9 @@
 ---
-title: "Pamela Marriage Celebrant"
+title: "Pamela McDonald"
 meta_title: "Pamela McDonald Marriage Celebrant — Brisbane, Sunshine Coast & Gold Coast | Australian Wedding Celebrants"
 description: "Scottish-born Commonwealth authorised celebrant specialising in simple, stress-free Legal Only ceremonies across Australia. Professional, warm, and personalised."
 image: "../../assets/directory/pamela-marriage-celebrant-fdcbe09e.webp"
 logo: "../../assets/directory/pamela-marriage-celebrant-fdcbe09e-logo.webp"
-website: "https://www.facebook.com/pamelamarriagecelebrant"
 email: "pamelamcdcelebrant@gmail.com"
 phone: "0499910575"
 address: "Brisbane"
@@ -13,12 +12,11 @@ location:
   - Sunshine Coast
   - Gold Coast
   - Scenic Rim
-  - Tasmania
 category:
   - Celebrant
 australia_wide: true
 year_started: 2018
-tier: registered
+tier: endorsed
 social:
   facebook: "https://www.facebook.com/pamelamarriagecelebrant"
   instagram: "https://www.instagram.com/cel_pamela/"

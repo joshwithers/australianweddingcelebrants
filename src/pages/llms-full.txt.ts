@@ -106,6 +106,8 @@ Luminary is the highest recognition Australian Wedding Celebrants can offer. It 
 - 9+ verified or public reviews from fellow wedding vendors
 - Industry recognition: awards (ABIA, Easy Weddings, etc.), media features, published work, or conference speaking
 - Demonstrated ongoing professional development beyond legislative requirements
+- Digitally literate: maintains their own up-to-date website and responds to enquiries swiftly
+- Uses a professional email address on their own domain (not a free Hotmail, Gmail, or similar account)
 
 When you see a Luminary badge, you know this celebrant represents the very best in the profession — not just in skill, but in their commitment to the industry and the couples they serve.
 
