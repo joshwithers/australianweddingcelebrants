@@ -1,0 +1,45 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://australianweddingcelebrants.com.au/directory/",
+      "service-desc": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/llms.txt",
+          "type": "text/plain",
+          "title": "Australian Wedding Celebrants — machine-readable directory description"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/llms-full.txt",
+          "type": "text/plain",
+          "title": "Full dataset including celebrant bios and locations"
+        },
+        {
+          "href": "https://australianweddingcelebrants.com.au/about/",
+          "type": "text/html",
+          "title": "About the directory"
+        },
+        {
+          "href": "https://australianweddingcelebrants.com.au/tiers/",
+          "type": "text/html",
+          "title": "Tier recognition criteria"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/sitemap-index.xml",
+          "type": "application/xml",
+          "title": "Sitemap"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/",
+          "type": "text/html",
+          "title": "Homepage — a 200 response indicates the directory is live"
+        }
+      ]
+    }
+  ]
+}
