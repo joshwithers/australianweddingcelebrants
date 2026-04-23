@@ -22,6 +22,7 @@ export const GET: APIRoute = async () => {
       categories: d.category || [],
       australia_wide: !!d.australia_wide,
       international: !!d.international,
+      accepts_agent_enquiries: d.accepts_agent_enquiries !== false,
       year_started: d.year_started ?? null,
       website: d.website ?? null,
       email: d.email ?? null,

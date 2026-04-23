@@ -57,6 +57,23 @@
           "title": "Model Context Protocol specification"
         }
       ]
+    },
+    {
+      "anchor": "https://api.australianweddingcelebrants.com.au/a2a",
+      "service-desc": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/.well-known/agent-card.json",
+          "type": "application/json",
+          "title": "A2A Agent Card"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://a2a-protocol.org/latest/specification/",
+          "type": "text/html",
+          "title": "Agent-to-Agent protocol specification"
+        }
+      ]
     }
   ]
 }

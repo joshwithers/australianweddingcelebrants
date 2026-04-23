@@ -1,0 +1,468 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+
+const celebrants = await getSinglePage("directory");
+const celebrantCount = celebrants.length;
+const optedOut = celebrants.filter((c) => c.data.accepts_agent_enquiries === false).length;
+
+const siteUrl = "https://australianweddingcelebrants.com.au";
+const workerUrl = "https://api.australianweddingcelebrants.com.au";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does this website let AI companies train on celebrant profiles?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Our robots.txt carries a Content-Signal directive of ai-train=no, which asks compliant crawlers not to use celebrant bios as training data. We allow search indexing (search=yes) and AI-assisted answers (ai-input=yes) because those help couples find a celebrant — which is what every celebrant on this site wants.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does an AI assistant actually find a celebrant on this site?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We publish machine-readable versions of every page (llms.txt, directory.json, .md endpoints) plus a proper MCP server at api.australianweddingcelebrants.com.au/mcp that an AI agent can call to search, browse by location or tier, and fetch full profiles. We also expose the same capabilities through A2A so one agent can delegate to another.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can agents email celebrants on behalf of couples?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, through the A2A enquire_celebrant skill. The couple's assistant sends us a qualified payload (couple name + email, wedding date, location, detailed notes), we validate and rate-limit it, then email the celebrant with the couple as Reply-To. The celebrant replies directly — the directory is not in the loop. No commission, no contract, pass-through only.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a celebrant opt out of agent-relayed enquiries?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Every celebrant can uncheck 'Let AI agents relay wedding enquiries to my email address' on their listing edit page. We'll immediately stop relaying enquiries to them. No questions asked.",
+      },
+    },
+  ],
+};
+---
+
+<Base
+  title="How this site works with AI, search engines & bots"
+  meta_title="AI & Agent Discovery — Australian Wedding Celebrants"
+  description="A plain-English walkthrough of every way this directory makes itself useful to search engines, LLMs, and autonomous agents — from robots.txt through MCP and A2A."
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(faqSchema)}
+  />
+
+  <section class="py-16 md:py-20">
+    <div class="container max-w-4xl">
+      <!-- Hero -->
+      <div class="text-center mb-16">
+        <div
+          class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-5"
+          style="font-weight: 600; background: #460479;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.3 4.7 3.3 6l-.3 5h8l-.3-5c2-1.3 3.3-3.5 3.3-6a7 7 0 0 0-7-7z"/>
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+          </svg>
+          AI & agent discovery
+        </div>
+        <h1 class="mb-4 pretty" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15;">
+          How this site works with AI, search engines, and bots
+        </h1>
+        <p class="text-light max-w-2xl mx-auto pretty" style="font-weight: 400; line-height: 1.6;">
+          A plain-English walkthrough of every machine-readable surface this directory publishes — why it's there, who it helps, and a link to the live endpoint so you can inspect it yourself.
+        </p>
+      </div>
+
+      <!-- TL;DR split by audience -->
+      <div class="grid md:grid-cols-2 gap-6 mb-16">
+        <div class="p-6 rounded-2xl border border-border bg-white">
+          <h2 class="text-lg mb-3" style="font-weight: 600; letter-spacing: -0.22px;">
+            If you're a couple planning a wedding
+          </h2>
+          <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+            Ask your AI assistant — ChatGPT, Claude, Perplexity, a dedicated wedding planner bot — for celebrant recommendations in Australia. It can read every profile on this site, search by location or specialty, and even email a shortlisted celebrant on your behalf through our relay. You stay in control: the celebrant replies to your email, you take the conversation from there, and we're not involved in the booking.
+          </p>
+        </div>
+        <div class="p-6 rounded-2xl border border-border bg-white">
+          <h2 class="text-lg mb-3" style="font-weight: 600; letter-spacing: -0.22px;">
+            If you're a celebrant
+          </h2>
+          <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+            Being in this directory means your public profile is genuinely visible to the new generation of AI tools couples use to plan. We've built — and maintain — the discovery plumbing ({celebrantCount} celebrants indexed today). When an assistant recommends you, the enquiry that lands in your inbox has a date, a location, and a real couple behind it. You opt in by default; opt out any time from your listing edit page.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stats strip -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 text-center">
+        <div class="p-5 rounded-2xl bg-theme-light">
+          <div class="text-2xl" style="font-weight: 700;">{celebrantCount}</div>
+          <div class="text-sm text-light" style="font-weight: 400;">celebrants indexed</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-theme-light">
+          <div class="text-2xl" style="font-weight: 700;">{celebrantCount - optedOut}</div>
+          <div class="text-sm text-light" style="font-weight: 400;">accepting agent enquiries</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-theme-light">
+          <div class="text-2xl" style="font-weight: 700;">14</div>
+          <div class="text-sm text-light" style="font-weight: 400;">agent surfaces live</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-theme-light">
+          <div class="text-2xl" style="font-weight: 700;">0</div>
+          <div class="text-sm text-light" style="font-weight: 400;">commissions taken</div>
+        </div>
+      </div>
+
+      <!-- Section: Preferences & signals -->
+      <section class="mb-16">
+        <h2 class="mb-2" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          Preferences & signals
+        </h2>
+        <p class="text-light mb-8" style="font-weight: 400;">
+          What this site asks bots to do — and not do.
+        </p>
+
+        <div class="space-y-6">
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                robots.txt with Content Signals
+              </h3>
+              <a href="/robots.txt" class="text-sm" style="color: #460479; font-weight: 500;">/robots.txt →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Alongside the standard Allow directives, we publish a Content-Signal line from the
+              <a href="https://contentsignals.org/" rel="nofollow">contentsignals.org</a> draft:
+              <code>ai-train=no, search=yes, ai-input=yes</code>. In plain English: <em>don't harvest celebrant bios for model training, but please do index us for search and cite us in AI-assisted answers.</em> That lets couples find celebrants through the AI tools they already use, without turning the directory into free training data.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                Link headers on every page (RFC 8288)
+              </h3>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Every HTTP response on this site carries <code>Link</code> headers pointing at the machine-readable versions of the content — the <code>service-desc</code>, <code>describedby</code>, <code>sitemap</code>, <code>api-catalog</code>, <code>agent-skills</code>, and <code>a2a-agent-card</code> relations. An agent that lands on any page can follow these without scraping to find the structured data.
+            </p>
+            <p class="text-sm text-light mt-3" style="font-weight: 400;">
+              Verify with <code>curl -sI https://australianweddingcelebrants.com.au/ | grep -i '^link:'</code>
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                Sitemap
+              </h3>
+              <a href="/sitemap-index.xml" class="text-sm" style="color: #460479; font-weight: 500;">/sitemap-index.xml →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Auto-generated list of every URL on the site, refreshed every build. Useful for Google/Bing and any crawler-style agent doing bulk ingestion.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section: Machine-readable content -->
+      <section class="mb-16">
+        <h2 class="mb-2" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          Machine-readable content
+        </h2>
+        <p class="text-light mb-8" style="font-weight: 400;">
+          The site content, but in formats an LLM can actually digest.
+        </p>
+
+        <div class="space-y-6">
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                llms.txt & llms-full.txt
+              </h3>
+              <a href="/llms.txt" class="text-sm" style="color: #460479; font-weight: 500;">/llms.txt →</a>
+              <a href="/llms-full.txt" class="text-sm" style="color: #460479; font-weight: 500;">/llms-full.txt →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Following the <a href="https://llmstxt.org/" rel="nofollow">llmstxt.org</a> convention: a concise text summary of the site (who we are, tier system, all celebrants with tier, location, and URL) plus a full-dump variant that inlines every celebrant's body copy. An LLM that wants broad context in one fetch can read these instead of crawling the HTML.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                Markdown for Agents
+              </h3>
+              <a href={`${siteUrl}/index.md`} class="text-sm" style="color: #460479; font-weight: 500;">/index.md →</a>
+              <a href={`${siteUrl}/directory/josh-withers-ybt9.md`} class="text-sm" style="color: #460479; font-weight: 500;">Sample profile.md →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Every HTML page has a markdown counterpart. Request any URL on this site with <code>Accept: text/markdown</code> and you'll get the markdown version with <code>Content-Type: text/markdown</code> and an <code>X-Markdown-Tokens</code> estimate — a Cloudflare Pages Function at the edge swaps the response. Browsers still get HTML; agents get the cleaner token-efficient version.
+            </p>
+            <p class="text-sm text-light mt-3" style="font-weight: 400;">
+              Try: <code>curl -H 'Accept: text/markdown' https://australianweddingcelebrants.com.au/</code>
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                Structured JSON dataset
+              </h3>
+              <a href="/directory.json" class="text-sm" style="color: #460479; font-weight: 500;">/directory.json →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Every celebrant as typed JSON — slug, tier, locations, categories, <code>australia_wide</code> / <code>international</code> flags, contact fields, profile URLs. Updated on every build. This is the backbone that the MCP server and A2A agent both read from.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section: Agent discovery -->
+      <section class="mb-16">
+        <h2 class="mb-2" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          Agent discovery
+        </h2>
+        <p class="text-light mb-8" style="font-weight: 400;">
+          Well-known URLs where agents look first to figure out what we offer.
+        </p>
+
+        <div class="space-y-6">
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                API catalog (RFC 9727)
+              </h3>
+              <a href="/.well-known/api-catalog" class="text-sm" style="color: #460479; font-weight: 500;">/.well-known/api-catalog →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              An <code>application/linkset+json</code> document that advertises every machine-readable surface we run — the directory dataset, the MCP endpoint, the A2A endpoint — each with its spec URL and docs. Lets an agent find everything in one GET.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                MCP Server Card (SEP-1649)
+              </h3>
+              <a href="/.well-known/mcp/server-card.json" class="text-sm" style="color: #460479; font-weight: 500;">/.well-known/mcp/server-card.json →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              The static discovery card for our MCP server. Advertises the transport (<code>http</code>), endpoint URL, and identity. This is how an MCP-capable assistant finds our server without being hard-coded to it.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                Agent Skills index (v0.2.0)
+              </h3>
+              <a href="/.well-known/agent-skills/index.json" class="text-sm" style="color: #460479; font-weight: 500;">/.well-known/agent-skills/index.json →</a>
+              <a href="/.well-known/agent-skills/find-australian-wedding-celebrant/SKILL.md" class="text-sm" style="color: #460479; font-weight: 500;">SKILL.md →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              A published skill (<code>find-australian-wedding-celebrant</code>) that teaches any agent how to use this directory well — when to trigger, how to explain tiers, a recommended 5-step flow, and the common pitfalls to avoid. The index is auto-regenerated on every build with a SHA-256 digest so clients can verify they've got the right version.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                A2A Agent Card
+              </h3>
+              <a href="/.well-known/agent-card.json" class="text-sm" style="color: #460479; font-weight: 500;">/.well-known/agent-card.json →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              The standard <a href="https://a2a-protocol.org/" rel="nofollow">A2A protocol</a> card. Names this site as an agent that other agents can delegate to, lists our two skills (<code>search_celebrants</code> and <code>enquire_celebrant</code>), and publishes the endpoint.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section: Live endpoints -->
+      <section class="mb-16">
+        <h2 class="mb-2" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          Live endpoints
+        </h2>
+        <p class="text-light mb-8" style="font-weight: 400;">
+          The services behind the discovery cards.
+        </p>
+
+        <div class="space-y-6">
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                MCP server
+              </h3>
+              <a href={`${workerUrl}/mcp`} class="text-sm" style="color: #460479; font-weight: 500;">{workerUrl}/mcp →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              A Model Context Protocol server (Streamable HTTP transport, protocol version 2025-06-18) running on our Cloudflare Worker. Exposes five read-only tools: <code>search_celebrants</code>, <code>browse_by_location</code> (includes celebrants who travel Australia-wide), <code>browse_by_tier</code>, <code>get_celebrant_profile</code>, and <code>list_all_celebrants</code>. Any MCP-capable client — Claude Desktop, Cursor, Zed, a custom agent — can connect and use it.
+            </p>
+            <details class="mt-3">
+              <summary class="text-sm" style="color: #460479; font-weight: 500; cursor: pointer;">Show a sample call</summary>
+              <pre class="text-xs mt-2 p-3 bg-theme-light rounded overflow-x-auto" style="line-height: 1.5;"><code>curl -X POST {workerUrl}/mcp \
+  -H 'Content-Type: application/json' \
+  -d {"'"}{"{"}"jsonrpc":"2.0","id":1,"method":"tools/call",
+       "params":{"{"}"name":"search_celebrants",
+                 "arguments":{"{"}"query":"byron bay"{"}"}{"}"}{"}"}{"'"}</code></pre>
+            </details>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                A2A agent & enquiry relay
+              </h3>
+              <a href={`${workerUrl}/a2a`} class="text-sm" style="color: #460479; font-weight: 500;">{workerUrl}/a2a →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              An Agent-to-Agent endpoint for assistants that want to delegate a task rather than call tools. The headline skill is <code>enquire_celebrant</code>: a couple's planning assistant sends a qualified payload (couple name + email, wedding date, location, at least 30 characters of ceremony notes), we validate and rate-limit, and we email the celebrant with the couple as Reply-To. The celebrant and the couple take it from there — we don't sit in the middle of the conversation.
+            </p>
+            <p class="text-light mt-3" style="font-weight: 400; line-height: 1.6;">
+              <strong>What we commit to:</strong> no commission, no contract, no interference in the booking. We're a free pass-through for celebrants in the directory. Couples see our disclaimer on every A2A response; celebrants see it in plain English in every enquiry email. Celebrants can opt out of agent-relayed enquiries at any time.
+            </p>
+            <p class="text-light mt-3" style="font-weight: 400; line-height: 1.6;">
+              <strong>Abuse controls:</strong> 10 enquiries per IP per day, 1 per IP per celebrant per day, 30 per celebrant per day across all agents. One "Report spam" click in any enquiry email bans the sender IP for 30 days; three reports against the same agent name permanently block that agent.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                WebMCP (browser-side tools)
+              </h3>
+              <a href="/webmcp.js" class="text-sm" style="color: #460479; font-weight: 500;">/webmcp.js →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              For AI assistants running inside a user's browser (the emerging <a href="https://webmachinelearning.github.io/webmcp/" rel="nofollow">WebMCP</a> standard, currently in Chrome's early preview). When you load any page on this site, we register five tools with <code>navigator.modelContext.registerTool</code> — search, browse by location, browse by tier, view a profile, submit a listing. An in-browser assistant can invoke them directly. Zero-op in browsers that don't support the API.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-16">
+        <h2 class="mb-8" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          Common questions
+        </h2>
+        <div class="space-y-4">
+          {faqSchema.mainEntity.map((q: any) => (
+            <details class="p-5 rounded-2xl border border-border bg-white">
+              <summary class="cursor-pointer" style="font-weight: 600; letter-spacing: -0.18px;">
+                {q.name}
+              </summary>
+              <p class="text-light mt-3" style="font-weight: 400; line-height: 1.6;">
+                {q.acceptedAnswer.text}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- What we don't do -->
+      <section class="mb-16">
+        <h2 class="mb-2" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.6rem;">
+          What we don't do
+        </h2>
+        <p class="text-light mb-6" style="font-weight: 400;">
+          Just as important as the list above.
+        </p>
+        <ul class="space-y-3 text-light" style="font-weight: 400; line-height: 1.6;">
+          <li>❌ We don't sell celebrant contact details or directory data to anyone — the dataset is public, and it's public on purpose.</li>
+          <li>❌ We don't take a commission, referral fee, or clip from any booking that results from an agent-relayed enquiry.</li>
+          <li>❌ We don't consent to AI training on celebrant bios (our <code>ai-train=no</code> signal is explicit about this).</li>
+          <li>❌ We don't mediate after the first email — the celebrant and the couple talk directly. We're not a booking platform.</li>
+          <li>❌ We don't charge celebrants for agent enquiries, higher visibility, or any of this infrastructure. It's free to be listed and free to opt out.</li>
+        </ul>
+      </section>
+
+      <!-- Who built this -->
+      <section class="mb-16 p-6 md:p-8 rounded-2xl border border-border bg-theme-light">
+        <h2 class="mb-3 pretty" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.4rem;">
+          Who built this — and what it costs you
+        </h2>
+        <p class="text-light pretty" style="font-weight: 400; line-height: 1.65;">
+          This whole agent-discovery stack — the MCP server, A2A relay, Content Signals, skills index, the lot — was built by Josh Withers, who also runs every celebrant listing in this directory. If you're a business and you want your own website to be this legibly useful to search engines, answer engines, and AI agents, this is the kind of work Josh does every day through his two agencies:
+        </p>
+        <ul class="mt-4 space-y-3 text-light pretty" style="font-weight: 400; line-height: 1.6;">
+          <li>
+            <strong>
+              <a href="https://theinternet.com.au" target="_blank" rel="noopener">The Internet</a>
+            </strong>
+            — full-service website design and development. If you need a website built, rebuilt, or properly wired into the modern discovery stack, start here.
+          </li>
+          <li>
+            <strong>
+              <a href="https://unpopular.au" target="_blank" rel="noopener">Unpopular</a>
+            </strong>
+            — SEO and GEO (Generative Engine Optimisation) agency. Focused specifically on making sites findable and citable by AI answer engines, not just traditional search.
+          </li>
+        </ul>
+        <p class="text-light mt-4 pretty" style="font-weight: 400; line-height: 1.6; font-size: 0.95rem;">
+          Celebrants in this directory get this infrastructure for free. You're not charged for the MCP surface, the A2A relay, or anything else on this page. If you want something like it for your own business, the two links above are the way.
+        </p>
+      </section>
+
+      <!-- CTAs -->
+      <section class="text-center pt-8 border-t border-border">
+        <p class="text-light mb-6 pretty" style="font-weight: 400;">
+          Questions, suggestions, or want to see another agent surface added?
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="/contact/" class="btn btn-primary no-underline">Get in touch</a>
+          <a href="/directory/" class="btn btn-outline-primary no-underline">Browse the directory</a>
+          <a href="/submit/" class="btn btn-outline-primary no-underline">Add your listing</a>
+        </div>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* text-wrap: pretty keeps the last line from being a single orphan word in
+     browsers that support it (Chrome 117+, Safari 17.4+, Firefox 121+).
+     Degrades gracefully to normal wrapping elsewhere. */
+  .pretty {
+    text-wrap: pretty;
+  }
+
+  code {
+    background: rgba(70, 4, 121, 0.06);
+    color: #460479;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  }
+  pre code {
+    background: transparent;
+    color: #222;
+    padding: 0;
+  }
+  a[href] {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgba(70, 4, 121, 0.35);
+  }
+  a[href]:hover {
+    text-decoration-color: currentColor;
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+  details summary {
+    list-style: none;
+  }
+</style>

@@ -8,6 +8,7 @@
   Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
   Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
   Link: </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
+  Link: </.well-known/agent-card.json>; rel="a2a-agent-card"; type="application/json"
 
 # Direct .md requests (agents following the Astro-emitted .md URLs) get
 # the proper Content-Type even when the middleware isn't in the path.
@@ -21,6 +22,12 @@
 
 # MCP Server Card (SEP-1649 draft).
 /.well-known/mcp/server-card.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+# A2A Agent Card (a2a-protocol.org).
+/.well-known/agent-card.json
   Content-Type: application/json; charset=utf-8
   Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *
