@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+# Content Signals (contentsignals.org / draft-romm-aipref-contentsignals):
+#   ai-train=no   — celebrant bios are the celebrants' IP; don't use for model training.
+#   search=yes    — index for traditional search engines.
+#   ai-input=yes  — cite/surface in AI-assisted answers (couples asking agents for celebrants).
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 
 Sitemap: https://australianweddingcelebrants.com.au/sitemap-index.xml

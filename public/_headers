@@ -1,0 +1,13 @@
+# RFC 8288 Link headers for agent discovery.
+# Applied to every page so agents landing on any URL can find the
+# machine-readable service description, full dump, and sitemap.
+# IANA-registered relation types: service-desc, describedby, sitemap.
+/*
+  Link: </llms.txt>; rel="service-desc"; type="text/plain"
+  Link: </llms-full.txt>; rel="describedby"; type="text/plain"
+  Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
+
+# Direct .md requests (agents following the Astro-emitted .md URLs) get
+# the proper Content-Type even when the middleware isn't in the path.
+/*.md
+  Content-Type: text/markdown; charset=utf-8
