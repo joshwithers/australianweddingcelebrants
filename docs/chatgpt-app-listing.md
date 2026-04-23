@@ -51,6 +51,68 @@ Everything you'll need to paste into the OpenAI developer portal when submitting
 7. *"I'm planning a small wedding in the Hunter Valley in March 2027 — who should I contact?"*
 8. *"Are there any marriage celebrants who speak Mandarin in the directory?"* (free-text search)
 
+## Test cases for portal submission
+
+### Positive test cases (5)
+
+#### Test 1 — Free-text search by specialty
+
+- **Scenario:** Couple looking for a celebrant in a specific location who handles a specific style of ceremony.
+- **User prompt:** *"Find me a wedding celebrant on the Gold Coast who specialises in elopements."*
+- **Tool triggered:** `search_celebrants` with `{ "query": "gold coast elopement" }` (or similar phrasing).
+- **Expected output:** A shortlist of 1–10 celebrants whose name, location list, or description contains "gold coast" and/or "elopement". Each result shows the celebrant's name, recognition tier (Luminary/Endorsed/Registered), service area, a short description, and the profile URL (`https://australianweddingcelebrants.com.au/directory/<slug>/`). ChatGPT should surface tier as a quality signal, not a popularity ranking.
+
+#### Test 2 — Browse by location with travellers included
+
+- **Scenario:** Couple wants every celebrant available for a specific city, including those who travel.
+- **User prompt:** *"Show me all the wedding celebrants available for a wedding in Hobart."*
+- **Tool triggered:** `browse_by_location` with `{ "location": "Hobart" }`.
+- **Expected output:** Results split visually or textually into two groups: locals (celebrants who list Hobart as a service area) and travellers (celebrants who travel Australia-wide and would come to Hobart). Each traveller entry is clearly tagged "Travels Australia-wide". Ordered Luminary → Endorsed → Registered within each group. Current result for Hobart: 2 local + 9 Australia-wide travellers.
+
+#### Test 3 — Browse by tier
+
+- **Scenario:** Couple wants to see the top-tier celebrants first.
+- **User prompt:** *"Show me every Luminary-tier celebrant on the directory."*
+- **Tool triggered:** `browse_by_tier` with `{ "tier": "luminary" }`.
+- **Expected output:** All 9 Luminary-tier celebrants with name, service area, description, and profile URL. ChatGPT should briefly explain what Luminary means (7+ years, 18+ verified couple reviews, 9+ vendor reviews, industry recognition) so the couple understands the tier isn't a popularity contest.
+
+#### Test 4 — Fetch full profile
+
+- **Scenario:** Couple has narrowed to one candidate and wants full context before contacting them.
+- **User prompt:** *"Give me the full profile for the celebrant Josh Withers."*
+- **Tool triggered:** First `search_celebrants` with `{ "query": "Josh Withers" }` to resolve the slug, then `get_celebrant_profile` with `{ "slug": "josh-withers-ybt9" }`.
+- **Expected output:** Full markdown profile including the celebrant's title, description, tier, service areas, specialties, years working, contact details (website, email, phone, address), social links, awards list, testimonials, and complete bio. Profile URL (`/directory/josh-withers-ybt9/`) linked at the bottom as canonical.
+
+#### Test 5 — Broad directory question
+
+- **Scenario:** Couple is in early research and wants an overview of the directory itself.
+- **User prompt:** *"How many celebrants are on this directory, and how many are in each tier?"*
+- **Tool triggered:** `list_all_celebrants` (returns structured `count` + `celebrants[]` with per-entry tier).
+- **Expected output:** A short structured answer — total count (61 at time of writing), split by tier (e.g., 9 Luminary + 11 Endorsed + 41 Registered), and optionally a few sample names from each tier. ChatGPT should follow up with an offer to help narrow down based on location or style.
+
+### Negative test cases (3)
+
+#### Negative 1 — Query too short
+
+- **Scenario:** User (or an ambitious model) sends a single-character query.
+- **User prompt:** *"Search the celebrants directory for 'a'."*
+- **Tool triggered:** `search_celebrants` with `{ "query": "a" }`.
+- **Expected output:** The tool returns an error result (`isError: true`) with the message **"Query must be at least 2 characters."** ChatGPT should relay this gracefully and ask the user for a more specific query (location, name, specialty) rather than fabricating celebrant names.
+
+#### Negative 2 — Out-of-scope location (wedding outside Australia)
+
+- **Scenario:** Couple asks about a wedding in a country this directory doesn't cover. The app should not fabricate celebrants.
+- **User prompt:** *"We're getting married in Bali in October 2027 — find me a celebrant."*
+- **Tool triggered:** A well-behaved model should NOT call a location tool at all (Bali isn't in the directory). An over-eager model may call `browse_by_location` with `{ "location": "Bali" }` — which will return an empty `celebrants` array and the rendered text *"No celebrants matched."*
+- **Expected output:** ChatGPT explains that the directory is limited to Commonwealth-authorised Australian marriage celebrants, and that the couple should check either (a) celebrants who travel internationally (`search_celebrants` with `{ "query": "international" }` or call out the "international" flag) or (b) a dedicated destination-wedding directory. ChatGPT must NOT invent celebrant names or locations.
+
+#### Negative 3 — Nonexistent slug
+
+- **Scenario:** Model hallucinates a slug or the user asks about a celebrant not in the directory.
+- **User prompt:** *"Get the full profile for the celebrant with slug 'this-celebrant-does-not-exist'."*
+- **Tool triggered:** `get_celebrant_profile` with `{ "slug": "this-celebrant-does-not-exist" }`.
+- **Expected output:** The tool returns an error result with the message **`No celebrant found with slug "this-celebrant-does-not-exist".`** ChatGPT should report this honestly to the user, offer to search by name or location instead, and NOT invent profile content. The `isError: true` flag in the response makes this unambiguous for the model.
+
 ## Tool list (for reviewer reference)
 
 | Name | readOnlyHint | destructiveHint | openWorldHint | What it does |
