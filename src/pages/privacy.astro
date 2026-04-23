@@ -13,7 +13,7 @@ import Base from "@/layouts/Base.astro";
         Privacy Policy
       </h1>
       <p class="text-light text-sm mb-12" style="font-weight: 400;">
-        Last updated: 7 April 2026
+        Last updated: 23 April 2026
       </p>
 
       <div class="space-y-10 text-sm text-light" style="font-weight: 400; line-height: 1.7;">
@@ -117,6 +117,46 @@ import Base from "@/layouts/Base.astro";
           <h2 class="text-base text-dark mb-3" style="font-weight: 600; letter-spacing: -0.18px;">6. Use of AI in listing processing</h2>
           <p>
             When a celebrant submits a listing, we use AI (Anthropic's Claude API) to assist with editing the biography for grammar, generating an SEO-optimised meta title, and writing a third-person description. The information processed is limited to the content you submit with your listing (such as your name, bio, and location). This processing occurs on Anthropic's servers. We do not send your email address, authentication tokens, or tier verification documents to any AI service.
+          </p>
+        </div>
+
+        {/* 6b — Agent and AI interfaces */}
+        <div>
+          <h2 class="text-base text-dark mb-3" style="font-weight: 600; letter-spacing: -0.18px;">6b. Agent and AI interfaces (MCP, A2A, ChatGPT apps)</h2>
+          <p>
+            The Website publishes several machine-readable surfaces so AI assistants and autonomous agents — including ChatGPT, Claude, Perplexity, and custom tools built by third parties — can read the directory and help couples find a celebrant. See <a href="/ai/" class="text-dark underline">/ai</a> for a plain-English overview.
+          </p>
+
+          <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">MCP server (read-only)</h3>
+          <p>
+            We operate a Model Context Protocol server at <code class="text-dark">api.australianweddingcelebrants.com.au/mcp</code>. It exposes read-only tools that search the directory, list celebrants by location or tier, and return a celebrant's full public profile. The server does not receive, store, or log any personal information about the person using the assistant — only the free-text query string, the requesting IP address, and standard Cloudflare request metadata. Queries are processed at the edge and responses are cached for up to 5 minutes; no conversation content from ChatGPT or any other assistant is sent to us.
+          </p>
+
+          <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">A2A enquiry relay</h3>
+          <p>
+            We operate an Agent-to-Agent endpoint at <code class="text-dark">api.australianweddingcelebrants.com.au/a2a</code> that lets an assistant acting on behalf of a couple relay a wedding enquiry to a specific celebrant by email. To use the <code class="text-dark">enquire_celebrant</code> skill, the assistant must supply:
+          </p>
+          <ul class="list-disc pl-6 mt-3 space-y-1.5">
+            <li>the couple's names and email address (used solely as Reply-To on the email we send to the celebrant)</li>
+            <li>the wedding date and location</li>
+            <li>a short description of the ceremony</li>
+            <li>the name of the assistant making the request</li>
+          </ul>
+          <p class="mt-3">
+            We retain a log of each enquiry for 30 days in Cloudflare KV (celebrant slug, requesting IP, agent name, couple email, wedding date and location, plus a send timestamp and report-spam token) so a celebrant can flag the enquiry as spam if it's abusive. After 30 days the log expires automatically. We do not use enquiry data for marketing, analytics, or profiling, and we do not share it with any third party other than the celebrant the enquiry is being sent to.
+          </p>
+          <p class="mt-3">
+            Celebrants can opt out of agent-relayed enquiries at any time by unchecking "Let AI agents relay wedding enquiries to my email address" on their listing edit page.
+          </p>
+
+          <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">Rate-limit counters</h3>
+          <p>
+            We maintain short-lived counters (keyed by requesting IP and celebrant slug) in Cloudflare KV to enforce the abuse limits described at <a href="/ai/" class="text-dark underline">/ai</a>. These counters expire after 24 hours. We do not retain raw IP addresses beyond the ban window of any celebrant who has reported spam (30 days).
+          </p>
+
+          <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">Content-Signal preferences</h3>
+          <p>
+            Our <code class="text-dark">robots.txt</code> publishes a Content-Signal directive of <code class="text-dark">ai-train=no, search=yes, ai-input=yes</code>. This asks compliant crawlers and AI platforms not to use celebrant biographies as training data, while still permitting search indexing and AI-assisted answers. Compliance with Content Signals is voluntary on the platform's side; this is a stated preference, not an enforceable technical measure.
           </p>
         </div>
 
