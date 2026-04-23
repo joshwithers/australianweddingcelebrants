@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "find-australian-wedding-celebrant",
+      "type": "skill-md",
+      "description": "Help a user find and shortlist a marriage celebrant for a wedding in Australia, using the Australian Wedding Celebrants directory. Use when the user mentions getting married in Australia and needs help choosing an officiant.",
+      "url": "https://australianweddingcelebrants.com.au/.well-known/agent-skills/find-australian-wedding-celebrant/SKILL.md",
+      "digest": "sha256:ac0f2b4bf8f336d2fb4764e8a31b93273cb24bfa34a36d0e0c6cc7ede84582b0"
+    }
+  ]
+}

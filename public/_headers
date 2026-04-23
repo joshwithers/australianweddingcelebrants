@@ -7,6 +7,7 @@
   Link: </llms-full.txt>; rel="describedby"; type="text/plain"
   Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
   Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+  Link: </.well-known/agent-skills/index.json>; rel="agent-skills"; type="application/json"
 
 # Direct .md requests (agents following the Astro-emitted .md URLs) get
 # the proper Content-Type even when the middleware isn't in the path.
@@ -21,5 +22,17 @@
 # MCP Server Card (SEP-1649 draft).
 /.well-known/mcp/server-card.json
   Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+# Agent Skills Discovery (agentskills.io v0.2.0).
+# SKILL.md files inherit their text/markdown Content-Type from the /*.md rule
+# above; we only add caching + CORS for the whole agent-skills tree here.
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/*
   Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *

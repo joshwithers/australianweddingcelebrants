@@ -4,9 +4,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/generate-agent-skills-index.mjs && astro build",
     "preview": "astro preview",
     "format": "prettier -w .",
+    "generate:agent-skills-index": "node scripts/generate-agent-skills-index.mjs",
     "generate:location-blurbs": "node scripts/generate-location-blurbs.mjs",
     "probe:external-images": "node scripts/probe-external-images.mjs",
     "offline:external-images": "node scripts/offline-external-images.mjs"
