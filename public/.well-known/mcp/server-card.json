@@ -1,0 +1,12 @@
+{
+  "serverInfo": {
+    "name": "io.australianweddingcelebrants.directory",
+    "version": "1.0.0"
+  },
+  "transport": {
+    "type": "http",
+    "url": "https://api.australianweddingcelebrants.com.au/mcp"
+  },
+  "title": "Australian Wedding Celebrants Directory",
+  "description": "Read-only MCP access to Australia's quality-rated directory of professional wedding celebrants. Search by name, location, or specialty; browse by recognition tier (Luminary / Endorsed / Registered); fetch full celebrant profiles with contact details, social links, awards, and testimonials."
+}

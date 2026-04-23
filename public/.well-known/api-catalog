@@ -40,6 +40,23 @@
           "title": "Homepage — a 200 response indicates the directory is live"
         }
       ]
+    },
+    {
+      "anchor": "https://api.australianweddingcelebrants.com.au/mcp",
+      "service-desc": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/.well-known/mcp/server-card.json",
+          "type": "application/json",
+          "title": "MCP Server Card (SEP-1649)"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://modelcontextprotocol.io/specification",
+          "type": "text/html",
+          "title": "Model Context Protocol specification"
+        }
+      ]
     }
   ]
 }
