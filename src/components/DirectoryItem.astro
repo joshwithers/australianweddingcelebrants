@@ -63,9 +63,12 @@ const externalDims =
         )}
         <TierBadge tier={tier} />
         {topAward && (
-          <span class="award-marker" title={topAwardLabel} aria-label={topAwardLabel}>
-            <span aria-hidden="true">{topAward.emoji || "🏆"}</span>
-          </span>
+          <span
+            class="award-marker"
+            role="img"
+            title={topAwardLabel}
+            aria-label={topAwardLabel}
+          >{topAward.emoji || "🏆"}</span>
         )}
       </div>
     )}

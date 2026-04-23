@@ -4,6 +4,7 @@ dist/
 
 # astro
 .astro/
+docs/
 
 # dependencies
 node_modules/
