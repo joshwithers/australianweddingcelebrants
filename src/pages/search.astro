@@ -2,15 +2,14 @@
 import Base from "@/layouts/Base.astro";
 import SearchBar from "@/layouts/SearchBar";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
+import { plainify, slugify, truncateText } from "@/lib/utils/textConverter";
 
-// Retrieve all directory listings
 const directory = await getSinglePage("directory");
 
 const resolveImage = (img: any) =>
   typeof img === 'object' && img?.src ? img.src : typeof img === 'string' ? img : undefined;
 
-const directoryItems = directory.map((item) => ({
+const searchList = directory.map((item) => ({
   slug: item.id || slugify(item.data.title),
   data: {
     title: item.data.title,
@@ -20,19 +19,28 @@ const directoryItems = directory.map((item) => ({
     category: item.data.category || [],
     tier: item.data.tier || "registered",
   },
-  content: item.body || item.data.description || "",
+  // Strip markdown and cap body so the search payload stays small. The body
+  // only carries weight 0.5 in Fuse — we don't need the full article inlined.
+  content: item.body
+    ? truncateText(plainify(item.body).replace(/\s+/g, " ").trim(), 600)
+    : item.data.description || "",
   type: "directory" as const,
 }));
-
-const searchList = directoryItems;
 ---
 
-<Base title={`Search`}>
+<Base
+  title="Search"
+  meta_title="Search Australian Wedding Celebrants"
+  description={`Search ${searchList.length} celebrants by name, location, or specialty.`}
+>
   <section class="py-16 md:py-20">
     <div class="container max-w-3xl">
       <div class="text-center mb-10">
         <h1 style="font-weight: 700; letter-spacing: -0.44px;">Search</h1>
-        <p class="text-light mt-3" style="font-weight: 400;">Find celebrants by name, location, or category</p>
+        <p class="text-light mt-3" style="font-weight: 400;">
+          Find celebrants by name, location, or specialty —
+          searching {searchList.length} celebrants across Australia.
+        </p>
       </div>
       <SearchBar client:idle searchList={searchList} />
     </div>

@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { humanize, plainify, slugify, truncateText } from "@/lib/utils/textConverter";
+import { isRecentlyAdded } from "@/lib/utils/recency";
 import MasonryGrid from "@/components/MasonryGrid.astro";
 import LocationMap from "@/components/LocationMap.astro";
 import { getEntry, render, type CollectionEntry } from "astro:content";
@@ -61,14 +62,18 @@ const rankOf = (item: CollectionEntry<"directory">) => {
   if (tier === "endorsed"   && !local) return 4;
   return 5; // registered, non-local
 };
-// Within each rank bucket, push celebrants with more explicit awards higher.
-// The stable sort keeps the Fisher–Yates shuffle as a final tiebreaker.
+// Within each rank bucket: recently-added → award count → random tiebreaker
+// (preserved by the stable sort from the Fisher–Yates shuffle above).
 // Synthetic "Class of {year}" entries aren't counted — everyone has one.
 const awardCount = (item: CollectionEntry<"directory">) =>
   Array.isArray(item.data.awards) ? item.data.awards.length : 0;
+const isNew = (item: CollectionEntry<"directory">) => isRecentlyAdded(item.id);
 vendors.sort((a, b) => {
   const rankDiff = rankOf(a) - rankOf(b);
   if (rankDiff !== 0) return rankDiff;
+  const newA = isNew(a);
+  const newB = isNew(b);
+  if (newA !== newB) return newA ? -1 : 1;
   return awardCount(b) - awardCount(a);
 });
 

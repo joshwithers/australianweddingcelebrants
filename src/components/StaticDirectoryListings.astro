@@ -1,6 +1,7 @@
 ---
 import MasonryGrid from './MasonryGrid.astro';
 import { humanize, slugify } from "@/lib/utils/textConverter";
+import { isRecentlyAdded } from "@/lib/utils/recency";
 import type { CollectionEntry } from "astro:content";
 
 type DirectoryEntry = CollectionEntry<"directory">;
@@ -64,17 +65,21 @@ switch (sortBy) {
     break;
 }
 
-// Sort by tier priority (luminary > endorsed > registered), then by explicit
-// award count (more awards first) within a tier. The stable sort preserves
-// the prior random/alphabetical order as a final tiebreaker. Synthetic
-// "Class of {year}" entries aren't counted — everyone has one, so they'd
-// add no signal.
+// Sort chain within a tier: recency boost → award count → random (stable
+// tiebreaker from the shuffle above). The recency boost pins celebrants added
+// in the last 45 days to the top of their tier so they always appear on the
+// home page — without it, the 32-item cap + random order means a new
+// Registered celebrant has only ~30% chance of appearing per build.
 const awardCount = (item: DirectoryEntry) =>
   Array.isArray(item.data.awards) ? item.data.awards.length : 0;
+const isNew = (item: DirectoryEntry) => isRecentlyAdded(item.id);
 sortedItems.sort((a, b) => {
   const tierA = tierOrder[a.data.tier || "registered"] ?? 2;
   const tierB = tierOrder[b.data.tier || "registered"] ?? 2;
   if (tierA !== tierB) return tierA - tierB;
+  const newA = isNew(a);
+  const newB = isNew(b);
+  if (newA !== newB) return newA ? -1 : 1;
   return awardCount(b) - awardCount(a);
 });
 

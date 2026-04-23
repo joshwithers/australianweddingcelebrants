@@ -2,7 +2,7 @@ import React from "react";
 import { humanize } from "@/lib/utils/textConverter";
 import Fuse from "fuse.js";
 import type { FormEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export type SearchItem = {
   slug: string;
@@ -37,20 +37,23 @@ export default function SearchBar({ searchList }: Props) {
     setInputVal(e.currentTarget.value);
   };
 
-  const fuse = new Fuse(searchList, {
-    keys: [
-      { name: "data.title", weight: 2 },
-      { name: "data.description", weight: 1.5 },
-      { name: "data.location", weight: 1.5 },
-      { name: "data.category", weight: 1 },
-      { name: "data.categories", weight: 1 },
-      { name: "data.tags", weight: 0.5 },
-      { name: "content", weight: 0.5 },
-    ],
-    includeMatches: true,
-    minMatchCharLength: 2,
-    threshold: 0.4,
-  });
+  const fuse = useMemo(
+    () =>
+      new Fuse(searchList, {
+        keys: [
+          { name: "data.title", weight: 2 },
+          { name: "data.location", weight: 1.5 },
+          { name: "data.description", weight: 1.2 },
+          { name: "data.category", weight: 1 },
+          { name: "content", weight: 0.5 },
+        ],
+        ignoreLocation: true,
+        includeMatches: true,
+        minMatchCharLength: 2,
+        threshold: 0.4,
+      }),
+    [searchList],
+  );
 
   useEffect(() => {
     const searchUrl = new URLSearchParams(window.location.search);
@@ -67,24 +70,28 @@ export default function SearchBar({ searchList }: Props) {
     let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
 
+    // Use replaceState so every keystroke doesn't push onto the back stack.
     if (inputVal.length > 0) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.set("q", inputVal);
-      const newRelativePathQuery =
-        window.location.pathname + "?" + searchParams.toString();
-      history.pushState(null, "", newRelativePathQuery);
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + "?" + searchParams.toString(),
+      );
     } else {
-      history.pushState(null, "", window.location.pathname);
+      history.replaceState(null, "", window.location.pathname);
     }
-  }, [inputVal]);
+  }, [inputVal, fuse]);
 
   return (
     <div className="min-h-[45vh]">
       <input
         className="form-input w-full text-center"
-        placeholder="Search celebrants, locations, or categories..."
-        type="text"
-        name="search"
+        placeholder="Search celebrants, locations, or categories…"
+        type="search"
+        name="q"
+        aria-label="Search celebrants"
         value={inputVal}
         onChange={handleChange}
         autoComplete="off"
@@ -93,10 +100,15 @@ export default function SearchBar({ searchList }: Props) {
       />
 
       {inputVal.length > 1 && (
-        <div className="my-6 text-center text-sm" style={{ color: "#6a6a6a", fontWeight: 400 }}>
-          Found {searchResults?.length}
-          {searchResults?.length === 1 ? " result" : " results"}{" "}
-          for '{inputVal}'
+        <div
+          className="my-6 text-center text-sm"
+          style={{ color: "#6a6a6a", fontWeight: 400 }}
+          role="status"
+          aria-live="polite"
+        >
+          {searchResults && searchResults.length > 0
+            ? `Showing ${searchResults.length} ${searchResults.length === 1 ? "match" : "matches"} for “${inputVal}”`
+            : `No celebrants matched “${inputVal}”. Try a location, name, or specialty.`}
         </div>
       )}
 
