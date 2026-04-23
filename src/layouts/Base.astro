@@ -99,6 +99,10 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     <meta name="twitter:description" content={truncateText(plainify(description ? description : config.metadata.meta_description), 160)} />
     <meta name="twitter:image" content={image && typeof image === 'string' && image.startsWith('http') ? image : `${config.site.base_url}${image || config.metadata.meta_image}`} />
 
+    <!-- WebMCP — expose key site actions to AI agents running in the browser.
+         Feature-detects navigator.modelContext, no-op elsewhere. -->
+    <script is:inline src="/webmcp.js" defer></script>
+
     <!-- Structured data -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
