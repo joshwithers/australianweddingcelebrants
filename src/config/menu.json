@@ -39,6 +39,10 @@
       "url": "/ai/"
     },
     {
+      "name": "Connect via MCP",
+      "url": "/connect/"
+    },
+    {
       "name": "Terms and Conditions",
       "url": "/terms/"
     },

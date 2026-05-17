@@ -1,0 +1,160 @@
+---
+import Base from "@/layouts/Base.astro";
+
+const mcpUrl = "https://api.australianweddingcelebrants.com.au/mcp";
+---
+
+<Base
+  title="Connect this directory to your AI assistant"
+  meta_title="Connect via MCP — Australian Wedding Celebrants"
+  description="Add the Australian Wedding Celebrants MCP server to Claude, ChatGPT, Cursor, or any MCP-capable client. One URL, three steps."
+>
+  <section class="py-16 md:py-20">
+    <div class="container max-w-3xl">
+      <!-- Hero -->
+      <div class="text-center mb-12">
+        <div
+          class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-5"
+          style="font-weight: 600; background: #460479;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 18l6-6-6-6"/>
+            <path d="M8 6l-6 6 6 6"/>
+          </svg>
+          MCP server
+        </div>
+        <h1 class="mb-4 pretty" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15;">
+          Connect this directory to your AI assistant
+        </h1>
+        <p class="text-light max-w-2xl mx-auto pretty" style="font-weight: 400; line-height: 1.6;">
+          Add one URL to Claude, ChatGPT, or your editor and your assistant can search the directory, browse by location or tier, and pull full celebrant profiles — right inside the chat.
+        </p>
+      </div>
+
+      <!-- URL card -->
+      <div class="p-5 rounded-2xl border border-border bg-white mb-12" style="box-shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px;">
+        <p class="text-xs text-light mb-2" style="letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;">
+          MCP server URL
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <code id="mcp-url" class="flex-1 min-w-0 text-sm break-all" style="color: #460479; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;">{mcpUrl}</code>
+          <button
+            type="button"
+            class="btn btn-primary no-underline text-sm"
+            onclick="navigator.clipboard.writeText(document.getElementById('mcp-url').textContent).then(()=>{this.textContent='Copied'; setTimeout(()=>this.textContent='Copy URL',1500)})"
+          >
+            Copy URL
+          </button>
+        </div>
+      </div>
+
+      <!-- Client instructions -->
+      <section class="mb-12">
+        <h2 class="mb-6" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.4rem;">
+          Add it to your client
+        </h2>
+
+        <div class="space-y-4">
+          <details class="p-5 rounded-2xl border border-border bg-white">
+            <summary class="cursor-pointer flex items-center justify-between" style="font-weight: 600; letter-spacing: -0.18px;">
+              <span>Claude (claude.ai or Claude Desktop)</span>
+              <span class="summary-icon" style="color: #92174d;">+</span>
+            </summary>
+            <ol class="text-light mt-4 ml-5 space-y-2" style="font-weight: 400; line-height: 1.6;">
+              <li>Open <strong>Settings → Connectors</strong>.</li>
+              <li>Click <strong>Add custom connector</strong>.</li>
+              <li>Paste the URL above and name it something like <em>Australian Wedding Celebrants</em>.</li>
+              <li>Save. The tools appear in any new conversation.</li>
+            </ol>
+          </details>
+
+          <details class="p-5 rounded-2xl border border-border bg-white">
+            <summary class="cursor-pointer flex items-center justify-between" style="font-weight: 600; letter-spacing: -0.18px;">
+              <span>ChatGPT</span>
+              <span class="summary-icon" style="color: #92174d;">+</span>
+            </summary>
+            <ol class="text-light mt-4 ml-5 space-y-2" style="font-weight: 400; line-height: 1.6;">
+              <li>Open <strong>Settings → Connectors</strong> (Apps SDK / MCP).</li>
+              <li>Add a new MCP server and paste the URL above.</li>
+              <li>The directory tools surface alongside any other connectors you've added.</li>
+            </ol>
+          </details>
+
+          <details class="p-5 rounded-2xl border border-border bg-white">
+            <summary class="cursor-pointer flex items-center justify-between" style="font-weight: 600; letter-spacing: -0.18px;">
+              <span>Cursor, Windsurf, Zed, or other editors</span>
+              <span class="summary-icon" style="color: #92174d;">+</span>
+            </summary>
+            <div class="text-light mt-4" style="font-weight: 400; line-height: 1.6;">
+              <p class="mb-3">Add this to your MCP config:</p>
+              <pre class="text-xs p-3 bg-theme-light rounded overflow-x-auto" style="line-height: 1.5;"><code>{`{
+  "mcpServers": {
+    "australian-wedding-celebrants": {
+      "url": "${mcpUrl}"
+    }
+  }
+}`}</code></pre>
+            </div>
+          </details>
+
+          <details class="p-5 rounded-2xl border border-border bg-white">
+            <summary class="cursor-pointer flex items-center justify-between" style="font-weight: 600; letter-spacing: -0.18px;">
+              <span>Test it from the command line</span>
+              <span class="summary-icon" style="color: #92174d;">+</span>
+            </summary>
+            <div class="text-light mt-4" style="font-weight: 400; line-height: 1.6;">
+              <p class="mb-3">Quick sanity-check with curl:</p>
+              <pre class="text-xs p-3 bg-theme-light rounded overflow-x-auto" style="line-height: 1.5;"><code>{`curl -X POST ${mcpUrl} \\
+  -H 'Content-Type: application/json' \\
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'`}</code></pre>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- What it can do -->
+      <section class="mb-12">
+        <h2 class="mb-6" style="font-weight: 700; letter-spacing: -0.32px; font-size: 1.4rem;">
+          What you can ask
+        </h2>
+        <ul class="space-y-3 text-light" style="font-weight: 400; line-height: 1.6;">
+          <li>🔎 <strong>Search</strong> by name, location, or specialty.</li>
+          <li>📍 <strong>Browse by location</strong> — local celebrants plus anyone who travels Australia-wide.</li>
+          <li>⭐ <strong>Filter by tier</strong> — Luminary, Endorsed, or Registered.</li>
+          <li>📄 <strong>Pull a full profile</strong> — bio, awards, testimonials, contact details.</li>
+          <li>📚 <strong>List the whole directory</strong> for broader context.</li>
+        </ul>
+        <p class="text-sm text-light mt-6" style="font-weight: 400;">
+          The server is <strong>read-only</strong>. An assistant can browse but can't change any listing.
+        </p>
+      </section>
+
+      <!-- CTAs -->
+      <section class="text-center pt-8 border-t border-border">
+        <p class="text-light mb-6 pretty" style="font-weight: 400;">
+          Curious about the full agent-discovery stack — robots.txt signals, A2A relay, llms.txt, the lot?
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="/ai/" class="btn btn-primary no-underline">How this site works with AI</a>
+          <a href="/directory/" class="btn btn-outline-primary no-underline">Browse the directory</a>
+        </div>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pretty { text-wrap: pretty; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary { list-style: none; }
+  details[open] .summary-icon { transform: rotate(45deg); }
+  .summary-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+</style>

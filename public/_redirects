@@ -1,3 +1,7 @@
+# MCP server lives on the api. subdomain. 308 keeps POST method/body intact
+# for MCP clients, and browsers land on the worker's hello page.
+/mcp  https://api.australianweddingcelebrants.com.au/mcp  308
+
 /dingleyflowercottage.html* /directory/ 301
 /angelfaces.html* /directory/ 301
 /cakesofdistinction.html* /directory/ 301
