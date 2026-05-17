@@ -40,3 +40,6 @@ new-logo.svg
 .vscode/
 *.swp
 *.swo
+
+# Claude Code local state (worktrees, settings, etc.)
+.claude/
