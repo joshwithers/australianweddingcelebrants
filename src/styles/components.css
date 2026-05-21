@@ -8,18 +8,42 @@
    show through cleanly, and non-tinted pages rely on blur alone. Bottom
    edge uses a soft warm shadow (matches the site's three-layer card shadow
    language) rather than a crisp border — a hairline reads as harsh next to
-   the blur. */
+   the blur.
+
+   `isolation: isolate` + `will-change: backdrop-filter` force the header
+   into its own compositing layer. Without these, Chromium and Firefox
+   intermittently fail to render the blur on `position: sticky` headers
+   (the property is parsed but the effect is dropped), which manifests as
+   a fully transparent nav. */
 .header {
   background-color: transparent;
-  backdrop-filter: saturate(1.4) blur(14px);
+  isolation: isolate;
+  will-change: backdrop-filter;
   -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
   box-shadow:
     0 1px 0 rgba(0, 0, 0, 0.02),
     0 6px 16px -8px rgba(0, 0, 0, 0.08);
 }
 
-@supports not ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
+/* Fallback for browsers that support neither the standard nor the WebKit
+   prefix. Nested `@supports not` is more robust than a combined `or` query
+   across engines. */
+@supports not (backdrop-filter: blur(14px)) {
+  @supports not (-webkit-backdrop-filter: blur(14px)) {
+    .header {
+      background-color: var(--page-bg, rgba(255, 255, 255, 0.92));
+    }
+  }
+}
+
+/* Honour OS-level "Reduce Transparency" (macOS/iOS, Windows). These users
+   would otherwise see a fully transparent nav because the blur is disabled
+   at the system layer. */
+@media (prefers-reduced-transparency: reduce) {
   .header {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     background-color: var(--page-bg, rgba(255, 255, 255, 0.92));
   }
 }
