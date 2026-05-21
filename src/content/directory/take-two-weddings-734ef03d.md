@@ -9,16 +9,13 @@ email: "mandi@marriedbymandi.com.au"
 phone: "0404099138"
 address: "Springfield Lakes QLD 4300"
 location:
-  - Springfield
   - Ipswich
   - Brisbane
   - Gold Coast
   - Sunshine Coast
-  - Western Suburbs
 category:
   - Celebrant
   - MC
-  - Elopement Planner
 australia_wide: true
 international: true
 year_started: 2005
