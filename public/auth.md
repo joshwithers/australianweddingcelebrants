@@ -14,30 +14,15 @@ Australian Wedding Celebrants is a public directory. People and agents can brows
 | OAuth or OpenID Connect      | Not supported or required                                         |
 | Credentials                  | None                                                              |
 
-## Agent registration
+## No agent registration
 
-The supported registration method is anonymous direct access. There is no registration transaction, provisioning endpoint, claim flow, or credential exchange.
+There is no agent registration transaction, provisioning endpoint, identity claim, credential exchange, or agent principal. Anonymous direct access is the only supported method.
 
-The following `agent_auth` block gives agents explicit machine-readable registration markers for this no-authentication service:
-
-```json
-{
-  "agent_auth": {
-    "skill": "https://australianweddingcelebrants.com.au/auth.md",
-    "registration_required": false,
-    "register_uri": "https://australianweddingcelebrants.com.au/auth.md#agent-registration",
-    "claim_uri": "https://australianweddingcelebrants.com.au/auth.md#anonymous-access",
-    "registration_methods_supported": ["anonymous"],
-    "identity_types_supported": ["anonymous"],
-    "anonymous": {
-      "credential_types_supported": [],
-      "claim_uri": "https://australianweddingcelebrants.com.au/auth.md#anonymous-access"
-    }
-  }
-}
-```
-
-The `register_uri` and `claim_uri` values above are documentation anchors, not submission endpoints. Fetch them with `GET`; do not send a registration or claim request. The empty `credential_types_supported` array means that this service issues and accepts no credentials.
+- Registration method: none.
+- Registration endpoint: none.
+- Provisioning endpoint: none.
+- Credential type: none.
+- Credential use: none.
 
 ## Anonymous access
 
