@@ -1,10 +1,10 @@
 # Australian Wedding Celebrants
 
-Directory of Australian wedding celebrants. Built with Astro 6 + Tailwind 4 + React 19 (islands only).
+Directory of Australian wedding celebrants. Built with Astro 7 + Tailwind 4 + React 19 (islands only).
 
 ## Stack
 
-- **Astro 6.1** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
+- **Astro 7.1** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
 - **Tailwind CSS 4** — via `@tailwindcss/vite`. Project-specific utilities live in `src/styles/`.
 - **React 19** — used only for the search island (`SearchBar`, hydrated with `client:idle`).
 - **MDX** — supported for rich content. No remark/rehype plugins configured.
@@ -49,7 +49,7 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 ## Component architecture
 
 - `src/layouts/Base.astro` — root layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`). Accepts `og_type` for per-page overrides (`"profile"` on celebrant pages).
-- `src/layouts/partials/Header.astro` — sticky nav with aria-expanded-driven mobile toggle (no checkbox hack). Re-binds on `astro:page-load`.
+- `src/layouts/partials/Header.astro` — sticky nav with aria-expanded-driven mobile toggle (no checkbox hack). Uses delegated events across ClientRouter page swaps.
 - `src/components/DirectoryItem.astro` — single card. Uses `<Image>` for local assets, falls back to `<img>` for string URLs. LCP-optimised via `isFirst` prop (eager load, `fetchpriority="high"`, higher quality).
 - `src/components/StaticDirectoryListings.astro` / `DirectoryListingsWrapper.astro` — grid composition with location filtering.
 - `src/layouts/SearchBar.tsx` — Fuse.js search island, hydrated `client:idle`.

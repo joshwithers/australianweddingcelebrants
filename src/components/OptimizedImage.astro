@@ -1,17 +1,17 @@
 ---
 import { Image } from "astro:assets";
 
-const { 
-  src, 
-  alt, 
-  width, 
-  height, 
-  className, 
+const {
+  src,
+  alt,
+  width,
+  height,
+  className,
   loading = "lazy",
   decoding = "async",
   fetchpriority,
   sizes,
-  quality = 80
+  quality = 80,
 } = Astro.props;
 ---
 
@@ -26,5 +26,5 @@ const {
   fetchpriority={fetchpriority}
   sizes={sizes}
   quality={quality}
-  format="webp"
+  format={typeof src === "object" && src.format === "svg" ? "svg" : "webp"}
 />

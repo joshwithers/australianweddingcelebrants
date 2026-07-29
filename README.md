@@ -12,7 +12,7 @@ Built by [Josh Withers](https://joshwithers.au) of ["Married by Josh"](https://m
 
 ## Tech Stack
 
-- **[Astro](https://astro.build)** v6 — static site generator with file-based routing
+- **[Astro](https://astro.build)** v7 — static site generator with file-based routing
 - **[React](https://react.dev)** v19 — interactive components (search, filtering)
 - **[Tailwind CSS](https://tailwindcss.com)** v4 — CSS-first configuration with `@theme` tokens via `@tailwindcss/vite`
 - **[TypeScript](https://www.typescriptlang.org)** — type safety
@@ -133,7 +133,7 @@ KV storage for sessions, submissions, images, and AI usage tracking. Cron trigge
 
 ### Prerequisites
 
-- Node.js 22+ (see `.node-version`)
+- Node.js 22.12+ (see `.node-version`)
 - npm
 
 ### Install & Run
@@ -141,7 +141,10 @@ KV storage for sessions, submissions, images, and AI usage tracking. Cron trigge
 ```bash
 npm install
 npm run dev        # Start dev server at localhost:4321
+npm run check      # Run Astro and TypeScript diagnostics
 npm run build      # Production build to dist/
+npm run check:links # Check built internal links and assets
+npm run validate   # Run all diagnostics, build checks, and dependency audit
 npm run preview    # Preview production build
 ```
 

@@ -1,5 +1,4 @@
 ---
-import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.astro";
 import TierIcon from "@/components/TierIcon.astro";
@@ -8,24 +7,42 @@ import TierIcon from "@/components/TierIcon.astro";
 <Base theme_color="#FFEDEF">
   {/* Hero section */}
   <section class="hero-section relative overflow-hidden text-center">
-
     {/* Content */}
-    <div class="container relative z-10 py-20 md:py-32">
+    <div class="relative z-10 container py-20 md:py-32">
       <div class="hero-content">
-        <svg class="hero-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M11.02,77.328L49.071,11.43L49.067,11.43C49.376,10.938 50.016,10.782 50.516,11.071C51.016,11.356 51.2,11.989 50.934,12.5L12.883,78.398C12.743,78.652 12.508,78.84 12.227,78.922C11.95,79 11.649,78.961 11.399,78.816C11.149,78.672 10.965,78.43 10.895,78.148C10.825,77.871 10.868,77.57 11.02,77.324L11.02,77.328ZM82.18,86.965L6.075,86.965C5.786,86.957 5.505,87.066 5.294,87.265C5.087,87.469 4.97,87.75 4.97,88.039C4.97,88.332 5.087,88.609 5.294,88.812C5.505,89.015 5.786,89.125 6.075,89.113L82.177,89.113C82.47,89.125 82.751,89.015 82.958,88.812C83.169,88.609 83.286,88.332 83.286,88.039C83.286,87.75 83.169,87.469 82.958,87.265C82.751,87.066 82.47,86.957 82.177,86.965L82.18,86.965ZM94.86,87.504L56.805,21.602C56.668,21.348 56.43,21.16 56.153,21.078C55.871,21 55.575,21.039 55.325,21.184C55.071,21.328 54.891,21.571 54.817,21.852C54.746,22.129 54.793,22.43 54.942,22.676L92.993,88.578C93.29,89.09 93.95,89.265 94.465,88.969C94.977,88.672 95.153,88.015 94.856,87.5L94.86,87.504ZM44.665,41.551C44.149,41.254 43.493,41.43 43.196,41.941L22.766,77.328C22.606,77.574 22.555,77.879 22.626,78.164C22.696,78.449 22.879,78.696 23.133,78.844C23.391,78.989 23.692,79.024 23.977,78.942C24.258,78.86 24.493,78.664 24.629,78.399L45.059,43.012L45.059,43.016C45.352,42.5 45.177,41.844 44.665,41.551L44.665,41.551ZM35.442,78.942L76.301,78.942C76.895,78.942 77.376,78.461 77.376,77.868C77.376,77.274 76.895,76.789 76.301,76.789L35.442,76.789C34.849,76.789 34.368,77.274 34.368,77.868C34.368,78.461 34.849,78.942 35.442,78.942ZM50.934,31.77C50.637,31.254 49.977,31.078 49.462,31.375C48.95,31.672 48.77,32.332 49.067,32.844L69.501,68.231C69.798,68.747 70.458,68.922 70.97,68.626C71.485,68.329 71.661,67.669 71.364,67.157L50.934,31.77ZM40.387,67.157L49.071,52.118L49.067,52.118C49.262,51.782 49.618,51.579 50.001,51.579C50.383,51.579 50.739,51.782 50.934,52.118L59.618,67.157L59.614,67.157C59.809,67.489 59.809,67.899 59.614,68.231C59.422,68.563 59.067,68.77 58.684,68.77L41.317,68.77C40.934,68.77 40.579,68.563 40.387,68.231C40.192,67.899 40.192,67.489 40.387,67.157L40.387,67.157ZM43.188,66.618L56.821,66.618L50.001,54.806L43.188,66.618Z" fill="#86244c" fill-rule="nonzero" />
+        <svg
+          class="hero-logo"
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M11.02,77.328L49.071,11.43L49.067,11.43C49.376,10.938 50.016,10.782 50.516,11.071C51.016,11.356 51.2,11.989 50.934,12.5L12.883,78.398C12.743,78.652 12.508,78.84 12.227,78.922C11.95,79 11.649,78.961 11.399,78.816C11.149,78.672 10.965,78.43 10.895,78.148C10.825,77.871 10.868,77.57 11.02,77.324L11.02,77.328ZM82.18,86.965L6.075,86.965C5.786,86.957 5.505,87.066 5.294,87.265C5.087,87.469 4.97,87.75 4.97,88.039C4.97,88.332 5.087,88.609 5.294,88.812C5.505,89.015 5.786,89.125 6.075,89.113L82.177,89.113C82.47,89.125 82.751,89.015 82.958,88.812C83.169,88.609 83.286,88.332 83.286,88.039C83.286,87.75 83.169,87.469 82.958,87.265C82.751,87.066 82.47,86.957 82.177,86.965L82.18,86.965ZM94.86,87.504L56.805,21.602C56.668,21.348 56.43,21.16 56.153,21.078C55.871,21 55.575,21.039 55.325,21.184C55.071,21.328 54.891,21.571 54.817,21.852C54.746,22.129 54.793,22.43 54.942,22.676L92.993,88.578C93.29,89.09 93.95,89.265 94.465,88.969C94.977,88.672 95.153,88.015 94.856,87.5L94.86,87.504ZM44.665,41.551C44.149,41.254 43.493,41.43 43.196,41.941L22.766,77.328C22.606,77.574 22.555,77.879 22.626,78.164C22.696,78.449 22.879,78.696 23.133,78.844C23.391,78.989 23.692,79.024 23.977,78.942C24.258,78.86 24.493,78.664 24.629,78.399L45.059,43.012L45.059,43.016C45.352,42.5 45.177,41.844 44.665,41.551L44.665,41.551ZM35.442,78.942L76.301,78.942C76.895,78.942 77.376,78.461 77.376,77.868C77.376,77.274 76.895,76.789 76.301,76.789L35.442,76.789C34.849,76.789 34.368,77.274 34.368,77.868C34.368,78.461 34.849,78.942 35.442,78.942ZM50.934,31.77C50.637,31.254 49.977,31.078 49.462,31.375C48.95,31.672 48.77,32.332 49.067,32.844L69.501,68.231C69.798,68.747 70.458,68.922 70.97,68.626C71.485,68.329 71.661,67.669 71.364,67.157L50.934,31.77ZM40.387,67.157L49.071,52.118L49.067,52.118C49.262,51.782 49.618,51.579 50.001,51.579C50.383,51.579 50.739,51.782 50.934,52.118L59.618,67.157L59.614,67.157C59.809,67.489 59.809,67.899 59.614,68.231C59.422,68.563 59.067,68.77 58.684,68.77L41.317,68.77C40.934,68.77 40.579,68.563 40.387,68.231C40.192,67.899 40.192,67.489 40.387,67.157L40.387,67.157ZM43.188,66.618L56.821,66.618L50.001,54.806L43.188,66.618Z"
+            fill="#86244c"
+            fill-rule="nonzero"></path>
         </svg>
-        <h1 class="text-h2-sm md:text-h1 mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15; color: #86244c;">
+        <h1
+          class="text-h2-sm md:text-h1 mb-4"
+          style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15; color: #86244c;"
+        >
           Find Your Perfect<br class="hidden sm:block" /> Wedding Celebrant
         </h1>
-        <p class="text-lg max-w-2xl mx-auto mb-10" style="font-weight: 500; line-height: 1.6; color: #444444;">
-          Australia's quality-rated directory of professional wedding celebrants — recognising and celebrating proven professionalism
+        <p
+          class="mx-auto mb-10 max-w-2xl text-lg"
+          style="font-weight: 500; line-height: 1.6; color: #444444;"
+        >
+          Australia's quality-rated directory of professional wedding celebrants
+          — recognising and celebrating proven professionalism
         </p>
-        <div class="flex flex-wrap gap-3 justify-center">
+        <div class="flex flex-wrap justify-center gap-3">
           <a href="/directory/" class="btn btn-primary px-8 py-3 no-underline">
             Browse Celebrants
           </a>
-          <a href="/tiers/" class="btn btn-outline-primary px-8 py-3 no-underline">
+          <a
+            href="/tiers/"
+            class="btn btn-outline-primary px-8 py-3 no-underline"
+          >
             Our Standards
           </a>
         </div>
@@ -33,14 +50,26 @@ import TierIcon from "@/components/TierIcon.astro";
 
       {/* Tier pills — floating below the CTA */}
       <div class="mt-12 flex flex-wrap items-center justify-center gap-3">
-        <a href="/registered/" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs border border-border bg-white/80 text-light no-underline hover:border-dark hover:text-dark hover:bg-white transition-all duration-200" style="font-weight: 500; backdrop-filter: blur(4px);">
+        <a
+          href="/registered/"
+          class="border-border text-light hover:border-dark hover:text-dark inline-flex items-center gap-1.5 rounded-full border bg-white/80 px-4 py-2 text-xs no-underline transition-all duration-200 hover:bg-white"
+          style="font-weight: 500; backdrop-filter: blur(4px);"
+        >
           Registered
         </a>
-        <a href="/endorsed/" class="pill-endorsed inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs no-underline transition-all duration-200" style="font-weight: 600;">
+        <a
+          href="/endorsed/"
+          class="pill-endorsed inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs no-underline transition-all duration-200"
+          style="font-weight: 600;"
+        >
           <TierIcon tier="endorsed" />
           Endorsed
         </a>
-        <a href="/luminaries/" class="pill-luminary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs no-underline transition-all duration-200" style="font-weight: 600;">
+        <a
+          href="/luminaries/"
+          class="pill-luminary inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs no-underline transition-all duration-200"
+          style="font-weight: 600;"
+        >
           <TierIcon tier="luminary" />
           Luminary
         </a>
@@ -49,62 +78,133 @@ import TierIcon from "@/components/TierIcon.astro";
   </section>
 
   {/* Our Standards section */}
-  <section class="py-16 md:py-20 border-t border-border bg-theme-light">
+  <section class="border-border bg-theme-light border-t py-16 md:py-20">
     <div class="container">
-      <div class="text-center mb-12">
+      <div class="mb-12 text-center">
         <h2 class="mb-3" style="font-weight: 700; letter-spacing: -0.44px;">
           Recognising Professional Excellence
         </h2>
-        <p class="text-light max-w-2xl mx-auto" style="font-weight: 400; line-height: 1.6;">
-          This isn't an awards process — it's a recognition system. When celebrants prove they've gone above and beyond through documented experience, qualifications, and industry support, we celebrate that achievement. Each tier reflects a real level of professionalism you can trust.
+        <p
+          class="text-light mx-auto max-w-2xl"
+          style="font-weight: 400; line-height: 1.6;"
+        >
+          This isn't an awards process — it's a recognition system. When
+          celebrants prove they've gone above and beyond through documented
+          experience, qualifications, and industry support, we celebrate that
+          achievement. Each tier reflects a real level of professionalism you
+          can trust.
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-8 justify-center">
+      <div class="flex flex-wrap justify-center gap-8">
         {/* Registered */}
         <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
-          <div class="bg-white rounded-card p-6 h-full border border-border">
-            <div class="inline-flex items-center gap-2 text-light px-3 py-1 rounded-full text-xs border border-border mb-4" style="font-weight: 500;">
+          <div class="rounded-card border-border h-full border bg-white p-6">
+            <div
+              class="text-light border-border mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs"
+              style="font-weight: 500;"
+            >
               Registered
             </div>
-            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Registered Celebrant</h3>
-            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
-              Commonwealth authorised marriage celebrant with a complete professional profile.
+            <h3
+              class="mb-2 text-base"
+              style="font-weight: 600; letter-spacing: -0.18px;"
+            >
+              Registered Celebrant
+            </h3>
+            <p
+              class="text-light text-sm"
+              style="font-weight: 400; line-height: 1.6;"
+            >
+              Commonwealth authorised marriage celebrant with a complete
+              professional profile.
             </p>
           </div>
         </div>
 
         {/* Endorsed */}
         <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
-          <div class="bg-white rounded-card p-6 h-full border-2" style="border-color: #92174d;">
-            <div class="inline-flex items-center gap-2 text-white px-3 py-1 rounded-full text-xs mb-4" style="font-weight: 600; background: #92174d;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          <div
+            class="rounded-card h-full border-2 bg-white p-6"
+            style="border-color: #92174d;"
+          >
+            <div
+              class="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs text-white"
+              style="font-weight: 600; background: #92174d;"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                ><path
+                  d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                ></path></svg
+              >
               Endorsed
             </div>
-            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Endorsed Celebrant</h3>
-            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
-              3+ years experience, insured, with 6+ verified reviews from couples and 3+ from fellow wedding vendors, 100+ ceremonies, and documented professional development.
+            <h3
+              class="mb-2 text-base"
+              style="font-weight: 600; letter-spacing: -0.18px;"
+            >
+              Endorsed Celebrant
+            </h3>
+            <p
+              class="text-light text-sm"
+              style="font-weight: 400; line-height: 1.6;"
+            >
+              3+ years experience, insured, with 6+ verified reviews from
+              couples and 3+ from fellow wedding vendors, 100+ ceremonies, and
+              documented professional development.
             </p>
           </div>
         </div>
 
         {/* Luminary */}
         <div class="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)]">
-          <div class="bg-white rounded-card p-6 h-full border-2" style="border-color: #460479;">
-            <div class="inline-flex items-center gap-2 text-white px-3 py-1 rounded-full text-xs mb-4" style="font-weight: 600; background: #460479;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          <div
+            class="rounded-card h-full border-2 bg-white p-6"
+            style="border-color: #460479;"
+          >
+            <div
+              class="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs text-white"
+              style="font-weight: 600; background: #460479;"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                ><path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                ></path></svg
+              >
               Luminary
             </div>
-            <h3 class="text-base mb-2" style="font-weight: 600; letter-spacing: -0.18px;">Luminary Celebrant</h3>
-            <p class="text-light text-sm" style="font-weight: 400; line-height: 1.6;">
-              7+ years, 18+ verified reviews from couples and 9+ from fellow wedding vendors, industry awards, and demonstrated leadership. The very best in the profession.
+            <h3
+              class="mb-2 text-base"
+              style="font-weight: 600; letter-spacing: -0.18px;"
+            >
+              Luminary Celebrant
+            </h3>
+            <p
+              class="text-light text-sm"
+              style="font-weight: 400; line-height: 1.6;"
+            >
+              7+ years, 18+ verified reviews from couples and 9+ from fellow
+              wedding vendors, industry awards, and demonstrated leadership. The
+              very best in the profession.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="text-center mt-10">
-        <a href="/tiers/" class="text-sm text-dark hover:text-primary no-underline" style="font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">
+      <div class="mt-10 text-center">
+        <a
+          href="/tiers/"
+          class="text-dark hover:text-primary text-sm no-underline"
+          style="font-weight: 500; text-decoration: underline; text-underline-offset: 3px;"
+        >
           Learn more about our standards
         </a>
       </div>
@@ -128,7 +228,7 @@ import TierIcon from "@/components/TierIcon.astro";
 
 <style>
   .hero-section {
-    background-color: #FFEDEF;
+    background-color: #ffedef;
     min-height: 70vh;
     display: flex;
     flex-direction: column;

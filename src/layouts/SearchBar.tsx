@@ -1,7 +1,7 @@
 import React from "react";
 import { humanize } from "@/lib/utils/textConverter";
 import Fuse from "fuse.js";
-import type { FormEvent } from "react";
+import type { ChangeEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export type SearchItem = {
@@ -33,7 +33,7 @@ export default function SearchBar({ searchList }: Props) {
     null,
   );
 
-  const handleChange = (e: FormEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.currentTarget.value);
   };
 
@@ -112,7 +112,7 @@ export default function SearchBar({ searchList }: Props) {
         </div>
       )}
 
-      <div className="flex flex-wrap -mx-2">
+      <div className="-mx-2 flex flex-wrap">
         {searchResults?.map(({ item }) => (
           <DirectoryResult key={item.slug} item={item} />
         ))}
@@ -126,13 +126,10 @@ function DirectoryResult({ item }: { item: SearchItem }) {
   const tierInfo = tierLabels[tier] || tierLabels.registered;
 
   return (
-    <div className="w-full sm:w-1/2 lg:w-1/3 mb-8 px-2">
-      <a
-        href={`/directory/${item.slug}/`}
-        className="block no-underline group"
-      >
+    <div className="mb-8 w-full px-2 sm:w-1/2 lg:w-1/3">
+      <a href={`/directory/${item.slug}/`} className="group block no-underline">
         <div
-          className="rounded-[20px] overflow-hidden bg-white transition-shadow duration-300"
+          className="overflow-hidden rounded-[20px] bg-white transition-shadow duration-300"
           style={{
             boxShadow:
               "rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px",
@@ -143,11 +140,11 @@ function DirectoryResult({ item }: { item: SearchItem }) {
               <img
                 src={item.data.image}
                 alt={item.data.title}
-                className="w-full h-auto group-hover:scale-[1.03] transition-transform duration-500"
+                className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
                 loading="lazy"
               />
               <span
-                className="absolute top-3 left-3 text-xs px-3 py-1 rounded-[14px] flex items-center gap-1.5"
+                className="absolute top-3 left-3 flex items-center gap-1.5 rounded-[14px] px-3 py-1 text-xs"
                 style={{
                   fontWeight: 600,
                   color: tier === "registered" ? "#6a6a6a" : "#fff",
@@ -164,7 +161,7 @@ function DirectoryResult({ item }: { item: SearchItem }) {
           )}
           <div className="p-4">
             <h3
-              className="text-base m-0"
+              className="m-0 text-base"
               style={{
                 fontWeight: 600,
                 letterSpacing: "-0.18px",
@@ -176,7 +173,7 @@ function DirectoryResult({ item }: { item: SearchItem }) {
             </h3>
             {item.data.location && item.data.location.length > 0 && (
               <p
-                className="text-sm mt-1 mb-2"
+                className="mt-1 mb-2 text-sm"
                 style={{ color: "#6a6a6a", fontWeight: 400 }}
               >
                 {item.data.location.map(humanize).join(" · ")}
@@ -184,7 +181,7 @@ function DirectoryResult({ item }: { item: SearchItem }) {
             )}
             {item.data.description && (
               <p
-                className="text-sm mb-0"
+                className="mb-0 text-sm"
                 style={{
                   color: "#6a6a6a",
                   fontWeight: 400,

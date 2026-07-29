@@ -1,7 +1,7 @@
 ---
 title: "About"
 meta_title: "About Australian Wedding Celebrants"
-image: "/new-logo.svg"
+image: "/logo.svg"
 draft: false
 
 what_i_do:

@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 
 // About collection schema
 const aboutCollection = defineCollection({
@@ -24,70 +25,79 @@ const aboutCollection = defineCollection({
 // Wedding Directory collection schema
 const directoryCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/directory" }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    meta_title: z.string().optional(),
-    description: z.string().optional(),
-    image: z.union([image(), z.string()]).optional(),
-    logo: z.union([image(), z.string()]).optional(),
-    website: z.url().optional(),
-    email: z.email().optional(),
-    phone: z.string().optional(),
-    address: z.string().optional(),
-    location: z.array(z.string()).default(["Australia"]),
-    category: z.array(z.string()).default(["Other"]),
-    featured: z.boolean().optional(),
-    australia_wide: z.boolean().optional(),
-    international: z.boolean().optional(),
-    // Default true — agents can relay wedding enquiries to this celebrant's
-    // public email via /a2a on the worker. Set false to opt out.
-    accepts_agent_enquiries: z.boolean().optional(),
-    draft: z.boolean().optional(),
-    tier: z.enum(["registered", "endorsed", "luminary"]).default("registered"),
-    slug: z.string().optional(),
-    social: z
-      .object({
-        facebook: z.url().optional(),
-        instagram: z.url().optional(),
-        pinterest: z.url().optional(),
-      })
-      .optional(),
-    // Premium profile fields — available to all tiers.
-    youtube: z.url().optional(),
-    gallery: z.array(z.union([image(), z.string()])).max(3).optional(),
-    // Hex colour (e.g. "#faf7f5") applied to the profile page background.
-    background_color: z.string().regex(/^#[0-9a-fA-F]{3,8}$/).optional(),
-    // Testimonials — Luminary and Endorsed tiers.
-    testimonials: z
-      .array(
-        z.object({
-          quote: z.string(),
-          author: z.string(),
-          role: z.string().optional(),
-        }),
-      )
-      .max(3)
-      .optional(),
-    // Year the celebrant started in the profession. Used to auto-generate a
-    // "Class of {year}" award on their Trophy Shelf so every celebrant has
-    // at least one recognition.
-    year_started: z.number().int().optional(),
-    // Awards — free-text, playful "staff Christmas party" style recognitions.
-    // Title is free text so each award can be as cute or serious as needed.
-    // Region is optional (not every award is regional). Year is required so
-    // awards can be grouped on /awards/[year]/ pages in future.
-    awards: z
-      .array(
-        z.object({
-          title: z.string(),
-          emoji: z.string().optional(),
-          region: z.string().optional(),
-          year: z.number(),
-          note: z.string().optional(),
-        }),
-      )
-      .optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      meta_title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.union([image(), z.string()]).optional(),
+      logo: z.union([image(), z.string()]).optional(),
+      website: z.url().optional(),
+      email: z.email().optional(),
+      phone: z.string().optional(),
+      address: z.string().optional(),
+      location: z.array(z.string()).default(["Australia"]),
+      category: z.array(z.string()).default(["Other"]),
+      featured: z.boolean().optional(),
+      australia_wide: z.boolean().optional(),
+      international: z.boolean().optional(),
+      // Default true — agents can relay wedding enquiries to this celebrant's
+      // public email via /a2a on the worker. Set false to opt out.
+      accepts_agent_enquiries: z.boolean().optional(),
+      draft: z.boolean().optional(),
+      tier: z
+        .enum(["registered", "endorsed", "luminary"])
+        .default("registered"),
+      slug: z.string().optional(),
+      social: z
+        .object({
+          facebook: z.url().optional(),
+          instagram: z.url().optional(),
+          pinterest: z.url().optional(),
+        })
+        .optional(),
+      // Premium profile fields — available to all tiers.
+      youtube: z.url().optional(),
+      gallery: z
+        .array(z.union([image(), z.string()]))
+        .max(3)
+        .optional(),
+      // Hex colour (e.g. "#faf7f5") applied to the profile page background.
+      background_color: z
+        .string()
+        .regex(/^#[0-9a-fA-F]{3,8}$/)
+        .optional(),
+      // Testimonials — Luminary and Endorsed tiers.
+      testimonials: z
+        .array(
+          z.object({
+            quote: z.string(),
+            author: z.string(),
+            role: z.string().optional(),
+          }),
+        )
+        .max(3)
+        .optional(),
+      // Year the celebrant started in the profession. Used to auto-generate a
+      // "Class of {year}" award on their Trophy Shelf so every celebrant has
+      // at least one recognition.
+      year_started: z.number().int().optional(),
+      // Awards — free-text, playful "staff Christmas party" style recognitions.
+      // Title is free text so each award can be as cute or serious as needed.
+      // Region is optional (not every award is regional). Year is required so
+      // awards can be grouped on /awards/[year]/ pages in future.
+      awards: z
+        .array(
+          z.object({
+            title: z.string(),
+            emoji: z.string().optional(),
+            region: z.string().optional(),
+            year: z.number(),
+            note: z.string().optional(),
+          }),
+        )
+        .optional(),
+    }),
 });
 
 // Location blurbs — SEO body copy rendered above the celebrant grid on

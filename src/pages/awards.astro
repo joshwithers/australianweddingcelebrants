@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { slugify } from "@/lib/utils/textConverter";
 import { deriveAwards } from "@/lib/utils/awards";
+import { outputImageFormat } from "@/lib/utils/images";
 
 type AwardEntry = {
   title: string;
@@ -65,7 +66,7 @@ const awardsPageUrl = `${siteUrl}/awards/`;
 
 const itemListElement = flat
   .slice()
-  .sort((a, b) => (b.year - a.year) || a.title.localeCompare(b.title))
+  .sort((a, b) => b.year - a.year || a.title.localeCompare(b.title))
   .map((a, i) => {
     const celebrantUrl = `${siteUrl}/directory/${a.celebrantSlug}/`;
     // Self-contained name so a single excerpted list entry still makes sense:
@@ -77,17 +78,19 @@ const itemListElement = flat
       a.region ? `Awarded for ${a.region}` : null,
       a.year ? `in ${a.year}` : null,
       a.note,
-    ].filter(Boolean).join(" — ");
+    ]
+      .filter(Boolean)
+      .join(" — ");
     return {
       "@type": "ListItem",
-      "position": i + 1,
-      "url": celebrantUrl,
-      "item": {
+      position: i + 1,
+      url: celebrantUrl,
+      item: {
         "@type": "Thing",
-        "additionalType": "https://schema.org/Award",
-        "name": name,
-        "description": description || undefined,
-        "about": { "@id": celebrantUrl, "name": a.celebrantName },
+        additionalType: "https://schema.org/Award",
+        name: name,
+        description: description || undefined,
+        about: { "@id": celebrantUrl, name: a.celebrantName },
       },
     };
   });
@@ -96,33 +99,34 @@ const collectionSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "@id": awardsPageUrl,
-  "url": awardsPageUrl,
-  "name": "Celebrant Awards",
-  "description": "A yearbook of awards given to Australian wedding celebrants — regional, industry, and the delightfully silly.",
-  "inLanguage": "en-AU",
-  "datePublished": buildDate,
-  "dateModified": buildDate,
-  "isPartOf": { "@type": "WebSite", "@id": `${siteUrl}/#website` },
-  "publisher": {
+  url: awardsPageUrl,
+  name: "Celebrant Awards",
+  description:
+    "A yearbook of awards given to Australian wedding celebrants — regional, industry, and the delightfully silly.",
+  inLanguage: "en-AU",
+  datePublished: buildDate,
+  dateModified: buildDate,
+  isPartOf: { "@type": "WebSite", "@id": `${siteUrl}/#website` },
+  publisher: {
     "@type": "Organization",
-    "name": "Australian Wedding Celebrants",
-    "url": siteUrl,
+    name: "Australian Wedding Celebrants",
+    url: siteUrl,
   },
-  "mainEntity": {
+  mainEntity: {
     "@type": "ItemList",
-    "name": "Australian wedding celebrant awards",
-    "numberOfItems": total,
-    "itemListOrder": "https://schema.org/ItemListOrderDescending",
-    "itemListElement": itemListElement,
+    name: "Australian wedding celebrant awards",
+    numberOfItems: total,
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    itemListElement: itemListElement,
   },
 };
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
-    { "@type": "ListItem", "position": 2, "name": "Awards", "item": awardsPageUrl },
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Awards", item: awardsPageUrl },
   ],
 };
 
@@ -150,13 +154,12 @@ const faqs = [
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": faqs.map((f) => ({
+  mainEntity: faqs.map((f) => ({
     "@type": "Question",
-    "name": f.q,
-    "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
-
 ---
 
 <Base
@@ -166,96 +169,162 @@ const faqSchema = {
 >
   <section class="py-12 md:py-16">
     <div class="container">
-      <div class="text-center mb-10 max-w-3xl mx-auto">
-        <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #222;">
+      <div class="mx-auto mb-10 max-w-3xl text-center">
+        <div
+          class="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm text-white"
+          style="font-weight: 600; background: #222;"
+        >
           <span aria-hidden="true">🏆</span>
           Awards
         </div>
-        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;">
+        <h1
+          class="mb-4"
+          style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
+        >
           Celebrant Awards
         </h1>
         <p class="text-light" style="font-weight: 400; line-height: 1.6;">
-          The Australian Wedding Celebrants Awards are a yearbook of recognitions given to wedding celebrants across Australia — regional "Celebrant of the Year" honours, "Class of" year markers, and community commendations from couples, guests and fellow wedding vendors.
+          The Australian Wedding Celebrants Awards are a yearbook of
+          recognitions given to wedding celebrants across Australia — regional
+          "Celebrant of the Year" honours, "Class of" year markers, and
+          community commendations from couples, guests and fellow wedding
+          vendors.
         </p>
 
-        <div class="mt-6 flex flex-wrap gap-3 justify-center">
-          <a href="/awards/nominate/" class="btn btn-primary no-underline">Nominate a celebrant</a>
-          <a href="/directory/" class="btn btn-outline-primary no-underline">Browse the directory</a>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="/awards/nominate/" class="btn btn-primary no-underline"
+            >Nominate a celebrant</a
+          >
+          <a href="/directory/" class="btn btn-outline-primary no-underline"
+            >Browse the directory</a
+          >
         </div>
       </div>
 
-      {years.length === 0 ? (
-        <div class="text-center py-16">
-          <p class="text-light text-lg">No awards yet.</p>
-        </div>
-      ) : (
-        <div class="awards-year-stack max-w-5xl mx-auto">
-          {years.map((year) => (
-            <section class="awards-year" id={`year-${year}`}>
-              <h2 class="awards-year__heading">
-                <a href={`#year-${year}`} class="awards-year__anchor no-underline">
-                  <span class="awards-year__number">{year}</span>
-                </a>
-                <span class="awards-year__count">
-                  {byYear.get(year)!.length} {byYear.get(year)!.length === 1 ? "award" : "awards"}
-                </span>
-              </h2>
-              <ul class="awards-grid">
-                {byYear.get(year)!.map((a) => (
-                  <li class="awards-card">
-                    <a href={`/directory/${a.celebrantSlug}/`} class="awards-card__link no-underline">
-                      <span class="awards-card__emoji" aria-hidden="true">{a.emoji || "🏆"}</span>
-                      <h3 class="awards-card__title">{a.title}</h3>
-                      {a.region && <p class="awards-card__region">{a.region}</p>}
-                      <div class="awards-card__celebrant">
-                        {a.celebrantImage && (
-                          <span class="awards-card__avatar">
-                            {typeof a.celebrantImage === "string" ? (
-                              <img src={a.celebrantImage} alt="" loading="lazy" />
-                            ) : (
-                              <Image src={a.celebrantImage} alt="" width={80} height={80} loading="lazy" />
-                            )}
-                          </span>
+      {
+        years.length === 0 ? (
+          <div class="py-16 text-center">
+            <p class="text-light text-lg">No awards yet.</p>
+          </div>
+        ) : (
+          <div class="awards-year-stack mx-auto max-w-5xl">
+            {years.map((year) => (
+              <section class="awards-year" id={`year-${year}`}>
+                <h2 class="awards-year__heading">
+                  <a
+                    href={`#year-${year}`}
+                    class="awards-year__anchor no-underline"
+                  >
+                    <span class="awards-year__number">{year}</span>
+                  </a>
+                  <span class="awards-year__count">
+                    {byYear.get(year)!.length}{" "}
+                    {byYear.get(year)!.length === 1 ? "award" : "awards"}
+                  </span>
+                </h2>
+                <ul class="awards-grid">
+                  {byYear.get(year)!.map((a) => (
+                    <li class="awards-card">
+                      <a
+                        href={`/directory/${a.celebrantSlug}/`}
+                        class="awards-card__link no-underline"
+                      >
+                        <span class="awards-card__emoji" aria-hidden="true">
+                          {a.emoji || "🏆"}
+                        </span>
+                        <h3 class="awards-card__title">{a.title}</h3>
+                        {a.region && (
+                          <p class="awards-card__region">{a.region}</p>
                         )}
-                        <span class="awards-card__name">{a.celebrantName}</span>
-                      </div>
-                      {a.note && <p class="awards-card__note">{a.note}</p>}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-      )}
+                        <div class="awards-card__celebrant">
+                          {a.celebrantImage && (
+                            <span class="awards-card__avatar">
+                              {typeof a.celebrantImage === "string" ? (
+                                <img
+                                  src={a.celebrantImage}
+                                  alt=""
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <Image
+                                  src={a.celebrantImage}
+                                  alt=""
+                                  width={80}
+                                  height={80}
+                                  loading="lazy"
+                                  format={outputImageFormat(a.celebrantImage)}
+                                />
+                              )}
+                            </span>
+                          )}
+                          <span class="awards-card__name">
+                            {a.celebrantName}
+                          </span>
+                        </div>
+                        {a.note && <p class="awards-card__note">{a.note}</p>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        )
+      }
 
-      <section class="awards-faq max-w-3xl mx-auto mt-20" aria-label="Frequently asked questions">
+      <section
+        class="awards-faq mx-auto mt-20 max-w-3xl"
+        aria-label="Frequently asked questions"
+      >
         <h2 class="awards-faq__heading">About these awards</h2>
         <dl class="awards-faq__list">
-          {faqs.map((f) => (
-            <div class="awards-faq__item">
-              <dt>{f.q}</dt>
-              <dd>
-                {f.a.includes("nomination form") ? (
-                  <>
-                    Yes. Head to the <a href="/awards/nominate/" class="awards-faq__link">nomination form</a>, describe what the celebrant did, and a draft award title is generated for you to approve before anything is sent.
-                  </>
-                ) : f.a}
-              </dd>
-            </div>
-          ))}
+          {
+            faqs.map((f) => (
+              <div class="awards-faq__item">
+                <dt>{f.q}</dt>
+                <dd>
+                  {f.a.includes("nomination form") ? (
+                    <>
+                      Yes. Head to the{" "}
+                      <a href="/awards/nominate/" class="awards-faq__link">
+                        nomination form
+                      </a>
+                      , describe what the celebrant did, and a draft award title
+                      is generated for you to approve before anything is sent.
+                    </>
+                  ) : (
+                    f.a
+                  )}
+                </dd>
+              </div>
+            ))
+          }
         </dl>
       </section>
 
-      <div class="text-center mt-14">
-        <a href="/awards/nominate/" class="btn btn-primary no-underline">Nominate a celebrant for an award</a>
+      <div class="mt-14 text-center">
+        <a href="/awards/nominate/" class="btn btn-primary no-underline"
+          >Nominate a celebrant for an award</a
+        >
       </div>
     </div>
   </section>
 
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(collectionSchema)}
+  />
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(faqSchema)}
+  />
 </Base>
 
 <style>
@@ -346,12 +415,20 @@ const faqSchema = {
       rgba(0, 0, 0, 0.04) 0px 2px 6px,
       rgba(0, 0, 0, 0.08) 0px 4px 10px;
     transform: rotate(var(--tilt, 0deg));
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
-  .awards-card:nth-child(3n + 1) .awards-card__link { --tilt: -0.8deg; }
-  .awards-card:nth-child(3n + 2) .awards-card__link { --tilt: 0.6deg; }
-  .awards-card:nth-child(3n + 3) .awards-card__link { --tilt: -0.3deg; }
+  .awards-card:nth-child(3n + 1) .awards-card__link {
+    --tilt: -0.8deg;
+  }
+  .awards-card:nth-child(3n + 2) .awards-card__link {
+    --tilt: 0.6deg;
+  }
+  .awards-card:nth-child(3n + 3) .awards-card__link {
+    --tilt: -0.3deg;
+  }
 
   .awards-card__link:hover {
     transform: rotate(0deg) translateY(-3px);
