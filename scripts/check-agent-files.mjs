@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 
-const [llmsText, robotsText] = await Promise.all([
+const [llmsText, robotsText, authText] = await Promise.all([
   readFile(new URL("../dist/llms.txt", import.meta.url), "utf8"),
   readFile(new URL("../dist/robots.txt", import.meta.url), "utf8"),
+  readFile(new URL("../dist/auth.md", import.meta.url), "utf8"),
 ]);
 
 const fail = (message) => {
@@ -68,8 +69,29 @@ if (
   fail("robots.txt must reference the canonical sitemap index.");
 }
 
+if (!authText.startsWith("# auth.md")) {
+  fail("auth.md must start with an H1 containing auth.md.");
+}
+
+const requiredAuthStatements = [
+  /public directory/i,
+  /identity type\s*\|\s*anonymous/i,
+  /registration or provisioning\s*\|\s*not required/i,
+  /oauth or openid connect\s*\|\s*not supported or required/i,
+  /do not send an `Authorization` header/i,
+  /intentionally absent/i,
+];
+
+for (const statement of requiredAuthStatements) {
+  if (!statement.test(authText)) {
+    fail(
+      `auth.md is missing its required public-access statement: ${statement}`,
+    );
+  }
+}
+
 if (!process.exitCode) {
   console.log(
-    `Validated llms.txt (${markdownLinks.length} Markdown links) and robots.txt Content Signals.`,
+    `Validated llms.txt (${markdownLinks.length} Markdown links), robots.txt Content Signals, and auth.md anonymous access.`,
   );
 }

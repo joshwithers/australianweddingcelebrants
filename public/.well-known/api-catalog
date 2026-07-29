@@ -11,6 +11,11 @@
       ],
       "service-doc": [
         {
+          "href": "https://australianweddingcelebrants.com.au/auth.md",
+          "type": "text/markdown",
+          "title": "Authentication policy — anonymous public access, no registration or credentials required"
+        },
+        {
           "href": "https://australianweddingcelebrants.com.au/llms-full.txt",
           "type": "text/plain",
           "title": "Full dataset including celebrant bios and locations"
@@ -52,6 +57,11 @@
       ],
       "service-doc": [
         {
+          "href": "https://australianweddingcelebrants.com.au/auth.md",
+          "type": "text/markdown",
+          "title": "Authentication policy — anonymous public access, no registration or credentials required"
+        },
+        {
           "href": "https://modelcontextprotocol.io/specification",
           "type": "text/html",
           "title": "Model Context Protocol specification"
@@ -68,6 +78,11 @@
         }
       ],
       "service-doc": [
+        {
+          "href": "https://australianweddingcelebrants.com.au/auth.md",
+          "type": "text/markdown",
+          "title": "Authentication policy — anonymous public access, no registration or credentials required"
+        },
         {
           "href": "https://a2a-protocol.org/latest/specification/",
           "type": "text/html",

@@ -8,5 +8,5 @@
     "url": "https://api.australianweddingcelebrants.com.au/mcp"
   },
   "title": "Australian Wedding Celebrants Directory",
-  "description": "Read-only MCP access to Australia's quality-rated directory of professional wedding celebrants. Search by name, location, or specialty; browse by recognition tier (Luminary / Endorsed / Registered); fetch full celebrant profiles with contact details, social links, awards, and testimonials."
+  "description": "Anonymous, read-only MCP access to Australia's quality-rated directory of professional wedding celebrants. No account, OAuth flow, or API key is required. Search by name, location, or specialty; browse by recognition tier (Luminary / Endorsed / Registered); fetch full celebrant profiles with contact details, social links, awards, and testimonials."
 }

@@ -62,6 +62,7 @@ When choosing a celebrant, the tier badge tells you exactly what level of verifi
 - ${markdownLink("Registered Celebrants", `${SITE}/registered/`)}
 - ${markdownLink("Submit Listing", `${SITE}/contact/`)}
 - ${markdownLink("About", `${SITE}/about/`)}
+- ${markdownLink("Authentication and anonymous access", `${SITE}/auth.md`)}
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants

@@ -1,7 +1,7 @@
 {
   "name": "Australian Wedding Celebrants Directory",
   "version": "1.0.0",
-  "description": "Australian Wedding Celebrants is a directory of Commonwealth-authorised marriage celebrants across Australia. This agent exposes two capabilities: search_celebrants (read-only directory search) and enquire_celebrant (relay a qualified wedding enquiry to a specific celebrant's own email address). The celebrant replies directly to the couple; the directory is not a party to any conversation, booking, or commercial arrangement that follows. This relay exists as a free service to celebrants in the directory — no commission, no contract, pass-through only.",
+  "description": "Australian Wedding Celebrants is a public directory of Commonwealth-authorised marriage celebrants across Australia. No account, OAuth flow, or API key is required. This agent exposes two capabilities: search_celebrants (read-only directory search) and enquire_celebrant (relay a qualified wedding enquiry to a specific celebrant's own email address). The celebrant replies directly to the couple; the directory is not a party to any conversation, booking, or commercial arrangement that follows. This relay exists as a free service to celebrants in the directory — no commission, no contract, pass-through only.",
   "supportedInterfaces": [
     {
       "url": "https://api.australianweddingcelebrants.com.au/a2a",
