@@ -2,6 +2,11 @@ import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 
+const httpUrl = z.url().refine((value) => {
+  const protocol = new URL(value).protocol;
+  return protocol === "http:" || protocol === "https:";
+}, "URL must use HTTP or HTTPS");
+
 // About collection schema
 const aboutCollection = defineCollection({
   loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/about" }),
@@ -32,7 +37,7 @@ const directoryCollection = defineCollection({
       description: z.string().optional(),
       image: z.union([image(), z.string()]).optional(),
       logo: z.union([image(), z.string()]).optional(),
-      website: z.url().optional(),
+      website: httpUrl.optional(),
       email: z.email().optional(),
       phone: z.string().optional(),
       address: z.string().optional(),
@@ -51,13 +56,13 @@ const directoryCollection = defineCollection({
       slug: z.string().optional(),
       social: z
         .object({
-          facebook: z.url().optional(),
-          instagram: z.url().optional(),
-          pinterest: z.url().optional(),
+          facebook: httpUrl.optional(),
+          instagram: httpUrl.optional(),
+          pinterest: httpUrl.optional(),
         })
         .optional(),
       // Premium profile fields — available to all tiers.
-      youtube: z.url().optional(),
+      youtube: httpUrl.optional(),
       gallery: z
         .array(z.union([image(), z.string()]))
         .max(3)
@@ -65,7 +70,9 @@ const directoryCollection = defineCollection({
       // Hex colour (e.g. "#faf7f5") applied to the profile page background.
       background_color: z
         .string()
-        .regex(/^#[0-9a-fA-F]{3,8}$/)
+        .regex(
+          /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/,
+        )
         .optional(),
       // Testimonials — Luminary and Endorsed tiers.
       testimonials: z

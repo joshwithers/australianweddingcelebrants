@@ -1,5 +1,7 @@
 ---
 // Up to three testimonial quotes. Emits schema.org Review JSON-LD for each.
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
+
 interface Testimonial {
   quote: string;
   author: string;
@@ -45,7 +47,7 @@ const reviewSchema = items.map((t) => ({
         </figure>
       ))}
     </div>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(reviewSchema)} />
+    <script is:inline type="application/ld+json" set:html={serializeJsonLd(reviewSchema)} />
   </section>
 )}
 

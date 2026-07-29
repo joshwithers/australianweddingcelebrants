@@ -23,6 +23,29 @@ function toMarkdownPath(pathname) {
   return null;
 }
 
+function withVaryAccept(response) {
+  const headers = new Headers(response.headers);
+  const varyValues = (headers.get("Vary") || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (
+    !varyValues.some(
+      (value) => value === "*" || value.toLowerCase() === "accept",
+    )
+  ) {
+    varyValues.push("Accept");
+    headers.set("Vary", varyValues.join(", "));
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export const onRequest = async (context) => {
   const { request, next } = context;
 
@@ -35,23 +58,17 @@ export const onRequest = async (context) => {
     // Still hint downstream caches that the response varies on Accept so a
     // cached HTML response doesn't accidentally get served to a markdown
     // client (or vice versa).
-    const res = await next();
-    const headers = new Headers(res.headers);
-    const existingVary = headers.get("Vary");
-    if (!existingVary || !existingVary.toLowerCase().includes("accept")) {
-      headers.set("Vary", existingVary ? `${existingVary}, Accept` : "Accept");
-    }
-    return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+    return withVaryAccept(await next());
   }
 
   const url = new URL(request.url);
   const mdPath = toMarkdownPath(url.pathname);
-  if (!mdPath) return next();
+  if (!mdPath) return withVaryAccept(await next());
 
   const mdUrl = new URL(mdPath, url);
   const mdResponse = await next(mdUrl);
 
-  if (!mdResponse.ok) return next();
+  if (!mdResponse.ok) return withVaryAccept(await next());
 
   const body = await mdResponse.text();
   const tokens = Math.ceil(body.length / 4);

@@ -2,6 +2,8 @@
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { markdownify, slugify } from "@/lib/utils/textConverter";
+import { shuffled } from "@/lib/utils/shuffle";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 import { getEntry, render } from "astro:content";
 import DirectoryListingsWrapper from "../../components/DirectoryListingsWrapper.astro";
 import TierIcon from "@/components/TierIcon.astro";
@@ -10,10 +12,10 @@ import TierIcon from "@/components/TierIcon.astro";
 const directoryItems = await getSinglePage("directory");
 
 // Sort items: featured first, then randomize each group
-const sortedItems = [...directoryItems].sort((a, b) => {
+const sortedItems = shuffled(directoryItems).sort((a, b) => {
   if (a.data.featured && !b.data.featured) return -1;
   if (!a.data.featured && b.data.featured) return 1;
-  return Math.random() - 0.5;
+  return 0;
 });
 
 // Get all unique locations
@@ -28,7 +30,7 @@ const { Content } = await render(pageEntry);
 ---
 
 <Base title={pageEntry.data.title}>
-  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={serializeJsonLd({
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "Australian Wedding Celebrants Directory",
@@ -103,6 +105,7 @@ const { Content } = await render(pageEntry);
 
       {/* Directory listings with filters */}
       <DirectoryListingsWrapper
+        sortBy="random"
         featuredOnly={false}
         showFilters={true}
       />

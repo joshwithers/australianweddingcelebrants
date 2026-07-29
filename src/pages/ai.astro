@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 
 const celebrants = await getSinglePage("directory");
 const celebrantCount = celebrants.length;
@@ -57,7 +58,7 @@ const faqSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(faqSchema)}
+    set:html={serializeJsonLd(faqSchema)}
   />
 
   <section class="py-16 md:py-20">

@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 import { getEntry } from "astro:content";
 
 const entry = await getEntry("pages", "tiers");
@@ -66,8 +67,8 @@ const breadcrumbSchema = {
   meta_title={entry.data.meta_title}
   description={entry.data.description}
 >
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script is:inline type="application/ld+json" set:html={serializeJsonLd(faqSchema)} />
+  <script is:inline type="application/ld+json" set:html={serializeJsonLd(breadcrumbSchema)} />
   {/* Hero */}
   <section class="py-16 md:py-24 text-center">
     <div class="container max-w-3xl">

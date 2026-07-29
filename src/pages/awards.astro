@@ -5,6 +5,7 @@ import { getSinglePage } from "@/lib/contentParser.astro";
 import { slugify } from "@/lib/utils/textConverter";
 import { deriveAwards } from "@/lib/utils/awards";
 import { outputImageFormat } from "@/lib/utils/images";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 
 type AwardEntry = {
   title: string;
@@ -313,17 +314,17 @@ const faqSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(collectionSchema)}
+    set:html={serializeJsonLd(collectionSchema)}
   />
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(breadcrumbSchema)}
+    set:html={serializeJsonLd(breadcrumbSchema)}
   />
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(faqSchema)}
+    set:html={serializeJsonLd(faqSchema)}
   />
 </Base>
 

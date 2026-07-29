@@ -28,6 +28,7 @@ const tierLabels: Record<string, { label: string; color: string }> = {
 
 export default function SearchBar({ searchList }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const initializingFromUrl = useRef(true);
   const [inputVal, setInputVal] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
     null,
@@ -60,14 +61,23 @@ export default function SearchBar({ searchList }: Props) {
     const searchStr = searchUrl.get("q");
     if (searchStr) setInputVal(searchStr);
 
-    setTimeout(function () {
-      inputRef.current!.selectionStart = inputRef.current!.selectionEnd =
-        searchStr?.length || 0;
+    const selectionTimer = window.setTimeout(() => {
+      const input = inputRef.current;
+      if (!input) return;
+
+      const selectionPosition = searchStr?.length || 0;
+      input.setSelectionRange(selectionPosition, selectionPosition);
     }, 50);
+
+    if (!searchStr) initializingFromUrl.current = false;
+    return () => window.clearTimeout(selectionTimer);
   }, []);
 
   useEffect(() => {
-    let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    if (initializingFromUrl.current && inputVal.length === 0) return;
+    initializingFromUrl.current = false;
+
+    const inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
 
     // Use replaceState so every keystroke doesn't push onto the back stack.

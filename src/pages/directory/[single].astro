@@ -13,6 +13,8 @@ import ProfileGallery from "@/components/ProfileGallery.astro";
 import ProfileTestimonials from "@/components/ProfileTestimonials.astro";
 import ProfileAwards from "@/components/ProfileAwards.astro";
 import { deriveAwards } from "@/lib/utils/awards";
+import { shuffled } from "@/lib/utils/shuffle";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -47,7 +49,7 @@ const sameTierVendors = allVendors.filter(
 );
 
 // Prioritise same location, then same category, then random
-const relatedVendors = sameTierVendors
+const relatedVendors = shuffled(sameTierVendors)
   .sort((a, b) => {
     const aLocMatch = a.data.location.some((loc) =>
       entry.data.location.includes(loc),
@@ -71,7 +73,7 @@ const relatedVendors = sameTierVendors
       ? 1
       : 0;
     if (aCatMatch !== bCatMatch) return bCatMatch - aCatMatch;
-    return Math.random() - 0.5;
+    return 0;
   })
   .slice(0, 3);
 
@@ -247,12 +249,12 @@ const pageBg = tier === "luminary" ? entry.data.background_color : undefined;
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(businessSchema)}
+    set:html={serializeJsonLd(businessSchema)}
   />
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(breadcrumbSchema)}
+    set:html={serializeJsonLd(breadcrumbSchema)}
   />
 
   <section

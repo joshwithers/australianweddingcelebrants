@@ -1,5 +1,29 @@
 import { slug } from "github-slugger";
 import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
+
+const markdownSanitizerOptions: sanitizeHtml.IOptions = {
+  allowedTags: [
+    "a",
+    "blockquote",
+    "br",
+    "code",
+    "del",
+    "em",
+    "li",
+    "ol",
+    "p",
+    "pre",
+    "strong",
+    "ul",
+  ],
+  allowedAttributes: {
+    a: ["href", "title"],
+    code: ["class"],
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  allowProtocolRelative: false,
+};
 
 // slugify
 export const slugify = (content: string) => {
@@ -8,7 +32,10 @@ export const slugify = (content: string) => {
 
 // markdownify
 export const markdownify = (content: string, div?: boolean) => {
-  return div ? marked.parse(content) : marked.parseInline(content);
+  const rendered = div
+    ? marked.parse(content, { async: false })
+    : marked.parseInline(content, { async: false });
+  return sanitizeHtml(rendered, markdownSanitizerOptions);
 };
 
 // humanize
@@ -45,18 +72,18 @@ export const truncateText = (content: string, maxLength: number = 160) => {
   if (!content || content.length <= maxLength) {
     return content;
   }
-  
+
   // Find the last space before the max length to avoid cutting words
   const truncated = content.substring(0, maxLength);
-  const lastSpaceIndex = truncated.lastIndexOf(' ');
-  
+  const lastSpaceIndex = truncated.lastIndexOf(" ");
+
   // If there's a space within reasonable distance, cut there
   if (lastSpaceIndex > maxLength * 0.8) {
-    return truncated.substring(0, lastSpaceIndex).trim() + '...';
+    return truncated.substring(0, lastSpaceIndex).trim() + "...";
   }
-  
+
   // Otherwise, just cut at max length
-  return truncated.trim() + '...';
+  return truncated.trim() + "...";
 };
 
 // strip entities for plainify

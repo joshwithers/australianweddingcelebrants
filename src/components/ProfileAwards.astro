@@ -1,6 +1,8 @@
 ---
 // Awards "trophy shelf" — playful, free-text recognitions (regional or fun).
 // Emits schema.org/Person awards as Thing / Award-style JSON-LD fragments.
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
+
 interface Award {
   title: string;
   emoji?: string;
@@ -58,7 +60,7 @@ const awardSchema = items.map((a) => ({
         </li>
       ))}
     </ul>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(awardSchema)} />
+    <script is:inline type="application/ld+json" set:html={serializeJsonLd(awardSchema)} />
   </section>
 )}
 

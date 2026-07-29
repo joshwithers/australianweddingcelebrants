@@ -12,6 +12,7 @@ import MasonryGrid from "@/components/MasonryGrid.astro";
 import LocationMap from "@/components/LocationMap.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import config from "@/config/config.json";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
 
 export async function getStaticPaths() {
   const [directoryItems, locationBlurbs] = await Promise.all([
@@ -170,12 +171,12 @@ const collectionPageSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(breadcrumbSchema)}
+    set:html={serializeJsonLd(breadcrumbSchema)}
   />
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(collectionPageSchema)}
+    set:html={serializeJsonLd(collectionPageSchema)}
   />
 
   <section class="py-12 md:py-16">

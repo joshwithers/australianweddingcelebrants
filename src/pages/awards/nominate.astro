@@ -295,7 +295,15 @@ const SEND_ENDPOINT = `${WORKER_BASE}/award-nomination/send`;
           btn.setAttribute("aria-pressed", i === 0 ? "true" : "false");
           btn.dataset.title = s.title || "";
           btn.dataset.emoji = s.emoji || "🏆";
-          btn.innerHTML = `<span aria-hidden="true">${s.emoji || "🏆"}</span><span>${s.title || ""}</span>`;
+
+          const emoji = document.createElement("span");
+          emoji.setAttribute("aria-hidden", "true");
+          emoji.textContent = s.emoji || "🏆";
+
+          const title = document.createElement("span");
+          title.textContent = s.title || "";
+
+          btn.append(emoji, title);
           btn.addEventListener("click", () => {
             suggestionsEl.querySelectorAll(".suggestion-chip").forEach(c => c.setAttribute("aria-pressed", "false"));
             btn.setAttribute("aria-pressed", "true");
