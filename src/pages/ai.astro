@@ -27,7 +27,7 @@ const faqSchema = {
       name: "How does an AI assistant actually find a celebrant on this site?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We publish machine-readable versions of every page (llms.txt, directory.json, .md endpoints) plus a proper MCP server at api.australianweddingcelebrants.com.au/mcp that an AI agent can call to search, browse by location or tier, and fetch full profiles. We also expose the same capabilities through A2A so one agent can delegate to another.",
+        text: "We publish a DNS for AI Discovery organisation index, machine-readable versions of every page (llms.txt, directory.json, .md endpoints), and a proper MCP server at api.australianweddingcelebrants.com.au/mcp that an AI agent can call to search, browse by location or tier, and fetch full profiles. We also expose the same capabilities through A2A so one agent can delegate to another.",
       },
     },
     {
@@ -123,7 +123,7 @@ const faqSchema = {
           <div class="text-sm text-light" style="font-weight: 400;">accepting agent enquiries</div>
         </div>
         <div class="p-5 rounded-2xl bg-theme-light">
-          <div class="text-2xl" style="font-weight: 700;">15</div>
+          <div class="text-2xl" style="font-weight: 700;">16</div>
           <div class="text-sm text-light" style="font-weight: 400;">agent surfaces live</div>
         </div>
         <div class="p-5 rounded-2xl bg-theme-light">
@@ -255,7 +255,7 @@ const faqSchema = {
           Agent discovery
         </h2>
         <p class="text-light mb-8" style="font-weight: 400;">
-          Well-known URLs where agents look first to figure out what we offer.
+          A DNS entrypoint and well-known URLs where agents look first to figure out what we offer.
         </p>
 
         <div class="space-y-6">
@@ -268,6 +268,18 @@ const faqSchema = {
             </div>
             <p class="text-light" style="font-weight: 400; line-height: 1.6;">
               An <code>application/linkset+json</code> document that advertises every machine-readable surface we run — the directory dataset, the MCP endpoint, the A2A endpoint — each with its spec URL and docs. Lets an agent find everything in one GET.
+            </p>
+          </article>
+
+          <article class="p-6 rounded-2xl border border-border bg-white">
+            <div class="flex items-baseline gap-3 flex-wrap mb-2">
+              <h3 style="font-weight: 600; letter-spacing: -0.22px; font-size: 1.15rem; margin: 0;">
+                DNS for AI Discovery (DNS-AID)
+              </h3>
+              <a href="https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/" rel="nofollow" class="text-sm" style="color: #460479; font-weight: 500;">Current Internet-Draft →</a>
+            </div>
+            <p class="text-light" style="font-weight: 400; line-height: 1.6;">
+              Agents can discover the directory before making an HTTP request by resolving <code>_index._agents.australianweddingcelebrants.com.au</code>. Its HTTPS ServiceMode record has priority <code>1</code>, targets this canonical site, advertises <code>h2</code> and <code>http/1.1</code> on port <code>443</code>, and is authenticated through DNSSEC. DNS-AID is an experimental Internet-Draft rather than a final standard; the HTTPS record format follows RFC 9460.
             </p>
           </article>
 

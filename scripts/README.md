@@ -1,6 +1,30 @@
 # Scripts
 
-One-off Node scripts for content generation. Not part of the build — run them manually when you want to regenerate something.
+Node utilities for production verification and one-off content generation.
+
+---
+
+## `check-dns-aid.mjs`
+
+Checks the production DNS for the DNS for AI Discovery (DNS-AID) organisation
+index:
+
+- `_index._agents.australianweddingcelebrants.com.au` resolves as an HTTPS
+  ServiceMode record with priority `1`, the canonical site as its target,
+  `h2`/`http/1.1` ALPN values, and port `443`.
+- The response and the domain's DS record are authenticated through the full
+  DNSSEC chain.
+- The parent-zone DS record matches the Cloudflare key tag, algorithm, digest
+  type, and SHA-256 digest published for this zone.
+
+**Usage:**
+
+```sh
+npm run check:dns-aid
+```
+
+The check uses Google Public DNS's DNS-over-HTTPS JSON endpoint so it works
+without platform-specific DNS tools.
 
 ---
 
