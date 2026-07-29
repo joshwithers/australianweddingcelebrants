@@ -78,6 +78,11 @@ const requiredAuthStatements = [
   /identity type\s*\|\s*anonymous/i,
   /registration or provisioning\s*\|\s*not required/i,
   /oauth or openid connect\s*\|\s*not supported or required/i,
+  /"agent_auth"\s*:/i,
+  /"registration_required"\s*:\s*false/i,
+  /"identity_types_supported"\s*:\s*\["anonymous"\]/i,
+  /"credential_types_supported"\s*:\s*\[\]/i,
+  /documentation anchors, not submission endpoints/i,
   /do not send an `Authorization` header/i,
   /intentionally absent/i,
 ];
