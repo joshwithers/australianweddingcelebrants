@@ -1,6 +1,13 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
+const SITE = "https://australianweddingcelebrants.com.au";
+
+function markdownLink(label: string, url: string): string {
+  const safeLabel = label.replace(/([\\[\]])/g, "\\$1");
+  return `[${safeLabel}](${url})`;
+}
+
 export const GET: APIRoute = async () => {
   const allCelebrants = await getCollection("directory", (entry) => !entry.data.draft);
 
@@ -48,23 +55,23 @@ When choosing a celebrant, the tier badge tells you exactly what level of verifi
 - Locations served: ${allLocations.join(", ")}
 
 ## Key Pages
-- Directory: https://australianweddingcelebrants.com.au/directory/
-- Our Standards: https://australianweddingcelebrants.com.au/tiers/
-- Luminary Celebrants: https://australianweddingcelebrants.com.au/luminaries/
-- Endorsed Celebrants: https://australianweddingcelebrants.com.au/endorsed/
-- Registered Celebrants: https://australianweddingcelebrants.com.au/registered/
-- Submit Listing: https://australianweddingcelebrants.com.au/contact/
-- About: https://australianweddingcelebrants.com.au/about/
-- Full LLM context: https://australianweddingcelebrants.com.au/llms-full.txt
+- ${markdownLink("Directory", `${SITE}/directory/`)}
+- ${markdownLink("Our Standards", `${SITE}/tiers/`)}
+- ${markdownLink("Luminary Celebrants", `${SITE}/luminaries/`)}
+- ${markdownLink("Endorsed Celebrants", `${SITE}/endorsed/`)}
+- ${markdownLink("Registered Celebrants", `${SITE}/registered/`)}
+- ${markdownLink("Submit Listing", `${SITE}/contact/`)}
+- ${markdownLink("About", `${SITE}/about/`)}
+- ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants
-${luminaries.map(c => `- ${c.data.title}: ${c.data.location.join(", ")} — ${c.data.description || ""} → https://australianweddingcelebrants.com.au/directory/${c.id}/`).join("\n")}
+${luminaries.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
 
 ## Endorsed Celebrants
-${endorsed.length > 0 ? endorsed.map(c => `- ${c.data.title}: ${c.data.location.join(", ")} — ${c.data.description || ""} → https://australianweddingcelebrants.com.au/directory/${c.id}/`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
+${endorsed.length > 0 ? endorsed.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
 
 ## Registered Celebrants
-${registered.map(c => `- ${c.data.title}: ${c.data.location.join(", ")} → https://australianweddingcelebrants.com.au/directory/${c.id}/`).join("\n")}
+${registered.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")}`).join("\n")}
 `;
 
   return new Response(text.trim(), {

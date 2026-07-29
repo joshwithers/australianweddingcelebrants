@@ -1,0 +1,224 @@
+---
+import DirectoryItem from "@/components/DirectoryItem.astro";
+import { plainify, truncateText } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  searchList: CollectionEntry<"directory">[];
+}
+
+const { searchList } = Astro.props;
+
+const searchableText = (item: CollectionEntry<"directory">) =>
+  [
+    item.data.title,
+    item.data.location.join(" "),
+    item.data.category.join(" "),
+    item.data.description,
+    item.body
+      ? truncateText(plainify(item.body).replace(/\s+/g, " ").trim(), 600)
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+---
+
+<div class="min-h-screen" data-search-root>
+  <form action="/search/" method="get" role="search" data-search-form>
+    <input
+      class="form-input w-full text-center"
+      placeholder="Search celebrants, locations, or categories…"
+      type="search"
+      name="q"
+      aria-label="Search celebrants"
+      autocomplete="off"
+      autofocus
+      data-search-input
+    />
+  </form>
+
+  <p
+    class="my-6 text-center text-sm"
+    style="color: #6a6a6a; font-weight: 400; font-variant-numeric: tabular-nums;"
+    role="status"
+    aria-live="polite"
+    data-search-status
+    hidden
+  >
+  </p>
+
+  <div class="search-results" data-search-results>
+    {
+      searchList.map((item) => (
+        <div
+          class="search-result"
+          data-search-card
+          data-search-title={item.data.title}
+          data-search-text={searchableText(item)}
+          hidden
+        >
+          <DirectoryItem item={item} showLogo={false} />
+        </div>
+      ))
+    }
+  </div>
+
+  <noscript>
+    <p class="text-light mt-6 text-center">
+      JavaScript is required to filter the celebrant directory on this page. You
+      can also <a href="/directory/">browse every celebrant</a>.
+    </p>
+  </noscript>
+</div>
+
+<style>
+  .search-results {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .search-results {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .search-results {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<script>
+  type SearchRecord = {
+    element: HTMLElement;
+    text: string;
+  };
+
+  type SearchInstance = {
+    cards: SearchRecord[];
+    results: HTMLElement;
+    status: HTMLElement;
+  };
+
+  const searchInstances = new WeakMap<HTMLElement, SearchInstance>();
+
+  const normalizeSearchText = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLocaleLowerCase();
+
+  const getSearchRoot = (target: EventTarget | null) =>
+    target instanceof Element
+      ? target.closest<HTMLElement>("[data-search-root]")
+      : null;
+
+  const updateSearch = (root: HTMLElement, query: string, updateUrl = true) => {
+    const instance = searchInstances.get(root);
+    if (!instance) return;
+
+    const trimmedQuery = query.trim();
+    for (const card of instance.cards) card.element.hidden = true;
+
+    if (trimmedQuery.length < 2) {
+      instance.status.hidden = true;
+      instance.status.textContent = "";
+    } else {
+      const terms = normalizeSearchText(trimmedQuery)
+        .split(/\s+/)
+        .filter((term) => term.length >= 2);
+      const matches = instance.cards.filter(({ text }) =>
+        terms.every((term) => text.includes(term)),
+      );
+
+      matches.forEach((item, index) => {
+        if (index === 0) {
+          const firstImage = item.element.querySelector("img");
+          if (firstImage) {
+            firstImage.loading = "eager";
+            firstImage.decoding = "sync";
+            firstImage.fetchPriority = "high";
+          }
+        }
+
+        item.element.hidden = false;
+        instance.results.append(item.element);
+      });
+
+      instance.status.textContent =
+        matches.length > 0
+          ? `Showing ${matches.length} ${matches.length === 1 ? "match" : "matches"} for “${trimmedQuery}”`
+          : `No celebrants matched “${trimmedQuery}”. Try a location, name, or specialty.`;
+      instance.status.hidden = false;
+    }
+
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      if (query.length > 0) url.searchParams.set("q", query);
+      else url.searchParams.delete("q");
+      history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+  };
+
+  const initializeSearch = () => {
+    const root = document.querySelector<HTMLElement>("[data-search-root]");
+    if (!root || searchInstances.has(root)) return;
+
+    const results = root.querySelector<HTMLElement>("[data-search-results]");
+    const status = root.querySelector<HTMLElement>("[data-search-status]");
+    const input = root.querySelector<HTMLInputElement>("[data-search-input]");
+    if (!results || !status || !input) return;
+
+    const cards = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-search-card]"),
+      (element) => ({
+        element,
+        text: normalizeSearchText(
+          `${element.dataset.searchTitle ?? ""} ${element.dataset.searchText ?? ""}`,
+        ),
+      }),
+    );
+
+    searchInstances.set(root, { cards, results, status });
+
+    const query = new URLSearchParams(window.location.search).get("q") ?? "";
+    input.value = query;
+    updateSearch(root, query, false);
+
+    window.setTimeout(() => {
+      const position = input.value.length;
+      input.setSelectionRange(position, position);
+    }, 50);
+  };
+
+  document.addEventListener("input", (event) => {
+    if (
+      !(event.target instanceof HTMLInputElement) ||
+      !event.target.matches("[data-search-input]")
+    ) {
+      return;
+    }
+
+    const root = getSearchRoot(event.target);
+    if (root) updateSearch(root, event.target.value);
+  });
+
+  document.addEventListener("submit", (event) => {
+    if (
+      !(event.target instanceof HTMLFormElement) ||
+      !event.target.matches("[data-search-form]")
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    const root = getSearchRoot(event.target);
+    const input = root?.querySelector<HTMLInputElement>("[data-search-input]");
+    if (root && input) updateSearch(root, input.value);
+  });
+
+  document.addEventListener("astro:page-load", initializeSearch);
+</script>

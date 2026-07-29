@@ -24,10 +24,11 @@ const { images, alt } = Astro.props;
             <Image
               src={img}
               alt={alt}
-              widths={[400, 800, 1200]}
-              sizes="(max-width: 768px) 100vw, 33vw"
+              widths={[360, 540, 640, 768, 1080]}
+              sizes="(max-width: 768px) calc(100vw - 3rem), 33vw"
               loading="lazy"
               decoding="async"
+              quality={65}
               format={outputImageFormat(img)}
             />
           )}

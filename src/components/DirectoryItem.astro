@@ -5,7 +5,7 @@ import { outputImageFormat } from "@/lib/utils/images";
 import TierBadge from "./TierBadge.astro";
 import externalImageDimensions from "@/data/external-image-dimensions.json";
 
-const { item, isFirst = false } = Astro.props;
+const { item, isFirst = false, showLogo = true } = Astro.props;
 const tier = item.data.tier || "registered";
 const itemSlug = item.id || item.slug || slugify(item.data.title);
 
@@ -32,6 +32,12 @@ const externalDims =
         >
       )[item.data.image]
     : undefined;
+const imageDims =
+  typeof item.data.image === "string"
+    ? externalDims
+    : item.data.image
+      ? { width: item.data.image.width, height: item.data.image.height }
+      : undefined;
 ---
 
 <div class="directory-card-shell">
@@ -49,7 +55,11 @@ const externalDims =
       item.data.image && (
         <div
           class="directory-card-image-wrap relative overflow-hidden"
-          style="border-radius: var(--radius-card) var(--radius-card) 0 0;"
+          style={`border-radius: var(--radius-card) var(--radius-card) 0 0;${
+            imageDims
+              ? ` aspect-ratio: ${imageDims.width} / ${imageDims.height};`
+              : ""
+          }`}
         >
           {typeof item.data.image === "string" ? (
             <img
@@ -95,7 +105,9 @@ const externalDims =
     <div class="p-4">
       <div class="mb-2 flex justify-center gap-3">
         {
-          (tier === "luminary" || tier === "endorsed") && item.data.logo ? (
+          showLogo &&
+          (tier === "luminary" || tier === "endorsed") &&
+          item.data.logo ? (
             <div
               class="directory-card-logo"
               style="width: 90%; display: flex; justify-content: center;"
@@ -243,19 +255,11 @@ const externalDims =
   .directory-card-img {
     height: auto !important;
     width: 100%;
-    opacity: 0;
-    animation: cardImgFadeIn 0.4s ease forwards;
-  }
-
-  @keyframes cardImgFadeIn {
-    to {
-      opacity: 1;
-    }
+    opacity: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .directory-card-img {
-      animation: none;
       opacity: 1;
     }
     .directory-card .group-hover\:scale-\[1\.03\] {
