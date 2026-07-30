@@ -809,6 +809,31 @@ const faqSchema = {
     color: #222;
     padding: 0;
   }
+  @media (max-width: 640px) {
+    code {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    pre {
+      max-width: 100%;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    pre code {
+      display: block;
+      max-width: 100%;
+      white-space: inherit;
+      overflow-wrap: inherit;
+      word-break: inherit;
+    }
+    article a[href] {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+  }
   a[href] {
     text-decoration: underline;
     text-underline-offset: 2px;
