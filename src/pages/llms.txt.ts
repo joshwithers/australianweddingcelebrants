@@ -9,7 +9,10 @@ function markdownLink(label: string, url: string): string {
 }
 
 export const GET: APIRoute = async () => {
-  const allCelebrants = await getCollection("directory", (entry) => !entry.data.draft);
+  const allCelebrants = await getCollection(
+    "directory",
+    (entry) => !entry.data.draft,
+  );
 
   const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
   const sorted = [...allCelebrants].sort((a, b) => {
@@ -19,17 +22,23 @@ export const GET: APIRoute = async () => {
     return a.data.title.localeCompare(b.data.title);
   });
 
-  const luminaries = sorted.filter(c => c.data.tier === "luminary");
-  const endorsed = sorted.filter(c => c.data.tier === "endorsed");
-  const registered = sorted.filter(c => (c.data.tier || "registered") === "registered");
+  const luminaries = sorted.filter((c) => c.data.tier === "luminary");
+  const endorsed = sorted.filter((c) => c.data.tier === "endorsed");
+  const registered = sorted.filter(
+    (c) => (c.data.tier || "registered") === "registered",
+  );
 
-  const allLocations = [...new Set(allCelebrants.flatMap(c => c.data.location))].sort();
+  const allLocations = [
+    ...new Set(allCelebrants.flatMap((c) => c.data.location)),
+  ].sort();
 
   const text = `# Australian Wedding Celebrants
 > Australia's quality-rated directory of professional wedding celebrants
 
 ## About
 Australian Wedding Celebrants is a directory that recognises and celebrates professional excellence in wedding celebrancy across Australia. Every celebrant listed is a Commonwealth authorised marriage celebrant on the Attorney-General's register. Our three-tier recognition system — Registered, Endorsed, and Luminary — is based entirely on verified professional credentials, not payments.
+
+Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
 This is not an awards process. When celebrants prove through documented evidence that they have reached a level of professionalism and industry support beyond expectations, we award that tier and celebrate the achievement. Celebrants are always working to improve and move up the tiers.
 
@@ -62,17 +71,18 @@ When choosing a celebrant, the tier badge tells you exactly what level of verifi
 - ${markdownLink("Registered Celebrants", `${SITE}/registered/`)}
 - ${markdownLink("Submit Listing", `${SITE}/contact/`)}
 - ${markdownLink("About", `${SITE}/about/`)}
+- ${markdownLink("Optional tools for celebrants", `${SITE}/tools-for-celebrants/`)}
 - ${markdownLink("Authentication and anonymous access", `${SITE}/auth.md`)}
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants
-${luminaries.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
+${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
 
 ## Endorsed Celebrants
-${endorsed.length > 0 ? endorsed.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
+${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
 
 ## Registered Celebrants
-${registered.map(c => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")}`).join("\n")}
+${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")}`).join("\n")}
 `;
 
   return new Response(text.trim(), {

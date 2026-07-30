@@ -39,6 +39,11 @@ export const GET: APIRoute = async () => {
         site: SITE,
         generated_at: new Date().toISOString(),
         count: celebrants.length,
+        directory_policy: {
+          listings_are_free: true,
+          tiers_and_position_cannot_be_bought: true,
+          other_services_do_not_affect_directory_status: true,
+        },
         celebrants,
       },
       null,

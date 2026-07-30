@@ -15,6 +15,11 @@ import ProfileAwards from "@/components/ProfileAwards.astro";
 import { deriveAwards } from "@/lib/utils/awards";
 import { shuffled } from "@/lib/utils/shuffle";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
+import {
+  absoluteUrl,
+  australianPostalAddress,
+  normalizeTelephone,
+} from "@/lib/utils/profile";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -137,11 +142,12 @@ const currentCredential = tierCredentials[tier] || tierCredentials.registered;
 // Prepare schema.org structured data
 const siteUrl = "https://australianweddingcelebrants.com.au";
 const imageUrl =
-  typeof entry.data.image === "object" && entry.data.image?.src
-    ? entry.data.image.src
-    : entry.data.image || undefined;
+  typeof entry.data.image === "string"
+    ? entry.data.image
+    : entry.data.image?.src;
 
 const businessUrl = `${siteUrl}/directory/${entry.id}/`;
+const personId = `${businessUrl}#person`;
 const sameAs = [
   entry.data.website,
   entry.data.social?.facebook,
@@ -157,64 +163,58 @@ const awardStrings = shelfAwards.map((a) => {
   return suffix ? `${parts} (${suffix})` : parts;
 });
 
-const businessSchema: Record<string, any> = {
+const profileSchema = {
   "@context": "https://schema.org",
-  "@type": ["ProfessionalService", "LocalBusiness"],
-  "@id": businessUrl,
-  name: entry.data.title,
-  description: entry.data.description || "",
+  "@type": "ProfilePage",
+  "@id": `${businessUrl}#profile`,
   url: businessUrl,
-  telephone: entry.data.phone || undefined,
-  email: entry.data.email || undefined,
-  image: imageUrl,
-  address: entry.data.address
-    ? {
-        "@type": "PostalAddress",
-        streetAddress: entry.data.address.replace(/<br\s*\/?>/gi, ", "),
-        addressCountry: "AU",
-      }
-    : undefined,
-  areaServed: entry.data.location.map((loc) => ({
-    "@type": "AdministrativeArea",
-    name: humanize(loc),
-  })),
-  sameAs: sameAs,
-  founder: {
+  name: entry.data.meta_title || entry.data.title,
+  description: entry.data.description || "",
+  mainEntity: {
     "@type": "Person",
+    "@id": personId,
     name: entry.data.title,
     jobTitle: "Wedding Celebrant",
     url: businessUrl,
-    image: imageUrl,
+    description: entry.data.description || "",
+    telephone: normalizeTelephone(entry.data.phone),
+    email: entry.data.email || undefined,
+    image: absoluteUrl(imageUrl, siteUrl),
+    homeLocation: entry.data.address
+      ? {
+          "@type": "Place",
+          name: entry.data.address,
+          address: australianPostalAddress(entry.data.address),
+        }
+      : undefined,
+    areaServed: entry.data.location.map((loc) => ({
+      "@type": "AdministrativeArea",
+      name: humanize(loc),
+    })),
     sameAs: sameAs,
     award: awardStrings.length > 0 ? awardStrings : undefined,
-  },
-  award: awardStrings.length > 0 ? awardStrings : undefined,
-  makesOffer: {
-    "@type": "Offer",
-    itemOffered: {
-      "@type": "Service",
-      serviceType: "Wedding Celebrant",
-      name: "Wedding Ceremony Services",
+    makesOffer: {
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        serviceType: "Wedding Celebrant",
+        name: "Wedding Ceremony Services",
+      },
     },
-  },
-  hasCredential: {
-    "@type": "EducationalOccupationalCredential",
-    credentialCategory: "professional-recognition",
-    name: currentCredential.name,
-    description: currentCredential.description,
-    recognizedBy: {
-      "@type": "Organization",
-      name: "Australian Wedding Celebrants",
-      url: siteUrl,
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "professional-recognition",
+      name: currentCredential.name,
+      description: currentCredential.description,
+      recognizedBy: {
+        "@type": "Organization",
+        name: "Australian Wedding Celebrants",
+        url: siteUrl,
+      },
     },
+    knowsAbout: ["Wedding Ceremony", "Marriage Celebrancy", "Civil Marriage"],
   },
-  knowsAbout: ["Wedding Ceremony", "Marriage Celebrancy", "Civil Marriage"],
 };
-
-// Clean undefined values
-Object.keys(businessSchema).forEach((key) => {
-  if (businessSchema[key] === undefined) delete businessSchema[key];
-});
 
 // BreadcrumbList schema
 const breadcrumbSchema = {
@@ -247,13 +247,14 @@ const logoFrameStyle =
   image={typeof entry.data.image === "string"
     ? entry.data.image
     : entry.data.image?.src}
+  canonical={businessUrl}
   og_type="profile"
   page_bg={pageBg}
 >
   <script
     is:inline
     type="application/ld+json"
-    set:html={serializeJsonLd(businessSchema)}
+    set:html={serializeJsonLd(profileSchema)}
   />
   <script
     is:inline

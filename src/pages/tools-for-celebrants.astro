@@ -1,0 +1,186 @@
+---
+import Base from "@/layouts/Base.astro";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
+
+const siteUrl = "https://australianweddingcelebrants.com.au";
+
+const resources = [
+  {
+    group: "Run the work",
+    items: [
+      {
+        name: "Wedding Computer",
+        url: "https://wedding.computer/",
+        description:
+          "Workflow and CRM tools for enquiries, contacts, weddings, forms, calendars, invoicing, email and collaborative planning.",
+      },
+      {
+        name: "NOIM Easy",
+        url: "https://noimeasy.au/",
+        description:
+          "A privacy-first guided tool that helps couples prepare a Notice of Intended Marriage PDF for review, witnessing and delivery to their celebrant.",
+      },
+    ],
+  },
+  {
+    group: "Build your online presence",
+    items: [
+      {
+        name: "The Internet",
+        url: "https://theinternet.com.au/",
+        description:
+          "Fast, portable websites and practical digital foundations for small businesses.",
+      },
+      {
+        name: "Unpopular",
+        url: "https://unpopular.au/",
+        description:
+          "SEO, structured data and visibility work for traditional search and AI answer engines.",
+      },
+    ],
+  },
+  {
+    group: "Read and learn",
+    items: [
+      {
+        name: "The SMH’s celebrant-business articles",
+        url: "https://thesmh.com.au/",
+        description:
+          "Articles about running a celebrant business, improving its digital presence and thinking clearly about the profession.",
+      },
+    ],
+  },
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Tools for celebrants",
+      item: `${siteUrl}/tools-for-celebrants/`,
+    },
+  ],
+};
+---
+
+<Base
+  title="Tools for celebrants"
+  meta_title="Optional Tools for Celebrants — Australian Wedding Celebrants"
+  description="Optional workflow, website, SEO, NOIM and business-reading resources for Australian marriage celebrants, kept separate from directory recognition."
+  canonical={`${siteUrl}/tools-for-celebrants/`}
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeJsonLd(breadcrumbSchema)}
+  />
+
+  <section class="py-16 md:py-24">
+    <div class="container max-w-4xl">
+      <div class="mx-auto mb-12 max-w-3xl text-center">
+        <p
+          class="text-primary mb-3 text-sm uppercase"
+          style="font-weight: 700; letter-spacing: 0.08em;"
+        >
+          Optional resources
+        </p>
+        <h1
+          class="mb-5"
+          style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.15;"
+        >
+          Tools for celebrants
+        </h1>
+        <p
+          class="text-light text-lg"
+          style="font-weight: 400; line-height: 1.65;"
+        >
+          Practical services and reading for celebrants who want help with
+          workflow, paperwork, websites and online visibility. Some are built or
+          operated by Josh Withers; they sit outside the directory’s recognition
+          process.
+        </p>
+      </div>
+
+      <aside
+        class="rounded-card border-primary/30 mb-14 border-2 bg-white p-6 md:p-8"
+        aria-labelledby="directory-independence"
+      >
+        <h2
+          id="directory-independence"
+          class="mb-3 text-lg"
+          style="font-weight: 700;"
+        >
+          Directory status is independent
+        </h2>
+        <p class="text-light" style="font-weight: 400; line-height: 1.7;">
+          Using, purchasing or declining any resource on this page has no effect
+          on directory inclusion, endorsement, tier, search visibility or
+          position. Rankings and tiers cannot be bought. Directory decisions are
+          made only against the published professional standards.
+        </p>
+      </aside>
+
+      <div class="space-y-14">
+        {
+          resources.map((section) => (
+            <section
+              aria-labelledby={`tools-${section.group.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              <h2
+                id={`tools-${section.group.toLowerCase().replace(/\s+/g, "-")}`}
+                class="mb-6 text-xl"
+                style="font-weight: 700; letter-spacing: -0.18px;"
+              >
+                {section.group}
+              </h2>
+              <div class="grid gap-5 md:grid-cols-2">
+                {section.items.map((resource) => (
+                  <article class="rounded-card border-border h-full border bg-white p-6">
+                    <h3 class="mb-2 text-lg" style="font-weight: 700;">
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-dark hover:text-primary no-underline"
+                      >
+                        {resource.name}
+                      </a>
+                    </h3>
+                    <p
+                      class="text-light text-sm"
+                      style="font-weight: 400; line-height: 1.65;"
+                    >
+                      {resource.description}
+                    </p>
+                    <a
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-dark hover:text-primary mt-4 inline-flex text-sm no-underline hover:underline"
+                      style="font-weight: 600;"
+                    >
+                      Visit {resource.name} →
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <p
+        class="border-border text-light mt-14 border-t pt-8 text-sm"
+        style="font-weight: 400; line-height: 1.7;"
+      >
+        These links are disclosed cross-promotion, not directory criteria or a
+        signal of endorsement. Celebrants are free to use any provider they
+        choose.
+      </p>
+    </div>
+  </section>
+</Base>

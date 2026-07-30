@@ -74,41 +74,23 @@ body[data-page="home"] .header.header--revealed {
   }
 }
 
-/* masonry grid for directory cards — three server-rendered variants
-   (mobile/tablet/desktop) toggled via media queries. Each variant
-   distributes items round-robin across columns so reading order is
-   left-to-right, top-to-bottom. */
+/* One server-rendered card per celebrant. A responsive grid keeps visual and
+   document order aligned without duplicating hidden cards for each breakpoint. */
 .masonry-grid {
-  display: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
 }
 
-.masonry-col {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.masonry-grid--mobile {
-  display: block;
-}
-
 @media (min-width: 768px) {
-  .masonry-grid--mobile {
-    display: none;
-  }
-  .masonry-grid--tablet {
-    display: flex;
+  .masonry-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .masonry-grid--tablet {
-    display: none;
-  }
-  .masonry-grid--desktop {
-    display: flex;
+  .masonry-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -123,7 +105,7 @@ body[data-page="home"] .header.header--revealed {
   font-weight: 600;
   letter-spacing: -0.44px;
   &:after {
-    @apply mx-auto mt-4 block h-[2px] w-12 rounded-full bg-primary content-[''];
+    @apply bg-primary mx-auto mt-4 block h-[2px] w-12 rounded-full content-[''];
   }
 }
 
@@ -157,7 +139,7 @@ body[data-page="home"] .header.header--revealed {
   & li {
     @apply inline-block;
     & a {
-      @apply block h-11 w-11 rounded-full border border-border bg-transparent text-center text-dark transition-all duration-200 hover:border-dark hover:bg-dark hover:text-white;
+      @apply border-border text-dark hover:border-dark hover:bg-dark block h-11 w-11 rounded-full border bg-transparent text-center transition-all duration-200 hover:text-white;
       & svg {
         @apply m-auto h-11 text-base;
       }
@@ -170,7 +152,7 @@ body[data-page="home"] .header.header--revealed {
   & li {
     @apply inline-block;
     & a {
-      @apply block p-3 text-dark transition-colors duration-200 hover:text-primary;
+      @apply text-dark hover:text-primary block p-3 transition-colors duration-200;
       & svg {
         @apply text-lg;
       }
@@ -183,7 +165,7 @@ body[data-page="home"] .header.header--revealed {
   & li {
     @apply inline-block;
     & a {
-      @apply block p-3 transition-colors duration-200 hover:text-primary;
+      @apply hover:text-primary block p-3 transition-colors duration-200;
     }
   }
 }
@@ -191,10 +173,10 @@ body[data-page="home"] .header.header--revealed {
 /* form style */
 .form-input,
 .form-textarea {
-  @apply rounded-btn border-border py-3 text-dark;
+  @apply rounded-btn border-border text-dark py-3;
   font-weight: 400;
   &:focus {
-    @apply border-dark ring-1 ring-dark;
+    @apply border-dark ring-dark ring-1;
   }
 }
 
@@ -205,19 +187,19 @@ body[data-page="home"] .header.header--revealed {
 
 /* tab */
 .tab {
-  @apply overflow-hidden rounded-xl border border-border;
+  @apply border-border overflow-hidden rounded-xl border;
 }
 
 .tab-nav {
-  @apply flex border-b border-border bg-theme-light m-0 list-none;
+  @apply border-border bg-theme-light m-0 flex list-none border-b;
 }
 
 .tab-nav-item {
-  @apply cursor-pointer border-b-[3px] border-border py-2 text-lg text-dark opacity-80 my-0 px-8;
+  @apply border-border text-dark my-0 cursor-pointer border-b-[3px] px-8 py-2 text-lg opacity-80;
   font-weight: 500;
 
   &.active {
-    @apply border-b-[3px] border-dark opacity-100;
+    @apply border-dark border-b-[3px] opacity-100;
     font-weight: 600;
   }
 }
@@ -234,11 +216,11 @@ body[data-page="home"] .header.header--revealed {
 
 /* accordion */
 .accordion {
-  @apply mb-6 overflow-hidden rounded-xl border border-border bg-theme-light;
+  @apply border-border bg-theme-light mb-6 overflow-hidden rounded-xl border;
 }
 
 .accordion-header {
-  @apply flex w-full cursor-pointer items-center justify-between px-8 py-4 text-lg text-dark;
+  @apply text-dark flex w-full cursor-pointer items-center justify-between px-8 py-4 text-lg;
   font-weight: 500;
 }
 
@@ -269,7 +251,7 @@ body[data-page="home"] .header.header--revealed {
     @apply mr-3;
   }
   & p {
-    @apply font-secondary text-xl text-dark;
+    @apply font-secondary text-dark text-xl;
     font-weight: 600;
   }
 }
@@ -282,19 +264,19 @@ body[data-page="home"] .header.header--revealed {
 }
 
 .notice.note {
-  @apply text-[#1B83E2] border-current;
+  @apply border-current text-[#1B83E2];
 }
 
 .notice.tip {
-  @apply text-[#40D294] border-current;
+  @apply border-current text-[#40D294];
 }
 
 .notice.info {
-  @apply text-[#E3A72C] border-current;
+  @apply border-current text-[#E3A72C];
 }
 
 .notice.warning {
-  @apply text-[#DB2C23] border-current;
+  @apply border-current text-[#DB2C23];
 }
 
 /* tier badges — card overlays, backdrop-blurred */
@@ -306,13 +288,17 @@ body[data-page="home"] .header.header--revealed {
   color: #f5f5f5;
   font-weight: 600;
 }
-.tier-badge--luminary:hover { background: #350360; }
+.tier-badge--luminary:hover {
+  background: #350360;
+}
 .tier-badge--endorsed {
   background: #92174d;
   color: #f5f5f5;
   font-weight: 600;
 }
-.tier-badge--endorsed:hover { background: #7a1340; }
+.tier-badge--endorsed:hover {
+  background: #7a1340;
+}
 .tier-badge--registered {
   background: rgba(255, 255, 255, 0.9);
   color: #6a6a6a;
@@ -323,24 +309,48 @@ body[data-page="home"] .header.header--revealed {
   color: #222;
 }
 
-.badge-link[style*="#222"]:hover { background: #ff385c !important; }
+.badge-link[style*="#222"]:hover {
+  background: #ff385c !important;
+}
 
 /* active pill (selected filter) */
-.pill-active { color: #f5f5f5 !important; }
+.pill-active {
+  color: #f5f5f5 !important;
+}
 
 /* pill buttons — proper hover states, color !important to override base a styles */
-.pill-luminary { background: #460479; color: #f5f5f5 !important; }
-.pill-luminary:hover { background: #350360; color: #fff !important; }
-.pill-endorsed { background: #92174d; color: #f5f5f5 !important; }
-.pill-endorsed:hover { background: #7a1340; color: #fff !important; }
-.pill-dark { background: #222; color: #f5f5f5 !important; }
-.pill-dark:hover { background: #ff385c; color: #fff !important; }
+.pill-luminary {
+  background: #460479;
+  color: #f5f5f5 !important;
+}
+.pill-luminary:hover {
+  background: #350360;
+  color: #fff !important;
+}
+.pill-endorsed {
+  background: #92174d;
+  color: #f5f5f5 !important;
+}
+.pill-endorsed:hover {
+  background: #7a1340;
+  color: #fff !important;
+}
+.pill-dark {
+  background: #222;
+  color: #f5f5f5 !important;
+}
+.pill-dark:hover {
+  background: #ff385c;
+  color: #fff !important;
+}
 
 /* endorsed badge — tick crossfades to thumbs up on hover */
 .endorsed-icon-tick {
   opacity: 1;
   transform: scale(1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 .endorsed-icon-thumb {
   position: absolute;
@@ -348,7 +358,9 @@ body[data-page="home"] .header.header--revealed {
   left: 0;
   opacity: 0;
   transform: scale(0.5);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 /* icon wrapper to stack them */
 .endorsed-icon-wrap {
@@ -372,7 +384,9 @@ body[data-page="home"] .header.header--revealed {
 .luminary-icon-star {
   opacity: 1;
   transform: scale(1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 .luminary-icon-thumb {
   position: absolute;
@@ -380,7 +394,9 @@ body[data-page="home"] .header.header--revealed {
   left: 0;
   opacity: 0;
   transform: scale(0.5);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 .luminary-icon-wrap {
   position: relative;
@@ -402,7 +418,9 @@ body[data-page="home"] .header.header--revealed {
 /* luminary badge — laser beam glow on hover, smooth fade */
 .pill-luminary,
 .tier-badge--luminary {
-  transition: box-shadow 0.4s ease, text-shadow 0.4s ease;
+  transition:
+    box-shadow 0.4s ease,
+    text-shadow 0.4s ease;
   box-shadow: 0 0 0 rgba(168, 85, 247, 0);
 }
 
@@ -423,5 +441,5 @@ body[data-page="home"] .header.header--revealed {
 
 /* footer */
 footer p a {
-  @apply transition-colors duration-200 hover:text-dark;
+  @apply hover:text-dark transition-colors duration-200;
 }

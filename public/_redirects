@@ -2,6 +2,15 @@
 # for MCP clients, and browsers land on the worker's hello page.
 /mcp  https://api.australianweddingcelebrants.com.au/mcp  308
 
+# Canonical Josh Withers profile aliases
+/directory/josh-withers /directory/josh-withers-ybt9/ 301
+/directory/josh-withers/ /directory/josh-withers-ybt9/ 301
+/directory/married-by-josh /directory/josh-withers-ybt9/ 301
+/directory/married-by-josh/ /directory/josh-withers-ybt9/ 301
+/josh-withers /directory/josh-withers-ybt9/ 301
+/josh-withers/ /directory/josh-withers-ybt9/ 301
+/listing/josh-withers/ /directory/josh-withers-ybt9/ 301
+
 /dingleyflowercottage.html* /directory/ 301
 /angelfaces.html* /directory/ 301
 /cakesofdistinction.html* /directory/ 301

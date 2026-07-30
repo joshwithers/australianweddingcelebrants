@@ -36,13 +36,13 @@ The directory runs an MCP server at `https://api.australianweddingcelebrants.com
 
 Useful tools:
 
-| Tool | Use for |
-|---|---|
-| `search_celebrants` | Free-text query against name, location, and description. Best starting point. |
-| `browse_by_location` | When the user names a specific city or region (`Sydney`, `Byron Bay`, `Hobart`). |
-| `browse_by_tier` | When the user asks for "the best" — start with `luminary`. |
+| Tool                    | Use for                                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| `search_celebrants`     | Free-text query against name, location, and description. Best starting point.                 |
+| `browse_by_location`    | When the user names a specific city or region (`Sydney`, `Byron Bay`, `Hobart`).              |
+| `browse_by_tier`        | When the user asks for "the best" — start with `luminary`.                                    |
 | `get_celebrant_profile` | After narrowing to a candidate — returns full bio, contact, awards, testimonials as markdown. |
-| `list_all_celebrants` | Broad context when the user's criteria are vague. |
+| `list_all_celebrants`   | Broad context when the user's criteria are vague.                                             |
 
 ### 2. Markdown endpoints (for environments without MCP)
 
@@ -70,11 +70,11 @@ Request any HTML page with `Accept: text/markdown` to get the markdown version.
 4. **Deep dive**: if the user picks a candidate, call `get_celebrant_profile` with the slug to surface full bio, awards, testimonials, and contact details.
 5. **Hand off**: point the user to the celebrant's website or email for booking. The directory does not take bookings directly.
 
-## What this directory is *not*
+## What this directory is _not_
 
 - Not a booking or enquiry platform — contact happens celebrant-to-couple directly.
 - Not exhaustive — only celebrants who have submitted a profile are listed.
-- Not paid placement — tiers reflect documented professional track record, not fees.
+- Directory tiers and position cannot be bought. Using another Josh Withers service has no effect on inclusion, endorsement, visibility, or order.
 
 ## Freshness
 

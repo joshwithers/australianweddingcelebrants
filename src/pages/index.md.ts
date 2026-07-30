@@ -21,20 +21,26 @@ export const GET: APIRoute = async () => {
 
   const luminary = sorted.filter((c) => c.data.tier === "luminary");
   const endorsed = sorted.filter((c) => c.data.tier === "endorsed");
-  const registered = sorted.filter((c) => (c.data.tier || "registered") === "registered");
+  const registered = sorted.filter(
+    (c) => (c.data.tier || "registered") === "registered",
+  );
   const locations = [...new Set(all.flatMap((c) => c.data.location))].sort();
 
   const linkList = (items: typeof all) =>
     items
-      .map((c) => `- [${c.data.title}](${SITE}/directory/${c.id}/) — ${c.data.location.join(", ")}`)
+      .map(
+        (c) =>
+          `- [${c.data.title}](${SITE}/directory/${c.id}/) — ${c.data.location.join(", ")}`,
+      )
       .join("\n");
 
-  const body =
-`# Australian Wedding Celebrants
+  const body = `# Australian Wedding Celebrants
 
 > Australia's quality-rated directory of professional wedding celebrants.
 
 Every celebrant listed here is a Commonwealth authorised marriage celebrant on the Attorney-General's register. We recognise professional excellence through three tiers — Registered, Endorsed, and Luminary — based entirely on verified credentials, not payment.
+
+Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
 ## Directory at a glance
 
@@ -56,6 +62,7 @@ Every celebrant listed here is a Commonwealth authorised marriage celebrant on t
 - [About](${SITE}/about/)
 - [Awards yearbook](${SITE}/awards/)
 - [Search](${SITE}/search/)
+- [Optional tools for celebrants](${SITE}/tools-for-celebrants/)
 
 ## Luminary celebrants
 

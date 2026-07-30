@@ -13,13 +13,14 @@ function stripMarkdown(text: string): string {
 }
 
 function humanize(str: string): string {
-  return str
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return str.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export const GET: APIRoute = async () => {
-  const allCelebrants = await getCollection("directory", (entry) => !entry.data.draft);
+  const allCelebrants = await getCollection(
+    "directory",
+    (entry) => !entry.data.draft,
+  );
 
   const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
   const sorted = [...allCelebrants].sort((a, b) => {
@@ -29,14 +30,21 @@ export const GET: APIRoute = async () => {
     return a.data.title.localeCompare(b.data.title);
   });
 
-  const luminaries = sorted.filter(c => c.data.tier === "luminary");
-  const endorsed = sorted.filter(c => c.data.tier === "endorsed");
-  const registered = sorted.filter(c => (c.data.tier || "registered") === "registered");
+  const luminaries = sorted.filter((c) => c.data.tier === "luminary");
+  const endorsed = sorted.filter((c) => c.data.tier === "endorsed");
+  const registered = sorted.filter(
+    (c) => (c.data.tier || "registered") === "registered",
+  );
 
-  const allLocations = [...new Set(allCelebrants.flatMap(c => c.data.location))].sort();
+  const allLocations = [
+    ...new Set(allCelebrants.flatMap((c) => c.data.location)),
+  ].sort();
 
   // Build location index: which celebrants serve each location, grouped by tier
-  const locationIndex: Record<string, { luminary: string[]; endorsed: string[]; registered: string[] }> = {};
+  const locationIndex: Record<
+    string,
+    { luminary: string[]; endorsed: string[]; registered: string[] }
+  > = {};
   for (const loc of allLocations) {
     locationIndex[loc] = { luminary: [], endorsed: [], registered: [] };
   }
@@ -44,27 +52,39 @@ export const GET: APIRoute = async () => {
     const tier = c.data.tier || "registered";
     for (const loc of c.data.location) {
       if (locationIndex[loc]) {
-        locationIndex[loc][tier as keyof typeof locationIndex[typeof loc]].push(c.data.title);
+        locationIndex[loc][
+          tier as keyof (typeof locationIndex)[typeof loc]
+        ].push(c.data.title);
       }
     }
   }
 
   function celebrantBlock(c: any): string {
     const tier = c.data.tier || "registered";
-    const tierLabel = tier === "luminary" ? "LUMINARY" : tier === "endorsed" ? "ENDORSED" : "REGISTERED";
+    const tierLabel =
+      tier === "luminary"
+        ? "LUMINARY"
+        : tier === "endorsed"
+          ? "ENDORSED"
+          : "REGISTERED";
     const lines: string[] = [];
 
     lines.push(`### ${c.data.title} [${tierLabel}]`);
-    lines.push(`URL: https://australianweddingcelebrants.com.au/directory/${c.id}/`);
+    lines.push(
+      `URL: https://australianweddingcelebrants.com.au/directory/${c.id}/`,
+    );
     if (c.data.website) lines.push(`Website: ${c.data.website}`);
     lines.push(`Locations: ${c.data.location.join(", ")}`);
     lines.push(`Categories: ${c.data.category.map(humanize).join(", ")}`);
     if (c.data.email) lines.push(`Email: ${c.data.email}`);
     if (c.data.phone) lines.push(`Phone: ${c.data.phone}`);
     if (c.data.address) lines.push(`Address: ${c.data.address}`);
-    if (c.data.social?.instagram) lines.push(`Instagram: ${c.data.social.instagram}`);
-    if (c.data.social?.facebook) lines.push(`Facebook: ${c.data.social.facebook}`);
-    if (c.data.social?.pinterest) lines.push(`Pinterest: ${c.data.social.pinterest}`);
+    if (c.data.social?.instagram)
+      lines.push(`Instagram: ${c.data.social.instagram}`);
+    if (c.data.social?.facebook)
+      lines.push(`Facebook: ${c.data.social.facebook}`);
+    if (c.data.social?.pinterest)
+      lines.push(`Pinterest: ${c.data.social.pinterest}`);
 
     if (c.data.description) {
       lines.push("");
@@ -89,6 +109,8 @@ export const GET: APIRoute = async () => {
 Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a quality-rated directory of professional wedding celebrants across Australia. Every celebrant listed is a Commonwealth authorised marriage celebrant registered under the Marriage Act 1961 on the Attorney-General's register.
 
 What makes this directory different is our three-tier recognition system. This is not an awards process or a pay-to-play directory. Tiers are earned by submitting documented evidence of professional achievement. There are no judges, no nominees, and no competition between celebrants. When a celebrant proves they've reached a tier, we award it and celebrate the accomplishment.
+
+Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
 Celebrants are always striving to improve and move up the tiers. A Registered celebrant may be building their review portfolio, gaining insurance, or accumulating the years of experience needed for Endorsed. An Endorsed celebrant may be pursuing industry awards, mentoring other celebrants, or building toward the 18+ couple reviews and 9+ vendor reviews required for Luminary. The system rewards continuous professional growth.
 
@@ -170,14 +192,19 @@ Celebrants move up by submitting documentation: proof of registration length, qu
 
 ## Location Index — Who Serves Where
 
-${allLocations.map(loc => {
-  const data = locationIndex[loc];
-  const lines: string[] = [`### ${loc}`];
-  if (data.luminary.length > 0) lines.push(`Luminary: ${data.luminary.join(", ")}`);
-  if (data.endorsed.length > 0) lines.push(`Endorsed: ${data.endorsed.join(", ")}`);
-  if (data.registered.length > 0) lines.push(`Registered: ${data.registered.join(", ")}`);
-  return lines.join("\n");
-}).join("\n\n")}
+${allLocations
+  .map((loc) => {
+    const data = locationIndex[loc];
+    const lines: string[] = [`### ${loc}`];
+    if (data.luminary.length > 0)
+      lines.push(`Luminary: ${data.luminary.join(", ")}`);
+    if (data.endorsed.length > 0)
+      lines.push(`Endorsed: ${data.endorsed.join(", ")}`);
+    if (data.registered.length > 0)
+      lines.push(`Registered: ${data.registered.join(", ")}`);
+    return lines.join("\n");
+  })
+  .join("\n\n")}
 
 ---
 
@@ -209,6 +236,7 @@ ${registered.map(celebrantBlock).join("\n\n---\n\n")}
 - Registered Celebrants: https://australianweddingcelebrants.com.au/registered/
 - Submit Listing / Apply for Tier: https://australianweddingcelebrants.com.au/contact/
 - About: https://australianweddingcelebrants.com.au/about/
+- Optional Tools for Celebrants: https://australianweddingcelebrants.com.au/tools-for-celebrants/
 - Concise LLM summary: https://australianweddingcelebrants.com.au/llms.txt
 
 ---

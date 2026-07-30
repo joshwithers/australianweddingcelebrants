@@ -2,8 +2,12 @@
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { markdownify, slugify } from "@/lib/utils/textConverter";
-import { shuffled } from "@/lib/utils/shuffle";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
+import {
+  absoluteUrl,
+  australianPostalAddress,
+  normalizeTelephone,
+} from "@/lib/utils/profile";
 import { getEntry, render } from "astro:content";
 import DirectoryListingsWrapper from "../../components/DirectoryListingsWrapper.astro";
 import TierIcon from "@/components/TierIcon.astro";
@@ -11,15 +15,20 @@ import TierIcon from "@/components/TierIcon.astro";
 // Get all directory entries
 const directoryItems = await getSinglePage("directory");
 
-// Sort items: featured first, then randomize each group
-const sortedItems = shuffled(directoryItems).sort((a, b) => {
-  if (a.data.featured && !b.data.featured) return -1;
-  if (!a.data.featured && b.data.featured) return 1;
-  return 0;
+// Stable, non-commercial order for machine-readable directory data.
+// Placement is based on the published recognition tier, then alphabetically.
+const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
+const sortedItems = [...directoryItems].sort((a, b) => {
+  const tierDifference =
+    (tierOrder[a.data.tier || "registered"] ?? 2) -
+    (tierOrder[b.data.tier || "registered"] ?? 2);
+  return tierDifference || a.data.title.localeCompare(b.data.title);
 });
 
 // Get all unique locations
-const allLocations = [...new Set(sortedItems.flatMap((entry) => entry.data.location))].sort();
+const allLocations = [
+  ...new Set(sortedItems.flatMap((entry) => entry.data.location)),
+].sort();
 
 // Get page data
 const pageEntry = await getEntry("pages", "directory");
@@ -30,41 +39,67 @@ const { Content } = await render(pageEntry);
 ---
 
 <Base title={pageEntry.data.title}>
-  <script is:inline type="application/ld+json" set:html={serializeJsonLd({
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Australian Wedding Celebrants Directory",
-    "description": "Quality-rated directory of professional wedding celebrants across Australia, with Registered, Endorsed, and Luminary recognition tiers.",
-    "numberOfItems": sortedItems.length,
-    "itemListElement": sortedItems.slice(0, 50).map((entry, i) => ({
-      "@type": "ListItem",
-      "position": i + 1,
-      "item": {
-        "@type": "ProfessionalService",
-        "name": entry.data.title,
-        "url": `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
-        "description": entry.data.description || "",
-        "image": typeof entry.data.image === 'object' && entry.data.image?.src ? entry.data.image.src : (entry.data.image || undefined),
-        "telephone": entry.data.phone || undefined,
-        "areaServed": entry.data.location.map(loc => ({ "@type": "AdministrativeArea", "name": loc })),
-      }
-    }))
-  })} />
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Australian Wedding Celebrants Directory",
+      description:
+        "Quality-rated directory of professional wedding celebrants across Australia, with Registered, Endorsed, and Luminary recognition tiers.",
+      numberOfItems: sortedItems.length,
+      itemListElement: sortedItems.map((entry, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Person",
+          "@id": `https://australianweddingcelebrants.com.au/directory/${entry.id}/#person`,
+          name: entry.data.title,
+          jobTitle: "Wedding Celebrant",
+          url: `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
+          description: entry.data.description || "",
+          image: absoluteUrl(
+            typeof entry.data.image === "string"
+              ? entry.data.image
+              : entry.data.image?.src,
+            "https://australianweddingcelebrants.com.au",
+          ),
+          telephone: normalizeTelephone(entry.data.phone),
+          homeLocation: entry.data.address
+            ? {
+                "@type": "Place",
+                name: entry.data.address,
+                address: australianPostalAddress(entry.data.address),
+              }
+            : undefined,
+          areaServed: entry.data.location.map((loc) => ({
+            "@type": "AdministrativeArea",
+            name: loc,
+          })),
+        },
+      })),
+    })}
+  />
   <section class="py-16 md:py-20">
     <div class="container">
       {/* Page header */}
-      <div class="text-center mb-12">
-        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px;" set:html={markdownify(pageEntry.data.title)} />
-        <div class="max-w-2xl mx-auto text-light">
+      <div class="mb-12 text-center">
+        <h1
+          class="mb-4"
+          style="font-weight: 700; letter-spacing: -0.44px;"
+          set:html={markdownify(pageEntry.data.title)}
+        />
+        <div class="text-light mx-auto max-w-2xl">
           <Content />
         </div>
       </div>
 
       {/* Browse by type */}
-      <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <div class="mb-12 flex flex-wrap justify-center gap-3">
         <a
           href="/luminaries/"
-          class="pill-luminary inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          class="pill-luminary hover:shadow-hover inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm no-underline transition-all duration-200"
           style="font-weight: 600;"
         >
           <TierIcon tier="luminary" size={14} />
@@ -72,7 +107,7 @@ const { Content } = await render(pageEntry);
         </a>
         <a
           href="/endorsed/"
-          class="pill-endorsed inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          class="pill-endorsed hover:shadow-hover inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm no-underline transition-all duration-200"
           style="font-weight: 600;"
         >
           <TierIcon tier="endorsed" size={14} />
@@ -80,25 +115,52 @@ const { Content } = await render(pageEntry);
         </a>
         <a
           href="/registered/"
-          class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:bg-theme-light hover:shadow-hover"
+          class="border-border text-dark hover:border-dark hover:bg-theme-light hover:shadow-hover inline-flex items-center gap-1.5 rounded-full border bg-white px-5 py-2.5 text-sm no-underline transition-all duration-200"
           style="font-weight: 500;"
         >
           Registered Celebrants
         </a>
         <a
           href="/australia-wide/"
-          class="pill-dark inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          class="pill-dark hover:shadow-hover inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm no-underline transition-all duration-200"
           style="font-weight: 500;"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"
+            ></path><path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            ></path></svg
+          >
           Australia Wide
         </a>
         <a
           href="/destination-wedding-celebrants/"
-          class="pill-dark inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm no-underline transition-all duration-200 hover:shadow-hover"
+          class="pill-dark hover:shadow-hover inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm no-underline transition-all duration-200"
           style="font-weight: 500;"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"></path><path
+              d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"
+            ></path><path
+              d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"
+            ></path><circle cx="12" cy="12" r="10"></circle></svg
+          >
           Destination Weddings
         </a>
       </div>
@@ -111,20 +173,25 @@ const { Content } = await render(pageEntry);
       />
 
       {/* Browse by location */}
-      <div class="mt-20 pt-12 border-t border-border">
-        <h2 class="text-center mb-10" style="font-weight: 600; letter-spacing: -0.44px;">
+      <div class="border-border mt-20 border-t pt-12">
+        <h2
+          class="mb-10 text-center"
+          style="font-weight: 600; letter-spacing: -0.44px;"
+        >
           Browse by Location
         </h2>
         <div class="flex flex-wrap justify-center gap-3">
-          {allLocations.map((location) => (
-            <a
-              href={`/directory/location/${slugify(location)}/`}
-              class="inline-block px-5 py-2.5 bg-white border border-border rounded-full text-sm text-dark no-underline transition-all duration-200 hover:border-dark hover:shadow-hover"
-              style="font-weight: 500;"
-            >
-              {location}
-            </a>
-          ))}
+          {
+            allLocations.map((location) => (
+              <a
+                href={`/directory/location/${slugify(location)}/`}
+                class="border-border text-dark hover:border-dark hover:shadow-hover inline-block rounded-full border bg-white px-5 py-2.5 text-sm no-underline transition-all duration-200"
+                style="font-weight: 500;"
+              >
+                {location}
+              </a>
+            ))
+          }
         </div>
       </div>
     </div>

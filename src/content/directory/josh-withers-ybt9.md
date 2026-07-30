@@ -6,7 +6,7 @@ image: "../../assets/directory/josh-withers-ybt9.webp"
 logo: "../../assets/directory/josh-withers-ybt9-logo.svg"
 website: "https://marriedbyjosh.com"
 email: "josh@withers.co"
-phone: "+61485866606"
+phone: "+61 485 866 606"
 address: "Hobart, Tasmania"
 location:
   - Hobart
@@ -31,9 +31,9 @@ social:
   instagram: "https://instagram.com/hellojoshwithers"
   pinterest: "https://au.pinterest.com/hellojoshwithers/"
 gallery:
-   - "../../assets/directory/josh-withers-celebrant-1.jpg"
-   - "../../assets/directory/josh-withers-celebrant-2.jpg"
-   - "../../assets/directory/josh-withers-celebrant-3.jpg"
+  - "../../assets/directory/josh-withers-celebrant-1.jpg"
+  - "../../assets/directory/josh-withers-celebrant-2.jpg"
+  - "../../assets/directory/josh-withers-celebrant-3.jpg"
 year_started: 2009
 awards:
   - title: "Made It Feel Like Us"
@@ -44,6 +44,7 @@ awards:
     emoji: "🤓"
     year: 2025
 ---
+
 Most couples walk into their ceremony feeling at least a little nervous. Maybe you've heard that the ceremony is the part you just "get through" before the real fun starts. Josh Withers believes the opposite — that your ceremony should be the best part of your entire wedding day, and that you should walk through it with a big smile, feeling genuinely amazing about this moment you're sharing with the person you love and the people who matter most to you.
 
 Based in Hobart, Tasmania — the part of the world he loves most — Josh has been a marriage celebrant for over 17 years. In that time he's married more than 2,900 couples across every Australian state and territory and in 24 countries. His work has been featured in the New York Times, Vogue, Marie Claire, and Hello May. But what actually matters to the couples who book him is simpler than any credential: Josh makes the ceremony feel warm, meaningful, and genuinely enjoyable.
