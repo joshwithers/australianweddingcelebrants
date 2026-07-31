@@ -74,12 +74,23 @@ body[data-page="home"] .header.header--revealed {
   }
 }
 
-/* One server-rendered card per celebrant. A responsive grid keeps visual and
-   document order aligned without duplicating hidden cards for each breakpoint. */
+/* One server-rendered card per celebrant. The script measures each card and
+   spans one-pixel rows to create masonry without duplicating hidden cards. */
 .masonry-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
+  column-gap: 1.5rem;
+}
+
+.masonry-grid[data-masonry-ready="true"] {
+  grid-auto-flow: row dense;
+  grid-auto-rows: 1px;
+}
+
+.masonry-grid > .directory-card-shell {
+  align-self: start;
+  min-width: 0;
+  width: 100%;
 }
 
 @media (min-width: 768px) {

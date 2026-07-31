@@ -12,10 +12,64 @@ const { items, prioritizeFirst = true } = Astro.props;
 
 {
   items.length > 0 && (
-    <div class="masonry-grid">
+    <div class="masonry-grid" data-masonry-grid="true">
       {items.map((item, index) => (
         <DirectoryItem item={item} isFirst={prioritizeFirst && index === 0} />
       ))}
     </div>
   )
 }
+
+<script>
+  const masonryObservers = new WeakMap<HTMLElement, ResizeObserver>();
+  let masonryFrame = 0;
+
+  const layoutMasonryGrid = (grid: HTMLElement) => {
+    const cards = Array.from(grid.children).filter<HTMLElement>(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement &&
+        element.classList.contains("directory-card-shell"),
+    );
+
+    if (cards.length === 0) return;
+
+    const columnCount = window.matchMedia("(min-width: 1024px)").matches
+      ? 3
+      : window.matchMedia("(min-width: 768px)").matches
+        ? 2
+        : 1;
+
+    cards.forEach((card, index) => {
+      card.style.gridColumnStart = String((index % columnCount) + 1);
+      card.style.gridRowEnd = `span ${Math.ceil(card.getBoundingClientRect().height)}`;
+    });
+
+    grid.dataset.masonryReady = "true";
+  };
+
+  const scheduleMasonryLayout = () => {
+    cancelAnimationFrame(masonryFrame);
+    masonryFrame = requestAnimationFrame(() => {
+      document
+        .querySelectorAll<HTMLElement>("[data-masonry-grid]")
+        .forEach(layoutMasonryGrid);
+    });
+  };
+
+  const initializeMasonry = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-masonry-grid]")
+      .forEach((grid) => {
+        layoutMasonryGrid(grid);
+
+        if (!masonryObservers.has(grid) && "ResizeObserver" in window) {
+          const observer = new ResizeObserver(scheduleMasonryLayout);
+          Array.from(grid.children).forEach((card) => observer.observe(card));
+          masonryObservers.set(grid, observer);
+        }
+      });
+  };
+
+  document.addEventListener("astro:page-load", initializeMasonry);
+  window.addEventListener("resize", scheduleMasonryLayout, { passive: true });
+</script>
