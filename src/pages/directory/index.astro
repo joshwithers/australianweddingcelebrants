@@ -73,10 +73,17 @@ const { Content } = await render(pageEntry);
                 address: australianPostalAddress(entry.data.address),
               }
             : undefined,
-          areaServed: entry.data.location.map((loc) => ({
-            "@type": "AdministrativeArea",
-            name: loc,
-          })),
+          makesOffer: {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              serviceType: "Wedding Celebrant",
+              areaServed: entry.data.location.map((loc) => ({
+                "@type": "AdministrativeArea",
+                name: loc,
+              })),
+            },
+          },
         },
       })),
     })}

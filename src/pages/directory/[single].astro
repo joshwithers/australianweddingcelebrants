@@ -187,10 +187,6 @@ const profileSchema = {
           address: australianPostalAddress(entry.data.address),
         }
       : undefined,
-    areaServed: entry.data.location.map((loc) => ({
-      "@type": "AdministrativeArea",
-      name: humanize(loc),
-    })),
     sameAs: sameAs,
     award: awardStrings.length > 0 ? awardStrings : undefined,
     makesOffer: {
@@ -199,6 +195,10 @@ const profileSchema = {
         "@type": "Service",
         serviceType: "Wedding Celebrant",
         name: "Wedding Ceremony Services",
+        areaServed: entry.data.location.map((loc) => ({
+          "@type": "AdministrativeArea",
+          name: humanize(loc),
+        })),
       },
     },
     hasCredential: {

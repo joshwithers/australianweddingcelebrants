@@ -137,6 +137,21 @@ test("built outputs expose one canonical Josh profile with valid Person schema",
     "streetAddress" in profile.mainEntity.homeLocation.address,
     false,
   );
+  assert.equal("areaServed" in profile.mainEntity, false);
+  assert.deepEqual(
+    profile.mainEntity.makesOffer.itemOffered.areaServed.map(
+      ({ "@type": type, name }) => ({ type, name }),
+    ),
+    [
+      { type: "AdministrativeArea", name: "Hobart" },
+      { type: "AdministrativeArea", name: "Tasmania" },
+      { type: "AdministrativeArea", name: "Launceston" },
+      { type: "AdministrativeArea", name: "Huon Valley" },
+      { type: "AdministrativeArea", name: "Sydney" },
+      { type: "AdministrativeArea", name: "Melbourne" },
+      { type: "AdministrativeArea", name: "Gold Coast" },
+    ],
+  );
 });
 
 test("built indexes and sitemap contain one Josh listing each", async () => {
@@ -162,4 +177,22 @@ test("built indexes and sitemap contain one Josh listing each", async () => {
     sitemap,
     /\/(?:directory\/)?(?:married-by-josh|josh-withers)\/</,
   );
+});
+
+test("directory Person schema attaches service areas to Service", async () => {
+  const html = await read("../dist/directory/index.html");
+  const jsonLd = [
+    ...html.matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+    ),
+  ].map((match) => JSON.parse(match[1]));
+  const directory = jsonLd.find((entry) => entry["@type"] === "ItemList");
+
+  assert.ok(directory);
+  for (const { item: person } of directory.itemListElement) {
+    assert.equal(person["@type"], "Person");
+    assert.equal("areaServed" in person, false);
+    assert.equal(person.makesOffer.itemOffered["@type"], "Service");
+    assert.ok(person.makesOffer.itemOffered.areaServed.length > 0);
+  }
 });
