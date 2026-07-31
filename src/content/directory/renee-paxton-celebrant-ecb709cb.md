@@ -17,7 +17,7 @@ australia_wide: true
 year_started: 2026
 tier: registered
 social:
-  instagram: "https://www.instagram.com/reneepaxton_celebrant?igsh=dXU3cnN4dmhxczY1"
+  instagram: "https://www.instagram.com/reneepaxton_celebrant"
 ---
 
 Renée Paxton is a Melbourne-based celebrant who brings warmth, authenticity, and genuine joy to every ceremony she creates. With a philosophy that love should be celebrated exactly as it is—without pretence or cookie-cutter scripts—Renée has built a reputation for delivering ceremonies that feel deeply personal and wonderfully memorable.
