@@ -22,8 +22,9 @@ international: true
 tier: registered
 social:
   facebook: "https://www.facebook.com/share/1AbtuC2cwG/"
-  instagram: "https://www.instagram.com/thebestdaycelebrancy?igsh=OXNtYmFiNWhkYWho"
+  instagram: "https://www.instagram.com/thebestdaycelebrancy"
 ---
+
 Jaymie Best is a Sydney-based wedding celebrant and MC who believes your day should be entirely about you. Rather than stealing the spotlight, Jaymie works as your supporting actress—crafting the perfect narrative that makes you look, feel, and sound absolutely amazing.
 
 Specialising in truly bespoke ceremonies, Jaymie masterfully balances humour with heart, creating moments that have your loved ones on the edge of their seats, laughing and shedding happy tears. Whether you're planning an intimate elopement or a grand celebration, your unique love story is always the star of the show.

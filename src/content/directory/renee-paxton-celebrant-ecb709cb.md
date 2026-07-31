@@ -1,5 +1,5 @@
 ---
-title: "Renee Paxton Celebrant"
+title: "Renee Paxton"
 meta_title: "Renee Paxton — Melbourne Wedding Celebrant | Australian Wedding Celebrants"
 description: "Melbourne-based celebrant specialising in bespoke, meaningful ceremonies. Weddings, elopements, vow renewals, MC services and celebrations of life across Australia."
 image: "../../assets/directory/renee-paxton-celebrant-ecb709cb.webp"
@@ -19,6 +19,7 @@ tier: registered
 social:
   instagram: "https://www.instagram.com/reneepaxton_celebrant?igsh=dXU3cnN4dmhxczY1"
 ---
+
 Renée Paxton is a Melbourne-based celebrant who brings warmth, authenticity, and genuine joy to every ceremony she creates. With a philosophy that love should be celebrated exactly as it is—without pretence or cookie-cutter scripts—Renée has built a reputation for delivering ceremonies that feel deeply personal and wonderfully memorable.
 
 Renée's approach sits at the sweet spot between cheeky and heartfelt, playful and profound. She believes ceremonies should feel like you: full of personality, full of love, and absolutely never like a formal script delivered by a stranger. Whether you're envisioning something romantic and soulful, hilarious and irreverent, wildly unconventional, or a blend of everything, Renée works closely with couples to create something that's authentically, unmistakably theirs.

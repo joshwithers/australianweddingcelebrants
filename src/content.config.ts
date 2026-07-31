@@ -1,11 +1,13 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
+import { cleanSocialUrl } from "@/lib/utils/socialUrl";
 
 const httpUrl = z.url().refine((value) => {
   const protocol = new URL(value).protocol;
   return protocol === "http:" || protocol === "https:";
 }, "URL must use HTTP or HTTPS");
+const socialUrl = httpUrl.transform(cleanSocialUrl);
 
 // About collection schema
 const aboutCollection = defineCollection({
@@ -56,13 +58,13 @@ const directoryCollection = defineCollection({
       slug: z.string().optional(),
       social: z
         .object({
-          facebook: httpUrl.optional(),
-          instagram: httpUrl.optional(),
-          pinterest: httpUrl.optional(),
+          facebook: socialUrl.optional(),
+          instagram: socialUrl.optional(),
+          pinterest: socialUrl.optional(),
         })
         .optional(),
       // Premium profile fields — available to all tiers.
-      youtube: httpUrl.optional(),
+      youtube: socialUrl.optional(),
       gallery: z
         .array(z.union([image(), z.string()]))
         .max(3)

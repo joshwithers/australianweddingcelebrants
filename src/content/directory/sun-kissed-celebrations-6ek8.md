@@ -19,7 +19,7 @@ featured: false
 tier: "registered"
 social:
   facebook: "https://www.facebook.com/share/16Yyi1quTU/"
-  instagram: "https://www.instagram.com/sunkissed.celebrations?igsh=d2hqamU0MjN0M2Jr"
+  instagram: "https://www.instagram.com/sunkissed.celebrations"
 draft: false
 ---
 
