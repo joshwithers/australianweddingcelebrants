@@ -123,6 +123,13 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
         "url": config.site.base_url
       },
       "inLanguage": "en-AU",
+      "author": {
+        "@type": "Person",
+        "name": config.metadata.meta_author,
+        ...(config.metadata.meta_author_email
+          ? { email: config.metadata.meta_author_email }
+          : {})
+      },
       "potentialAction": {
         "@type": "SearchAction",
         "target": `${config.site.base_url}/search/?q={search_term_string}`,
