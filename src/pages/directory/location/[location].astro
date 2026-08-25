@@ -8,6 +8,7 @@ import {
   truncateText,
 } from "@/lib/utils/textConverter";
 import { isRecentlyAdded } from "@/lib/utils/recency";
+import { entrySlug } from "@/lib/utils/entrySlug";
 import MasonryGrid from "@/components/MasonryGrid.astro";
 import LocationMap from "@/components/LocationMap.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
@@ -132,7 +133,12 @@ const collectionPageSchema = {
   description: metaDescription,
   url: pageUrl,
   inLanguage: "en-AU",
-  isPartOf: { "@type": "WebSite", name: config.site.title, url: siteUrl },
+  isPartOf: {
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    name: config.site.title,
+    url: siteUrl,
+  },
   about: {
     "@type": "Place",
     name: `${humanLocation}, Australia`,
@@ -148,7 +154,7 @@ const collectionPageSchema = {
     numberOfItems: vendors.length,
     itemListOrder: "https://schema.org/ItemListOrderAscending",
     itemListElement: vendors.map((vendor, i) => {
-      const slug = vendor.id || slugify(vendor.data?.title || "vendor");
+      const slug = entrySlug(vendor);
       const item: Record<string, any> = {
         "@type": "ListItem",
         position: i + 1,

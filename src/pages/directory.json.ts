@@ -5,6 +5,7 @@
 
 import type { APIRoute } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { entrySlug } from "@/lib/utils/entrySlug";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -13,8 +14,9 @@ export const GET: APIRoute = async () => {
 
   const celebrants = items.map((item) => {
     const d = item.data;
+    const slug = entrySlug(item);
     return {
-      slug: item.id,
+      slug,
       name: d.title,
       description: d.description || "",
       tier: d.tier || "registered",
@@ -28,8 +30,8 @@ export const GET: APIRoute = async () => {
       email: d.email ?? null,
       phone: d.phone ?? null,
       address: d.address ?? null,
-      url: `${SITE}/directory/${item.id}/`,
-      markdown_url: `${SITE}/directory/${item.id}.md`,
+      url: `${SITE}/directory/${slug}/`,
+      markdown_url: `${SITE}/directory/${slug}.md`,
     };
   });
 

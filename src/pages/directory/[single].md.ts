@@ -4,14 +4,14 @@
 
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
+import { entrySlug } from "@/lib/utils/entrySlug";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const entries = await getSinglePage("directory");
   return entries.map((entry) => ({
-    params: { single: entry.id || slugify(entry.data?.title || "vendor") },
+    params: { single: entrySlug(entry) },
     props: { entry },
   }));
 };
@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const GET: APIRoute = async ({ props }) => {
   const entry = props.entry as Awaited<ReturnType<typeof getSinglePage<"directory">>>[number];
   const d = entry.data;
-  const slug = entry.id;
+  const slug = entrySlug(entry);
 
   const tierLabel = {
     luminary: "Luminary",

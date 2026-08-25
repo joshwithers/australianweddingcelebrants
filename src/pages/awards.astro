@@ -2,7 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import { Image } from "astro:assets";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
+import { entrySlug } from "@/lib/utils/entrySlug";
 import { deriveAwards } from "@/lib/utils/awards";
 import { outputImageFormat } from "@/lib/utils/images";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
@@ -27,7 +27,7 @@ const flat: AwardEntry[] = [];
 for (const item of allItems) {
   const awards = deriveAwards(item.data);
   if (awards.length === 0) continue;
-  const slug = item.id || slugify(item.data?.title || "vendor");
+  const slug = entrySlug(item);
   for (const a of awards) {
     flat.push({
       title: a.title,
@@ -91,7 +91,9 @@ const itemListElement = flat
         additionalType: "https://schema.org/Award",
         name: name,
         description: description || undefined,
-        about: { "@id": celebrantUrl, name: a.celebrantName },
+        // Must match the Person node's @id emitted by [single].astro, which is
+        // `<profile url>#person` — not the bare profile URL.
+        about: { "@id": `${celebrantUrl}#person`, name: a.celebrantName },
       },
     };
   });

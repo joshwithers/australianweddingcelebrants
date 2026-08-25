@@ -113,6 +113,7 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
     <script is:inline type="application/ld+json" set:html={serializeJsonLd({
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": `${config.site.base_url}/#website`,
       "name": config.site.title,
       "url": config.site.base_url,
       "description": truncateText(plainify(description ? description : config.metadata.meta_description), 160),

@@ -66,6 +66,32 @@ for (const sourceUrl of pages) {
   if (markdown.trim().length < 100) {
     failures.push(`Markdown companion is unexpectedly short: ${markdownPath}`);
   }
+
+  // Companions generated from HTML must carry every celebrant link the page
+  // shows. Listing cards use a stretched <a> with no text and swap the name for
+  // a logo on premium tiers, so a naive HTML→Markdown pass silently drops both
+  // the name and the URL — /luminaries.md once listed ten celebrants without
+  // naming or linking one. The curated companions (index.md.ts,
+  // [single].md.ts) are hand-written summaries and are exempt; only generated
+  // files carry the "View this page as HTML" preamble.
+  if (markdown.includes("[View this page as HTML](<")) {
+    const document = parse(html);
+    document.querySelectorAll("script, style, noscript").forEach((node) => node.remove());
+    const main = document.querySelector("main");
+    const profileLinks = new Set(
+      (main?.querySelectorAll("a") ?? [])
+        .map((anchor) => anchor.getAttribute("href"))
+        .filter((href) => href?.startsWith("/directory/") && href !== "/directory/"),
+    );
+    const dropped = [...profileLinks].filter(
+      (href) => !markdown.includes(`${new URL(href, SITE).toString()}>`),
+    );
+    if (dropped.length > 0) {
+      failures.push(
+        `${markdownPath} drops ${dropped.length}/${profileLinks.size} celebrant links (e.g. ${dropped[0]})`,
+      );
+    }
+  }
 }
 
 for (const url of inventoryUrls) {

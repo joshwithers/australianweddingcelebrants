@@ -1,13 +1,14 @@
 ---
 import { Image } from "astro:assets";
-import { humanize, slugify } from "@/lib/utils/textConverter";
+import { humanize } from "@/lib/utils/textConverter";
+import { entrySlug } from "@/lib/utils/entrySlug";
 import { outputImageFormat } from "@/lib/utils/images";
 import TierBadge from "./TierBadge.astro";
 import externalImageDimensions from "@/data/external-image-dimensions.json";
 
 const { item, isFirst = false, showLogo = true } = Astro.props;
 const tier = item.data.tier || "registered";
-const itemSlug = item.id || item.slug || slugify(item.data.title);
+const itemSlug = entrySlug(item);
 
 // Show the most recent explicit award as a corner marker; tooltip carries the
 // full title. The synthetic "Class of {year_started}" entry is intentionally

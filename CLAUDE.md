@@ -64,6 +64,13 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `/awards/` — yearbook of all awards across all listings, grouped by year (newest first). Reads the `awards` field from every directory entry.
 - `/search/` — React-powered fuzzy search.
 
+**Profile slugs** come from `src/lib/utils/entrySlug.ts`, never from `entry.id`
+directly. It defaults to the filename-derived collection id and lets a listing
+override it with a `slug:` frontmatter field. Every place that builds a
+`/directory/<slug>/` URL — `getStaticPaths`, `DirectoryItem`, JSON-LD, the `.md`
+companions, `llms.txt`, `directory.json` — must go through it, or the generated
+routes and the links pointing at them drift apart.
+
 ## Agent-readable pages
 
 - Every canonical URL in `sitemap-0.xml` has a direct Markdown companion: `/` maps to
@@ -73,6 +80,11 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
   final `<main>` HTML, and appends the exact inventory to `llms.txt`.
 - `scripts/check-markdown-output.mjs` is a load-bearing build gate: sitemap, HTML
   canonical/alternate links, Markdown files, and the `llms.txt` inventory must match.
+  It also asserts that a generated companion keeps every `/directory/<slug>/` link
+  its HTML page shows. Listing cards put the click target in a text-less stretched
+  `<a aria-label>` and swap the name for a logo on premium tiers, so a careless
+  HTML→Markdown pass drops both name and URL — `/luminaries.md` once listed ten
+  celebrants without naming or linking one.
 - `functions/_middleware.js` serves the same companions for `Accept: text/markdown`.
   Keep direct `.md` access working too; agents should not need content negotiation.
 
@@ -82,4 +94,5 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - Image heights on directory cards are **variable** (natural aspect ratio). Do not re-introduce a fixed `aspect-ratio` crop.
 - Inline styles are tolerated for one-off typography tweaks but prefer `src/styles/components.css` classes for anything repeated.
 - Animations must honour `prefers-reduced-motion`.
-- Build with `npm run build`; dev with `npm run dev`. No test suite currently.
+- Build with `npm run build`; dev with `npm run dev`. `npm test` builds then runs
+  `tests/*.test.mjs`; `npm run validate` adds type-check, link and agent-file checks.

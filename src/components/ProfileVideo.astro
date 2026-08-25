@@ -10,15 +10,67 @@ interface Props {
 
 const { url, title = "Video" } = Astro.props;
 
-// Extract the video ID from any common YouTube URL shape.
-const idMatch = url.match(
-  /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/,
-);
-const videoId = idMatch?.[1];
+// Extract the video ID from any common YouTube URL shape. `watch` URLs are
+// parsed properly rather than pattern-matched on `?v=`, so the id is still
+// found when it isn't the first query parameter (e.g. `?si=…&v=ID`).
+const extractVideoId = (value: string): string | undefined => {
+  const isId = (candidate?: string | null) =>
+    candidate && /^[\w-]{11}$/.test(candidate) ? candidate : undefined;
+
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.replace(/^www\./, "").toLowerCase();
+
+    if (host === "youtu.be") return isId(parsed.pathname.slice(1).split("/")[0]);
+
+    if (host.endsWith("youtube.com") || host.endsWith("youtube-nocookie.com")) {
+      const fromQuery = isId(parsed.searchParams.get("v"));
+      if (fromQuery) return fromQuery;
+      const [segment, id] = parsed.pathname.split("/").filter(Boolean);
+      if (["embed", "shorts", "live", "v"].includes(segment)) return isId(id);
+    }
+  } catch {
+    // Not a parseable URL — fall through to undefined.
+  }
+
+  return undefined;
+};
+
+const videoId = extractVideoId(url);
+
+// Poster frame. maxresdefault only exists for videos uploaded at 720p or
+// above; requesting it for anything smaller 404s, and Astro's build-time
+// remote-image fetch turns that into a failed build. Probe once and fall back
+// to hqdefault, which YouTube generates for every video.
+const posterCache = new Map<string, string>();
+
+const posterUrl = async (id: string): Promise<string> => {
+  const cached = posterCache.get(id);
+  if (cached) return cached;
+
+  const maxres = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+  const fallback = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+  let resolved = fallback;
+  try {
+    const response = await fetch(maxres, {
+      method: "HEAD",
+      signal: AbortSignal.timeout(5000),
+    });
+    if (response.ok) resolved = maxres;
+  } catch {
+    // Offline or blocked build environment — hqdefault always exists.
+  }
+
+  posterCache.set(id, resolved);
+  return resolved;
+};
+
+const poster = videoId ? await posterUrl(videoId) : undefined;
 ---
 
 {
-  videoId && (
+  videoId && poster && (
     <div class="profile-video">
       <button
         type="button"
@@ -27,7 +79,7 @@ const videoId = idMatch?.[1];
         data-video-id={videoId}
       >
         <Image
-          src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+          src={poster}
           alt=""
           widths={[400, 640]}
           sizes="(max-width: 768px) 100vw, 768px"

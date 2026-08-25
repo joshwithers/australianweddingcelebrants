@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { entrySlug } from "@/lib/utils/entrySlug";
 
 function stripMarkdown(text: string): string {
   if (!text) return "";
@@ -19,7 +20,9 @@ function humanize(str: string): string {
 export const GET: APIRoute = async () => {
   const allCelebrants = await getCollection(
     "directory",
-    (entry) => !entry.data.draft,
+    // Mirrors getSinglePage(): drafts out, and `-`-prefixed scaffolding files
+    // (e.g. -template.md) are never real listings.
+    (entry) => !entry.data.draft && !entry.id.startsWith("-"),
   );
 
   const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
@@ -71,7 +74,7 @@ export const GET: APIRoute = async () => {
 
     lines.push(`### ${c.data.title} [${tierLabel}]`);
     lines.push(
-      `URL: https://australianweddingcelebrants.com.au/directory/${c.id}/`,
+      `URL: https://australianweddingcelebrants.com.au/directory/${entrySlug(c)}/`,
     );
     if (c.data.website) lines.push(`Website: ${c.data.website}`);
     lines.push(`Locations: ${c.data.location.join(", ")}`);

@@ -1,7 +1,6 @@
 ---
 import StaticDirectoryListings from './StaticDirectoryListings.astro';
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
 
 interface Props {
   sortBy?: 'alphabetical' | 'random';
@@ -21,38 +20,22 @@ const {
   premiumTiers
 } = Astro.props;
 
-// Get all directory entries
+// Get all directory entries. StaticDirectoryListings does the shuffling and
+// sorting; this component only supplies the data.
 const directoryItems = await getSinglePage("directory");
 
-// Apply random sorting at build time if needed
-if (sortBy === 'random') {
-  for (let i = directoryItems.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [directoryItems[i], directoryItems[j]] = [directoryItems[j], directoryItems[i]];
-  }
-}
-
-// Get active location from URL parameters
-const urlParams = Astro.url.searchParams;
-const activeLocation = urlParams.get('location') || 'all';
-
-// Convert location slug back to location name if needed
-let resolvedActiveLocation = 'all';
-if (activeLocation !== 'all') {
-  // Find the actual location name that matches the slug
-  const allLocations = [...new Set(directoryItems.flatMap(item => item.data.location))];
-  const matchedLocation = allLocations.find(loc => slugify(loc) === activeLocation);
-  resolvedActiveLocation = matchedLocation || 'all';
-}
+// Note: there is deliberately no `?location=` handling here. The site builds to
+// static HTML, so Astro.url.searchParams is always empty at build time —
+// location filtering lives on the prerendered /directory/location/<slug>/
+// routes instead.
 ---
 
 <StaticDirectoryListings
   items={directoryItems}
-  sortBy={sortBy === 'random' ? undefined : sortBy}
+  sortBy={sortBy}
   featuredOnly={featuredOnly}
   showFilters={showFilters}
   title={title}
   maxItems={maxItems}
-  activeLocation={resolvedActiveLocation}
   premiumTiers={premiumTiers}
 />

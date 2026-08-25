@@ -39,9 +39,35 @@ function inline(node, sourceUrl) {
   if (node.getAttribute("aria-hidden") === "true") return "";
 
   const tag = node.rawTagName?.toLowerCase();
-  const content = node.childNodes.map((child) => inline(child, sourceUrl)).join("");
+  // Two adjacent element children with no text between them are layout
+  // siblings (flex chips, a badge next to an image) that read as separate
+  // items — give them a space. Text nodes already carry the author's spacing,
+  // so pairs involving one are joined verbatim.
+  let content = "";
+  let previousWasElement = false;
+  for (const child of node.childNodes) {
+    const part = inline(child, sourceUrl);
+    const isElement = child.nodeType === NodeType.ELEMENT_NODE;
+    if (
+      part &&
+      content &&
+      isElement &&
+      previousWasElement &&
+      /\S$/.test(content) &&
+      /^\S/.test(part)
+    ) {
+      content += " ";
+    }
+    if (part) previousWasElement = isElement;
+    content += part;
+  }
   if (tag === "a") {
-    const label = squash(content);
+    // Stretched links (the whole-card click target on directory listings) carry
+    // no text — their accessible name lives in aria-label. Without this fallback
+    // every celebrant link on /directory/, /luminaries/ etc. is dropped.
+    const label =
+      squash(content) ||
+      squash(node.getAttribute("aria-label") || node.getAttribute("title") || "");
     const href = node.getAttribute("href");
     if (!href || !label) return label;
     try {
@@ -86,6 +112,25 @@ function list(node, sourceUrl, ordered, depth = 0) {
     .join("\n");
 }
 
+// Elements that start a new block. Anything else (a, img, span, strong…) is
+// inline and must be rendered by `inline()` so links keep their href and a
+// sentence isn't split across paragraphs.
+const BLOCK_TAGS = new Set([
+  "address", "article", "aside", "blockquote", "dd", "details", "dialog",
+  "div", "dl", "dt", "fieldset", "figcaption", "figure", "footer", "form",
+  "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main",
+  "nav", "ol", "p", "pre", "section", "summary", "table", "tbody", "td",
+  "tfoot", "th", "thead", "tr", "ul",
+]);
+
+function hasBlockChild(node) {
+  return node.childNodes.some(
+    (child) =>
+      child.nodeType === NodeType.ELEMENT_NODE &&
+      BLOCK_TAGS.has(child.rawTagName?.toLowerCase()),
+  );
+}
+
 function blocks(node, sourceUrl) {
   if (node.nodeType === NodeType.TEXT_NODE) return squash(node.text);
   if (node.nodeType !== NodeType.ELEMENT_NODE) return "";
@@ -104,6 +149,11 @@ function blocks(node, sourceUrl) {
   if (tag === "pre") return `\`\`\`\n${node.textContent.trim()}\n\`\`\``;
   if (tag === "ul" || tag === "ol") return list(node, sourceUrl, tag === "ol");
   if (tag === "hr") return "---";
+  // A container with no block-level children is a single run of inline content
+  // (a <dd> holding a sentence with a link, a logo <div> wrapping an <img>, the
+  // stretched <a> on a listing card). Recursing per-child here would split it
+  // into separate paragraphs and strip every href.
+  if (!hasBlockChild(node)) return squash(inline(node, sourceUrl));
   return node.childNodes
     .map((child) => blocks(child, sourceUrl))
     .filter(Boolean)

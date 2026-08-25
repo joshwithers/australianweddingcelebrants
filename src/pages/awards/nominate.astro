@@ -1,13 +1,12 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { slugify } from "@/lib/utils/textConverter";
+import { entrySlug } from "@/lib/utils/entrySlug";
 
 const allItems = await getSinglePage("directory");
 const slugMap: Record<string, string> = {};
 for (const item of allItems) {
-  const slug = item.id || slugify(item.data?.title || "vendor");
-  slugMap[slug] = item.data.title;
+  slugMap[entrySlug(item)] = item.data.title;
 }
 
 const currentYear = new Date().getUTCFullYear();

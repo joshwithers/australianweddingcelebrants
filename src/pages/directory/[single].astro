@@ -1,7 +1,8 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import { entrySlug as resolveSlug } from "@/lib/utils/entrySlug";
 import { outputImageFormat } from "@/lib/utils/images";
 import { Image } from "astro:assets";
 import { render } from "astro:content";
@@ -24,26 +25,31 @@ import {
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
 
-  return directoryEntries.map((entry) => {
-    const slug = entry.id || slugify(entry.data?.title || "vendor");
-    return {
-      params: { single: slug },
-      props: { entry },
-    };
-  });
+  return directoryEntries.map((entry) => ({
+    params: { single: resolveSlug(entry) },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
-const entrySlug = entry.id || slugify(entry.data?.title || "vendor");
+const entrySlug = resolveSlug(entry);
 const { Content } = await render(entry);
 const tier = entry.data.tier || "registered";
 const isPremium = tier === "endorsed" || tier === "luminary";
 const websiteRel = isPremium ? "noopener" : "noopener nofollow noreferrer";
 
+// Ask ImageKit for a specific render width. Replaces any existing `tr` param
+// rather than only matching the exact `?tr=w-NNN` shape — a URL carrying any
+// other query string used to fall through unresized.
 const withImagekitWidth = (url: string, width: number) => {
   if (!url.includes("imagekit.io")) return url;
-  if (url.includes("?")) return url.replace(/\?tr=w-\d+/, `?tr=w-${width}`);
-  return `${url}?tr=w-${width}`;
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.set("tr", `w-${width}`);
+    return parsed.toString();
+  } catch {
+    return url;
+  }
 };
 
 // Get same-tier celebrants (prefer same location, then same category)
@@ -146,7 +152,7 @@ const imageUrl =
     ? entry.data.image
     : entry.data.image?.src;
 
-const businessUrl = `${siteUrl}/directory/${entry.id}/`;
+const businessUrl = `${siteUrl}/directory/${entrySlug}/`;
 const personId = `${businessUrl}#person`;
 const sameAs = [
   entry.data.website,
@@ -499,6 +505,11 @@ const logoFrameStyle =
               <div class="mb-6">
                 {entry.data.logo && isPremium ? (
                   <div class="mb-4">
+                    {/* The logo replaces the visible name, so the page still
+                        needs an h1. Matches the Luminary layout's sr-only h1 —
+                        without it a logo listing with no body copy ships with
+                        no h1 at all. */}
+                    <h1 class="sr-only" set:html={markdownify(entry.data.title)} />
                     <div class="profile-logo-frame" style={logoFrameStyle}>
                       {typeof entry.data.logo === "string" ? (
                         <img
@@ -656,9 +667,12 @@ const logoFrameStyle =
       {
         entry.body && (
           <div class="content border-border mx-auto mt-16 max-w-3xl border-t pt-12">
+            {/* Visible name above the bio for logo listings. An h2, not an h1 —
+                the page's h1 is the sr-only one beside the logo in the hero,
+                which is present whether or not this body copy exists. */}
             {entry.data.logo && tier === "endorsed" && (
-              <h1
-                class="mb-6"
+              <h2
+                class="h1 mb-6"
                 style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
                 set:html={markdownify(entry.data.title)}
               />
@@ -944,8 +958,7 @@ const logoFrameStyle =
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
               {relatedVendors.map((vendor) => {
                 const vendorTier = vendor.data.tier || "registered";
-                const vendorSlug =
-                  vendor.id || slugify(vendor.data?.title || "vendor");
+                const vendorSlug = resolveSlug(vendor);
                 return (
                   <div>
                     <a

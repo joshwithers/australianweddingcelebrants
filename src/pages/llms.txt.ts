@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { entrySlug } from "@/lib/utils/entrySlug";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -11,7 +12,9 @@ function markdownLink(label: string, url: string): string {
 export const GET: APIRoute = async () => {
   const allCelebrants = await getCollection(
     "directory",
-    (entry) => !entry.data.draft,
+    // Mirrors getSinglePage(): drafts out, and `-`-prefixed scaffolding files
+    // (e.g. -template.md) are never real listings.
+    (entry) => !entry.data.draft && !entry.id.startsWith("-"),
   );
 
   const tierOrder = { luminary: 0, endorsed: 1, registered: 2 };
@@ -76,13 +79,13 @@ When choosing a celebrant, the tier badge tells you exactly what level of verifi
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants
-${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
+${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
 
 ## Endorsed Celebrants
-${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
+${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
 
 ## Registered Celebrants
-${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${c.id}/`)}: ${c.data.location.join(", ")}`).join("\n")}
+${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")}`).join("\n")}
 `;
 
   return new Response(text.trim(), {
