@@ -64,6 +64,18 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `/awards/` — yearbook of all awards across all listings, grouped by year (newest first). Reads the `awards` field from every directory entry.
 - `/search/` — React-powered fuzzy search.
 
+## Agent-readable pages
+
+- Every canonical URL in `sitemap-0.xml` has a direct Markdown companion: `/` maps to
+  `/index.md`, while `/about/` maps to `/about.md`.
+- `scripts/generate-markdown.mjs` runs after Astro builds, preserves the curated
+  homepage and celebrant-profile endpoints, generates every missing companion from
+  final `<main>` HTML, and appends the exact inventory to `llms.txt`.
+- `scripts/check-markdown-output.mjs` is a load-bearing build gate: sitemap, HTML
+  canonical/alternate links, Markdown files, and the `llms.txt` inventory must match.
+- `functions/_middleware.js` serves the same companions for `Accept: text/markdown`.
+  Keep direct `.md` access working too; agents should not need content negotiation.
+
 ## Conventions
 
 - Images go through `astro:assets`. Listings should prefer local imported images over external URLs (the external path skips optimisation).

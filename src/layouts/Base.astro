@@ -42,6 +42,9 @@ const themeColor = theme_color || page_bg || "#ffffff";
 
 // Resolve image to string (local images are objects with .src)
 const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : rawImage;
+const canonicalUrl = canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`;
+const canonicalPath = new URL(canonicalUrl).pathname;
+const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md' : `${canonicalPath.replace(/\/$/, '')}.md`}`;
 ---
 
 <!doctype html>
@@ -60,7 +63,9 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     </title>
 
     <!-- canonical url -->
-    <link rel="canonical" href={canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`} />
+    <link rel="canonical" href={canonicalUrl} />
+    {!noindex && <link rel="alternate" type="text/markdown" href={markdownUrl} />}
+    {!noindex && <link rel="help" href="/llms.txt" />}
 
     {noindex && <meta name="robots" content="noindex,nofollow" />}
 
@@ -91,7 +96,7 @@ const image = typeof rawImage === "object" && rawImage?.src ? rawImage.src : raw
     <meta property="og:title" content={plainify(meta_title ? meta_title : title ? title : config.site.title)} />
     <meta property="og:description" content={truncateText(plainify(description ? description : config.metadata.meta_description), 160)} />
     <meta property="og:type" content={og_type} />
-    <meta property="og:url" content={canonical || `${config.site.base_url}${Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '') + '/'}`} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={image && typeof image === 'string' && image.startsWith('http') ? image : `${config.site.base_url}${image || config.metadata.meta_image}`} />
 
     <!-- Twitter -->

@@ -9,4 +9,6 @@ User-agent: *
 Allow: /
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 
+# AI-readable page inventory: https://australianweddingcelebrants.com.au/llms.txt
+
 Sitemap: https://australianweddingcelebrants.com.au/sitemap-index.xml

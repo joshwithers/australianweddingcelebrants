@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/generate-agent-skills-index.mjs && astro build",
+    "build": "node scripts/generate-agent-skills-index.mjs && astro build && node scripts/generate-markdown.mjs && node scripts/check-markdown-output.mjs",
     "check": "astro check",
     "lint": "astro check",
     "test": "npm run build && node --test tests/*.test.mjs",
@@ -47,6 +47,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/sanitize-html": "^2.16.1",
     "gray-matter": "^4.0.3",
+    "node-html-parser": "^7.0.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",

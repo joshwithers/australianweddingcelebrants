@@ -6,10 +6,8 @@
 //
 // Markdown variants live alongside the HTML output:
 //   /                           → /index.md
-//   /directory/<slug>/          → /directory/<slug>.md
-//
-// Other paths fall through to HTML — extend the mapping below as more
-// endpoints grow .md counterparts.
+//   /about/                     → /about.md
+//   /directory/<slug>/         → /directory/<slug>.md
 
 function prefersMarkdown(accept) {
   if (!accept) return false;
@@ -18,9 +16,9 @@ function prefersMarkdown(accept) {
 
 function toMarkdownPath(pathname) {
   if (pathname === "/" || pathname === "") return "/index.md";
-  const m = pathname.match(/^\/directory\/([^/]+)\/?$/);
-  if (m) return `/directory/${m[1]}.md`;
-  return null;
+  const clean = pathname.replace(/\/+$/, "");
+  if (!clean || clean.endsWith(".md") || clean.includes(".")) return null;
+  return `${clean}.md`;
 }
 
 function withVaryAccept(response) {
