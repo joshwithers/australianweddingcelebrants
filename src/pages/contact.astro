@@ -56,6 +56,21 @@ const { title, description, meta_title, image } = entry.data;
       </div>
 
       {/* Form */}
+      <section
+        id="profile-corrections"
+        class="rounded-card border-border bg-theme-light mb-10 border p-6"
+      >
+        <h2 class="text-dark mb-2 text-base" style="font-weight: 600;">
+          Profile corrections and updates
+        </h2>
+        <p class="text-light text-sm" style="line-height: 1.6;">
+          Anyone can report inaccurate or out-of-date profile information here;
+          no sign-in is required. Include the profile URL, the change needed, and
+          a public source where one is available. Profile owners can use this
+          route too, or sign in separately for routine edits.
+        </p>
+      </section>
+
       <form
         class="space-y-6"
         method="post"
@@ -105,8 +120,21 @@ const { title, description, meta_title, image } = entry.data;
               >Question about tiers / standards</option
             >
             <option value="website_issue">Report a website issue</option>
+            <option value="profile_correction">Profile correction or update</option>
             <option value="general">General enquiry</option>
           </select>
+        </div>
+
+        <div>
+          <label class="text-dark mb-2 block text-sm" style="font-weight: 600;">
+            Profile URL <span class="text-light" style="font-weight: 400;">(if applicable)</span>
+          </label>
+          <input
+            class="form-input w-full"
+            name="profile_url"
+            type="url"
+            placeholder="https://australianweddingcelebrants.com.au/directory/.../"
+          />
         </div>
 
         <div>

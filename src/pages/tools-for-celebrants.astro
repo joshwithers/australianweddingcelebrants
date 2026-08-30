@@ -1,8 +1,12 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
+import EditorialByline from "@/components/EditorialByline.astro";
+import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
 
 const siteUrl = "https://australianweddingcelebrants.com.au";
+const article = getEditorialArticle("/tools-for-celebrants/");
+const articleAuthor = resolveEditorialAuthor(article.author);
 
 const resources = [
   {
@@ -72,6 +76,7 @@ const breadcrumbSchema = {
   meta_title="Optional Tools for Celebrants — Australian Wedding Celebrants"
   description="Optional workflow, website, SEO, NOIM and business-reading resources for Australian marriage celebrants, kept separate from directory recognition."
   canonical={`${siteUrl}/tools-for-celebrants/`}
+  author={articleAuthor.name}
 >
   <script
     is:inline
@@ -103,6 +108,7 @@ const breadcrumbSchema = {
           operated by Josh Withers; they sit outside the directory’s recognition
           process.
         </p>
+        <EditorialByline article={article} class="mt-4" />
       </div>
 
       <aside

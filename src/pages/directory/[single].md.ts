@@ -5,6 +5,9 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -26,16 +29,35 @@ export const GET: APIRoute = async ({ props }) => {
     endorsed: "Endorsed",
     registered: "Registered",
   }[d.tier || "registered"];
+  const tierEvidence = getTierEvidence(d);
 
   const lines: string[] = [];
   lines.push(`# ${d.title}`);
   if (d.description) lines.push("", `> ${d.description}`);
-  lines.push("", `**Tier:** ${tierLabel}`);
+  lines.push("", `**Directory classification:** ${tierLabel}`);
   if (d.location?.length) lines.push(`**Serves:** ${d.location.join(", ")}`);
   if (d.category?.length) lines.push(`**Specialties:** ${d.category.join(", ")}`);
   if (d.australia_wide) lines.push("**Travels:** Australia-wide");
   if (d.international) lines.push("**Travels:** International / destination weddings");
   if (d.year_started) lines.push(`**Working since:** ${d.year_started}`);
+
+  lines.push("", "## Tier evidence");
+  lines.push(`- Status: ${tierEvidence.status}`);
+  lines.push(
+    `- Source: ${
+      tierEvidence.sourceUrl
+        ? `[${tierEvidence.source}](${tierEvidence.sourceUrl})`
+        : tierEvidence.source
+    }`,
+  );
+  lines.push(`- Last checked: ${tierEvidence.lastCheckedLabel}`);
+  if (tierEvidence.note) lines.push(`- Note: ${tierEvidence.note}`);
+  if (!tierEvidence.canPublishCredential) {
+    lines.push(
+      "- This stored classification is not presented as a current credential until dated supporting evidence is published.",
+    );
+  }
+  lines.push("", TIER_STANDARDS_CAVEAT);
 
   const contact: string[] = [];
   if (d.website) contact.push(`- Website: ${d.website}`);
@@ -75,6 +97,15 @@ export const GET: APIRoute = async ({ props }) => {
   if (entry.body) {
     lines.push("", "## About", "", entry.body.trim());
   }
+
+  lines.push(
+    "",
+    "## Publisher and corrections",
+    "",
+    `Published by ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile details come from the celebrant or prior directory records and do not guarantee current authorisation, commercial activity, services, or availability.`,
+    "",
+    `[Request a correction or profile update](${CORRECTIONS_URL}). No sign-in is required.`,
+  );
 
   lines.push("", `---`, `Canonical URL: ${SITE}/directory/${slug}/`);
 

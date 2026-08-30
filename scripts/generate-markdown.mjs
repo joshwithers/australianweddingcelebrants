@@ -180,6 +180,7 @@ for (const sourceUrl of pages) {
   const document = parse(html);
   const title = squash(document.querySelector("title")?.textContent || sourceUrl.pathname);
   const description = document.querySelector('meta[name="description"]')?.getAttribute("content") || "";
+  const author = document.querySelector('meta[name="author"]')?.getAttribute("content")?.trim() || "";
   const markdownUrl = new URL(markdownPathname(sourceUrl.pathname), SITE).toString();
   const destination = markdownFileFor(sourceUrl.pathname);
 
@@ -190,13 +191,21 @@ for (const sourceUrl of pages) {
     const main = document.querySelector("main") || document.querySelector("body");
     if (!main) throw new Error(`No main content found for ${sourceUrl.pathname}`);
     let body = blocks(main, sourceUrl).replace(/\n{3,}/g, "\n\n").trim();
+    const provenance = document.querySelector("[data-site-provenance]");
+    if (provenance) {
+      body = `${body}\n\n## Publisher and corrections\n\n${blocks(provenance, sourceUrl)}`;
+    }
     if (!/^#\s/m.test(body)) body = `# ${title}\n\n${body}`;
-    const markdown = [
+    const frontmatter = [
       "---",
       `title: ${JSON.stringify(title)}`,
       `description: ${JSON.stringify(description)}`,
       `source: ${JSON.stringify(sourceUrl.toString())}`,
       `markdown: ${JSON.stringify(markdownUrl)}`,
+    ];
+    if (author) frontmatter.push(`author: ${JSON.stringify(author)}`);
+    const markdown = [
+      ...frontmatter,
       "---",
       "",
       `[View this page as HTML](<${sourceUrl.toString()}>)`,

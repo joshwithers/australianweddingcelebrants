@@ -1,6 +1,6 @@
 # Australian Wedding Celebrants
 
-A professional and free directory of Australia's wedding celebrants, featuring a three-tier recognition system and a community-driven awards yearbook that celebrates standout celebrants across Australia.
+A free directory of Australian wedding celebrant profiles, with publisher-assigned tier standards, public evidence dates, an open correction route, and a community-driven awards yearbook.
 
 ---
 
@@ -89,13 +89,13 @@ public/                  # Static assets (favicons, og-image, robots.txt)
 
 ## Tier System
 
-Celebrants are recognised across three tiers based on documented evidence of experience, qualifications, and community contribution. Tiers are earned, not bought or voted on.
+Profiles carry one of three publisher-assigned classifications. They cannot be bought or voted on. A profile only emits a Schema.org credential when it has a public evidence source checked within the last 366 days; missing or stale records remain visibly labelled classifications.
 
 | Tier | Colour | Description |
 |------|--------|-------------|
 | **Luminary** | Purple `#460479` | 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards, demonstrated contribution to the profession |
 | **Endorsed** | Magenta `#92174d` | 3+ years, insurance, professional development beyond OPD, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies |
-| **Registered** | Grey `#6a6a6a` | Commonwealth authorised marriage celebrant with Certificate IV (or equivalent) and a verified professional profile |
+| **Registered** | Grey `#6a6a6a` | Baseline standard: Commonwealth authorisation, Certificate IV (or equivalent), and a complete profile |
 
 ## Awards
 
@@ -192,6 +192,10 @@ category:
   - "Celebrant"
   - "MC"
 tier: "registered"          # registered | endorsed | luminary
+tier_evidence_source: "AG register checked; submitted evidence reviewed by publisher"
+tier_evidence_url: "https://www.ag.gov.au/families-and-marriage/marriage/find-marriage-celebrant"
+tier_evidence_last_checked: "2026-08-30" # Current for at most 366 days
+tier_evidence_note: "Public-safe summary of what was checked; never private documents"
 australia_wide: false
 international: false
 social:
@@ -221,6 +225,18 @@ draft: false
 
 Celebrant's full bio in Markdown (target 600+ words for SEO)...
 ```
+
+Tier evidence fields are public. Supporting certificates and other private files
+must never be copied into frontmatter. Historical classifications without a
+durable source and review date remain labelled as missing until the owner can
+review and update them.
+
+## Provenance, editorial authorship, and analytics
+
+- The responsible publisher is Withers XYZ Pty Ltd as trustee for the Snow Withers Trust (ABN 37 709 073 991). Every public page and Markdown entry point links to the no-sign-in correction route.
+- Original editorial guides are registered in `src/lib/editorial.ts`. Missing editorial authors fall back to Frankie across the visible byline, author meta, Article JSON-LD, RSS creator, and generated Markdown. Directory records and profiles never receive that author fallback.
+- Public pages load GA4 measurement ID `G-DCYE3SSJQV`. Consent mode is queued before `gtag.js` with analytics and advertising storage/data/personalisation denied. Google signals and ad personalisation are disabled; page locations omit queries and referrers are origin-only.
+- This boundary is cookieless measurement: do not add analytics cookies, browser IDs, local-storage identifiers, a consent update, or a consent banner. Private Worker login, account, and admin pages do not use the public `Base.astro` layout and must not load the tag.
 
 ## Configuration
 

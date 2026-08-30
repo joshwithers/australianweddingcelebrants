@@ -5,7 +5,7 @@ import Base from "@/layouts/Base.astro";
 <Base
   title="Privacy Policy"
   meta_title="Privacy Policy — Australian Wedding Celebrants"
-  description="Privacy policy for the Australian Wedding Celebrants website. We collect minimal personal information and do not use tracking technologies."
+  description="Privacy notice for Australian Wedding Celebrants, including cookieless Google Analytics page measurement and Cloudflare infrastructure data."
 >
   <section class="py-16 md:py-20">
     <div class="container max-w-3xl">
@@ -13,7 +13,7 @@ import Base from "@/layouts/Base.astro";
         Privacy Policy
       </h1>
       <p class="text-light text-sm mb-12" style="font-weight: 400;">
-        Last updated: 23 April 2026
+        Last updated: 30 August 2026
       </p>
 
       <div class="space-y-10 text-sm text-light" style="font-weight: 400; line-height: 1.7;">
@@ -36,7 +36,11 @@ import Base from "@/layouts/Base.astro";
         <div>
           <h2 class="text-base text-dark mb-3" style="font-weight: 600; letter-spacing: -0.18px;">2. What personal information we collect</h2>
           <p>
-            We collect only the personal information that you voluntarily provide to us. We do not use tracking codes, analytics scripts, advertising pixels, or similar tracking technologies on this Website. We do not use cookies for tracking purposes.
+            Most personal information we collect is information you voluntarily
+            provide to us. We also receive limited technical information when
+            the Website, its forms, or its machine-readable services are used,
+            as described in sections 5 and 6b. We do not create analytics
+            cookies, local-storage visitor IDs, or advertising profiles.
           </p>
           <p class="mt-3">
             The personal information we may collect includes:
@@ -97,18 +101,35 @@ import Base from "@/layouts/Base.astro";
 
         {/* 5 */}
         <div>
-          <h2 class="text-base text-dark mb-3" style="font-weight: 600; letter-spacing: -0.18px;">5. No tracking or analytics</h2>
+          <h2 class="text-base text-dark mb-3" style="font-weight: 600; letter-spacing: -0.18px;">5. Cookieless page measurement and infrastructure data</h2>
           <p>
-            This Website does not use:
+            Public pages load Google Analytics 4 using the dedicated measurement
+            ID G-DCYE3SSJQV. Before the Google tag loads, Google consent mode is
+            set with analytics storage, ad storage, ad user data, and ad
+            personalisation all denied. The Website does not offer a consent
+            update or banner, so those settings remain denied.
           </p>
-          <ul class="list-disc pl-6 mt-3 space-y-1.5">
-            <li>Google Analytics or any other analytics platform</li>
-            <li>Facebook Pixel, Google Ads, or any advertising tracking</li>
-            <li>Third-party tracking cookies</li>
-            <li>Fingerprinting or similar identification technologies</li>
-          </ul>
           <p class="mt-3">
-            Our hosting provider (Cloudflare) may collect basic server logs (such as IP addresses and request timestamps) as part of standard web infrastructure. We do not access or use this data for tracking individuals.
+            This configuration sends cookieless page-measurement requests. We
+            disable Google signals and ad-personalisation signals, do not create
+            Google Analytics cookies or local-storage identifiers, and do not use
+            fingerprinting. Enhanced measurement is disabled on the GA4 web
+            stream. The page URL sent to Google contains the origin and path but
+            not its query string, and the referring page is reduced to its origin.
+          </p>
+          <p class="mt-3">
+            Google may still process network and request metadata, including an
+            IP address and browser or device information, when it receives a
+            cookieless measurement request. Cloudflare also processes request
+            metadata and may retain infrastructure and Worker invocation logs.
+            We may view aggregate page and service-usage information to operate
+            and improve the Website. Cookieless measurement reduces persistent
+            browser identification; it does not make a promise of anonymity or
+            guaranteed non-identifiability.
+          </p>
+          <p class="mt-3">
+            We do not use Facebook Pixel, Google Ads conversion tracking,
+            advertising cookies, or a browser-stored visitor ID on this Website.
           </p>
         </div>
 
@@ -129,7 +150,7 @@ import Base from "@/layouts/Base.astro";
 
           <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">MCP server (read-only)</h3>
           <p>
-            We operate a Model Context Protocol server at <code class="text-dark">api.australianweddingcelebrants.com.au/mcp</code>. It exposes read-only tools that search the directory, list celebrants by location or tier, and return a celebrant's full public profile. The server does not receive, store, or log any personal information about the person using the assistant — only the free-text query string, the requesting IP address, and standard Cloudflare request metadata. Queries are processed at the edge and responses are cached for up to 5 minutes; no conversation content from ChatGPT or any other assistant is sent to us.
+            We operate a Model Context Protocol server at <code class="text-dark">api.australianweddingcelebrants.com.au/mcp</code>. It exposes read-only tools that search the directory, list celebrants by location or tier, and return a celebrant's full public profile. The service may process the free-text query, requesting IP address, and standard Cloudflare request metadata. Queries are processed at the edge and responses are cached for up to 5 minutes; no other conversation content from ChatGPT or another assistant is sent to us by this interface.
           </p>
 
           <h3 class="text-sm text-dark mt-5 mb-2" style="font-weight: 600;">A2A enquiry relay</h3>
@@ -167,7 +188,7 @@ import Base from "@/layouts/Base.astro";
             We may disclose personal information to:
           </p>
           <ul class="list-disc pl-6 mt-3 space-y-1.5">
-            <li><strong>Service providers</strong> who assist in operating the Website — including Cloudflare (hosting, edge computing, and storage), Netlify (static site hosting), GitHub (code and content hosting), and Anthropic (AI text processing). These providers may process data on servers located outside Australia, including in the United States.</li>
+            <li><strong>Service providers</strong> who assist in operating the Website — including Cloudflare (hosting, edge computing, storage, and logs), Google (cookieless page measurement), GitHub (code and content hosting), and Anthropic (AI text processing). These providers may process data on servers located outside Australia, including in the United States.</li>
             <li><strong>Law enforcement or regulatory bodies</strong> where required or authorised by Australian law.</li>
           </ul>
           <p class="mt-3">

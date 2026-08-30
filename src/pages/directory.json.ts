@@ -6,6 +6,9 @@
 import type { APIRoute } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -15,11 +18,19 @@ export const GET: APIRoute = async () => {
   const celebrants = items.map((item) => {
     const d = item.data;
     const slug = entrySlug(item);
+    const evidence = getTierEvidence(d);
     return {
       slug,
       name: d.title,
       description: d.description || "",
       tier: d.tier || "registered",
+      tier_evidence: {
+        status: evidence.status,
+        source: evidence.source,
+        source_url: evidence.sourceUrl || null,
+        last_checked: evidence.lastChecked || null,
+        note: evidence.note || null,
+      },
       locations: d.location || [],
       categories: d.category || [],
       australia_wide: !!d.australia_wide,
@@ -39,6 +50,16 @@ export const GET: APIRoute = async () => {
     JSON.stringify(
       {
         site: SITE,
+        responsible_publisher: {
+          name: PUBLISHER.name,
+          abn: PUBLISHER.abn,
+          url: PUBLISHER.url,
+        },
+        corrections_url: CORRECTIONS_URL,
+        corrections_require_sign_in: false,
+        evidence_notice: TIER_STANDARDS_CAVEAT,
+        usage_notice:
+          "Do not infer current authorisation, commercial activity, services, endorsement, or availability from a profile or tier alone.",
         generated_at: new Date().toISOString(),
         count: celebrants.length,
         directory_policy: {

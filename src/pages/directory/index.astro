@@ -11,6 +11,8 @@ import {
 import { getEntry, render } from "astro:content";
 import DirectoryListingsWrapper from "../../components/DirectoryListingsWrapper.astro";
 import TierIcon from "@/components/TierIcon.astro";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { PUBLISHER } from "@/lib/siteProvenance";
 
 // Get all directory entries
 const directoryItems = await getSinglePage("directory");
@@ -47,7 +49,13 @@ const { Content } = await render(pageEntry);
       "@type": "ItemList",
       name: "Australian Wedding Celebrants Directory",
       description:
-        "Quality-rated directory of professional wedding celebrants across Australia, with Registered, Endorsed, and Luminary recognition tiers.",
+        "Australian wedding celebrant profiles with publisher-assigned Registered, Endorsed, and Luminary directory classifications.",
+      publisher: {
+        "@type": "Organization",
+        "@id": PUBLISHER.id,
+        name: PUBLISHER.name,
+        url: PUBLISHER.url,
+      },
       numberOfItems: sortedItems.length,
       itemListElement: sortedItems.map((entry, i) => ({
         "@type": "ListItem",
@@ -56,7 +64,9 @@ const { Content } = await render(pageEntry);
           "@type": "Person",
           "@id": `https://australianweddingcelebrants.com.au/directory/${entry.id}/#person`,
           name: entry.data.title,
-          jobTitle: "Wedding Celebrant",
+          jobTitle: getTierEvidence(entry.data).canPublishCredential
+            ? "Wedding Celebrant"
+            : undefined,
           url: `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
           description: entry.data.description || "",
           image: absoluteUrl(
@@ -73,17 +83,6 @@ const { Content } = await render(pageEntry);
                 address: australianPostalAddress(entry.data.address),
               }
             : undefined,
-          makesOffer: {
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              serviceType: "Wedding Celebrant",
-              areaServed: entry.data.location.map((loc) => ({
-                "@type": "AdministrativeArea",
-                name: loc,
-              })),
-            },
-          },
         },
       })),
     })}

@@ -1,9 +1,9 @@
 ---
 title: "Australian Wedding Celebrants Directory"
 meta_title: "Find Quality-Rated Wedding Celebrants Across Australia"
-description: "Browse our quality-rated directory of professional wedding celebrants across Australia. Filter by location and find Registered, Endorsed, and Luminary celebrants."
+description: "Browse Australian wedding celebrant profiles and their Registered, Endorsed, or Luminary directory classifications. Check evidence and current details directly."
 image: "/images/directory-banner.jpg"
 draft: false
 ---
 
-Browse our directory of professional wedding celebrants from every state and territory. Each celebrant is a Commonwealth authorised marriage celebrant, and our tier system — Registered, Endorsed, and Luminary — recognises those who've proven their professionalism through documented experience, qualifications, and reviews. Filter by location to find the right celebrant for your day.
+Browse wedding celebrant profiles from across Australia. Registered, Endorsed, and Luminary are classifications assigned by this directory's publisher. Each profile states whether its supporting evidence has a current source and review date; confirm authorisation, services, and availability directly with the celebrant and the official register.

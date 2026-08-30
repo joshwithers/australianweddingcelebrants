@@ -13,6 +13,7 @@ import ProfileVideo from "@/components/ProfileVideo.astro";
 import ProfileGallery from "@/components/ProfileGallery.astro";
 import ProfileTestimonials from "@/components/ProfileTestimonials.astro";
 import ProfileAwards from "@/components/ProfileAwards.astro";
+import TierEvidencePanel from "@/components/TierEvidencePanel.astro";
 import { deriveAwards } from "@/lib/utils/awards";
 import { shuffled } from "@/lib/utils/shuffle";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
@@ -21,6 +22,11 @@ import {
   australianPostalAddress,
   normalizeTelephone,
 } from "@/lib/utils/profile";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import {
+  CORRECTIONS_PATH,
+  PUBLISHER,
+} from "@/lib/siteProvenance";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -96,9 +102,9 @@ const tierInfo = {
     borderColor: "#e0e0e0",
     bg: "#f7f7f7",
     description:
-      "This celebrant is a Commonwealth authorised marriage celebrant on the Attorney-General's register, holds a Certificate IV in Celebrancy or equivalent qualification, and has a verified professional profile. A Registered listing means you're working with a legally authorised, qualified celebrant who has provided their professional details for your review.",
+      "The Registered standard requires Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete professional profile.",
     forCouples:
-      "You can be confident this celebrant is legally authorised to solemnise marriages in Australia. Their profile has been verified and includes their professional photo, contact details, and service information.",
+      "Registered is this directory's foundation classification. Check the dated evidence record below and confirm current authorisation on the Australian Government register before relying on the badge.",
   },
   endorsed: {
     label: "Endorsed Celebrant",
@@ -106,9 +112,9 @@ const tierInfo = {
     borderColor: "#92174d",
     bg: "#fdf2f7",
     description:
-      "This celebrant has been recognised as an Endorsed Celebrant — meaning they've submitted documented proof of at least 3 years' experience, professional indemnity insurance, ongoing professional development beyond legislative requirements, 6 or more verified reviews from couples and 3 or more from fellow wedding vendors, and 100+ ceremonies performed.",
+      "The Endorsed standard requires the Registered baseline plus documented experience, insurance, professional development, reviews from couples and vendors, and 100 or more ceremonies.",
     forCouples:
-      "An Endorsed celebrant has gone above and beyond the basics. They've proven their commitment to the profession through years of experience, over 100 ceremonies, verified client satisfaction, and continued investment in their craft. This isn't an award — it's a recognition of documented professionalism.",
+      "Endorsed is a classification made by this directory, not an endorsement by government or an industry body. Use it only with the dated profile evidence below and confirm time-sensitive details directly.",
   },
   luminary: {
     label: "Luminary Celebrant",
@@ -116,9 +122,9 @@ const tierInfo = {
     borderColor: "#460479",
     bg: "#f5f0fa",
     description:
-      "This celebrant has achieved Luminary status — the highest recognition we offer. They've submitted documented proof of at least 7 years' experience, 18+ verified reviews from couples they've married, 9+ reviews from fellow wedding vendors, industry recognition through awards or media features, a demonstrated pattern of contribution to the celebrant profession, and a professional digital presence — their own up-to-date website, swift responses to enquiries, and a business email address on their own domain.",
+      "The Luminary standard requires the Endorsed baseline plus at least 7 years of experience, extensive couple and vendor reviews, industry recognition, professional contribution, and a maintained professional digital presence.",
     forCouples:
-      "A Luminary celebrant represents the very best in the profession — endorsed by both clients and industry. They've not only built an exceptional track record with 18+ verified couple reviews and 9+ vendor reviews, but have also made a measurable impact on the industry through awards, mentoring, or community contribution. They run a professional operation: their own website is current, their email uses their own domain, and they reply to enquiries promptly. This recognition celebrates their outstanding commitment to excellence.",
+      "Luminary is the highest classification used by this directory. It is not an industry-wide endorsement and does not guarantee current availability or commercial activity. Check the dated evidence record below.",
   },
 };
 
@@ -144,6 +150,7 @@ const tierCredentials = {
 };
 
 const currentCredential = tierCredentials[tier] || tierCredentials.registered;
+const tierEvidence = getTierEvidence(entry.data);
 
 // Prepare schema.org structured data
 const siteUrl = "https://australianweddingcelebrants.com.au";
@@ -176,11 +183,17 @@ const profileSchema = {
   url: businessUrl,
   name: entry.data.meta_title || entry.data.title,
   description: entry.data.description || "",
+  publisher: {
+    "@type": "Organization",
+    "@id": PUBLISHER.id,
+    name: PUBLISHER.name,
+    url: PUBLISHER.url,
+  },
   mainEntity: {
     "@type": "Person",
     "@id": personId,
     name: entry.data.title,
-    jobTitle: "Wedding Celebrant",
+    jobTitle: tierEvidence.canPublishCredential ? "Wedding Celebrant" : undefined,
     url: businessUrl,
     description: entry.data.description || "",
     telephone: normalizeTelephone(entry.data.phone),
@@ -195,29 +208,21 @@ const profileSchema = {
       : undefined,
     sameAs: sameAs,
     award: awardStrings.length > 0 ? awardStrings : undefined,
-    makesOffer: {
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        serviceType: "Wedding Celebrant",
-        name: "Wedding Ceremony Services",
-        areaServed: entry.data.location.map((loc) => ({
-          "@type": "AdministrativeArea",
-          name: humanize(loc),
-        })),
-      },
-    },
-    hasCredential: {
-      "@type": "EducationalOccupationalCredential",
-      credentialCategory: "professional-recognition",
-      name: currentCredential.name,
-      description: currentCredential.description,
-      recognizedBy: {
-        "@type": "Organization",
-        name: "Australian Wedding Celebrants",
-        url: siteUrl,
-      },
-    },
+    hasCredential: tierEvidence.canPublishCredential
+      ? {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "directory-classification",
+          name: currentCredential.name,
+          description: currentCredential.description,
+          dateModified: tierEvidence.lastChecked,
+          recognizedBy: {
+            "@type": "Organization",
+            "@id": PUBLISHER.id,
+            name: PUBLISHER.name,
+            url: PUBLISHER.url,
+          },
+        }
+      : undefined,
     knowsAbout: ["Wedding Ceremony", "Marriage Celebrancy", "Civil Marriage"],
   },
 };
@@ -793,7 +798,7 @@ const logoFrameStyle =
                 class="text-dark mb-2 text-base"
                 style="font-weight: 600; letter-spacing: -0.18px;"
               >
-                What does {currentTierInfo.label} mean for you?
+                What the {currentTierInfo.label} standard means
               </h2>
               <p
                 class="text-dark mb-3 text-sm"
@@ -808,10 +813,35 @@ const logoFrameStyle =
               >
                 Learn more about our standards
               </a>
+              <TierEvidencePanel
+                data={entry.data}
+                tierLabel={currentTierInfo.label}
+              />
             </div>
           </div>
         </div>
       </div>
+
+      <aside
+        id="profile-provenance"
+        class="border-border bg-theme-light rounded-card mt-10 border p-6 text-sm"
+      >
+        <h2 class="text-dark mb-2 text-base" style="font-weight: 600;">
+          Publisher, corrections, and profile updates
+        </h2>
+        <p class="text-light" style="line-height: 1.6;">
+          Published by <strong>{PUBLISHER.name}</strong>, ABN {PUBLISHER.abn}.
+          Profile details come from the listed celebrant or prior directory
+          records; they do not guarantee current authorisation, services,
+          availability, or commercial activity.
+        </p>
+        <p class="mt-2">
+          <a href={CORRECTIONS_PATH} class="text-dark underline">
+            Report a correction or request a profile update
+          </a>
+          <span class="text-light"> — no sign-in required.</span>
+        </p>
+      </aside>
 
       {/* Celebrant tools — embed badge + edit listing (for profile owners) */}
       <div class="mt-16 pt-12">

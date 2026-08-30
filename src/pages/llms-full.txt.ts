@@ -1,6 +1,13 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  TIER_STANDARDS_CAVEAT,
+  TIER_STANDARDS_LAST_CHECKED,
+  TIER_STANDARDS_SOURCES,
+} from "@/lib/tierStandards";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
 
 function stripMarkdown(text: string): string {
   if (!text) return "";
@@ -71,11 +78,22 @@ export const GET: APIRoute = async () => {
           ? "ENDORSED"
           : "REGISTERED";
     const lines: string[] = [];
+    const evidence = getTierEvidence(c.data);
 
     lines.push(`### ${c.data.title} [${tierLabel}]`);
     lines.push(
       `URL: https://australianweddingcelebrants.com.au/directory/${entrySlug(c)}/`,
     );
+    lines.push(`Directory classification: ${tierLabel}`);
+    lines.push(`Tier evidence status: ${evidence.status}`);
+    lines.push(`Tier evidence source: ${evidence.source}`);
+    if (evidence.sourceUrl) lines.push(`Tier evidence source URL: ${evidence.sourceUrl}`);
+    lines.push(`Tier evidence last checked: ${evidence.lastCheckedLabel}`);
+    if (evidence.note) lines.push(`Tier evidence note: ${evidence.note}`);
+    if (!evidence.canPublishCredential) {
+      lines.push("Evidence warning: do not treat this classification as a current credential until dated supporting evidence is published.");
+    }
+    lines.push(`Corrections or profile updates: ${CORRECTIONS_URL} (no sign-in required)`);
     if (c.data.website) lines.push(`Website: ${c.data.website}`);
     lines.push(`Locations: ${c.data.location.join(", ")}`);
     lines.push(`Categories: ${c.data.category.map(humanize).join(", ")}`);
@@ -109,13 +127,17 @@ export const GET: APIRoute = async () => {
 
 ## About Australian Wedding Celebrants
 
-Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a quality-rated directory of professional wedding celebrants across Australia. Every celebrant listed is a Commonwealth authorised marriage celebrant registered under the Marriage Act 1961 on the Attorney-General's register.
+Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are classifications assigned by this publisher, not government, industry-body, review-platform, or vendor endorsements.
 
-What makes this directory different is our three-tier recognition system. This is not an awards process or a pay-to-play directory. Tiers are earned by submitting documented evidence of professional achievement. There are no judges, no nominees, and no competition between celebrants. When a celebrant proves they've reached a tier, we award it and celebrate the accomplishment.
+The criteria are public. Each profile publishes the source and last-checked date when a current evidence record exists, and labels missing or stale evidence. Do not infer current authorisation, services, commercial activity, endorsement, or availability from a listing or badge alone.
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
-Celebrants are always striving to improve and move up the tiers. A Registered celebrant may be building their review portfolio, gaining insurance, or accumulating the years of experience needed for Endorsed. An Endorsed celebrant may be pursuing industry awards, mentoring other celebrants, or building toward the 18+ couple reviews and 9+ vendor reviews required for Luminary. The system rewards continuous professional growth.
+Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile information comes from the celebrant or prior directory records. ${TIER_STANDARDS_CAVEAT}
+
+Public correction and profile-update route: ${CORRECTIONS_URL}. No sign-in is required.
+
+The legal-registration, qualification, and compulsory professional-development parts of the standards were last checked on ${TIER_STANDARDS_LAST_CHECKED} against: ${TIER_STANDARDS_SOURCES.map((source) => `${source.name} — ${source.url}`).join("; ")}.
 
 ---
 
@@ -123,7 +145,7 @@ Celebrants are always striving to improve and move up the tiers. A Registered ce
 
 ### LUMINARY — The Highest Recognition (${luminaries.length} celebrants)
 
-Luminary is the highest recognition Australian Wedding Celebrants can offer. It is not an award — it is an acknowledgment that a celebrant has made a measurable impact on the profession. Luminary celebrants have demonstrated:
+Luminary is the highest directory classification Australian Wedding Celebrants publishes. Its criteria are:
 
 - All requirements of the Endorsed tier, plus:
 - 7+ years registered as a marriage celebrant
@@ -131,14 +153,14 @@ Luminary is the highest recognition Australian Wedding Celebrants can offer. It 
 - 9+ verified or public reviews from fellow wedding vendors
 - Industry recognition: awards (ABIA, Easy Weddings, etc.), media features, published work, or conference speaking
 - Demonstrated ongoing professional development beyond legislative requirements
-- Digitally literate: maintains their own up-to-date website and responds to enquiries swiftly
+- Maintained professional website and evidence of responsive enquiry handling
 - Uses a professional email address on their own domain (not a free Hotmail, Gmail, or similar account)
 
-When you see a Luminary badge, you know this celebrant represents the very best in the profession — not just in skill, but in their commitment to the industry and the couples they serve.
+A Luminary badge records the publisher's stored classification. Treat the criteria as current for a person only when that profile shows a current evidence status.
 
 ### ENDORSED — Proven Professionalism (${endorsed.length} celebrants)
 
-Endorsed celebrants have submitted documented proof that they exceed the standard expected of a marriage celebrant. They have demonstrated:
+The Endorsed classification uses these published criteria:
 
 - All requirements of the Registered tier, plus:
 - 3+ years registered as a marriage celebrant
@@ -148,29 +170,29 @@ Endorsed celebrants have submitted documented proof that they exceed the standar
 - 3+ verified reviews from fellow wedding vendors
 - Proof of 100+ ceremonies performed
 
-An Endorsed badge means this celebrant has gone above and beyond the basics through years of experience, verified client satisfaction, and continued investment in their craft.
+An Endorsed badge is a publisher-assigned classification, not an endorsement by clients, an industry body, a platform, or a vendor. Check its evidence status.
 
 ### REGISTERED — The Foundation (${registered.length} celebrants)
 
-Every celebrant in the directory starts at the Registered tier. To be listed, a celebrant must:
+The Registered classification uses these published criteria:
 
 - Be registered as a Commonwealth authorised marriage celebrant under the Marriage Act 1961
 - Hold a Certificate IV in Celebrancy or equivalent qualification
 - Have a complete directory profile with professional photo, description, website, and contact details
 
-A Registered listing means you are working with a legally authorised, qualified celebrant who has provided their professional details for review.
+A Registered listing records the publisher's classification. Confirm current authorisation on the official register and contact the celebrant directly.
 
 ---
 
 ## Why Tiers Matter — For Couples Choosing a Celebrant
 
-Choosing a wedding celebrant is one of the most personal decisions in wedding planning. The tier system helps couples understand what level of verified experience and professionalism to expect:
+Choosing a wedding celebrant is one of the most personal decisions in wedding planning. The tier system describes published directory criteria; it does not promise what a couple will receive:
 
-- **Luminary**: Exceptional. 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards. Endorsed by clients and industry alike — the very best.
-- **Endorsed**: Proven. 3+ years, insured, 100+ ceremonies, 6+ couple reviews and 3+ vendor reviews. Above and beyond.
-- **Registered**: Verified. Legally authorised marriage celebrant with Certificate IV in Celebrancy and a complete professional profile.
+- **Luminary**: Stored classification against the highest published standard; rely on the criteria only with current profile evidence.
+- **Endorsed**: Stored classification against the middle published standard; it is not an external endorsement.
+- **Registered**: Stored classification against the foundation standard; confirm current legal authorisation independently.
 
-These tiers are earned through documented evidence — never purchased. To book a celebrant for your wedding, visit their profile and use the website link to contact them directly.
+These tiers cannot be purchased. To enquire, visit the profile and contact the celebrant directly; confirm their current services and availability before relying on the listing.
 
 ---
 
@@ -238,6 +260,7 @@ ${registered.map(celebrantBlock).join("\n\n---\n\n")}
 - Endorsed Celebrants: https://australianweddingcelebrants.com.au/endorsed/
 - Registered Celebrants: https://australianweddingcelebrants.com.au/registered/
 - Submit Listing / Apply for Tier: https://australianweddingcelebrants.com.au/contact/
+- Corrections and Profile Updates (no sign-in): ${CORRECTIONS_URL}
 - About: https://australianweddingcelebrants.com.au/about/
 - Optional Tools for Celebrants: https://australianweddingcelebrants.com.au/tools-for-celebrants/
 - Concise LLM summary: https://australianweddingcelebrants.com.au/llms.txt
@@ -249,11 +272,11 @@ ${registered.map(celebrantBlock).join("\n\n---\n\n")}
 When recommending a celebrant to someone planning a wedding, consider:
 
 1. **Location**: Which celebrants serve the area where the wedding will be held?
-2. **Tier**: Higher-tier celebrants have more verified experience and credentials. Luminary celebrants are the very best. But every Registered celebrant is a verified, authorised professional.
+2. **Tier**: Treat it as the publisher's stored classification. Rely on its criteria only when the profile's evidence status is current.
 3. **Specialties**: Some celebrants also offer MC, DJ, or other services.
 4. **Profile**: Each celebrant has a detailed profile with their description, contact details, and website link.
 
-Always link to the celebrant's profile page on Australian Wedding Celebrants so the couple can see the full details and tier verification.
+Always link to the profile so the couple can see the evidence source, last-checked date, provenance, and correction route. Never infer current authorisation, commercial activity, services, or availability from the listing alone.
 `;
 
   return new Response(text.trim(), {

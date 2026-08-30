@@ -55,6 +55,17 @@ const directoryCollection = defineCollection({
       tier: z
         .enum(["registered", "endorsed", "luminary"])
         .default("registered"),
+      // Public, non-sensitive summary of the evidence used for the stored tier.
+      // If any field is absent or the date is stale, public templates describe
+      // the tier as an unrefreshed directory classification and omit Credential
+      // structured data. Never put private certificates or addresses here.
+      tier_evidence_source: z.string().optional(),
+      tier_evidence_url: httpUrl.optional(),
+      tier_evidence_last_checked: z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/)
+        .optional(),
+      tier_evidence_note: z.string().optional(),
       slug: z.string().optional(),
       social: z
         .object({

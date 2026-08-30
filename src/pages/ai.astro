@@ -2,6 +2,8 @@
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
+import EditorialByline from "@/components/EditorialByline.astro";
+import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
 
 const celebrants = await getSinglePage("directory");
 const celebrantCount = celebrants.length;
@@ -11,6 +13,8 @@ const optedOut = celebrants.filter(
 
 const siteUrl = "https://australianweddingcelebrants.com.au";
 const workerUrl = "https://api.australianweddingcelebrants.com.au";
+const article = getEditorialArticle("/ai/");
+const articleAuthor = resolveEditorialAuthor(article.author);
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -64,6 +68,7 @@ const faqSchema = {
   title="How this site works with AI, search engines & bots"
   meta_title="AI & Agent Discovery — Australian Wedding Celebrants"
   description="A plain-English walkthrough of every way this directory makes itself useful to search engines, LLMs, and autonomous agents — from robots.txt through MCP and A2A."
+  author={articleAuthor.name}
 >
   <script
     is:inline
@@ -111,6 +116,7 @@ const faqSchema = {
           directory publishes — why it's there, who it helps, and a link to the
           live endpoint so you can inspect it yourself.
         </p>
+        <EditorialByline article={article} class="mt-4" />
       </div>
 
       <!-- TL;DR split by audience -->

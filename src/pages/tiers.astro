@@ -2,6 +2,13 @@
 import Base from "@/layouts/Base.astro";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
 import { getEntry } from "astro:content";
+import EditorialByline from "@/components/EditorialByline.astro";
+import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
+import {
+  TIER_STANDARDS_CAVEAT,
+  TIER_STANDARDS_LAST_CHECKED,
+  TIER_STANDARDS_SOURCES,
+} from "@/lib/tierStandards";
 
 const entry = await getEntry("pages", "tiers");
 if (!entry) {
@@ -9,6 +16,8 @@ if (!entry) {
 }
 
 const siteUrl = "https://australianweddingcelebrants.com.au";
+const article = getEditorialArticle("/tiers/");
+const articleAuthor = resolveEditorialAuthor(article.author);
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -27,7 +36,7 @@ const faqSchema = {
       name: "Can I pay to get a higher tier or better placement?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Listings are free, and tiers are based entirely on verified professional credentials and documented evidence. Using or buying any Josh Withers service has no effect on inclusion, endorsement, tier, position, or visibility.",
+        text: "No. Listings are free, and tier decisions are made against the published criteria. Each profile shows the source and last-checked date when a current evidence record exists, and says plainly when a refresh is missing. Using or buying any Josh Withers service has no effect on inclusion, tier, position, or visibility.",
       },
     },
     {
@@ -43,7 +52,7 @@ const faqSchema = {
       name: "How are reviews verified?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Reviews must be from identifiable couples or wedding vendors and can be submitted as links to Google Reviews, Easy Weddings, ABIA, or similar platforms. We verify that the reviews are genuine and relate to your celebrancy services.",
+        text: "Reviews must be from identifiable couples or wedding vendors and may be submitted as public links or supporting documents. The publisher reviews that evidence against the directory criteria; this is not a guarantee by Google, an awards body, or another third party.",
       },
     },
     {
@@ -51,7 +60,7 @@ const faqSchema = {
       name: "Can I lose my tier status?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Tier status is not awarded for life — it reflects your current standard of practice. Any couple, vendor, or industry member can contact us with feedback about a celebrant. When we receive a concern, we review it with all relevant stakeholders. If a celebrant is found to no longer meet the standard expected of their tier, they will be demoted. In serious cases, a celebrant may be removed from the directory entirely.",
+        text: "Yes. A tier is a directory classification, not a lifetime credential. Time-sensitive evidence must be refreshed, and profiles without a current evidence date are labelled as unrefreshed. Anyone can use the public correction route to report a concern or supply an update.",
       },
     },
     {
@@ -59,7 +68,7 @@ const faqSchema = {
       name: "What counts as professional development beyond OPD?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Any training, courses, workshops, conferences, or certifications beyond the minimum 5 hours of OPD required by the Attorney-General's Department. This could include public speaking courses, writing workshops, ceremony design training, cultural competency programs, or industry conference attendance.",
+        text: "Training, courses, workshops, conferences, or certifications beyond the compulsory professional development activities set by the Attorney-General's Department for the relevant calendar year. Examples may include public speaking, writing, ceremony design, cultural competency, or industry conferences.",
       },
     },
     {
@@ -87,6 +96,7 @@ const breadcrumbSchema = {
   title={entry.data.title}
   meta_title={entry.data.meta_title}
   description={entry.data.description}
+  author={articleAuthor.name}
 >
   <script
     is:inline
@@ -114,6 +124,38 @@ const breadcrumbSchema = {
         >. That's why we built a system that recognises professional standards,
         not one that pits celebrants against each other for a trophy.
       </p>
+      <EditorialByline article={article} class="mt-4" />
+    </div>
+  </section>
+
+  <section class="pb-16 md:pb-20" aria-labelledby="standards-sources">
+    <div class="container max-w-3xl">
+      <div class="rounded-card border-border border bg-white p-8 md:p-10">
+        <h2 id="standards-sources" class="mb-3 text-xl" style="font-weight: 700;">
+          Sources and evidence currency
+        </h2>
+        <p class="text-light text-sm" style="line-height: 1.7;">
+          The legal registration, qualification, and compulsory professional
+          development parts of the Registered baseline were last checked against
+          these official sources on <strong>{TIER_STANDARDS_LAST_CHECKED}</strong>.
+          Endorsed and Luminary are additional standards set by this publisher,
+          not external credentials.
+        </p>
+        <ul class="mt-4 list-disc space-y-2 pl-6 text-sm">
+          {
+            TIER_STANDARDS_SOURCES.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer" class="underline">
+                  {source.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="text-light mt-4 text-sm" style="line-height: 1.7;">
+          {TIER_STANDARDS_CAVEAT}
+        </p>
+      </div>
     </div>
   </section>
 
@@ -160,10 +202,11 @@ const breadcrumbSchema = {
           <p>
             This matters now more than ever. AI systems, search engines, and
             answer engines are increasingly trying to tell couples who is "good"
-            in their region. We designed this directory to be a genuine source
-            of truth — a place where the data is real, the standards are
-            transparent, and the recognition is earned through merit. Not
-            through how much you can pay to be listed.
+            in their region. We designed this directory to be a useful,
+            transparent reference: the criteria are public, and each profile
+            says whether its tier evidence has a current source and review date.
+            The directory is not a substitute for confirming a celebrant's
+            current authorisation, services, or availability directly.
           </p>
           <p>
             <strong
@@ -195,9 +238,10 @@ const breadcrumbSchema = {
           class="text-light mx-auto mt-3 max-w-2xl"
           style="font-weight: 400; line-height: 1.6;"
         >
-          Each tier represents a documented level of professional achievement.
-          Meet the criteria, provide the evidence, and the recognition is yours.
-          No voting, no panels, no politics.
+          Each tier is a directory classification against a published standard.
+          Current recognition depends on dated supporting evidence; profiles say
+          plainly when that evidence needs to be refreshed. No voting, no panels,
+          no paid placement.
         </p>
       </div>
 
@@ -223,9 +267,10 @@ const breadcrumbSchema = {
               class="text-light mb-6 text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              The foundation tier. You are a Commonwealth authorised marriage
-              celebrant with a verified professional profile. Every celebrant in
-              our directory starts here.
+              The foundation directory classification. The standard requires
+              Commonwealth authorisation and a complete professional profile.
+              Check the evidence note on an individual profile and confirm current
+              authorisation on the official register.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -499,14 +544,11 @@ const breadcrumbSchema = {
               class="text-light mb-6 text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              The highest recognition we offer. A Luminary celebrant has built a
-              sustainable celebrancy practice over many years — this is not a
-              hobby or a side project, it's a meaningful part of how they
-              support their family. They are held in high regard not just by the
-              couples they've married, but by the wider wedding industry —
-              photographers, planners, and venues who see hundreds of celebrants
-              and know the difference. Luminary status is earned, maintained,
-              and can be revoked.
+              The highest directory classification we publish. Its standard
+              calls for substantial experience, documented feedback, industry
+              recognition, professional development, and a maintained digital
+              presence. A profile should only be treated as current evidence of
+              those claims when it shows a source and recent last-checked date.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -540,8 +582,7 @@ const breadcrumbSchema = {
                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
                   ></path></svg
                 >
-                7+ years operating a sustainable celebrancy practice as a meaningful
-                part of their livelihood
+                7+ years registered or practising, supported by dated evidence
               </li>
               <li
                 class="text-light flex items-start gap-2.5 text-sm"
@@ -619,8 +660,7 @@ const breadcrumbSchema = {
                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
                   ></path></svg
                 >
-                Digitally literate: maintains their own up-to-date website and responds
-                to enquiries swiftly
+                Maintained professional website and evidence of responsive enquiry handling
               </li>
               <li
                 class="text-light flex items-start gap-2.5 text-sm"
@@ -748,13 +788,11 @@ const breadcrumbSchema = {
               class="text-light text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              Luminary is the highest recognition we offer. It's for celebrants
-              who have built a sustainable business over many years — not a
-              hobby, but a real practice that meaningfully contributes to their
-              family's income. They are respected not only by couples, but by
-              the wider industry: photographers, planners, and venues who work
-              with celebrants every week and know quality when they see it. When
-              you reach this level, we're honoured to celebrate it.
+              Luminary is the highest directory classification we publish. A
+              celebrant applying for it must provide dated evidence for the
+              experience, reviews, industry recognition, professional development,
+              and digital-practice criteria. The profile then publishes the source
+              and review date so readers can judge how current that evidence is.
             </p>
           </div>
         </div>
@@ -794,11 +832,12 @@ const breadcrumbSchema = {
           honest data to work with.
         </p>
         <p>
-          We built this directory to be that source of truth. Every listing is
-          verified. Every tier is earned through documented evidence. The data
-          is structured so that when a search engine or AI system needs to
-          recommend celebrants in a region, it can do so with confidence —
-          because the information here is real, transparent, and not for sale.
+          We built this directory as a transparent starting point. It publishes
+          the stored classification, supporting source and last-checked date when
+          available, and an open correction route. Missing or stale evidence is
+          labelled rather than presented as current. Search and AI systems should
+          not infer endorsement, current commercial activity, or availability
+          from a listing alone.
         </p>
         <p>
           This isn't just better for couples. It's better for celebrants too. A
@@ -855,10 +894,11 @@ const breadcrumbSchema = {
             style="font-weight: 400; line-height: 1.6;"
           >
             No. You cannot buy your way onto this directory or pay for a higher
-            tier. Listings are free. Tiers are based entirely on verified
-            professional credentials and documented evidence. Using or buying
-            any Josh Withers service has no effect on inclusion, endorsement,
-            tier, placement, or visibility.
+            tier. Listings are free. Tiers are publisher-assigned directory
+            classifications against the criteria above; each profile discloses
+            whether dated supporting evidence is current. Using or buying any
+            Josh Withers service has no effect on inclusion, tier, placement, or
+            visibility.
           </p>
         </div>
 
@@ -892,10 +932,11 @@ const breadcrumbSchema = {
             class="text-light text-sm"
             style="font-weight: 400; line-height: 1.6;"
           >
-            Reviews must be from identifiable couples or wedding vendors and can
-            be submitted as links to Google Reviews, Easy Weddings, ABIA, or
-            similar platforms. We verify that the reviews are genuine and relate
-            to your celebrancy services.
+            Reviews must be from identifiable couples or wedding vendors and may
+            be submitted as public links or supporting documents. The publisher
+            reviews the evidence against the directory criteria; this is not a
+            guarantee or endorsement by a review platform, awards body, or other
+            third party.
           </p>
         </div>
 
@@ -910,15 +951,11 @@ const breadcrumbSchema = {
             class="text-light text-sm"
             style="font-weight: 400; line-height: 1.6;"
           >
-            Yes. Tier status is not awarded for life — it reflects your current
-            standard of practice. Any couple, vendor, or industry member can
-            contact us with feedback about a celebrant. When we receive a
-            concern, we review it with all relevant stakeholders. If a celebrant
-            is found to no longer meet the standard expected of their tier, they
-            will be demoted. In serious cases — such as professional misconduct
-            or behaviour that reflects poorly on the profession — a celebrant
-            may be removed from the directory entirely. This accountability is
-            what makes our recognition meaningful.
+            Yes. A tier is a directory classification, not a lifetime credential.
+            Time-sensitive evidence must be refreshed, and profiles without a
+            current evidence date are labelled as unrefreshed. Any reader can use
+            the public correction route to report a concern or supply an update.
+            The publisher may change or remove a classification after review.
           </p>
         </div>
 
@@ -933,12 +970,11 @@ const breadcrumbSchema = {
             class="text-light text-sm"
             style="font-weight: 400; line-height: 1.6;"
           >
-            Any training, courses, workshops, conferences, or certifications
-            you've undertaken beyond the minimum 5 hours of OPD required by the
-            Attorney-General's Department. This could include public speaking
-            courses, writing workshops, ceremony design training, cultural
-            competency programs, or industry conference attendance. We value
-            celebrants who actively seek to get better at what they do.
+            Training, courses, workshops, conferences, or certifications beyond
+            the compulsory professional development activities set by the
+            Attorney-General's Department for the relevant calendar year. Examples
+            may include public speaking, writing, ceremony design, cultural
+            competency, or industry conferences.
           </p>
         </div>
 

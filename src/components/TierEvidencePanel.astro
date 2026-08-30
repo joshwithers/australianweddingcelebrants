@@ -1,0 +1,59 @@
+---
+import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
+import type { TierEvidenceInput } from "@/lib/utils/tierEvidence";
+import { getTierEvidence } from "@/lib/utils/tierEvidence";
+
+interface Props {
+  data: TierEvidenceInput;
+  tierLabel: string;
+}
+
+const { data, tierLabel } = Astro.props;
+const evidence = getTierEvidence(data);
+const statusLabel = {
+  current: "Current public evidence record",
+  stale: "Evidence refresh overdue",
+  missing: "Public evidence record incomplete",
+}[evidence.status];
+---
+
+<div class="border-border mt-5 border-t pt-5" data-tier-evidence={evidence.status}>
+  <h3 class="text-dark mb-2 text-sm" style="font-weight: 600;">
+    {tierLabel} evidence record
+  </h3>
+  <dl class="grid gap-2 text-sm">
+    <div>
+      <dt class="inline text-dark" style="font-weight: 600;">Status:</dt>
+      <dd class="inline"> {statusLabel}</dd>
+    </div>
+    <div>
+      <dt class="inline text-dark" style="font-weight: 600;">Source:</dt>
+      <dd class="inline">
+        {" "}
+        {
+          evidence.sourceUrl ? (
+            <a href={evidence.sourceUrl} target="_blank" rel="noopener noreferrer" class="underline">
+              {evidence.source}
+            </a>
+          ) : (
+            evidence.source
+          )
+        }
+      </dd>
+    </div>
+    <div>
+      <dt class="inline text-dark" style="font-weight: 600;">Last checked:</dt>
+      <dd class="inline"> {evidence.lastCheckedLabel}</dd>
+    </div>
+  </dl>
+  {evidence.note && <p class="mt-2 text-sm">{evidence.note}</p>}
+  {
+    evidence.status !== "current" && (
+      <p class="mt-2 text-sm">
+        Until the responsible publisher refreshes this record, treat the badge as
+        a stored directory classification, not a current credential or endorsement.
+      </p>
+    )
+  }
+  <p class="mt-2 text-sm">{TIER_STANDARDS_CAVEAT}</p>
+</div>

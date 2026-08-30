@@ -1,6 +1,12 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  TIER_STANDARDS_CAVEAT,
+  TIER_STANDARDS_LAST_CHECKED,
+  TIER_STANDARDS_SOURCES,
+} from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -39,25 +45,30 @@ export const GET: APIRoute = async () => {
 > Australia's quality-rated directory of professional wedding celebrants
 
 ## About
-Australian Wedding Celebrants is a directory that recognises and celebrates professional excellence in wedding celebrancy across Australia. Every celebrant listed is a Commonwealth authorised marriage celebrant on the Attorney-General's register. Our three-tier recognition system — Registered, Endorsed, and Luminary — is based entirely on verified professional credentials, not payments.
+Australian Wedding Celebrants is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are publisher-assigned directory classifications, not government, industry-body, or vendor endorsements. Treat a classification as current evidence only when its profile publishes a source and recent last-checked date; otherwise confirm authorisation, services, commercial activity, and availability directly.
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
-This is not an awards process. When celebrants prove through documented evidence that they have reached a level of professionalism and industry support beyond expectations, we award that tier and celebrate the achievement. Celebrants are always working to improve and move up the tiers.
+## Publisher, provenance and corrections
+Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile information comes from the celebrant or prior directory records. ${TIER_STANDARDS_CAVEAT}
+
+Anyone can ${markdownLink("request a correction or profile update", CORRECTIONS_URL)} without signing in.
+
+The legal-registration, qualification, and compulsory professional-development parts of the standards were last checked on ${TIER_STANDARDS_LAST_CHECKED}: ${TIER_STANDARDS_SOURCES.map((source) => markdownLink(source.name, source.url)).join("; ")}.
 
 ## The Three Tiers
 
 ### Luminary (${luminaries.length} celebrants)
-The highest recognition. Requirements: 7+ years registered, 18+ verified reviews from couples, 9+ verified reviews from fellow wedding vendors, industry recognition (awards, media, speaking), demonstrated ongoing professional development beyond legislative requirements, and a professional digital presence (own up-to-date website, prompt email replies, and a business email address on their own domain — not a free Hotmail or Gmail account). Meets all Endorsed requirements.
+The highest directory classification. Its published standard includes 7+ years registered or practising, reviews from couples and wedding vendors, industry recognition, ongoing professional development, and a maintained professional digital presence. An individual profile's evidence status controls whether those claims should be treated as current.
 
 ### Endorsed (${endorsed.length} celebrants)
-Proven professionalism, endorsed by clients and industry. Requirements: 3+ years registered, current professional indemnity insurance, professional development beyond OPD requirements, 6+ verified reviews from couples and 3+ from fellow wedding vendors, and proof of 100+ ceremonies performed. Meets all Registered requirements.
+The middle directory classification. Its published standard includes 3+ years registered, professional indemnity insurance, additional professional development, reviews from couples and wedding vendors, and evidence of 100+ ceremonies. It does not mean an external party currently endorses the celebrant.
 
 ### Registered (${registered.length} celebrants)
-The foundation. Requirements: Commonwealth authorised marriage celebrant under the Marriage Act 1961, holds a Certificate IV in Celebrancy or equivalent qualification, with a complete directory profile including professional photo, description, website, and contact details.
+The foundation directory classification. Its standard requires Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete directory profile. Confirm current authorisation on the official register when a profile's evidence is missing or stale.
 
 ## Why Tiers Matter for Couples
-When choosing a celebrant, the tier badge tells you exactly what level of verified experience and professionalism to expect. A Luminary has proven exceptional commitment over 7+ years with extensive reviews and industry recognition. An Endorsed celebrant has demonstrated qualifications, insurance, and client satisfaction beyond the basics. Every Registered celebrant is a verified, legally authorised marriage celebrant.
+A tier badge records the publisher's stored classification. Read the evidence source and last-checked date on the individual profile before relying on it, and contact the celebrant to confirm current services and availability.
 
 ## Directory Summary
 - Total celebrants: ${allCelebrants.length}
@@ -74,6 +85,7 @@ When choosing a celebrant, the tier badge tells you exactly what level of verifi
 - ${markdownLink("Registered Celebrants", `${SITE}/registered/`)}
 - ${markdownLink("Submit Listing", `${SITE}/contact/`)}
 - ${markdownLink("About", `${SITE}/about/`)}
+- ${markdownLink("Corrections and profile updates", CORRECTIONS_URL)}
 - ${markdownLink("Optional tools for celebrants", `${SITE}/tools-for-celebrants/`)}
 - ${markdownLink("Authentication and anonymous access", `${SITE}/auth.md`)}
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}

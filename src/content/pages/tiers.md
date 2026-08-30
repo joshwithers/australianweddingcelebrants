@@ -1,5 +1,5 @@
 ---
 title: "Our Standards"
 meta_title: "Celebrant Quality Standards — Australian Wedding Celebrants"
-description: "Our three-tier quality system recognises celebrants based on verified experience, qualifications, and professional standards. Learn how celebrants earn Endorsed and Luminary status."
+description: "How this publisher's Registered, Endorsed, and Luminary directory classifications work, what evidence they require, and how to check currency."
 ---

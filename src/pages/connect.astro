@@ -1,13 +1,18 @@
 ---
 import Base from "@/layouts/Base.astro";
+import EditorialByline from "@/components/EditorialByline.astro";
+import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
 
 const mcpUrl = "https://api.australianweddingcelebrants.com.au/mcp";
+const article = getEditorialArticle("/connect/");
+const articleAuthor = resolveEditorialAuthor(article.author);
 ---
 
 <Base
   title="Connect this directory to your AI assistant"
   meta_title="Connect via MCP — Australian Wedding Celebrants"
   description="Add the Australian Wedding Celebrants MCP server to Claude, ChatGPT, Cursor, or any MCP-capable client. One URL, three steps."
+  author={articleAuthor.name}
 >
   <section class="py-16 md:py-20">
     <div class="container max-w-3xl">
@@ -46,6 +51,7 @@ const mcpUrl = "https://api.australianweddingcelebrants.com.au/mcp";
           search the directory, browse by location or tier, and pull full
           celebrant profiles — right inside the chat.
         </p>
+        <EditorialByline article={article} class="mt-4" />
       </div>
 
       <!-- URL card -->

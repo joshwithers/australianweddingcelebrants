@@ -5,6 +5,7 @@ import { ClientRouter } from "astro:transitions";
 import type { ImageMetadata } from "astro";
 import { plainify, truncateText } from "../lib/utils/textConverter";
 import { serializeJsonLd } from "../lib/utils/jsonLd";
+import { PUBLISHER } from "../lib/siteProvenance";
 import Footer from "./partials/Footer.astro";
 import Header from "./partials/Header.astro";
 import "../styles/main.css";
@@ -23,6 +24,8 @@ export interface Props {
   /** Mobile browser chrome colour. Defaults to page_bg, then to white. Match the
    *  page's top-of-page colour so the URL bar feels seamless on Safari/Chrome mobile. */
   theme_color?: string;
+  /** Set only for genuine editorial content. Directory/profile records have no author. */
+  author?: string;
 }
 
 const {
@@ -35,6 +38,7 @@ const {
   og_type = "website",
   page_bg,
   theme_color,
+  author,
 } = Astro.props;
 
 // Browser chrome colour — explicit override > page bg > white.
@@ -65,6 +69,7 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
     <!-- canonical url -->
     <link rel="canonical" href={canonicalUrl} />
     {!noindex && <link rel="alternate" type="text/markdown" href={markdownUrl} />}
+    {!noindex && <link rel="alternate" type="application/rss+xml" title="Australian Wedding Celebrants editorial feed" href="/rss.xml" />}
     {!noindex && <link rel="help" href="/llms.txt" />}
 
     {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -76,6 +81,51 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
         description ? description : config.metadata.meta_description
       ), 160)}
     />
+
+    <!-- Cookieless GA4 measurement. Consent defaults are deliberately queued
+         before gtag.js is requested and are never upgraded in this public site. -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag("consent", "default", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied"
+      });
+    </script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-DCYE3SSJQV"></script>
+    <script is:inline>
+      if (!window.__awcGa4Configured) {
+        window.__awcGa4Configured = true;
+        window.gtag("set", "allow_google_signals", false);
+        window.gtag("set", "allow_ad_personalization_signals", false);
+        window.gtag("set", "ads_data_redaction", true);
+        window.gtag("js", new Date());
+        window.gtag("config", "G-DCYE3SSJQV", {
+          send_page_view: false,
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false
+        });
+
+        document.addEventListener("astro:page-load", function () {
+          let referrerOrigin = "";
+          try {
+            referrerOrigin = document.referrer
+              ? new URL(document.referrer).origin
+              : "";
+          } catch {
+            referrerOrigin = "";
+          }
+
+          window.gtag("event", "page_view", {
+            page_title: document.title,
+            page_location: window.location.origin + window.location.pathname,
+            page_referrer: referrerOrigin
+          });
+        });
+      }
+    </script>
 
     <Font
       cssVariable="--font-inter"
@@ -90,7 +140,7 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
     <!-- theme meta -->
     <meta name="theme-color" content={themeColor} />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="author" content={config.metadata.meta_author} />
+    {author && <meta name="author" content={author} />}
 
     <!-- Open Graph -->
     <meta property="og:title" content={plainify(meta_title ? meta_title : title ? title : config.site.title)} />
@@ -119,17 +169,16 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
       "description": truncateText(plainify(description ? description : config.metadata.meta_description), 160),
       "publisher": {
         "@type": "Organization",
-        "name": config.site.title,
-        "url": config.site.base_url
+        "@id": PUBLISHER.id,
+        "name": PUBLISHER.name,
+        "url": PUBLISHER.url,
+        "identifier": {
+          "@type": "PropertyValue",
+          "propertyID": "ABN",
+          "value": PUBLISHER.abn
+        }
       },
       "inLanguage": "en-AU",
-      "author": {
-        "@type": "Person",
-        "name": config.metadata.meta_author,
-        ...(config.metadata.meta_author_email
-          ? { email: config.metadata.meta_author_email }
-          : {})
-      },
       "potentialAction": {
         "@type": "SearchAction",
         "target": `${config.site.base_url}/search/?q={search_term_string}`,

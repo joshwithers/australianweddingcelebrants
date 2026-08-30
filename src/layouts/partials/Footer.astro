@@ -2,6 +2,7 @@
 import config from "@/config/config.json";
 import menu from "@/config/menu.json";
 import { markdownify } from "@/lib/utils/textConverter";
+import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
 ---
 
 <footer class="border-t border-border bg-theme-light">
@@ -24,6 +25,21 @@ import { markdownify } from "@/lib/utils/textConverter";
         </nav>
 
         <p set:html={markdownify(config.params.copyright)} class="text-sm text-light text-center md:text-right" style="font-weight: 400;" />
+      </div>
+
+      <div
+        data-site-provenance
+        class="border-border/50 border-t pt-5 text-center text-xs text-light"
+      >
+        <p>
+          Responsible publisher: <a href={PUBLISHER.url} class="text-dark underline">
+            {PUBLISHER.name}
+          </a>, ABN {PUBLISHER.abn}.
+          <a href={CORRECTIONS_PATH} class="text-dark underline">
+            Request a correction or profile update
+          </a>
+          — no sign-in required.
+        </p>
       </div>
 
       {/* Dev credit */}

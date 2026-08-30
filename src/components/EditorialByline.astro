@@ -1,0 +1,65 @@
+---
+import {
+  ARTICLE_PUBLISHER,
+  resolveEditorialAuthor,
+  type EditorialArticle,
+  type EditorialAuthor,
+} from "@/lib/editorial";
+import { SITE_URL } from "@/lib/siteProvenance";
+import { serializeJsonLd } from "@/lib/utils/jsonLd";
+
+interface Props {
+  article: EditorialArticle;
+  author?: EditorialAuthor | string;
+  class?: string;
+}
+
+const { article, author: suppliedAuthor, class: className } = Astro.props;
+const author = resolveEditorialAuthor(suppliedAuthor ?? article.author);
+const articleUrl = new URL(article.path, SITE_URL).toString();
+const authorSchema = {
+  "@type": "Person",
+  ...(author.id ? { "@id": author.id } : {}),
+  name: author.name,
+  ...(author.url ? { url: author.url } : {}),
+};
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${articleUrl}#article`,
+  url: articleUrl,
+  headline: article.title,
+  description: article.description,
+  datePublished: article.datePublished,
+  dateModified: article.dateModified,
+  inLanguage: "en-AU",
+  author: authorSchema,
+  publisher: {
+    "@type": "Organization",
+    "@id": ARTICLE_PUBLISHER.id,
+    name: ARTICLE_PUBLISHER.name,
+    url: ARTICLE_PUBLISHER.url,
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+  isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website` },
+};
+---
+
+<p
+  class:list={["editorial-byline text-light text-sm", className]}
+  data-editorial-author={author.name}
+>
+  By {
+    author.url ? (
+      <a href={author.url} rel="author" class="text-dark underline">{author.name}</a>
+    ) : (
+      <span>{author.name}</span>
+    )
+  }
+</p>
+
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={serializeJsonLd(articleSchema)}
+/>

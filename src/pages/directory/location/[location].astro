@@ -95,7 +95,7 @@ const blurbEntry = locationBlurbs.find(
 const BlurbContent = blurbEntry ? (await render(blurbEntry)).Content : null;
 
 const humanLocation = humanize(location);
-const pageTitle = `The Top ${vendors.length} Wedding Celebrants in ${humanLocation}`;
+const pageTitle = `${vendors.length} Wedding Celebrant Profiles Serving ${humanLocation}`;
 
 // Per-page meta description: prefer the blurb's opening sentence; fall back to
 // a generated string when no blurb exists yet.
@@ -106,7 +106,7 @@ const metaDescription = blurbEntry
         .trim(),
       155,
     )
-  : `Browse ${vendors.length} wedding celebrants serving ${humanLocation}. Verified profiles, contact details, and the right marriage celebrant for your wedding day.`;
+  : `Browse ${vendors.length} wedding celebrant profiles that record service in ${humanLocation}. Check evidence, current services, and availability directly.`;
 
 const siteUrl = config.site.base_url;
 const pageUrl = `${siteUrl}/directory/location/${slugify(location)}/`;
@@ -212,10 +212,11 @@ const collectionPageSchema = {
           class="mb-4"
           style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
         >
-          The Top {vendors.length} Wedding Celebrants in {humanize(location)}
+          {vendors.length} Wedding Celebrant Profiles Serving {humanize(location)}
         </h1>
         <p class="text-light text-base" style="font-weight: 400;">
-          Discover the best wedding celebrants available in {humanize(location)}
+          These profiles record {humanize(location)} as a service area. Confirm
+          current services, travel, authorisation, and availability directly.
         </p>
       </div>
 

@@ -4,6 +4,7 @@ import { markdownify } from "@/lib/utils/textConverter";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getEntry, render } from "astro:content";
+import { PUBLISHER } from "@/lib/siteProvenance";
 
 const entry = (await getEntry("about", "-index")) as CollectionEntry<"about">;
 const { Content } = await render(entry);
@@ -42,6 +43,29 @@ const { title, meta_title, image, what_i_do } = entry.data;
             <a href="/contact/" class="btn btn-outline-primary no-underline">
               Get In Touch
             </a>
+          </div>
+
+          <div class="border-border mt-10 grid gap-6 border-t pt-8">
+            <section id="publisher">
+              <h2 class="mb-2 text-base" style="font-weight: 600;">
+                Responsible publisher
+              </h2>
+              <p class="text-light text-sm" style="line-height: 1.6;">
+                This directory is published by <strong>{PUBLISHER.name}</strong>, ABN
+                {" "}{PUBLISHER.abn}. Questions, corrections, and profile-update
+                requests can be sent through the <a href="/contact/#profile-corrections" class="underline">public contact form</a>.
+              </p>
+            </section>
+            <section id="frankie">
+              <h2 class="mb-2 text-base" style="font-weight: 600;">
+                Editorial author
+              </h2>
+              <p class="text-light text-sm" style="line-height: 1.6;">
+                Frankie is the byline used for this directory's original editorial
+                guides. Directory records and celebrant profiles are about the
+                listed celebrants and are not authored by Frankie.
+              </p>
+            </section>
           </div>
         </div>
       </div>

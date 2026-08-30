@@ -49,6 +49,7 @@ for (const sourceUrl of pages) {
     readFile(markdownPath, "utf8"),
   ]);
   const document = parse(html);
+  const htmlAuthor = document.querySelector('meta[name="author"]')?.getAttribute("content")?.trim() || "";
   const canonical = document.querySelector('link[rel="canonical"]')?.getAttribute("href");
   const alternate = document
     .querySelector('link[rel="alternate"][type="text/markdown"]')
@@ -65,6 +66,18 @@ for (const sourceUrl of pages) {
   }
   if (markdown.trim().length < 100) {
     failures.push(`Markdown companion is unexpectedly short: ${markdownPath}`);
+  }
+
+  if (markdown.includes("[View this page as HTML](<")) {
+    const markdownAuthor = markdown.match(/^author:\s*["']?([^\n"']+)["']?\s*$/m)?.[1]?.trim() || "";
+    if (markdownAuthor !== htmlAuthor) {
+      failures.push(
+        `Author mismatch for ${sourceUrl.pathname}: HTML=${JSON.stringify(htmlAuthor)}, Markdown=${JSON.stringify(markdownAuthor)}`,
+      );
+    }
+    if (htmlAuthor && !markdown.includes(`By [${htmlAuthor}]`)) {
+      failures.push(`Markdown companion omits visible byline for ${sourceUrl.pathname}`);
+    }
   }
 
   // Companions generated from HTML must carry every celebrant link the page

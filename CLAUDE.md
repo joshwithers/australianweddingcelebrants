@@ -11,7 +11,7 @@ Directory of Australian wedding celebrants. Built with Astro 7 + Tailwind 4 + Re
 
 ## Tier system
 
-Celebrants are classified into three recognition tiers (see `src/content.config.ts`):
+Celebrants are classified into three publisher-assigned directory tiers (see `src/content.config.ts`). Do not describe a tier as a current credential unless the profile has a public source and a last-checked date no more than 366 days old:
 
 | Tier | Colour | Requirements (summary) |
 |---|---|---|
@@ -34,7 +34,7 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 - `pages` — static content (about, contact, tiers, 404, directory overview).
 - `about` — single-entry about-page data (note the loader glob `**/-*.{md,mdx}` — underscore-prefixed files are excluded by `glob()`, a leading `-` is the actual prefix).
 
-Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `australia_wide`, `international`, `social.{facebook,instagram,pinterest}`.
+Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `social.{facebook,instagram,pinterest}`. Evidence fields are public summaries; never publish private supporting documents or personal addresses.
 
 **Premium profile fields (optional):**
 - `youtube` — Available to all tiers. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
@@ -48,7 +48,7 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 
 ## Component architecture
 
-- `src/layouts/Base.astro` — root layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`). Accepts `og_type` for per-page overrides (`"profile"` on celebrant pages).
+- `src/layouts/Base.astro` — root public layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`) and the cookieless GA4 configuration. Consent defaults must remain before `gtag.js`; all four storage/data/personalisation settings remain denied, Google signals and ad personalisation remain off, queries are excluded from `page_location`, and referrers are origin-only. Do not add analytics cookies, local-storage IDs, a consent update, or a banner. Private Worker pages do not use this layout.
 - `src/layouts/partials/Header.astro` — sticky nav with aria-expanded-driven mobile toggle (no checkbox hack). Uses delegated events across ClientRouter page swaps.
 - `src/components/DirectoryItem.astro` — single card. Uses `<Image>` for local assets, falls back to `<img>` for string URLs. LCP-optimised via `isFirst` prop (eager load, `fetchpriority="high"`, higher quality).
 - `src/components/StaticDirectoryListings.astro` / `DirectoryListingsWrapper.astro` — grid composition with location filtering.
@@ -77,7 +77,9 @@ routes and the links pointing at them drift apart.
   `/index.md`, while `/about/` maps to `/about.md`.
 - `scripts/generate-markdown.mjs` runs after Astro builds, preserves the curated
   homepage and celebrant-profile endpoints, generates every missing companion from
-  final `<main>` HTML, and appends the exact inventory to `llms.txt`.
+  final `<main>` HTML, carries meta authors into Markdown frontmatter, appends the
+  global publisher/correction disclosure, and appends the exact inventory to
+  `llms.txt`.
 - `scripts/check-markdown-output.mjs` is a load-bearing build gate: sitemap, HTML
   canonical/alternate links, Markdown files, and the `llms.txt` inventory must match.
   It also asserts that a generated companion keeps every `/directory/<slug>/` link
@@ -85,6 +87,10 @@ routes and the links pointing at them drift apart.
   `<a aria-label>` and swap the name for a logo on premium tiers, so a careless
   HTML→Markdown pass drops both name and URL — `/luminaries.md` once listed ten
   celebrants without naming or linking one.
+- Original editorial articles are registered in `src/lib/editorial.ts`. The
+  resolver preserves an explicit author and otherwise falls back to Frankie for
+  the visible byline, meta author, Article JSON-LD, RSS creator, and Markdown.
+  Never apply that fallback to profiles, directory records, or paid listings.
 - `functions/_middleware.js` serves the same companions for `Accept: text/markdown`.
   Keep direct `.md` access working too; agents should not need content negotiation.
 
