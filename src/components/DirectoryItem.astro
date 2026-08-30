@@ -78,13 +78,13 @@ const imageDims =
             <Image
               src={item.data.image}
               alt={item.data.title}
-              width={600}
+              widths={[320, 400, 600]}
               class="directory-card-img w-full transition-transform duration-500 group-hover:scale-[1.03]"
               loading={isFirst ? "eager" : "lazy"}
               decoding={isFirst ? "sync" : "async"}
               fetchpriority={isFirst ? "high" : undefined}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              quality={isFirst ? 90 : 80}
+              quality={isFirst ? 82 : 75}
               format={outputImageFormat(item.data.image)}
             />
           )}
@@ -125,9 +125,11 @@ const imageDims =
                 <Image
                   src={item.data.logo}
                   alt={item.data.title}
-                  width={400}
+                  widths={[240, 320, 400]}
+                  sizes="(max-width: 768px) 80vw, 30vw"
                   class="h-auto max-h-24 w-auto max-w-full"
                   loading="lazy"
+                  quality={75}
                   format={outputImageFormat(item.data.logo)}
                 />
               )}

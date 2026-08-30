@@ -26,6 +26,8 @@ export interface Props {
   theme_color?: string;
   /** Set only for genuine editorial content. Directory/profile records have no author. */
   author?: string;
+  /** Optional above-the-fold background image that should be discovered before CSS. */
+  preload_image?: string;
 }
 
 const {
@@ -39,6 +41,7 @@ const {
   page_bg,
   theme_color,
   author,
+  preload_image,
 } = Astro.props;
 
 // Browser chrome colour — explicit override > page bg > white.
@@ -56,6 +59,7 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    {preload_image && <link rel="preload" as="image" href={preload_image} fetchpriority="high" />}
 
     <!-- favicon -->
     <link rel="icon" type="image/svg+xml" href={config.site.favicon} />
