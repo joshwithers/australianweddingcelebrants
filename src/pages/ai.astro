@@ -150,8 +150,8 @@ const faqSchema = {
             visible to the new generation of AI tools couples use to plan. We've
             built — and maintain — the discovery plumbing ({celebrantCount} celebrants
             indexed at this build). A directory record does not claim that its subject
-            is currently active or available. Agent-relayed enquiries require an
-            explicit profile opt-in; a missing setting is treated as not opted in.
+            is currently active or available. Agent-relayed enquiries require an explicit
+            profile opt-in; a missing setting is treated as not opted in.
           </p>
         </div>
       </div>
@@ -390,12 +390,13 @@ const faqSchema = {
               >
             </div>
             <p class="text-light" style="font-weight: 400; line-height: 1.6;">
-              Every profile as typed JSON — slug, tier, profile-listed locations, categories, <code
-                >australia_wide</code
-              > / <code>international</code> profile flags, contact fields, explicit
-              agent-enquiry opt-in state, evidence status, provenance, and profile URLs.
-              Updated on every build. This is the backbone that the MCP server and
-              A2A agent both read from.
+              Every profile as typed JSON — slug, tier, profile-listed
+              locations, categories, <code>australia_wide</code> / <code
+                >international</code
+              > profile flags, contact fields, explicit agent-enquiry opt-in state,
+              credential issuer and verification, provenance, and profile URLs. Updated
+              on every build. This is the backbone that the MCP server and A2A agent
+              both read from.
             </p>
           </article>
         </div>
@@ -613,11 +614,11 @@ const faqSchema = {
               An Agent-to-Agent endpoint for assistants that want to delegate a
               task rather than call tools. The headline skill is <code
                 >enquire_celebrant</code
-              > for profiles with an explicit opt-in: a couple's planning assistant sends a qualified payload (couple
-              name + email, wedding date, location, at least 30 characters of
-              ceremony notes), we validate and rate-limit, and we email the
-              celebrant with the couple as Reply-To. The celebrant and the
-              couple take it from there — we don't sit in the middle of the
+              > for profiles with an explicit opt-in: a couple's planning assistant
+              sends a qualified payload (couple name + email, wedding date, location,
+              at least 30 characters of ceremony notes), we validate and rate-limit,
+              and we email the celebrant with the couple as Reply-To. The celebrant
+              and the couple take it from there — we don't sit in the middle of the
               conversation.
             </p>
             <p

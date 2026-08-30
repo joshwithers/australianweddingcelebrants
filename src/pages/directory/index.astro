@@ -11,7 +11,6 @@ import {
 import { getEntry, render } from "astro:content";
 import DirectoryListingsWrapper from "../../components/DirectoryListingsWrapper.astro";
 import TierIcon from "@/components/TierIcon.astro";
-import { getTierEvidence } from "@/lib/utils/tierEvidence";
 import { PUBLISHER } from "@/lib/siteProvenance";
 
 // Get all directory entries
@@ -49,7 +48,7 @@ const { Content } = await render(pageEntry);
       "@type": "ItemList",
       name: "Australian Wedding Celebrants Directory",
       description:
-        "Australian wedding celebrant profiles with publisher-assigned Registered, Endorsed, and Luminary directory classifications.",
+        "Australian wedding celebrant profiles with Registered, Endorsed, and Luminary credentials issued and human verified by Australian Wedding Celebrants.",
       publisher: {
         "@type": "Organization",
         "@id": PUBLISHER.id,
@@ -64,11 +63,8 @@ const { Content } = await render(pageEntry);
           "@type": "Person",
           "@id": `https://australianweddingcelebrants.com.au/directory/${entry.id}/#person`,
           name: entry.data.title,
-          jobTitle: getTierEvidence(entry.data).canPublishCredential
-            ? "Wedding Celebrant"
-            : undefined,
           url: `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
-          description: `Directory profile record for ${entry.data.title}. See the profile for evidence status and profile-copy provenance.`,
+          description: `Directory profile record for ${entry.data.title}. See the profile for its publisher-issued credential and profile-copy provenance.`,
           image: absoluteUrl(
             typeof entry.data.image === "string"
               ? entry.data.image

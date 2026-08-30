@@ -1,6 +1,6 @@
 # Australian Wedding Celebrants
 
-A free directory of Australian wedding celebrant profiles, with publisher-assigned tier standards, public evidence dates, an open correction route, and a community-driven awards yearbook.
+A free directory of Australian wedding celebrant profiles, with publisher-issued and human-verified credentials, public standards, an open correction route, and a community-driven awards yearbook.
 
 ---
 
@@ -89,13 +89,13 @@ public/                  # Static assets (favicons, og-image, robots.txt)
 
 ## Tier System
 
-Profiles carry one of three publisher-assigned classifications. They cannot be bought or voted on. A profile only emits a Schema.org credential when it has a public evidence source checked within the last 366 days; missing or stale records remain visibly labelled classifications.
+Profiles carry one of three credentials issued and human verified by Australian Wedding Celebrants against published standards. They cannot be bought or voted on. Every stored tier emits a Schema.org credential recognised by the responsible publisher. Optional external-evidence fields support separate, time-sensitive claims; they do not determine whether the site's own credential exists.
 
-| Tier | Colour | Description |
-|------|--------|-------------|
-| **Luminary** | Purple `#460479` | 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards, demonstrated contribution to the profession |
-| **Endorsed** | Magenta `#92174d` | 3+ years, insurance, professional development beyond OPD, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies |
-| **Registered** | Grey `#6a6a6a` | Baseline standard: Commonwealth authorisation, Certificate IV (or equivalent), and a complete profile |
+| Tier           | Colour            | Description                                                                                                        |
+| -------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Luminary**   | Purple `#460479`  | 7+ years, 18+ couple reviews, 9+ vendor reviews, industry awards, demonstrated contribution to the profession      |
+| **Endorsed**   | Magenta `#92174d` | 3+ years, insurance, professional development beyond OPD, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies |
+| **Registered** | Grey `#6a6a6a`    | Baseline standard: Commonwealth authorisation, Certificate IV (or equivalent), and a complete profile              |
 
 ## Awards
 
@@ -191,11 +191,11 @@ location:
 category:
   - "Celebrant"
   - "MC"
-tier: "registered"          # registered | endorsed | luminary
-tier_evidence_source: "AG register checked; submitted evidence reviewed by publisher"
+tier: "registered" # registered | endorsed | luminary
+tier_evidence_source: "AG register" # Optional external supporting evidence
 tier_evidence_url: "https://www.ag.gov.au/families-and-marriage/marriage/find-marriage-celebrant"
-tier_evidence_last_checked: "2026-08-30" # Current for at most 366 days
-tier_evidence_note: "Public-safe summary of what was checked; never private documents"
+tier_evidence_last_checked: "2026-08-30" # Required when publishing that external evidence
+tier_evidence_note: "Public-safe summary of an external check; never private documents"
 australia_wide: false
 international: false
 social:
@@ -203,17 +203,17 @@ social:
   facebook: "https://facebook.com/..."
 
 # Premium profile fields (all optional)
-year_started: 2018          # Drives the synthetic "Class of 2018" 🎓 award on the Trophy Shelf
-youtube: "https://youtube.com/watch?v=..."   # Click-to-load facade, any tier
-gallery:                    # Up to 3 images, any tier
+year_started: 2018 # Drives the synthetic "Class of 2018" 🎓 award on the Trophy Shelf
+youtube: "https://youtube.com/watch?v=..." # Click-to-load facade, any tier
+gallery: # Up to 3 images, any tier
   - "../../assets/directory/slug-1.webp"
   - "../../assets/directory/slug-2.webp"
 background_color: "#faf7f5" # Luminary tier only — hex colour for the profile page background
-testimonials:               # Up to 3, Luminary + Endorsed tiers
+testimonials: # Up to 3, Luminary + Endorsed tiers
   - quote: "They made the whole day feel easy."
     author: "Sam & Alex"
     role: "Married May 2025"
-awards:                     # Any tier; titles are free-form
+awards: # Any tier; titles are free-form
   - title: "Celebrant of the Year"
     emoji: "🏆"
     region: "NSW"
@@ -222,18 +222,19 @@ awards:                     # Any tier; titles are free-form
 
 draft: false
 ---
-
 Celebrant's full bio in Markdown (target 600+ words for SEO)...
 ```
 
-Tier evidence fields are public. Supporting certificates and other private files
-must never be copied into frontmatter. Historical classifications without a
-durable source and review date remain labelled as missing until the owner can
-review and update them.
+The `tier` value is the credential Australian Wedding Celebrants has issued after
+human review. It remains valid without an external source URL or date. The
+`tier_evidence_*` fields are optional public summaries for a separate external
+claim; supporting certificates and other private files must never be copied into
+frontmatter.
 
 ## Provenance, editorial authorship, and analytics
 
 - The responsible publisher is Withers XYZ Pty Ltd as trustee for the Snow Withers Trust (ABN 37 709 073 991). Every public page and Markdown entry point links to the no-sign-in correction route.
+- Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants. Profile schema publishes the credential and responsible issuing publisher without inferring a current job, offer, availability, or commercial activity.
 - Original editorial guides are registered in `src/lib/editorial.ts`. Missing editorial authors fall back to Frankie across the visible byline, author meta, Article JSON-LD, RSS creator, and generated Markdown. Directory records and profiles never receive that author fallback.
 - Public pages load GA4 measurement ID `G-DCYE3SSJQV`. Consent mode is queued before `gtag.js` with analytics and advertising storage/data/personalisation denied. Google signals and ad personalisation are disabled; page locations omit queries and referrers are origin-only.
 - This boundary is cookieless measurement: do not add analytics cookies, browser IDs, local-storage identifiers, a consent update, or a consent banner. Private Worker login, account, and admin pages do not use the public `Base.astro` layout and must not load the tag.
@@ -241,30 +242,30 @@ review and update them.
 
 ## Configuration
 
-| File | Purpose |
-|------|---------|
-| `astro.config.mjs` | Astro settings, Vite plugins (`@tailwindcss/vite`), integrations, markdown plugins |
-| `src/styles/main.css` | Tailwind v4 `@theme` tokens (colours, fonts, shadows, radii, breakpoints) |
-| `src/config/config.json` | Site title, URL, contact info, form endpoints |
-| `src/config/theme.json` | Design tokens consumed by theme (colours, font scale) |
-| `src/config/menu.json` | Header and footer navigation (Home, Directory, Our Standards, Awards, About, Contact) |
-| `tsconfig.json` | TypeScript config with `@` path alias |
+| File                     | Purpose                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `astro.config.mjs`       | Astro settings, Vite plugins (`@tailwindcss/vite`), integrations, markdown plugins    |
+| `src/styles/main.css`    | Tailwind v4 `@theme` tokens (colours, fonts, shadows, radii, breakpoints)             |
+| `src/config/config.json` | Site title, URL, contact info, form endpoints                                         |
+| `src/config/theme.json`  | Design tokens consumed by theme (colours, font scale)                                 |
+| `src/config/menu.json`   | Header and footer navigation (Home, Directory, Our Standards, Awards, About, Contact) |
+| `tsconfig.json`          | TypeScript config with `@` path alias                                                 |
 
 ## Design System
 
 ### Colour Palette
 
-| Role | Hex | Usage |
-|------|-----|-------|
-| Rausch Red | `#ff385c` | Primary brand accent, CTAs, hover states |
-| Near Black | `#222222` | Primary text, dark surfaces, buttons |
-| Secondary Text | `#6a6a6a` | Descriptions, hints, secondary content |
-| Border | `#e0e0e0` | Card borders, dividers, form inputs |
-| Light Surface | `#f7f7f7` | Background sections, hover fills |
-| Pure White | `#ffffff` | Page background, card surfaces |
-| Luminary Purple | `#460479` | Luminary tier badges and accents |
-| Endorsed Magenta | `#92174d` | Endorsed tier badges and accents |
-| Hero Title | `#86244c` | Homepage hero heading |
+| Role             | Hex       | Usage                                    |
+| ---------------- | --------- | ---------------------------------------- |
+| Rausch Red       | `#ff385c` | Primary brand accent, CTAs, hover states |
+| Near Black       | `#222222` | Primary text, dark surfaces, buttons     |
+| Secondary Text   | `#6a6a6a` | Descriptions, hints, secondary content   |
+| Border           | `#e0e0e0` | Card borders, dividers, form inputs      |
+| Light Surface    | `#f7f7f7` | Background sections, hover fills         |
+| Pure White       | `#ffffff` | Page background, card surfaces           |
+| Luminary Purple  | `#460479` | Luminary tier badges and accents         |
+| Endorsed Magenta | `#92174d` | Endorsed tier badges and accents         |
+| Hero Title       | `#86244c` | Homepage hero heading                    |
 
 ### Typography
 
@@ -275,11 +276,11 @@ review and update them.
 
 ### Elevation & Shadows
 
-| Level | Shadow | Usage |
-|-------|--------|-------|
-| Card | `rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px, rgba(0,0,0,0.1) 0 4px 8px` | Listing cards, nav dropdowns |
-| Card Hover | `rgba(0,0,0,0.04) 0 0 0 1px, rgba(0,0,0,0.06) 0 4px 12px, rgba(0,0,0,0.14) 0 8px 16px` | Card hover lift |
-| Hover | `rgba(0,0,0,0.08) 0 4px 12px` | Button hover |
+| Level      | Shadow                                                                                 | Usage                        |
+| ---------- | -------------------------------------------------------------------------------------- | ---------------------------- |
+| Card       | `rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px, rgba(0,0,0,0.1) 0 4px 8px`    | Listing cards, nav dropdowns |
+| Card Hover | `rgba(0,0,0,0.04) 0 0 0 1px, rgba(0,0,0,0.06) 0 4px 12px, rgba(0,0,0,0.14) 0 8px 16px` | Card hover lift              |
+| Hover      | `rgba(0,0,0,0.08) 0 4px 12px`                                                          | Button hover                 |
 
 ### Border Radius
 

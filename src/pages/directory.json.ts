@@ -6,7 +6,7 @@
 import type { APIRoute } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
-import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { getTierCredential } from "@/lib/utils/tierCredential";
 import {
   CORRECTIONS_URL,
   PROFILE_STATEMENT_NOTICE,
@@ -22,20 +22,28 @@ export const GET: APIRoute = async () => {
   const celebrants = items.map((item) => {
     const d = item.data;
     const slug = entrySlug(item);
-    const evidence = getTierEvidence(d);
+    const credential = getTierCredential(d);
     return {
       slug,
       name: d.title,
       description: d.description || "",
       description_provenance: PROFILE_STATEMENT_NOTICE,
       tier: d.tier || "registered",
-      tier_evidence: {
-        status: evidence.status,
-        source: evidence.source,
-        source_url: evidence.sourceUrl || null,
-        last_checked: evidence.lastChecked || null,
-        note: evidence.note || null,
+      tier_credential: {
+        status: credential.status,
+        issuer: credential.issuer,
+        issuer_url: credential.issuerUrl,
+        verification: credential.verificationMethod,
       },
+      supporting_external_evidence: credential.supportingEvidence
+        ? {
+            status: credential.supportingEvidence.status,
+            source: credential.supportingEvidence.source,
+            source_url: credential.supportingEvidence.sourceUrl || null,
+            last_checked: credential.supportingEvidence.lastChecked || null,
+            note: credential.supportingEvidence.note || null,
+          }
+        : null,
       locations: d.location || [],
       categories: d.category || [],
       australia_wide: !!d.australia_wide,

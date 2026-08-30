@@ -5,7 +5,7 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
-import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { getTierCredential } from "@/lib/utils/tierCredential";
 import {
   CORRECTIONS_URL,
   PROFILE_STATEMENT_NOTICE,
@@ -24,7 +24,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const GET: APIRoute = async ({ props }) => {
-  const entry = props.entry as Awaited<ReturnType<typeof getSinglePage<"directory">>>[number];
+  const entry = props.entry as Awaited<
+    ReturnType<typeof getSinglePage<"directory">>
+  >[number];
   const d = entry.data;
   const slug = entrySlug(entry);
 
@@ -33,34 +35,48 @@ export const GET: APIRoute = async ({ props }) => {
     endorsed: "Endorsed",
     registered: "Registered",
   }[d.tier || "registered"];
-  const tierEvidence = getTierEvidence(d);
+  const tierCredential = getTierCredential(d);
 
   const lines: string[] = [];
   lines.push(`# ${d.title}`);
   lines.push("", `> ${PROFILE_STATEMENT_NOTICE}`);
   if (d.description) lines.push("", `> Profile statement: ${d.description}`);
-  lines.push("", `**Directory classification:** ${tierLabel}`);
-  if (d.location?.length) lines.push(`**Profile-listed regions:** ${d.location.join(", ")}`);
-  if (d.category?.length) lines.push(`**Specialties:** ${d.category.join(", ")}`);
+  lines.push("", `**Directory credential:** ${tierLabel}`);
+  if (d.location?.length)
+    lines.push(`**Profile-listed regions:** ${d.location.join(", ")}`);
+  if (d.category?.length)
+    lines.push(`**Specialties:** ${d.category.join(", ")}`);
   if (d.australia_wide) lines.push("**Profile-listed travel:** Australia-wide");
-  if (d.international) lines.push("**Profile-listed travel:** International / destination weddings");
-  if (d.year_started) lines.push(`**Profile-recorded start year:** ${d.year_started}`);
-
-  lines.push("", "## Tier evidence");
-  lines.push(`- Status: ${tierEvidence.status}`);
-  lines.push(
-    `- Source: ${
-      tierEvidence.sourceUrl
-        ? `[${tierEvidence.source}](${tierEvidence.sourceUrl})`
-        : tierEvidence.source
-    }`,
-  );
-  lines.push(`- Last checked: ${tierEvidence.lastCheckedLabel}`);
-  if (tierEvidence.note) lines.push(`- Note: ${tierEvidence.note}`);
-  if (!tierEvidence.canPublishCredential) {
+  if (d.international)
     lines.push(
-      "- This stored classification is not presented as a current credential until dated supporting evidence is published.",
+      "**Profile-listed travel:** International / destination weddings",
     );
+  if (d.year_started)
+    lines.push(`**Profile-recorded start year:** ${d.year_started}`);
+
+  lines.push("", "## Directory credential");
+  lines.push(`- Credential: ${tierLabel}`);
+  lines.push(`- Status: Issued and human verified`);
+  lines.push(
+    `- Issuer and source: [${tierCredential.issuer}](${tierCredential.issuerUrl})`,
+  );
+  lines.push(`- Verification: ${tierCredential.verificationMethod}`);
+  if (tierCredential.supportingEvidence) {
+    lines.push("", "## Supporting external evidence");
+    lines.push(`- Status: ${tierCredential.supportingEvidence.status}`);
+    lines.push(
+      `- Source: ${
+        tierCredential.supportingEvidence.sourceUrl
+          ? `[${tierCredential.supportingEvidence.source}](${tierCredential.supportingEvidence.sourceUrl})`
+          : tierCredential.supportingEvidence.source
+      }`,
+    );
+    lines.push(
+      `- Last checked: ${tierCredential.supportingEvidence.lastCheckedLabel}`,
+    );
+    if (tierCredential.supportingEvidence.note) {
+      lines.push(`- Note: ${tierCredential.supportingEvidence.note}`);
+    }
   }
   lines.push("", TIER_STANDARDS_CAVEAT);
 

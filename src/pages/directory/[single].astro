@@ -13,7 +13,7 @@ import ProfileVideo from "@/components/ProfileVideo.astro";
 import ProfileGallery from "@/components/ProfileGallery.astro";
 import ProfileTestimonials from "@/components/ProfileTestimonials.astro";
 import ProfileAwards from "@/components/ProfileAwards.astro";
-import TierEvidencePanel from "@/components/TierEvidencePanel.astro";
+import TierCredentialPanel from "@/components/TierCredentialPanel.astro";
 import { deriveAwards } from "@/lib/utils/awards";
 import { shuffled } from "@/lib/utils/shuffle";
 import { serializeJsonLd } from "@/lib/utils/jsonLd";
@@ -22,7 +22,7 @@ import {
   australianPostalAddress,
   normalizeTelephone,
 } from "@/lib/utils/profile";
-import { getTierEvidence } from "@/lib/utils/tierEvidence";
+import { getTierCredential } from "@/lib/utils/tierCredential";
 import {
   CORRECTIONS_PATH,
   PUBLISHER,
@@ -105,7 +105,7 @@ const tierInfo = {
     description:
       "The Registered standard requires Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete professional profile.",
     forCouples:
-      "Registered is this directory's foundation classification. Check the dated evidence record below and confirm current authorisation on the Australian Government register before relying on the badge.",
+      "Registered is a credential issued and human verified by Australian Wedding Celebrants against its foundation standard. Because government authorisation can change, confirm current authorisation on the Australian Government register.",
   },
   endorsed: {
     label: "Endorsed Celebrant",
@@ -115,7 +115,7 @@ const tierInfo = {
     description:
       "The Endorsed standard requires the Registered baseline plus documented experience, insurance, professional development, reviews from couples and vendors, and 100 or more ceremonies.",
     forCouples:
-      "Endorsed is a classification made by this directory, not an endorsement by government or an industry body. Use it only with the dated profile evidence below and confirm time-sensitive details directly.",
+      "Endorsed is a credential issued and human verified by Australian Wedding Celebrants. It is not an endorsement by government, an industry body, a review platform, or a vendor; confirm time-sensitive details directly.",
   },
   luminary: {
     label: "Luminary Celebrant",
@@ -125,7 +125,7 @@ const tierInfo = {
     description:
       "The Luminary standard requires the Endorsed baseline plus at least 7 years of experience, extensive couple and vendor reviews, industry recognition, professional contribution, and a maintained professional digital presence.",
     forCouples:
-      "Luminary is the highest classification used by this directory. It is not an industry-wide endorsement and does not guarantee current availability or commercial activity. Check the dated evidence record below.",
+      "Luminary is the highest credential issued and human verified by Australian Wedding Celebrants. It is not an industry-wide endorsement and does not guarantee current availability or commercial activity.",
   },
 };
 
@@ -151,10 +151,8 @@ const tierCredentials = {
 };
 
 const currentCredential = tierCredentials[tier] || tierCredentials.registered;
-const tierEvidence = getTierEvidence(entry.data);
-const displayTierLabel = tierEvidence.canPublishCredential
-  ? currentTierInfo.label
-  : `${humanize(tier)} directory classification`;
+const tierCredential = getTierCredential(entry.data);
+const displayTierLabel = currentTierInfo.label;
 
 // Prepare schema.org structured data
 const siteUrl = "https://australianweddingcelebrants.com.au";
@@ -186,7 +184,7 @@ const profileSchema = {
   "@id": `${businessUrl}#profile`,
   url: businessUrl,
   name: entry.data.meta_title || entry.data.title,
-  description: `${entry.data.title} directory profile. The page publishes the stored tier evidence status and identifies profile-supplied statements that have not been independently verified as current.`,
+  description: `${entry.data.title} directory profile. The page identifies the publisher-issued directory credential and profile-supplied statements that have not been independently verified as current.`,
   publisher: {
     "@type": "Organization",
     "@id": PUBLISHER.id,
@@ -197,7 +195,6 @@ const profileSchema = {
     "@type": "Person",
     "@id": personId,
     name: entry.data.title,
-    jobTitle: tierEvidence.canPublishCredential ? "Wedding Celebrant" : undefined,
     url: businessUrl,
     description: `Directory profile record for ${entry.data.title}.`,
     telephone: normalizeTelephone(entry.data.phone),
@@ -212,21 +209,19 @@ const profileSchema = {
       : undefined,
     sameAs: sameAs,
     award: awardStrings.length > 0 ? awardStrings : undefined,
-    hasCredential: tierEvidence.canPublishCredential
-      ? {
-          "@type": "EducationalOccupationalCredential",
-          credentialCategory: "directory-classification",
-          name: currentCredential.name,
-          description: currentCredential.description,
-          dateModified: tierEvidence.lastChecked,
-          recognizedBy: {
-            "@type": "Organization",
-            "@id": PUBLISHER.id,
-            name: PUBLISHER.name,
-            url: PUBLISHER.url,
-          },
-        }
-      : undefined,
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "Australian Wedding Celebrants directory credential",
+      name: currentCredential.name,
+      description: currentCredential.description,
+      recognizedBy: {
+        "@type": "Organization",
+        "@id": PUBLISHER.id,
+        name: PUBLISHER.name,
+        alternateName: tierCredential.issuer,
+        url: PUBLISHER.url,
+      },
+    },
     knowsAbout: ["Wedding Ceremony", "Marriage Celebrancy", "Civil Marriage"],
   },
 };
@@ -523,7 +518,10 @@ const logoFrameStyle =
                         needs an h1. Matches the Luminary layout's sr-only h1 —
                         without it a logo listing with no body copy ships with
                         no h1 at all. */}
-                    <h1 class="sr-only" set:html={markdownify(entry.data.title)} />
+                    <h1
+                      class="sr-only"
+                      set:html={markdownify(entry.data.title)}
+                    />
                     <div class="profile-logo-frame" style={logoFrameStyle}>
                       {typeof entry.data.logo === "string" ? (
                         <img
@@ -624,7 +622,10 @@ const logoFrameStyle =
 
                 {entry.data.description && (
                   <div class="mt-4">
-                    <p class="text-light mb-2 text-xs" style="font-weight: 600;">
+                    <p
+                      class="text-light mb-2 text-xs"
+                      style="font-weight: 600;"
+                    >
                       Profile statement — not independently verified as current
                     </p>
                     <p
@@ -830,9 +831,9 @@ const logoFrameStyle =
               >
                 Learn more about our standards
               </a>
-              <TierEvidencePanel
+              <TierCredentialPanel
                 data={entry.data}
-                tierLabel={displayTierLabel}
+                tierLabel={currentTierInfo.label}
               />
             </div>
           </div>
@@ -919,15 +920,16 @@ const logoFrameStyle =
             <div class="border-border border-t"></div>
 
             <h3 class="text-dark text-sm" style="font-weight: 600;">
-              Embed your directory classification badge
+              Embed your directory credential badge
             </h3>
             <p
               class="text-light text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
               Copy this code and paste it into your website to display your
-              Australian Wedding Celebrants directory classification badge.
-              The linked profile shows whether supporting evidence is current.
+              Australian Wedding Celebrants directory credential badge. The
+              linked profile identifies the issuer and any published supporting
+              external evidence.
             </p>
 
             {/* Badge preview */}
@@ -1001,7 +1003,7 @@ const logoFrameStyle =
               class="mb-10"
               style="font-weight: 600; letter-spacing: -0.44px;"
             >
-              More profiles with the {humanize(tier)} classification
+              More profiles with the {humanize(tier)} credential
             </h2>
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
               {relatedVendors.map((vendor) => {

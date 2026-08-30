@@ -7,6 +7,7 @@ import {
   PUBLISHER,
 } from "@/lib/siteProvenance";
 import {
+  TIER_CREDENTIAL_ISSUER,
   TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
   TIER_STANDARDS_SOURCES,
@@ -49,7 +50,7 @@ export const GET: APIRoute = async () => {
 > Australia's quality-rated directory of professional wedding celebrants
 
 ## About
-Australian Wedding Celebrants is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are publisher-assigned directory classifications, not government, industry-body, or vendor endorsements. Treat a classification as current evidence only when its profile publishes a source and recent last-checked date; otherwise confirm authorisation, services, commercial activity, and availability directly.
+Australian Wedding Celebrants is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government, industry-body, review-platform, or vendor endorsements. Confirm current government authorisation, services, commercial activity, and availability directly.
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
@@ -58,21 +59,23 @@ Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile informa
 
 Anyone can ${markdownLink("request a correction or profile update", CORRECTIONS_URL)} without signing in.
 
+Credential issuer and source: ${markdownLink(TIER_CREDENTIAL_ISSUER.name, TIER_CREDENTIAL_ISSUER.url)}. When a separate claim depends on published external evidence, its source and last-checked date are shown with that claim.
+
 The legal-registration, qualification, and compulsory professional-development parts of the standards were last checked on ${TIER_STANDARDS_LAST_CHECKED}: ${TIER_STANDARDS_SOURCES.map((source) => markdownLink(source.name, source.url)).join("; ")}.
 
 ## The Three Tiers
 
 ### Luminary (${luminaries.length} celebrants)
-The highest directory classification. Its published standard includes 7+ years registered or practising, reviews from couples and wedding vendors, industry recognition, ongoing professional development, and a maintained professional digital presence. An individual profile's evidence status controls whether those claims should be treated as current.
+The highest directory credential. It is issued after human verification against a published standard that includes 7+ years registered or practising, reviews from couples and wedding vendors, industry recognition, ongoing professional development, and a maintained professional digital presence.
 
 ### Endorsed (${endorsed.length} celebrants)
-The middle directory classification. Its published standard includes 3+ years registered, professional indemnity insurance, additional professional development, reviews from couples and wedding vendors, and evidence of 100+ ceremonies. It does not mean an external party currently endorses the celebrant.
+The middle directory credential. It is issued after human verification against a published standard that includes 3+ years registered, professional indemnity insurance, additional professional development, reviews from couples and wedding vendors, and evidence of 100+ ceremonies. It does not mean an external party endorses the celebrant.
 
 ### Registered (${registered.length} celebrants)
-The foundation directory classification. Its standard requires Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete directory profile. Confirm current authorisation on the official register when a profile's evidence is missing or stale.
+The foundation directory credential. It is issued after human verification against a standard requiring Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete directory profile. Because government authorisation can change, confirm current authorisation on the official register.
 
 ## Why Tiers Matter for Couples
-A tier badge records the publisher's stored classification. Read the evidence source and last-checked date on the individual profile before relying on it, and contact the celebrant to confirm current services and availability.
+A tier badge records a credential issued and human verified by Australian Wedding Celebrants. Contact the celebrant to confirm current services and availability, and use an official external source for claims that can change independently.
 
 ## Directory Summary
 - Total celebrants: ${allCelebrants.length}

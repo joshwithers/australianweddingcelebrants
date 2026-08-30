@@ -1,5 +1,11 @@
 export const TIER_STANDARDS_LAST_CHECKED = "2026-08-30";
 
+export const TIER_CREDENTIAL_ISSUER = {
+  name: "Australian Wedding Celebrants",
+  url: "https://australianweddingcelebrants.com.au/tiers/",
+  verificationMethod: "Human verified by Australian Wedding Celebrants",
+} as const;
+
 export const TIER_STANDARDS_SOURCES = [
   {
     name: "Australian Government — Find a marriage celebrant",
@@ -16,4 +22,4 @@ export const TIER_STANDARDS_SOURCES = [
 ] as const;
 
 export const TIER_STANDARDS_CAVEAT =
-  "Registered, Endorsed, and Luminary are this publisher's directory classifications. They are not government, industry-body, or vendor endorsements. A tier does not guarantee present availability or current commercial activity.";
+  "Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government, industry-body, review-platform, or vendor endorsements. A credential does not guarantee present availability or current commercial activity.";

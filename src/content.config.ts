@@ -55,10 +55,10 @@ const directoryCollection = defineCollection({
       tier: z
         .enum(["registered", "endorsed", "luminary"])
         .default("registered"),
-      // Public, non-sensitive summary of the evidence used for the stored tier.
-      // If any field is absent or the date is stale, public templates describe
-      // the tier as an unrefreshed directory classification and omit Credential
-      // structured data. Never put private certificates or addresses here.
+      // Optional public evidence metadata for separate external claims. The
+      // tier itself is a credential issued and human verified by Australian
+      // Wedding Celebrants, so absent evidence fields never invalidate it.
+      // Never put private certificates or personal addresses here.
       tier_evidence_source: z.string().optional(),
       tier_evidence_url: httpUrl.optional(),
       tier_evidence_last_checked: z

@@ -140,7 +140,11 @@ test("built outputs expose one canonical Josh profile with valid Person schema",
   assert.equal("areaServed" in profile.mainEntity, false);
   assert.equal("makesOffer" in profile.mainEntity, false);
   assert.equal("jobTitle" in profile.mainEntity, false);
-  assert.equal("hasCredential" in profile.mainEntity, false);
+  assert.equal(
+    profile.mainEntity.hasCredential["@type"],
+    "EducationalOccupationalCredential",
+  );
+  assert.equal(profile.mainEntity.hasCredential.name, "Luminary Celebrant");
 });
 
 test("built indexes and sitemap contain one Josh listing each", async () => {
@@ -168,7 +172,7 @@ test("built indexes and sitemap contain one Josh listing each", async () => {
   );
 });
 
-test("directory Person schema does not imply current services without evidence", async () => {
+test("directory Person schema does not turn the publisher credential into current services", async () => {
   const html = await read("../dist/directory/index.html");
   const jsonLd = [
     ...html.matchAll(

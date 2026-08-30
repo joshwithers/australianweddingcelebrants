@@ -4,8 +4,9 @@ import { getSinglePage } from "@/lib/contentParser.astro";
 import MasonryGrid from "@/components/MasonryGrid.astro";
 
 const allItems = await getSinglePage("directory");
-const items = allItems
-  .filter(item => (item.data.tier || "registered") === "luminary");
+const items = allItems.filter(
+  (item) => (item.data.tier || "registered") === "luminary",
+);
 // Fisher-Yates shuffle for fair random ordering
 for (let i = items.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
@@ -13,36 +14,63 @@ for (let i = items.length - 1; i > 0; i--) {
 }
 ---
 
-<Base title="Luminary Celebrants" meta_title="Luminary Celebrants — Australian Wedding Celebrants" description="Browse profiles currently classified as Luminary by Australian Wedding Celebrants, with evidence status and last-checked details on each profile.">
+<Base
+  title="Luminary Celebrants"
+  meta_title="Luminary Celebrants — Australian Wedding Celebrants"
+  description="Browse Luminary credentials issued and human verified by Australian Wedding Celebrants against its highest published standard."
+>
   <section class="py-12 md:py-16">
     <div class="container">
-      <div class="text-center mb-12">
-        <div class="inline-flex items-center gap-2 text-white px-4 py-1.5 rounded-full text-sm mb-4" style="font-weight: 600; background: #460479;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      <div class="mb-12 text-center">
+        <div
+          class="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm text-white"
+          style="font-weight: 600; background: #460479;"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+            ><path
+              d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+            ></path></svg
+          >
           Luminary
         </div>
-        <h1 class="mb-4" style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;">
+        <h1
+          class="mb-4"
+          style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
+        >
           Luminary Celebrants
         </h1>
-        <p class="text-light max-w-2xl mx-auto" style="font-weight: 400; line-height: 1.6;">
-          These {items.length} profiles currently carry the publisher's highest
-          directory classification. The Luminary standard includes substantial
-          experience, documented reviews, industry recognition, and professional
-          development. Check each profile's source and last-checked date before
-          relying on those criteria; the label does not promise availability.
+        <p
+          class="text-light mx-auto max-w-2xl"
+          style="font-weight: 400; line-height: 1.6;"
+        >
+          These {items.length} profiles currently carry the publisher's highest credential
+          issued and human verified by Australian Wedding Celebrants. The Luminary
+          standard includes substantial experience, documented reviews, industry recognition,
+          and professional development. The credential does not promise current availability
+          or commercial activity.
         </p>
       </div>
 
       <MasonryGrid items={items} />
 
-      {items.length === 0 && (
-        <div class="text-center py-16">
-          <p class="text-light text-lg">No luminary celebrants yet. <a href="/contact/" class="text-dark underline">Submit your documentation</a> to be the first.</p>
-        </div>
-      )}
+      {
+        items.length === 0 && (
+          <div class="py-16 text-center">
+            <p class="text-light text-lg">
+              No luminary celebrants yet.{" "}
+              <a href="/contact/" class="text-dark underline">
+                Submit your documentation
+              </a>{" "}
+              to be the first.
+            </p>
+          </div>
+        )
+      }
 
-      <div class="text-center mt-12">
-        <a href="/directory/" class="btn btn-outline-primary no-underline">View All Celebrants</a>
+      <div class="mt-12 text-center">
+        <a href="/directory/" class="btn btn-outline-primary no-underline"
+          >View All Celebrants</a
+        >
       </div>
     </div>
   </section>

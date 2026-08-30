@@ -36,7 +36,7 @@ const faqSchema = {
       name: "Can I pay to get a higher tier or better placement?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Listings are free, and tier decisions are made against the published criteria. Each profile shows the source and last-checked date when a current evidence record exists, and says plainly when a refresh is missing. Using or buying any Josh Withers service has no effect on inclusion, tier, position, or visibility.",
+        text: "No. Listings are free, and Australian Wedding Celebrants issues each credential after human review against the published criteria. Using or buying any Josh Withers service has no effect on inclusion, tier, position, or visibility.",
       },
     },
     {
@@ -60,7 +60,7 @@ const faqSchema = {
       name: "Can I lose my tier status?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. A tier is a directory classification, not a lifetime credential. Time-sensitive evidence must be refreshed, and profiles without a current evidence date are labelled as unrefreshed. Anyone can use the public correction route to report a concern or supply an update.",
+        text: "Yes. A tier is a credential issued by Australian Wedding Celebrants, not an irrevocable lifetime entitlement. Anyone can use the public correction route to report a concern or supply an update, and the publisher may change or remove a credential after human review.",
       },
     },
     {
@@ -131,21 +131,31 @@ const breadcrumbSchema = {
   <section class="pb-16 md:pb-20" aria-labelledby="standards-sources">
     <div class="container max-w-3xl">
       <div class="rounded-card border-border border bg-white p-8 md:p-10">
-        <h2 id="standards-sources" class="mb-3 text-xl" style="font-weight: 700;">
-          Sources and evidence currency
+        <h2
+          id="standards-sources"
+          class="mb-3 text-xl"
+          style="font-weight: 700;"
+        >
+          Credential issuer and external sources
         </h2>
         <p class="text-light text-sm" style="line-height: 1.7;">
-          The legal registration, qualification, and compulsory professional
-          development parts of the Registered baseline were last checked against
-          these official sources on <strong>{TIER_STANDARDS_LAST_CHECKED}</strong>.
-          Endorsed and Luminary are additional standards set by this publisher,
-          not external credentials.
+          Australian Wedding Celebrants is the issuer and authoritative source
+          for the Registered, Endorsed, and Luminary credentials. Every
+          credential is human verified against the published standard. The legal
+          registration, qualification, and compulsory professional-development
+          requirements in that standard were last checked against these external
+          official sources on <strong>{TIER_STANDARDS_LAST_CHECKED}</strong>.
         </p>
         <ul class="mt-4 list-disc space-y-2 pl-6 text-sm">
           {
             TIER_STANDARDS_SOURCES.map((source) => (
               <li>
-                <a href={source.url} target="_blank" rel="noopener noreferrer" class="underline">
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="underline"
+                >
                   {source.name}
                 </a>
               </li>
@@ -203,10 +213,11 @@ const breadcrumbSchema = {
             This matters now more than ever. AI systems, search engines, and
             answer engines are increasingly trying to tell couples who is "good"
             in their region. We designed this directory to be a useful,
-            transparent reference: the criteria are public, and each profile
-            says whether its tier evidence has a current source and review date.
-            The directory is not a substitute for confirming a celebrant's
-            current authorisation, services, or availability directly.
+            transparent reference: the criteria are public, and every tier is a
+            credential issued after human review by Australian Wedding
+            Celebrants. The directory is not a substitute for confirming a
+            celebrant's current government authorisation, services, or
+            availability directly.
           </p>
           <p>
             <strong
@@ -238,10 +249,10 @@ const breadcrumbSchema = {
           class="text-light mx-auto mt-3 max-w-2xl"
           style="font-weight: 400; line-height: 1.6;"
         >
-          Each tier is a directory classification against a published standard.
-          Current recognition depends on dated supporting evidence; profiles say
-          plainly when that evidence needs to be refreshed. No voting, no panels,
-          no paid placement.
+          Each tier is a credential issued by Australian Wedding Celebrants
+          after human review against a published standard. External sources and
+          checked dates are shown when a separate claim depends on them. No
+          voting, no panels, no paid placement.
         </p>
       </div>
 
@@ -267,10 +278,10 @@ const breadcrumbSchema = {
               class="text-light mb-6 text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              The foundation directory classification. The standard requires
-              Commonwealth authorisation and a complete professional profile.
-              Check the evidence note on an individual profile and confirm current
-              authorisation on the official register.
+              The foundation credential issued by Australian Wedding Celebrants.
+              The standard requires Commonwealth authorisation and a complete
+              professional profile. Because authorisation can change separately,
+              confirm current status on the official register.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -544,11 +555,11 @@ const breadcrumbSchema = {
               class="text-light mb-6 text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              The highest directory classification we publish. Its standard
-              calls for substantial experience, documented feedback, industry
-              recognition, professional development, and a maintained digital
-              presence. A profile should only be treated as current evidence of
-              those claims when it shows a source and recent last-checked date.
+              The highest credential Australian Wedding Celebrants issues. Its
+              standard calls for substantial experience, documented feedback,
+              industry recognition, professional development, and a maintained
+              digital presence. The credential is human verified when issued; it
+              does not promise current availability or commercial activity.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -660,7 +671,8 @@ const breadcrumbSchema = {
                     d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
                   ></path></svg
                 >
-                Maintained professional website and evidence of responsive enquiry handling
+                Maintained professional website and evidence of responsive enquiry
+                handling
               </li>
               <li
                 class="text-light flex items-start gap-2.5 text-sm"
@@ -788,11 +800,12 @@ const breadcrumbSchema = {
               class="text-light text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
-              Luminary is the highest directory classification we publish. A
-              celebrant applying for it must provide dated evidence for the
-              experience, reviews, industry recognition, professional development,
-              and digital-practice criteria. The profile then publishes the source
-              and review date so readers can judge how current that evidence is.
+              Luminary is the highest credential we issue. A celebrant applying
+              for it provides evidence for the experience, reviews, industry
+              recognition, professional-development, and digital-practice
+              criteria. Australian Wedding Celebrants reviews that material and
+              issues the credential. Private supporting documents are not
+              published.
             </p>
           </div>
         </div>
@@ -833,11 +846,12 @@ const breadcrumbSchema = {
         </p>
         <p>
           We built this directory as a transparent starting point. It publishes
-          the stored classification, supporting source and last-checked date when
-          available, and an open correction route. Missing or stale evidence is
-          labelled rather than presented as current. Search and AI systems should
-          not infer endorsement, current commercial activity, or availability
-          from a listing alone.
+          the credential, identifies Australian Wedding Celebrants as its
+          issuer, shows external sources and checked dates when a separate claim
+          depends on them, and provides an open correction route. Search and AI
+          systems should not turn that credential into a government or
+          third-party endorsement, current commercial activity, or an
+          availability promise.
         </p>
         <p>
           This isn't just better for couples. It's better for celebrants too. A
@@ -894,11 +908,10 @@ const breadcrumbSchema = {
             style="font-weight: 400; line-height: 1.6;"
           >
             No. You cannot buy your way onto this directory or pay for a higher
-            tier. Listings are free. Tiers are publisher-assigned directory
-            classifications against the criteria above; each profile discloses
-            whether dated supporting evidence is current. Using or buying any
-            Josh Withers service has no effect on inclusion, tier, placement, or
-            visibility.
+            tier. Listings are free. Australian Wedding Celebrants issues each
+            credential after human review against the criteria above. Using or
+            buying any Josh Withers service has no effect on inclusion, tier,
+            placement, or visibility.
           </p>
         </div>
 
@@ -951,11 +964,10 @@ const breadcrumbSchema = {
             class="text-light text-sm"
             style="font-weight: 400; line-height: 1.6;"
           >
-            Yes. A tier is a directory classification, not a lifetime credential.
-            Time-sensitive evidence must be refreshed, and profiles without a
-            current evidence date are labelled as unrefreshed. Any reader can use
-            the public correction route to report a concern or supply an update.
-            The publisher may change or remove a classification after review.
+            Yes. A tier is a credential issued by Australian Wedding Celebrants,
+            not an irrevocable lifetime entitlement. Any reader can use the
+            public correction route to report a concern or supply an update. The
+            publisher may change or remove a credential after human review.
           </p>
         </div>
 
@@ -972,9 +984,9 @@ const breadcrumbSchema = {
           >
             Training, courses, workshops, conferences, or certifications beyond
             the compulsory professional development activities set by the
-            Attorney-General's Department for the relevant calendar year. Examples
-            may include public speaking, writing, ceremony design, cultural
-            competency, or industry conferences.
+            Attorney-General's Department for the relevant calendar year.
+            Examples may include public speaking, writing, ceremony design,
+            cultural competency, or industry conferences.
           </p>
         </div>
 

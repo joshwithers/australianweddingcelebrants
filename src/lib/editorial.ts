@@ -54,7 +54,7 @@ export const EDITORIAL_ARTICLES = [
     path: "/tiers/",
     title: "Professional Recognition for Wedding Celebrants",
     description:
-      "How the Registered, Endorsed, and Luminary directory standards work, what evidence they require, and how to interpret them.",
+      "How Australian Wedding Celebrants issues and human verifies its Registered, Endorsed, and Luminary credentials against published standards.",
     datePublished: "2026-04-07",
     dateModified: "2026-08-30",
   },

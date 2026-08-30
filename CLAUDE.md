@@ -11,15 +11,16 @@ Directory of Australian wedding celebrants. Built with Astro 7 + Tailwind 4 + Re
 
 ## Tier system
 
-Celebrants are classified into three publisher-assigned directory tiers (see `src/content.config.ts`). Do not describe a tier as a current credential unless the profile has a public source and a last-checked date no more than 366 days old:
+Celebrants receive one of three credentials issued and human verified by Australian Wedding Celebrants (see `src/content.config.ts`). Every stored tier is the site's current publisher-issued credential; do not mark it missing or invalid merely because it lacks an external source or date:
 
-| Tier | Colour | Requirements (summary) |
-|---|---|---|
-| `registered` | Light grey | Commonwealth authorised celebrant with Cert IV (or equivalent) and complete profile. |
-| `endorsed` | `#92174d` magenta | 3+ yrs, insured, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies. |
-| `luminary` | `#460479` purple | 7+ yrs, 18+ couple reviews, 9+ vendor reviews, industry recognition. |
+| Tier         | Colour            | Requirements (summary)                                                               |
+| ------------ | ----------------- | ------------------------------------------------------------------------------------ |
+| `registered` | Light grey        | Commonwealth authorised celebrant with Cert IV (or equivalent) and complete profile. |
+| `endorsed`   | `#92174d` magenta | 3+ yrs, insured, 6+ couple reviews and 3+ vendor reviews, 100+ ceremonies.           |
+| `luminary`   | `#460479` purple  | 7+ yrs, 18+ couple reviews, 9+ vendor reviews, industry recognition.                 |
 
 Tier visuals:
+
 - `src/components/TierBadge.astro` — pill overlayed on a listing card image.
 - `src/components/TierIcon.astro` — crossfading SVG icon pair (primary → thumbs-up on hover).
 - Shared hover CSS in `src/styles/components.css` (`.pill-luminary`, `.pill-endorsed`, `.tier-badge--*`).
@@ -34,9 +35,10 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 - `pages` — static content (about, contact, tiers, 404, directory overview).
 - `about` — single-entry about-page data (note the loader glob `**/-*.{md,mdx}` — underscore-prefixed files are excluded by `glob()`, a leading `-` is the actual prefix).
 
-Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `accepts_agent_enquiries`, `social.{facebook,instagram,pinterest}`. Evidence fields are public summaries; never publish private supporting documents or personal addresses. `accepts_agent_enquiries` is explicit opt-in only: missing and false values must block the Worker email relay.
+Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `accepts_agent_enquiries`, `social.{facebook,instagram,pinterest}`. The `tier` is a credential issued and human verified by Australian Wedding Celebrants. The `tier_evidence_*` fields are optional public summaries for separate, externally sourced claims; when used, publish their source and last-checked date, never private supporting documents or personal addresses. A profile credential may appear in `hasCredential`, but do not infer `jobTitle`, an `Offer`, current commercial activity, or availability from it. `accepts_agent_enquiries` is explicit opt-in only: missing and false values must block the Worker email relay.
 
 **Premium profile fields (optional):**
+
 - `youtube` — Available to all tiers. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
 - `gallery` — Available to all tiers. Up to 3 images (local asset paths or URLs), rendered in a 3-up grid.
 - `background_color` — Luminary only. Hex colour (e.g. `"#faf7f5"`) applied to the entire profile page background.
