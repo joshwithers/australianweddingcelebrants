@@ -1,7 +1,11 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
-import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  CORRECTIONS_URL,
+  PROFILE_STATEMENT_NOTICE,
+  PUBLISHER,
+} from "@/lib/siteProvenance";
 import {
   TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
@@ -91,13 +95,15 @@ A tier badge records the publisher's stored classification. Read the evidence so
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants
-${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
+${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")} — profile statement (not independently verified as current): ${c.data.description || ""}`).join("\n")}
 
 ## Endorsed Celebrants
-${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
+${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")} — profile statement (not independently verified as current): ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
 
 ## Registered Celebrants
-${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: ${c.data.location.join(", ")}`).join("\n")}
+${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")}`).join("\n")}
+
+Profile-copy provenance: ${PROFILE_STATEMENT_NOTICE}
 `;
 
   return new Response(text.trim(), {

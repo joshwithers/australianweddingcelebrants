@@ -68,7 +68,7 @@ const { Content } = await render(pageEntry);
             ? "Wedding Celebrant"
             : undefined,
           url: `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
-          description: entry.data.description || "",
+          description: `Directory profile record for ${entry.data.title}. See the profile for evidence status and profile-copy provenance.`,
           image: absoluteUrl(
             typeof entry.data.image === "string"
               ? entry.data.image

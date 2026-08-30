@@ -8,7 +8,11 @@ import {
   EDITORIAL_ARTICLES,
   resolveEditorialAuthor,
 } from "../src/lib/editorial.ts";
-import { CORRECTIONS_URL, PUBLISHER } from "../src/lib/siteProvenance.ts";
+import {
+  CORRECTIONS_URL,
+  PROFILE_STATEMENT_NOTICE,
+  PUBLISHER,
+} from "../src/lib/siteProvenance.ts";
 import { getTierEvidence } from "../src/lib/utils/tierEvidence.ts";
 
 const SITE = "https://australianweddingcelebrants.com.au";
@@ -136,7 +140,9 @@ test("profile HTML, Markdown and JSON expose provenance without author or unsupp
   assert.equal(profile.publisher.name, PUBLISHER.name);
   assert.equal("hasCredential" in profile.mainEntity, false);
   assert.equal("makesOffer" in profile.mainEntity, false);
+  assert.equal(profile.mainEntity.description, "Directory profile record for Josh Withers.");
   assert.equal(schemas.some((item) => item["@type"] === "Article"), false);
+  assert.ok(html.includes(PROFILE_STATEMENT_NOTICE));
 
   const markdown = await read(`../dist/directory/${PROFILE_SLUG}.md`);
   assert.doesNotMatch(markdown, /^author:/m);
@@ -145,6 +151,7 @@ test("profile HTML, Markdown and JSON expose provenance without author or unsupp
   assert.ok(markdown.includes(PUBLISHER.name));
   assert.ok(markdown.includes(CORRECTIONS_URL));
   assert.match(markdown, /No sign-in is required/);
+  assert.ok(markdown.includes(PROFILE_STATEMENT_NOTICE));
 
   const directory = JSON.parse(await read("../dist/directory.json"));
   assert.equal(directory.responsible_publisher.name, PUBLISHER.name);
@@ -152,6 +159,8 @@ test("profile HTML, Markdown and JSON expose provenance without author or unsupp
   assert.equal(directory.corrections_require_sign_in, false);
   const record = directory.celebrants.find((item) => item.slug === PROFILE_SLUG);
   assert.equal(record.tier_evidence.status, "missing");
+  assert.equal(record.accepts_agent_enquiries, false);
+  assert.equal(record.description_provenance, PROFILE_STATEMENT_NOTICE);
 });
 
 test("LLM surfaces and privacy notice publish provenance and measurement limits", async () => {
@@ -172,6 +181,17 @@ test("LLM surfaces and privacy notice publish provenance and measurement limits"
   assert.match(privacy, /query string/);
   assert.match(privacy, /referring page is reduced to its origin/);
   assert.doesNotMatch(privacy, /No tracking or analytics/);
+});
+
+test("agent enquiries require explicit stored opt-in", async () => {
+  const [directory, article] = await Promise.all([
+    read("../dist/directory.json").then(JSON.parse),
+    read("../dist/ai/index.html"),
+  ]);
+  assert.ok(directory.celebrants.every((item) => item.accepts_agent_enquiries === false));
+  assert.match(article, /Agent-relayed enquiries require an explicit profile opt-in/);
+  assert.match(article, /missing setting is treated as not opted in/);
+  assert.doesNotMatch(article, /opt in by default/);
 });
 
 test("tier evidence currency is deterministic", () => {

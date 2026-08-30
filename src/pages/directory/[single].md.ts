@@ -6,7 +6,11 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
 import { getTierEvidence } from "@/lib/utils/tierEvidence";
-import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  CORRECTIONS_URL,
+  PROFILE_STATEMENT_NOTICE,
+  PUBLISHER,
+} from "@/lib/siteProvenance";
 import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
@@ -33,13 +37,14 @@ export const GET: APIRoute = async ({ props }) => {
 
   const lines: string[] = [];
   lines.push(`# ${d.title}`);
-  if (d.description) lines.push("", `> ${d.description}`);
+  lines.push("", `> ${PROFILE_STATEMENT_NOTICE}`);
+  if (d.description) lines.push("", `> Profile statement: ${d.description}`);
   lines.push("", `**Directory classification:** ${tierLabel}`);
-  if (d.location?.length) lines.push(`**Serves:** ${d.location.join(", ")}`);
+  if (d.location?.length) lines.push(`**Profile-listed regions:** ${d.location.join(", ")}`);
   if (d.category?.length) lines.push(`**Specialties:** ${d.category.join(", ")}`);
-  if (d.australia_wide) lines.push("**Travels:** Australia-wide");
-  if (d.international) lines.push("**Travels:** International / destination weddings");
-  if (d.year_started) lines.push(`**Working since:** ${d.year_started}`);
+  if (d.australia_wide) lines.push("**Profile-listed travel:** Australia-wide");
+  if (d.international) lines.push("**Profile-listed travel:** International / destination weddings");
+  if (d.year_started) lines.push(`**Profile-recorded start year:** ${d.year_started}`);
 
   lines.push("", "## Tier evidence");
   lines.push(`- Status: ${tierEvidence.status}`);
@@ -95,7 +100,14 @@ export const GET: APIRoute = async ({ props }) => {
   }
 
   if (entry.body) {
-    lines.push("", "## About", "", entry.body.trim());
+    lines.push(
+      "",
+      "## Profile statement",
+      "",
+      PROFILE_STATEMENT_NOTICE,
+      "",
+      entry.body.trim(),
+    );
   }
 
   lines.push(

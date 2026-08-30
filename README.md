@@ -237,6 +237,7 @@ review and update them.
 - Original editorial guides are registered in `src/lib/editorial.ts`. Missing editorial authors fall back to Frankie across the visible byline, author meta, Article JSON-LD, RSS creator, and generated Markdown. Directory records and profiles never receive that author fallback.
 - Public pages load GA4 measurement ID `G-DCYE3SSJQV`. Consent mode is queued before `gtag.js` with analytics and advertising storage/data/personalisation denied. Google signals and ad personalisation are disabled; page locations omit queries and referrers are origin-only.
 - This boundary is cookieless measurement: do not add analytics cookies, browser IDs, local-storage identifiers, a consent update, or a consent banner. Private Worker login, account, and admin pages do not use the public `Base.astro` layout and must not load the tag.
+- Agent-relayed email requires `accepts_agent_enquiries: true` on the stored profile. Missing and false values are not opted in; enforce that default in both `directory.json` and the separately deployed Worker before any email path.
 
 ## Configuration
 

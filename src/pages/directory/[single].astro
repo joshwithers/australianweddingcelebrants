@@ -26,6 +26,7 @@ import { getTierEvidence } from "@/lib/utils/tierEvidence";
 import {
   CORRECTIONS_PATH,
   PUBLISHER,
+  PROFILE_STATEMENT_NOTICE,
 } from "@/lib/siteProvenance";
 
 export async function getStaticPaths() {
@@ -151,6 +152,9 @@ const tierCredentials = {
 
 const currentCredential = tierCredentials[tier] || tierCredentials.registered;
 const tierEvidence = getTierEvidence(entry.data);
+const displayTierLabel = tierEvidence.canPublishCredential
+  ? currentTierInfo.label
+  : `${humanize(tier)} directory classification`;
 
 // Prepare schema.org structured data
 const siteUrl = "https://australianweddingcelebrants.com.au";
@@ -182,7 +186,7 @@ const profileSchema = {
   "@id": `${businessUrl}#profile`,
   url: businessUrl,
   name: entry.data.meta_title || entry.data.title,
-  description: entry.data.description || "",
+  description: `${entry.data.title} directory profile. The page publishes the stored tier evidence status and identifies profile-supplied statements that have not been independently verified as current.`,
   publisher: {
     "@type": "Organization",
     "@id": PUBLISHER.id,
@@ -195,7 +199,7 @@ const profileSchema = {
     name: entry.data.title,
     jobTitle: tierEvidence.canPublishCredential ? "Wedding Celebrant" : undefined,
     url: businessUrl,
-    description: entry.data.description || "",
+    description: `Directory profile record for ${entry.data.title}.`,
     telephone: normalizeTelephone(entry.data.phone),
     email: entry.data.email || undefined,
     image: absoluteUrl(imageUrl, siteUrl),
@@ -365,7 +369,7 @@ const logoFrameStyle =
                 style="font-weight: 600;"
               >
                 <TierIcon tier="luminary" size={14} />
-                Luminary Celebrant
+                {displayTierLabel}
               </a>
               {entry.data.australia_wide && (
                 <a
@@ -388,7 +392,7 @@ const logoFrameStyle =
                     <path d="M2 12h20" />
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                   </svg>
-                  Travels Australia Wide
+                  Profile lists Australia-wide travel
                 </a>
               )}
               {entry.data.international && (
@@ -413,18 +417,23 @@ const logoFrameStyle =
                     <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                     <circle cx="12" cy="12" r="10" />
                   </svg>
-                  Destination Weddings
+                  Profile lists destination travel
                 </a>
               )}
             </div>
 
             {entry.data.description && (
-              <p
-                class="text-light mx-auto mb-8 max-w-2xl text-lg"
-                style="font-weight: 400; line-height: 1.6;"
-              >
-                {entry.data.description}
-              </p>
+              <div class="mx-auto mb-8 max-w-2xl">
+                <p class="text-light mb-2 text-xs" style="font-weight: 600;">
+                  Profile statement — not independently verified as current
+                </p>
+                <p
+                  class="text-light text-lg"
+                  style="font-weight: 400; line-height: 1.6;"
+                >
+                  {entry.data.description}
+                </p>
+              </div>
             )}
 
             <div class="mb-6">
@@ -550,7 +559,7 @@ const logoFrameStyle =
                       style="font-weight: 600;"
                     >
                       <TierIcon tier="endorsed" size={14} />
-                      Endorsed Celebrant
+                      {displayTierLabel}
                     </a>
                   )}
                   {tier === "registered" && (
@@ -559,7 +568,7 @@ const logoFrameStyle =
                       class="text-light border-border hover:bg-theme-light hover:text-dark inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm no-underline transition-all"
                       style="font-weight: 500;"
                     >
-                      Registered Celebrant
+                      {displayTierLabel}
                     </a>
                   )}
                   {entry.data.australia_wide && (
@@ -583,7 +592,7 @@ const logoFrameStyle =
                         <path d="M2 12h20" />
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                       </svg>
-                      Travels Australia Wide
+                      Profile lists Australia-wide travel
                     </a>
                   )}
                   {entry.data.international && (
@@ -608,18 +617,23 @@ const logoFrameStyle =
                         <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                         <circle cx="12" cy="12" r="10" />
                       </svg>
-                      Destination Weddings
+                      Profile lists destination travel
                     </a>
                   )}
                 </div>
 
                 {entry.data.description && (
-                  <p
-                    class="text-light mt-4 text-base"
-                    style="font-weight: 400; line-height: 1.6;"
-                  >
-                    {entry.data.description}
-                  </p>
+                  <div class="mt-4">
+                    <p class="text-light mb-2 text-xs" style="font-weight: 600;">
+                      Profile statement — not independently verified as current
+                    </p>
+                    <p
+                      class="text-light text-base"
+                      style="font-weight: 400; line-height: 1.6;"
+                    >
+                      {entry.data.description}
+                    </p>
+                  </div>
                 )}
               </div>
 
@@ -672,6 +686,9 @@ const logoFrameStyle =
       {
         entry.body && (
           <div class="content border-border mx-auto mt-16 max-w-3xl border-t pt-12">
+            <p class="text-light mb-6 text-sm" style="line-height: 1.6;">
+              <strong>Profile statement.</strong> {PROFILE_STATEMENT_NOTICE}
+            </p>
             {/* Visible name above the bio for logo listings. An h2, not an h1 —
                 the page's h1 is the sr-only one beside the logo in the hero,
                 which is present whether or not this body copy exists. */}
@@ -815,7 +832,7 @@ const logoFrameStyle =
               </a>
               <TierEvidencePanel
                 data={entry.data}
-                tierLabel={currentTierInfo.label}
+                tierLabel={displayTierLabel}
               />
             </div>
           </div>
@@ -862,7 +879,7 @@ const logoFrameStyle =
                 stroke-linecap="round"
                 stroke-linejoin="round"></path></svg
             >
-            Is this your listing? Edit it or grab your badge
+            Is this your listing? Edit it or view the directory badge
           </summary>
           <div class="mt-6 space-y-6">
             {/* Edit listing */}
@@ -902,14 +919,15 @@ const logoFrameStyle =
             <div class="border-border border-t"></div>
 
             <h3 class="text-dark text-sm" style="font-weight: 600;">
-              Embed your tier badge
+              Embed your directory classification badge
             </h3>
             <p
               class="text-light text-sm"
               style="font-weight: 400; line-height: 1.6;"
             >
               Copy this code and paste it into your website to display your
-              Australian Wedding Celebrants tier badge.
+              Australian Wedding Celebrants directory classification badge.
+              The linked profile shows whether supporting evidence is current.
             </p>
 
             {/* Badge preview */}
@@ -947,7 +965,7 @@ const logoFrameStyle =
                     </svg>
                   )
                 }
-                {currentTierInfo.label}
+                {displayTierLabel}
               </div>
             </div>
 
@@ -957,10 +975,10 @@ const logoFrameStyle =
                 class="bg-dark rounded-card overflow-x-auto p-5 text-xs text-white"
                 style="line-height: 1.6;"><code id="embedCode" set:html={
                 tier === "luminary"
-                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#460479;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z&quot;/&gt;&lt;/svg&gt;Luminary Celebrant&lt;/a&gt;`
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#460479;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z&quot;/&gt;&lt;/svg&gt;${displayTierLabel}&lt;/a&gt;`
                   : tier === "endorsed"
-                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#92174d;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z&quot;/&gt;&lt;/svg&gt;Endorsed Celebrant&lt;/a&gt;`
-                  : `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;Registered Celebrant&lt;/a&gt;`
+                  ? `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#92174d;color:#fff;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;&lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z&quot;/&gt;&lt;/svg&gt;${displayTierLabel}&lt;/a&gt;`
+                  : `&lt;a href=&quot;https://australianweddingcelebrants.com.au/directory/${entrySlug}/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;background:#f7f7f7;color:#6a6a6a;border:1px solid #e0e0e0;font-family:Inter,-apple-system,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;transition:opacity 0.2s;&quot; onmouseover=&quot;this.style.opacity='0.85'&quot; onmouseout=&quot;this.style.opacity='1'&quot;&gt;${displayTierLabel}&lt;/a&gt;`
               } /></pre>
               <button
                 id="copyBtn"
@@ -983,7 +1001,7 @@ const logoFrameStyle =
               class="mb-10"
               style="font-weight: 600; letter-spacing: -0.44px;"
             >
-              More {currentTierInfo.label}s
+              More profiles with the {humanize(tier)} classification
             </h2>
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
               {relatedVendors.map((vendor) => {

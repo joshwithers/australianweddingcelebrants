@@ -1,7 +1,11 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
-import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  CORRECTIONS_URL,
+  PROFILE_STATEMENT_NOTICE,
+  PUBLISHER,
+} from "@/lib/siteProvenance";
 import {
   TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
@@ -95,8 +99,8 @@ export const GET: APIRoute = async () => {
     }
     lines.push(`Corrections or profile updates: ${CORRECTIONS_URL} (no sign-in required)`);
     if (c.data.website) lines.push(`Website: ${c.data.website}`);
-    lines.push(`Locations: ${c.data.location.join(", ")}`);
-    lines.push(`Categories: ${c.data.category.map(humanize).join(", ")}`);
+    lines.push(`Profile-listed regions: ${c.data.location.join(", ")}`);
+    lines.push(`Profile-listed categories: ${c.data.category.map(humanize).join(", ")}`);
     if (c.data.email) lines.push(`Email: ${c.data.email}`);
     if (c.data.phone) lines.push(`Phone: ${c.data.phone}`);
     if (c.data.address) lines.push(`Address: ${c.data.address}`);
@@ -109,11 +113,14 @@ export const GET: APIRoute = async () => {
 
     if (c.data.description) {
       lines.push("");
-      lines.push(c.data.description);
+      lines.push(
+        `Profile statement (not independently verified as current): ${c.data.description}`,
+      );
     }
 
     if (c.body) {
       lines.push("");
+      lines.push(PROFILE_STATEMENT_NOTICE);
       lines.push(stripMarkdown(c.body));
     }
 

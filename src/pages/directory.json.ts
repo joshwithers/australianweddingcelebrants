@@ -7,7 +7,11 @@ import type { APIRoute } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
 import { getTierEvidence } from "@/lib/utils/tierEvidence";
-import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import {
+  CORRECTIONS_URL,
+  PROFILE_STATEMENT_NOTICE,
+  PUBLISHER,
+} from "@/lib/siteProvenance";
 import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
@@ -23,6 +27,7 @@ export const GET: APIRoute = async () => {
       slug,
       name: d.title,
       description: d.description || "",
+      description_provenance: PROFILE_STATEMENT_NOTICE,
       tier: d.tier || "registered",
       tier_evidence: {
         status: evidence.status,
@@ -35,7 +40,7 @@ export const GET: APIRoute = async () => {
       categories: d.category || [],
       australia_wide: !!d.australia_wide,
       international: !!d.international,
-      accepts_agent_enquiries: d.accepts_agent_enquiries !== false,
+      accepts_agent_enquiries: d.accepts_agent_enquiries === true,
       year_started: d.year_started ?? null,
       website: d.website ?? null,
       email: d.email ?? null,
@@ -58,6 +63,7 @@ export const GET: APIRoute = async () => {
         corrections_url: CORRECTIONS_URL,
         corrections_require_sign_in: false,
         evidence_notice: TIER_STANDARDS_CAVEAT,
+        profile_statement_notice: PROFILE_STATEMENT_NOTICE,
         usage_notice:
           "Do not infer current authorisation, commercial activity, services, endorsement, or availability from a profile or tier alone.",
         generated_at: new Date().toISOString(),

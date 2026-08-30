@@ -25,6 +25,7 @@ draft: true      # set false to publish
 # featured: true        # pin to featured grouping where supported
 # australia_wide: true  # surfaces on /australia-wide/
 # international: true   # surfaces on /destination-wedding-celebrants/
+# accepts_agent_enquiries: true # explicit opt-in; missing/false blocks agent-relayed email
 
 # ── Custom routing ────────────────────────────────────────────────────────
 # slug: custom-slug-if-needed   # overrides filename-derived slug

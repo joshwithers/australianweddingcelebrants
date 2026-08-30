@@ -5,6 +5,7 @@ import { entrySlug } from "@/lib/utils/entrySlug";
 import { outputImageFormat } from "@/lib/utils/images";
 import TierBadge from "./TierBadge.astro";
 import externalImageDimensions from "@/data/external-image-dimensions.json";
+import { PROFILE_STATEMENT_NOTICE } from "@/lib/siteProvenance";
 
 const { item, isFirst = false, showLogo = true } = Astro.props;
 const tier = item.data.tier || "registered";
@@ -148,6 +149,7 @@ const imageDims =
             class="text-light mb-2 text-center text-sm"
             style="font-weight: 600;"
           >
+            <span class="sr-only">Profile-listed locations: </span>
             {item.data.location.map((loc: string) => humanize(loc)).join(" · ")}
           </p>
         )
@@ -159,6 +161,9 @@ const imageDims =
             class="text-light mb-3 line-clamp-2 text-sm"
             style="font-weight: 400;"
           >
+            <span class="text-dark" style="font-weight: 600;"
+              >Profile statement:</span
+            >{" "}
             {item.data.description}
           </p>
         )
@@ -200,7 +205,7 @@ const imageDims =
                   <path d="M2 12h20" />
                   <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
-                Australia Wide
+                Profile lists Australia-wide
               </a>
             )}
             {item.data.international && (
@@ -225,7 +230,7 @@ const imageDims =
                   <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                   <circle cx="12" cy="12" r="10" />
                 </svg>
-                Destination Weddings
+                Profile lists destination travel
               </a>
             )}
           </div>
@@ -239,6 +244,7 @@ const imageDims =
       class="stretched-link"
       aria-label={item.data.title}></a>
   </div>
+  <span class="sr-only">{PROFILE_STATEMENT_NOTICE}</span>
 </div>
 
 <style>

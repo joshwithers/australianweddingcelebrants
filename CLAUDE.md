@@ -34,7 +34,7 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 - `pages` — static content (about, contact, tiers, 404, directory overview).
 - `about` — single-entry about-page data (note the loader glob `**/-*.{md,mdx}` — underscore-prefixed files are excluded by `glob()`, a leading `-` is the actual prefix).
 
-Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `social.{facebook,instagram,pinterest}`. Evidence fields are public summaries; never publish private supporting documents or personal addresses.
+Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `accepts_agent_enquiries`, `social.{facebook,instagram,pinterest}`. Evidence fields are public summaries; never publish private supporting documents or personal addresses. `accepts_agent_enquiries` is explicit opt-in only: missing and false values must block the Worker email relay.
 
 **Premium profile fields (optional):**
 - `youtube` — Available to all tiers. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).

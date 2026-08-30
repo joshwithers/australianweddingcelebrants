@@ -7,8 +7,8 @@ import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
 
 const celebrants = await getSinglePage("directory");
 const celebrantCount = celebrants.length;
-const optedOut = celebrants.filter(
-  (c) => c.data.accepts_agent_enquiries === false,
+const explicitlyOptedIn = celebrants.filter(
+  (c) => c.data.accepts_agent_enquiries === true,
 ).length;
 
 const siteUrl = "https://australianweddingcelebrants.com.au";
@@ -25,7 +25,7 @@ const faqSchema = {
       name: "Does this website let AI companies train on celebrant profiles?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Our robots.txt carries a Content-Signal directive of ai-train=no, which asks compliant crawlers not to use celebrant bios as training data. We allow search indexing (search=yes) and AI-assisted answers (ai-input=yes) because those help couples find a celebrant — which is what every celebrant on this site wants.",
+        text: "No. Our robots.txt carries a Content-Signal directive of ai-train=no, which asks compliant crawlers not to use profile statements as training data. We allow search indexing (search=yes) and AI-assisted answers (ai-input=yes) so public directory records can be discovered. Inclusion does not imply that a person is currently active, available, or accepting enquiries.",
       },
     },
     {
@@ -49,7 +49,7 @@ const faqSchema = {
       name: "Can agents email celebrants on behalf of couples?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, through the A2A enquire_celebrant skill. The couple's assistant sends us a qualified payload (couple name + email, wedding date, location, detailed notes), we validate and rate-limit it, then email the celebrant with the couple as Reply-To. The celebrant replies directly — the directory is not in the loop. No commission, no contract, pass-through only.",
+        text: "Only when the profile contains an explicit agent-enquiry opt-in. Through the A2A enquire_celebrant skill, the couple's assistant sends a qualified payload (couple name + email, wedding date, location, detailed notes), which is validated and rate-limited before any relay. The directory takes no commission and is not a booking party.",
       },
     },
     {
@@ -57,7 +57,7 @@ const faqSchema = {
       name: "Can a celebrant opt out of agent-relayed enquiries?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Every celebrant can uncheck 'Let AI agents relay wedding enquiries to my email address' on their listing edit page. We'll immediately stop relaying enquiries to them. No questions asked.",
+        text: "Yes. A profile owner can explicitly enable or disable agent-relayed enquiries through the listing edit flow. A missing setting is treated as not opted in.",
       },
     },
   ],
@@ -149,9 +149,9 @@ const faqSchema = {
             Being in this directory means your public profile is genuinely
             visible to the new generation of AI tools couples use to plan. We've
             built — and maintain — the discovery plumbing ({celebrantCount} celebrants
-            indexed today). When an assistant recommends you, the enquiry that lands
-            in your inbox has a date, a location, and a real couple behind it. You
-            opt in by default; opt out any time from your listing edit page.
+            indexed at this build). A directory record does not claim that its subject
+            is currently active or available. Agent-relayed enquiries require an
+            explicit profile opt-in; a missing setting is treated as not opted in.
           </p>
         </div>
       </div>
@@ -166,10 +166,10 @@ const faqSchema = {
         </div>
         <div class="bg-theme-light rounded-2xl p-5">
           <div class="text-2xl" style="font-weight: 700;">
-            {celebrantCount - optedOut}
+            {explicitlyOptedIn}
           </div>
           <div class="text-light text-sm" style="font-weight: 400;">
-            accepting agent enquiries
+            explicit agent-enquiry opt-ins
           </div>
         </div>
         <div class="bg-theme-light rounded-2xl p-5">
@@ -390,9 +390,10 @@ const faqSchema = {
               >
             </div>
             <p class="text-light" style="font-weight: 400; line-height: 1.6;">
-              Every celebrant as typed JSON — slug, tier, locations, categories, <code
+              Every profile as typed JSON — slug, tier, profile-listed locations, categories, <code
                 >australia_wide</code
-              > / <code>international</code> flags, contact fields, profile URLs.
+              > / <code>international</code> profile flags, contact fields, explicit
+              agent-enquiry opt-in state, evidence status, provenance, and profile URLs.
               Updated on every build. This is the backbone that the MCP server and
               A2A agent both read from.
             </p>
@@ -612,7 +613,7 @@ const faqSchema = {
               An Agent-to-Agent endpoint for assistants that want to delegate a
               task rather than call tools. The headline skill is <code
                 >enquire_celebrant</code
-              >: a couple's planning assistant sends a qualified payload (couple
+              > for profiles with an explicit opt-in: a couple's planning assistant sends a qualified payload (couple
               name + email, wedding date, location, at least 30 characters of
               ceremony notes), we validate and rate-limit, and we email the
               celebrant with the couple as Reply-To. The celebrant and the
@@ -626,8 +627,8 @@ const faqSchema = {
               <strong>What we commit to:</strong> no commission, no contract, no interference
               in the booking. We're a free pass-through for celebrants in the directory.
               Couples see our disclaimer on every A2A response; celebrants see it
-              in plain English in every enquiry email. Celebrants can opt out of agent-relayed
-              enquiries at any time.
+              in plain English in every enquiry email. A missing opt-in setting blocks
+              the relay; profile owners can change the explicit setting at any time.
             </p>
             <p
               class="text-light mt-3"
