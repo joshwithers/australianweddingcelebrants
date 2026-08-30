@@ -8,6 +8,12 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://astro.build/config
 export default defineConfig({
+  build: {
+    // The complete public stylesheet is only ~13 KB. Inlining it removes the
+    // sole render-blocking request on first visits and keeps the hero's paint
+    // on the initial HTML response.
+    inlineStylesheets: "always",
+  },
   fonts: [
     {
       name: "Inter",
