@@ -1,14 +1,10 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
 import {
-  CORRECTIONS_URL,
-  PROFILE_STATEMENT_NOTICE,
-  PUBLISHER,
-} from "@/lib/siteProvenance";
-import {
+  TIER_CREDENTIAL_PROVENANCE,
   TIER_CREDENTIAL_ISSUER,
-  TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
   TIER_STANDARDS_SOURCES,
 } from "@/lib/tierStandards";
@@ -50,12 +46,12 @@ export const GET: APIRoute = async () => {
 > Australia's quality-rated directory of professional wedding celebrants
 
 ## About
-Australian Wedding Celebrants is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government, industry-body, review-platform, or vendor endorsements. Confirm current government authorisation, services, commercial activity, and availability directly.
+Australian Wedding Celebrants is a directory of wedding celebrant profiles across Australia. ${TIER_CREDENTIAL_PROVENANCE}
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
 ## Publisher, provenance and corrections
-Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile information comes from the celebrant or prior directory records. ${TIER_STANDARDS_CAVEAT}
+Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Australian Wedding Celebrants publishes the member profiles and issues the displayed credentials.
 
 Anyone can ${markdownLink("request a correction or profile update", CORRECTIONS_URL)} without signing in.
 
@@ -69,13 +65,13 @@ The legal-registration, qualification, and compulsory professional-development p
 The highest directory credential. It is issued after human verification against a published standard that includes 7+ years registered or practising, reviews from couples and wedding vendors, industry recognition, ongoing professional development, and a maintained professional digital presence.
 
 ### Endorsed (${endorsed.length} celebrants)
-The middle directory credential. It is issued after human verification against a published standard that includes 3+ years registered, professional indemnity insurance, additional professional development, reviews from couples and wedding vendors, and evidence of 100+ ceremonies. It does not mean an external party endorses the celebrant.
+The middle directory credential. It is issued after human verification against a published standard that includes 3+ years registered, professional indemnity insurance, additional professional development, reviews from couples and wedding vendors, and evidence of 100+ ceremonies.
 
 ### Registered (${registered.length} celebrants)
-The foundation directory credential. It is issued after human verification against a standard requiring Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete directory profile. Because government authorisation can change, confirm current authorisation on the official register.
+The foundation directory credential. It is issued after human verification against a standard requiring Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete directory profile.
 
 ## Why Tiers Matter for Couples
-A tier badge records a credential issued and human verified by Australian Wedding Celebrants. Contact the celebrant to confirm current services and availability, and use an official external source for claims that can change independently.
+A tier badge records a credential issued and human verified by Australian Wedding Celebrants against its published standard.
 
 ## Directory Summary
 - Total celebrants: ${allCelebrants.length}
@@ -98,15 +94,13 @@ A tier badge records a credential issued and human verified by Australian Weddin
 - ${markdownLink("Full LLM context", `${SITE}/llms-full.txt`)}
 
 ## Luminary Celebrants
-${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")} — profile statement (not independently verified as current): ${c.data.description || ""}`).join("\n")}
+${luminaries.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: regions ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n")}
 
 ## Endorsed Celebrants
-${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")} — profile statement (not independently verified as current): ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
+${endorsed.length > 0 ? endorsed.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: regions ${c.data.location.join(", ")} — ${c.data.description || ""}`).join("\n") : "None yet — celebrants can submit documentation to earn this tier."}
 
 ## Registered Celebrants
-${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: profile-listed regions ${c.data.location.join(", ")}`).join("\n")}
-
-Profile-copy provenance: ${PROFILE_STATEMENT_NOTICE}
+${registered.map((c) => `- ${markdownLink(c.data.title, `${SITE}/directory/${entrySlug(c)}/`)}: regions ${c.data.location.join(", ")}`).join("\n")}
 `;
 
   return new Response(text.trim(), {

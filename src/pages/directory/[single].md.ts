@@ -6,12 +6,7 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
 import { getTierCredential } from "@/lib/utils/tierCredential";
-import {
-  CORRECTIONS_URL,
-  PROFILE_STATEMENT_NOTICE,
-  PUBLISHER,
-} from "@/lib/siteProvenance";
-import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -39,20 +34,15 @@ export const GET: APIRoute = async ({ props }) => {
 
   const lines: string[] = [];
   lines.push(`# ${d.title}`);
-  lines.push("", `> ${PROFILE_STATEMENT_NOTICE}`);
-  if (d.description) lines.push("", `> Profile statement: ${d.description}`);
+  if (d.description) lines.push("", d.description);
   lines.push("", `**Directory credential:** ${tierLabel}`);
-  if (d.location?.length)
-    lines.push(`**Profile-listed regions:** ${d.location.join(", ")}`);
+  if (d.location?.length) lines.push(`**Regions:** ${d.location.join(", ")}`);
   if (d.category?.length)
     lines.push(`**Specialties:** ${d.category.join(", ")}`);
-  if (d.australia_wide) lines.push("**Profile-listed travel:** Australia-wide");
+  if (d.australia_wide) lines.push("**Travel:** Australia-wide");
   if (d.international)
-    lines.push(
-      "**Profile-listed travel:** International / destination weddings",
-    );
-  if (d.year_started)
-    lines.push(`**Profile-recorded start year:** ${d.year_started}`);
+    lines.push("**Travel:** International / destination weddings");
+  if (d.year_started) lines.push(`**Celebrant since:** ${d.year_started}`);
 
   lines.push("", "## Directory credential");
   lines.push(`- Credential: ${tierLabel}`);
@@ -78,8 +68,6 @@ export const GET: APIRoute = async ({ props }) => {
       lines.push(`- Note: ${tierCredential.supportingEvidence.note}`);
     }
   }
-  lines.push("", TIER_STANDARDS_CAVEAT);
-
   const contact: string[] = [];
   if (d.website) contact.push(`- Website: ${d.website}`);
   if (d.email) contact.push(`- Email: ${d.email}`);
@@ -116,21 +104,14 @@ export const GET: APIRoute = async ({ props }) => {
   }
 
   if (entry.body) {
-    lines.push(
-      "",
-      "## Profile statement",
-      "",
-      PROFILE_STATEMENT_NOTICE,
-      "",
-      entry.body.trim(),
-    );
+    lines.push("", `## About ${d.title}`, "", entry.body.trim());
   }
 
   lines.push(
     "",
     "## Publisher and corrections",
     "",
-    `Published by ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile details come from the celebrant or prior directory records and do not guarantee current authorisation, commercial activity, services, or availability.`,
+    `Published by ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Australian Wedding Celebrants issues the displayed credential and human-verifies member records against its published standards.`,
     "",
     `[Request a correction or profile update](${CORRECTIONS_URL}). No sign-in is required.`,
   );

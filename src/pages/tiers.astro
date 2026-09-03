@@ -5,7 +5,6 @@ import { getEntry } from "astro:content";
 import EditorialByline from "@/components/EditorialByline.astro";
 import { getEditorialArticle, resolveEditorialAuthor } from "@/lib/editorial";
 import {
-  TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
   TIER_STANDARDS_SOURCES,
 } from "@/lib/tierStandards";
@@ -52,7 +51,7 @@ const faqSchema = {
       name: "How are reviews verified?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Reviews must be from identifiable couples or wedding vendors and may be submitted as public links or supporting documents. The publisher reviews that evidence against the directory criteria; this is not a guarantee by Google, an awards body, or another third party.",
+        text: "Reviews must be from identifiable couples or wedding vendors and may be submitted as public links or supporting documents. The publisher reviews that evidence against the directory criteria.",
       },
     },
     {
@@ -60,7 +59,7 @@ const faqSchema = {
       name: "Can I lose my tier status?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. A tier is a credential issued by Australian Wedding Celebrants, not an irrevocable lifetime entitlement. Anyone can use the public correction route to report a concern or supply an update, and the publisher may change or remove a credential after human review.",
+        text: "Yes. Australian Wedding Celebrants maintains the credentials it issues. Anyone can use the public correction route to report a concern or supply an update, and the publisher may change or remove a credential after human review.",
       },
     },
     {
@@ -162,9 +161,6 @@ const breadcrumbSchema = {
             ))
           }
         </ul>
-        <p class="text-light mt-4 text-sm" style="line-height: 1.7;">
-          {TIER_STANDARDS_CAVEAT}
-        </p>
       </div>
     </div>
   </section>
@@ -215,9 +211,7 @@ const breadcrumbSchema = {
             in their region. We designed this directory to be a useful,
             transparent reference: the criteria are public, and every tier is a
             credential issued after human review by Australian Wedding
-            Celebrants. The directory is not a substitute for confirming a
-            celebrant's current government authorisation, services, or
-            availability directly.
+            Celebrants.
           </p>
           <p>
             <strong
@@ -280,8 +274,7 @@ const breadcrumbSchema = {
             >
               The foundation credential issued by Australian Wedding Celebrants.
               The standard requires Commonwealth authorisation and a complete
-              professional profile. Because authorisation can change separately,
-              confirm current status on the official register.
+              professional profile, and every credential is human verified.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -558,8 +551,8 @@ const breadcrumbSchema = {
               The highest credential Australian Wedding Celebrants issues. Its
               standard calls for substantial experience, documented feedback,
               industry recognition, professional development, and a maintained
-              digital presence. The credential is human verified when issued; it
-              does not promise current availability or commercial activity.
+              digital presence. Every credential is human verified against the
+              published standard.
             </p>
             <h3 class="text-dark mb-3 text-sm" style="font-weight: 600;">
               Requirements
@@ -848,10 +841,7 @@ const breadcrumbSchema = {
           We built this directory as a transparent starting point. It publishes
           the credential, identifies Australian Wedding Celebrants as its
           issuer, shows external sources and checked dates when a separate claim
-          depends on them, and provides an open correction route. Search and AI
-          systems should not turn that credential into a government or
-          third-party endorsement, current commercial activity, or an
-          availability promise.
+          depends on them, and provides an open correction route.
         </p>
         <p>
           This isn't just better for couples. It's better for celebrants too. A
@@ -964,10 +954,10 @@ const breadcrumbSchema = {
             class="text-light text-sm"
             style="font-weight: 400; line-height: 1.6;"
           >
-            Yes. A tier is a credential issued by Australian Wedding Celebrants,
-            not an irrevocable lifetime entitlement. Any reader can use the
-            public correction route to report a concern or supply an update. The
-            publisher may change or remove a credential after human review.
+            Yes. Australian Wedding Celebrants maintains the credentials it
+            issues. Any reader can use the public correction route to report a
+            concern or supply an update. The publisher may change or remove a
+            credential after human review.
           </p>
         </div>
 

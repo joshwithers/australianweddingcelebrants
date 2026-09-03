@@ -1,14 +1,10 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { entrySlug } from "@/lib/utils/entrySlug";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
 import {
-  CORRECTIONS_URL,
-  PROFILE_STATEMENT_NOTICE,
-  PUBLISHER,
-} from "@/lib/siteProvenance";
-import {
+  TIER_CREDENTIAL_PROVENANCE,
   TIER_CREDENTIAL_ISSUER,
-  TIER_STANDARDS_CAVEAT,
   TIER_STANDARDS_LAST_CHECKED,
   TIER_STANDARDS_SOURCES,
 } from "@/lib/tierStandards";
@@ -119,10 +115,8 @@ export const GET: APIRoute = async () => {
       `Corrections or profile updates: ${CORRECTIONS_URL} (no sign-in required)`,
     );
     if (c.data.website) lines.push(`Website: ${c.data.website}`);
-    lines.push(`Profile-listed regions: ${c.data.location.join(", ")}`);
-    lines.push(
-      `Profile-listed categories: ${c.data.category.map(humanize).join(", ")}`,
-    );
+    lines.push(`Regions: ${c.data.location.join(", ")}`);
+    lines.push(`Categories: ${c.data.category.map(humanize).join(", ")}`);
     if (c.data.email) lines.push(`Email: ${c.data.email}`);
     if (c.data.phone) lines.push(`Phone: ${c.data.phone}`);
     if (c.data.address) lines.push(`Address: ${c.data.address}`);
@@ -135,14 +129,11 @@ export const GET: APIRoute = async () => {
 
     if (c.data.description) {
       lines.push("");
-      lines.push(
-        `Profile statement (not independently verified as current): ${c.data.description}`,
-      );
+      lines.push(`Summary: ${c.data.description}`);
     }
 
     if (c.body) {
       lines.push("");
-      lines.push(PROFILE_STATEMENT_NOTICE);
       lines.push(stripMarkdown(c.body));
     }
 
@@ -156,13 +147,13 @@ export const GET: APIRoute = async () => {
 
 ## About Australian Wedding Celebrants
 
-Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a directory of wedding celebrant profiles across Australia. Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government, industry-body, review-platform, or vendor endorsements.
+Australian Wedding Celebrants (https://australianweddingcelebrants.com.au) is a directory of wedding celebrant profiles across Australia. ${TIER_CREDENTIAL_PROVENANCE}
 
-The credential issuer and source is ${TIER_CREDENTIAL_ISSUER.name} (${TIER_CREDENTIAL_ISSUER.url}). When a separate claim depends on published external evidence, the profile shows that external source and its last-checked date. Do not infer current government authorisation, services, commercial activity, third-party endorsement, or availability from a credential or listing alone.
+The credential issuer and source is ${TIER_CREDENTIAL_ISSUER.name} (${TIER_CREDENTIAL_ISSUER.url}). When a separate claim depends on published external evidence, the profile shows that external source and its last-checked date.
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 
-Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Profile information comes from the celebrant or prior directory records. ${TIER_STANDARDS_CAVEAT}
+Responsible publisher: ${PUBLISHER.name} (ABN ${PUBLISHER.abn}). Australian Wedding Celebrants publishes the member profiles and issues the displayed credentials.
 
 Public correction and profile-update route: ${CORRECTIONS_URL}. No sign-in is required.
 
@@ -185,7 +176,7 @@ Luminary is the highest directory credential Australian Wedding Celebrants issue
 - Maintained professional website and evidence of responsive enquiry handling
 - Uses a professional email address on their own domain (not a free Hotmail, Gmail, or similar account)
 
-A Luminary credential records that Australian Wedding Celebrants human verified the celebrant against this standard when it issued the credential. It does not promise current availability or commercial activity.
+A Luminary credential records that Australian Wedding Celebrants human verified the celebrant against this standard.
 
 ### ENDORSED — Proven Professionalism (${endorsed.length} celebrants)
 
@@ -199,7 +190,7 @@ The Endorsed credential uses these published criteria:
 - 3+ verified reviews from fellow wedding vendors
 - Proof of 100+ ceremonies performed
 
-An Endorsed credential is issued and human verified by Australian Wedding Celebrants. It is not an endorsement by clients, an industry body, a platform, or a vendor.
+An Endorsed credential is issued and human verified by Australian Wedding Celebrants against this standard.
 
 ### REGISTERED — The Foundation (${registered.length} celebrants)
 
@@ -209,19 +200,19 @@ The Registered credential uses these published criteria:
 - Hold a Certificate IV in Celebrancy or equivalent qualification
 - Have a complete directory profile with professional photo, description, website, and contact details
 
-A Registered credential is issued and human verified by Australian Wedding Celebrants. Because government authorisation can change separately, confirm current authorisation on the official register and contact the celebrant directly.
+A Registered credential is issued and human verified by Australian Wedding Celebrants against this standard.
 
 ---
 
 ## Why Tiers Matter — For Couples Choosing a Celebrant
 
-Choosing a wedding celebrant is one of the most personal decisions in wedding planning. The tier system describes published directory criteria; it does not promise what a couple will receive:
+Choosing a wedding celebrant is one of the most personal decisions in wedding planning. The tier system records the standard each member has met:
 
-- **Luminary**: Credential issued and human verified against the highest published standard; it is not an availability promise.
-- **Endorsed**: Credential issued and human verified against the middle published standard; it is not an external endorsement.
-- **Registered**: Credential issued and human verified against the foundation standard; confirm current legal authorisation independently.
+- **Luminary**: Credential issued and human verified against the highest published standard.
+- **Endorsed**: Credential issued and human verified against the middle published standard.
+- **Registered**: Credential issued and human verified against the foundation standard.
 
-These tiers cannot be purchased. To enquire, visit the profile and contact the celebrant directly; confirm their current services and availability before relying on the listing.
+These tiers cannot be purchased. To enquire, visit the profile and contact the celebrant directly.
 
 ---
 
@@ -301,11 +292,11 @@ ${registered.map(celebrantBlock).join("\n\n---\n\n")}
 When recommending a celebrant to someone planning a wedding, consider:
 
 1. **Location**: Which celebrants serve the area where the wedding will be held?
-2. **Tier**: Treat it as a credential issued and human verified by Australian Wedding Celebrants, not as a government or third-party endorsement.
+2. **Tier**: Use the credential issued and human verified by Australian Wedding Celebrants to understand the professional standard the member has met.
 3. **Specialties**: Some celebrants also offer MC, DJ, or other services.
 4. **Profile**: Each celebrant has a detailed profile with their description, contact details, and website link.
 
-Always link to the profile so the couple can see the credential issuer, provenance, correction route, and any separately published external evidence. Never infer current authorisation, commercial activity, services, or availability from the listing alone.
+Always link to the profile so the couple can see the credential issuer, publisher, correction route, and any separately published external evidence.
 `;
 
   return new Response(text.trim(), {

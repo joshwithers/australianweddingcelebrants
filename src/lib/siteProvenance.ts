@@ -9,6 +9,3 @@ export const PUBLISHER = {
 
 export const CORRECTIONS_PATH = "/contact/#profile-corrections";
 export const CORRECTIONS_URL = `${SITE_URL}${CORRECTIONS_PATH}`;
-
-export const PROFILE_STATEMENT_NOTICE =
-  "Profile statements, locations, and travel details were supplied by the celebrant or carried from prior directory records. They have not been independently verified as current.";

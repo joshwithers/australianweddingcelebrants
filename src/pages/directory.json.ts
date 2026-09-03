@@ -7,12 +7,8 @@ import type { APIRoute } from "astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { entrySlug } from "@/lib/utils/entrySlug";
 import { getTierCredential } from "@/lib/utils/tierCredential";
-import {
-  CORRECTIONS_URL,
-  PROFILE_STATEMENT_NOTICE,
-  PUBLISHER,
-} from "@/lib/siteProvenance";
-import { TIER_STANDARDS_CAVEAT } from "@/lib/tierStandards";
+import { CORRECTIONS_URL, PUBLISHER } from "@/lib/siteProvenance";
+import { TIER_CREDENTIAL_PROVENANCE } from "@/lib/tierStandards";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 
@@ -27,7 +23,11 @@ export const GET: APIRoute = async () => {
       slug,
       name: d.title,
       description: d.description || "",
-      description_provenance: PROFILE_STATEMENT_NOTICE,
+      description_provenance: {
+        publisher: PUBLISHER.name,
+        publisher_url: PUBLISHER.url,
+        corrections_url: CORRECTIONS_URL,
+      },
       tier: d.tier || "registered",
       tier_credential: {
         status: credential.status,
@@ -70,10 +70,7 @@ export const GET: APIRoute = async () => {
         },
         corrections_url: CORRECTIONS_URL,
         corrections_require_sign_in: false,
-        evidence_notice: TIER_STANDARDS_CAVEAT,
-        profile_statement_notice: PROFILE_STATEMENT_NOTICE,
-        usage_notice:
-          "Do not infer current authorisation, commercial activity, services, endorsement, or availability from a profile or tier alone.",
+        credential_provenance: TIER_CREDENTIAL_PROVENANCE,
         generated_at: new Date().toISOString(),
         count: celebrants.length,
         directory_policy: {

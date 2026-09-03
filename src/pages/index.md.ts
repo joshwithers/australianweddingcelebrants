@@ -39,7 +39,7 @@ export const GET: APIRoute = async () => {
 
 > Australia's quality-rated directory of professional wedding celebrants.
 
-Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government or third-party endorsements. Confirm current government authorisation, services, and availability directly.
+Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards.
 
 Listings are free. Inclusion, endorsement, tier, search visibility and directory position cannot be purchased. Using or buying any other Josh Withers service has no effect on directory status.
 

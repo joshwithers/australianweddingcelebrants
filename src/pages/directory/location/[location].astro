@@ -197,7 +197,8 @@ const collectionPageSchema = {
           <li class="text-border">/</li>
           <li>
             <a href="/directory/" class="hover:text-dark no-underline"
-              >Directory</a>
+              >Directory</a
+            >
           </li>
           <li class="text-border">/</li>
           <li class="text-dark" style="font-weight: 500;">
@@ -212,11 +213,12 @@ const collectionPageSchema = {
           class="mb-4"
           style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
         >
-          {vendors.length} Wedding Celebrant Profiles Serving {humanize(location)}
+          {vendors.length} Wedding Celebrant Profiles Serving {
+            humanize(location)
+          }
         </h1>
         <p class="text-light text-base" style="font-weight: 400;">
-          These profiles record {humanize(location)} as a service area. Confirm
-          current services, travel, authorisation, and availability directly.
+          Meet wedding celebrants serving {humanize(location)}.
         </p>
       </div>
 

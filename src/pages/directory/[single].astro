@@ -23,11 +23,7 @@ import {
   normalizeTelephone,
 } from "@/lib/utils/profile";
 import { getTierCredential } from "@/lib/utils/tierCredential";
-import {
-  CORRECTIONS_PATH,
-  PUBLISHER,
-  PROFILE_STATEMENT_NOTICE,
-} from "@/lib/siteProvenance";
+import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
 
 export async function getStaticPaths() {
   const directoryEntries = await getSinglePage("directory");
@@ -105,7 +101,7 @@ const tierInfo = {
     description:
       "The Registered standard requires Commonwealth authorisation, a Certificate IV in Celebrancy or equivalent qualification, and a complete professional profile.",
     forCouples:
-      "Registered is a credential issued and human verified by Australian Wedding Celebrants against its foundation standard. Because government authorisation can change, confirm current authorisation on the Australian Government register.",
+      "Registered is a credential issued and human verified by Australian Wedding Celebrants against its foundation standard.",
   },
   endorsed: {
     label: "Endorsed Celebrant",
@@ -115,7 +111,7 @@ const tierInfo = {
     description:
       "The Endorsed standard requires the Registered baseline plus documented experience, insurance, professional development, reviews from couples and vendors, and 100 or more ceremonies.",
     forCouples:
-      "Endorsed is a credential issued and human verified by Australian Wedding Celebrants. It is not an endorsement by government, an industry body, a review platform, or a vendor; confirm time-sensitive details directly.",
+      "Endorsed is a credential issued and human verified by Australian Wedding Celebrants against its published professional standard.",
   },
   luminary: {
     label: "Luminary Celebrant",
@@ -125,7 +121,7 @@ const tierInfo = {
     description:
       "The Luminary standard requires the Endorsed baseline plus at least 7 years of experience, extensive couple and vendor reviews, industry recognition, professional contribution, and a maintained professional digital presence.",
     forCouples:
-      "Luminary is the highest credential issued and human verified by Australian Wedding Celebrants. It is not an industry-wide endorsement and does not guarantee current availability or commercial activity.",
+      "Luminary is the highest credential issued and human verified by Australian Wedding Celebrants against its published professional standard.",
   },
 };
 
@@ -184,7 +180,7 @@ const profileSchema = {
   "@id": `${businessUrl}#profile`,
   url: businessUrl,
   name: entry.data.meta_title || entry.data.title,
-  description: `${entry.data.title} directory profile. The page identifies the publisher-issued directory credential and profile-supplied statements that have not been independently verified as current.`,
+  description: `${entry.data.title} member profile, published by Australian Wedding Celebrants with a ${currentCredential.name} credential issued after human verification against the published standard.`,
   publisher: {
     "@type": "Organization",
     "@id": PUBLISHER.id,
@@ -387,7 +383,7 @@ const logoFrameStyle =
                     <path d="M2 12h20" />
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                   </svg>
-                  Profile lists Australia-wide travel
+                  Australia-wide travel
                 </a>
               )}
               {entry.data.international && (
@@ -412,16 +408,13 @@ const logoFrameStyle =
                     <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                     <circle cx="12" cy="12" r="10" />
                   </svg>
-                  Profile lists destination travel
+                  Destination wedding travel
                 </a>
               )}
             </div>
 
             {entry.data.description && (
               <div class="mx-auto mb-8 max-w-2xl">
-                <p class="text-light mb-2 text-xs" style="font-weight: 600;">
-                  Profile statement — not independently verified as current
-                </p>
                 <p
                   class="text-light text-lg"
                   style="font-weight: 400; line-height: 1.6;"
@@ -590,7 +583,7 @@ const logoFrameStyle =
                         <path d="M2 12h20" />
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                       </svg>
-                      Profile lists Australia-wide travel
+                      Australia-wide travel
                     </a>
                   )}
                   {entry.data.international && (
@@ -615,19 +608,13 @@ const logoFrameStyle =
                         <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
                         <circle cx="12" cy="12" r="10" />
                       </svg>
-                      Profile lists destination travel
+                      Destination wedding travel
                     </a>
                   )}
                 </div>
 
                 {entry.data.description && (
                   <div class="mt-4">
-                    <p
-                      class="text-light mb-2 text-xs"
-                      style="font-weight: 600;"
-                    >
-                      Profile statement — not independently verified as current
-                    </p>
                     <p
                       class="text-light text-base"
                       style="font-weight: 400; line-height: 1.6;"
@@ -687,9 +674,6 @@ const logoFrameStyle =
       {
         entry.body && (
           <div class="content border-border mx-auto mt-16 max-w-3xl border-t pt-12">
-            <p class="text-light mb-6 text-sm" style="line-height: 1.6;">
-              <strong>Profile statement.</strong> {PROFILE_STATEMENT_NOTICE}
-            </p>
             {/* Visible name above the bio for logo listings. An h2, not an h1 —
                 the page's h1 is the sr-only one beside the logo in the hero,
                 which is present whether or not this body copy exists. */}
@@ -849,9 +833,8 @@ const logoFrameStyle =
         </h2>
         <p class="text-light" style="line-height: 1.6;">
           Published by <strong>{PUBLISHER.name}</strong>, ABN {PUBLISHER.abn}.
-          Profile details come from the listed celebrant or prior directory
-          records; they do not guarantee current authorisation, services,
-          availability, or commercial activity.
+          Australian Wedding Celebrants issues the displayed credential and
+          human-verifies member records against its published standards.
         </p>
         <p class="mt-2">
           <a href={CORRECTIONS_PATH} class="text-dark underline">

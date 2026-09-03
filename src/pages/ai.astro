@@ -25,7 +25,7 @@ const faqSchema = {
       name: "Does this website let AI companies train on celebrant profiles?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Our robots.txt carries a Content-Signal directive of ai-train=no, which asks compliant crawlers not to use profile statements as training data. We allow search indexing (search=yes) and AI-assisted answers (ai-input=yes) so public directory records can be discovered. Inclusion does not imply that a person is currently active, available, or accepting enquiries.",
+        text: "No. Our robots.txt carries a Content-Signal directive of ai-train=no, which asks compliant crawlers not to use member profiles as training data. We allow search indexing (search=yes) and AI-assisted answers (ai-input=yes) so public directory records can be discovered.",
       },
     },
     {
@@ -149,9 +149,8 @@ const faqSchema = {
             Being in this directory means your public profile is genuinely
             visible to the new generation of AI tools couples use to plan. We've
             built — and maintain — the discovery plumbing ({celebrantCount} celebrants
-            indexed at this build). A directory record does not claim that its subject
-            is currently active or available. Agent-relayed enquiries require an explicit
-            profile opt-in; a missing setting is treated as not opted in.
+            indexed at this build). Agent-relayed enquiries require an explicit profile
+            opt-in; a missing setting is treated as not opted in.
           </p>
         </div>
       </div>
@@ -390,13 +389,12 @@ const faqSchema = {
               >
             </div>
             <p class="text-light" style="font-weight: 400; line-height: 1.6;">
-              Every profile as typed JSON — slug, tier, profile-listed
-              locations, categories, <code>australia_wide</code> / <code
-                >international</code
-              > profile flags, contact fields, explicit agent-enquiry opt-in state,
-              credential issuer and verification, provenance, and profile URLs. Updated
-              on every build. This is the backbone that the MCP server and A2A agent
-              both read from.
+              Every profile as typed JSON — slug, tier, locations, categories, <code
+                >australia_wide</code
+              > / <code>international</code> travel fields, contact fields, explicit
+              agent-enquiry opt-in state, credential issuer and verification, provenance,
+              and profile URLs. Updated on every build. This is the backbone that
+              the MCP server and A2A agent both read from.
             </p>
           </article>
         </div>

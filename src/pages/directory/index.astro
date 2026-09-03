@@ -64,7 +64,7 @@ const { Content } = await render(pageEntry);
           "@id": `https://australianweddingcelebrants.com.au/directory/${entry.id}/#person`,
           name: entry.data.title,
           url: `https://australianweddingcelebrants.com.au/directory/${entry.id}/`,
-          description: `Directory profile record for ${entry.data.title}. See the profile for its publisher-issued credential and profile-copy provenance.`,
+          description: `${entry.data.title} member profile with a credential issued and human verified by Australian Wedding Celebrants.`,
           image: absoluteUrl(
             typeof entry.data.image === "string"
               ? entry.data.image

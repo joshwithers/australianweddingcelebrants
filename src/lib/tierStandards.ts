@@ -21,5 +21,5 @@ export const TIER_STANDARDS_SOURCES = [
   },
 ] as const;
 
-export const TIER_STANDARDS_CAVEAT =
-  "Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards. They are not government, industry-body, review-platform, or vendor endorsements. A credential does not guarantee present availability or current commercial activity.";
+export const TIER_CREDENTIAL_PROVENANCE =
+  "Registered, Endorsed, and Luminary are credentials issued and human verified by Australian Wedding Celebrants against its published standards.";

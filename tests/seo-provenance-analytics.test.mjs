@@ -8,16 +8,14 @@ import {
   EDITORIAL_ARTICLES,
   resolveEditorialAuthor,
 } from "../src/lib/editorial.ts";
-import {
-  CORRECTIONS_URL,
-  PROFILE_STATEMENT_NOTICE,
-  PUBLISHER,
-} from "../src/lib/siteProvenance.ts";
+import { CORRECTIONS_URL, PUBLISHER } from "../src/lib/siteProvenance.ts";
 import { getTierCredential } from "../src/lib/utils/tierCredential.ts";
 
 const SITE = "https://australianweddingcelebrants.com.au";
 const GA_ID = "G-DCYE3SSJQV";
 const PROFILE_SLUG = "josh-withers-ybt9";
+const DISQUALIFYING_PROFILE_COPY =
+  /profile[- ]listed|profile statement|not (?:been )?independently verified|prior directory records|do(?:es)? not (?:guarantee|promise) current|do not infer current|confirm current (?:government )?authorisation/i;
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
 
 function distHtmlPath(pathname) {
@@ -152,7 +150,7 @@ test("public pages render the exact cookieless GA4 consent boundary", async () =
   );
 });
 
-test("profile HTML, Markdown and JSON expose the publisher-issued credential without unsupported commercial claims", async () => {
+test("profile HTML, Markdown and JSON publish verified member records without blanket disqualifiers", async () => {
   const html = await read(`../dist/directory/${PROFILE_SLUG}/index.html`);
   assert.doesNotMatch(html, /<meta name="author"/);
   assert.match(html, /data-tier-credential="issued"/);
@@ -190,7 +188,8 @@ test("profile HTML, Markdown and JSON expose the publisher-issued credential wit
     schemas.some((item) => item["@type"] === "Article"),
     false,
   );
-  assert.ok(html.includes(PROFILE_STATEMENT_NOTICE));
+  assert.doesNotMatch(html, DISQUALIFYING_PROFILE_COPY);
+  assert.match(html, />Australia-wide travel</);
 
   const markdown = await read(`../dist/directory/${PROFILE_SLUG}.md`);
   assert.doesNotMatch(markdown, /^author:/m);
@@ -204,7 +203,8 @@ test("profile HTML, Markdown and JSON expose the publisher-issued credential wit
   assert.ok(markdown.includes(PUBLISHER.name));
   assert.ok(markdown.includes(CORRECTIONS_URL));
   assert.match(markdown, /No sign-in is required/);
-  assert.ok(markdown.includes(PROFILE_STATEMENT_NOTICE));
+  assert.doesNotMatch(markdown, DISQUALIFYING_PROFILE_COPY);
+  assert.match(markdown, /\*\*Travel:\*\* Australia-wide/);
 
   const directory = JSON.parse(await read("../dist/directory.json"));
   assert.equal(directory.responsible_publisher.name, PUBLISHER.name);
@@ -218,7 +218,30 @@ test("profile HTML, Markdown and JSON expose the publisher-issued credential wit
   assert.match(record.tier_credential.verification, /Human verified/);
   assert.equal(record.supporting_external_evidence, null);
   assert.equal(record.accepts_agent_enquiries, false);
-  assert.equal(record.description_provenance, PROFILE_STATEMENT_NOTICE);
+  assert.deepEqual(record.description_provenance, {
+    publisher: PUBLISHER.name,
+    publisher_url: PUBLISHER.url,
+    corrections_url: CORRECTIONS_URL,
+  });
+  assert.equal("profile_statement_notice" in directory, false);
+  assert.equal("usage_notice" in directory, false);
+});
+
+test("every rendered profile and profile companion is free of distancing labels", async () => {
+  const sitemap = await read("../dist/sitemap-0.xml");
+  const profilePaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((match) => new URL(match[1]).pathname)
+    .filter((pathname) => /^\/directory\/[^/]+\/$/.test(pathname));
+
+  assert.ok(profilePaths.length > 0);
+  for (const pathname of profilePaths) {
+    const [html, markdown] = await Promise.all([
+      read(distHtmlPath(pathname)),
+      read(`../dist${pathname.slice(0, -1)}.md`),
+    ]);
+    assert.doesNotMatch(html, DISQUALIFYING_PROFILE_COPY, pathname);
+    assert.doesNotMatch(markdown, DISQUALIFYING_PROFILE_COPY, `${pathname}.md`);
+  }
 });
 
 test("LLM surfaces and privacy notice publish provenance and measurement limits", async () => {
@@ -232,6 +255,7 @@ test("LLM surfaces and privacy notice publish provenance and measurement limits"
     assert.ok(text.includes(CORRECTIONS_URL));
     assert.match(text, /(?:no sign-in|without signing in)/i);
     assert.match(text, /last.checked/i);
+    assert.doesNotMatch(text, DISQUALIFYING_PROFILE_COPY);
   }
   assert.match(privacy, /G-DCYE3SSJQV/);
   assert.match(privacy, /cookieless page-measurement requests/);

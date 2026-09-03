@@ -37,6 +37,8 @@ Zod schemas defined in `src/content.config.ts`. Three collections:
 
 Key fields on a directory entry: `title`, `description`, `image`, `logo`, `website`, `email`, `phone`, `address`, `location[]`, `category[]`, `tier`, `tier_evidence_source`, `tier_evidence_url`, `tier_evidence_last_checked`, `tier_evidence_note`, `australia_wide`, `international`, `accepts_agent_enquiries`, `social.{facebook,instagram,pinterest}`. The `tier` is a credential issued and human verified by Australian Wedding Celebrants. The `tier_evidence_*` fields are optional public summaries for separate, externally sourced claims; when used, publish their source and last-checked date, never private supporting documents or personal addresses. A profile credential may appear in `hasCredential`, but do not infer `jobTitle`, an `Offer`, current commercial activity, or availability from it. `accepts_agent_enquiries` is explicit opt-in only: missing and false values must block the Worker email relay.
 
+Profile copy, locations, categories, and travel flags are published member records. Present them directly and do not prefix them with distancing labels such as “profile-listed”, “profile statement”, “not independently verified”, or blanket warnings about staleness or availability. Provenance on every profile is the responsible publisher, Australian Wedding Celebrants as credential issuer, its human-verification method, and the public correction/profile-update route. Show source and last-checked details only when a separate external-evidence record is actually attached.
+
 **Premium profile fields (optional):**
 
 - `youtube` — Available to all tiers. Any YouTube URL; rendered via a click-to-load iframe facade (no cookies, no JS until the user clicks).
