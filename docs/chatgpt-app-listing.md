@@ -166,7 +166,7 @@ All of these are already published:
 - `https://australianweddingcelebrants.com.au/.well-known/api-catalog` (RFC 9727)
 - `https://australianweddingcelebrants.com.au/.well-known/mcp/server-card.json` (SEP-1649)
 - `https://australianweddingcelebrants.com.au/.well-known/agent-skills/index.json` (v0.2.0)
-- `https://australianweddingcelebrants.com.au/.well-known/agent-card.json` (A2A protocol 0.2.0)
+- `https://australianweddingcelebrants.com.au/.well-known/agent-card.json` (A2A protocol 0.3)
 - `https://australianweddingcelebrants.com.au/llms.txt` and `/llms-full.txt`
 - `Accept: text/markdown` content negotiation on every HTML page
 

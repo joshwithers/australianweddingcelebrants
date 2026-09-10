@@ -358,8 +358,14 @@ honour quality values, preserve upstream headers and return no body for `HEAD`.
 
 Validation for the implementation recorded 152 built pages, 150 checked Markdown
 companions, 23 public-site tests and 6 Worker tests, all passing without Astro
-diagnostics. Final Git and Cloudflare identifiers are recorded in the release
-report rather than guessed here.
+diagnostics. The verified implementation release was commit
+`947b7f0383abe3cf99383a03e01a960cde8f0f29`, Pages deployment
+`99042d6c-9e34-47d3-b66a-13d997195744` at
+`https://99042d6c.australianweddingcelebrants.pages.dev`, and Worker version
+`6ff66781-eb32-415e-918c-ac8c92e8674a`, which served 100% of Worker traffic with
+the exact commit SHA in its version message. Canonical and immutable Pages URLs,
+Markdown negotiation, `HEAD`, MCP/A2A protocol paths and the negative agent-email
+consent path all passed live smoke checks.
 
 ## How to maintain this history
 
