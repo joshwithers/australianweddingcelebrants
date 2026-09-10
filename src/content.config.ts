@@ -48,8 +48,8 @@ const directoryCollection = defineCollection({
       featured: z.boolean().optional(),
       australia_wide: z.boolean().optional(),
       international: z.boolean().optional(),
-      // Default true — agents can relay wedding enquiries to this celebrant's
-      // public email via /a2a on the worker. Set false to opt out.
+      // Explicit opt-in only. Agents may relay wedding enquiries through /a2a
+      // only when the stored value is literally true; missing/false must block.
       accepts_agent_enquiries: z.boolean().optional(),
       draft: z.boolean().optional(),
       tier: z

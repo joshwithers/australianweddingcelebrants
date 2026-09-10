@@ -1,0 +1,32 @@
+name = "awc-listings"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+ADMIN_EMAIL = "hello@australianweddingcelebrants.com.au"
+SITE_URL = "https://australianweddingcelebrants.com.au"
+WORKER_URL = "https://api.australianweddingcelebrants.com.au"
+FROM_EMAIL = "hello@australianweddingcelebrants.com.au"
+GITHUB_REPO = "joshwithers/australianweddingcelebrants"
+GITHUB_BRANCH = "main"
+CONTENT_PATH = "src/content/directory"
+
+# Set these as secrets via `wrangler secret put`:
+# RESEND_API_KEY
+# ANTHROPIC_API_KEY
+# GITHUB_TOKEN
+
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
+[observability.traces]
+enabled = true
+
+[[kv_namespaces]]
+binding = "KV"
+id = "4a441307ae4d4dd1bf700f2729b0adad"
+preview_id = "22a7f48f3dfe4ec7a899c1c215590de4"

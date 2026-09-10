@@ -4,13 +4,11 @@ dist/
 
 # astro
 .astro/
-docs/
 
 # dependencies
 node_modules/
 
-# worker (deployed separately via Cloudflare)
-worker/
+# Cloudflare local state and local-only secrets
 .wrangler/
 .dev.vars
 

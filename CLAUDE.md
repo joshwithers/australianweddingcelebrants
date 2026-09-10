@@ -1,12 +1,20 @@
 # Australian Wedding Celebrants
 
-Directory of Australian wedding celebrants. Built with Astro 7 + Tailwind 4 + React 19 (islands only).
+Directory of Australian wedding celebrants. Built with Astro 7 + Tailwind 4,
+with React 19 retained for interactive MDX shortcodes.
+
+Read `README.md`, `docs/README.md`, `docs/deployment.md` and
+`docs/project-history.md` before material work. Documentation is a release
+requirement: update the primary README, the nearest component documentation and
+the dated project history whenever behaviour, architecture, policy, commands or
+deployment changes. Follow `AGENTS.md` for the complete handover rule.
 
 ## Stack
 
-- **Astro 7.1** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
+- **Astro 7.3** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
 - **Tailwind CSS 4** — via `@tailwindcss/vite`. Project-specific utilities live in `src/styles/`.
-- **React 19** — used only for the search island (`SearchBar`, hydrated with `client:idle`).
+- **React 19** — used for MDX shortcodes; search is `SearchBar.astro` with a
+  small native script and no framework hydration.
 - **MDX** — supported for rich content. No remark/rehype plugins configured.
 
 ## Tier system
@@ -56,7 +64,8 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `src/layouts/partials/Header.astro` — sticky nav with aria-expanded-driven mobile toggle (no checkbox hack). Uses delegated events across ClientRouter page swaps.
 - `src/components/DirectoryItem.astro` — single card. Uses `<Image>` for local assets, falls back to `<img>` for string URLs. LCP-optimised via `isFirst` prop (eager load, `fetchpriority="high"`, higher quality).
 - `src/components/StaticDirectoryListings.astro` / `DirectoryListingsWrapper.astro` — grid composition with location filtering.
-- `src/layouts/SearchBar.tsx` — Fuse.js search island, hydrated `client:idle`.
+- `src/layouts/SearchBar.astro` — native term filtering with delegated events and
+  `astro:page-load`; Fuse.js is no longer installed.
 
 ## Routing
 
@@ -66,7 +75,7 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `/luminaries/`, `/endorsed/`, `/registered/` — tier landing pages.
 - `/australia-wide/`, `/destination-wedding-celebrants/` — travel-scope pages.
 - `/awards/` — yearbook of all awards across all listings, grouped by year (newest first). Reads the `awards` field from every directory entry.
-- `/search/` — React-powered fuzzy search.
+- `/search/` — Astro-rendered directory cards with native term matching.
 
 **Profile slugs** come from `src/lib/utils/entrySlug.ts`, never from `entry.id`
 directly. It defaults to the filename-derived collection id and lets a listing
