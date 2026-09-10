@@ -299,11 +299,32 @@ uses an npm override for Sharp 0.35.4. Both package trees must continue to pass
 `npm audit --audit-level=low`; revisit and remove that override when Miniflare
 adopts the fixed Sharp release directly.
 
-Release validation, commit, Pages deployment and Worker deployment evidence for
-this documentation release is reported in the task handover and can be recovered
-from the first Git commit dated 10 September 2026 whose subject describes the
-project handover documentation. The document does not embed its own SHA because a
-commit cannot stably contain its final hash.
+Release evidence for the implemented handover:
+
+- Git commit `ae146751edddd8d512fdd2e64d4a40f5d6f67d5d` was pushed to `main`,
+  and the local, `origin/main` and deployed source SHAs matched.
+- Cloudflare Pages production deployment
+  `b46c07bd-3e58-4700-b0d5-0736fa277520` built that commit. Its immutable URL
+  was `https://b46c07bd.australianweddingcelebrants.pages.dev`.
+- Cloudflare Worker version `ccddf512-8782-4abb-b6e9-dad2640d3e81` received
+  100% of traffic with the full Git SHA stored in its version message.
+- Validation covered a clean lockfile install, 75 Astro-checked files with no
+  diagnostics, 152 built HTML pages, all 19 regression tests, 150
+  sitemap-listed HTML/Markdown pairs, agent files, internal links, DNS-AID and
+  DNSSEC, both npm audits, formatting, `git diff --check`, secret scanning and a
+  Worker dry-run.
+- Live verification covered canonical and immutable HTML, a representative
+  profile and its Markdown companion, `Accept: text/markdown` negotiation,
+  `llms.txt`, sitemap, robots, agent discovery files, the `www` redirect, all
+  attached alias roots, the public MCP/A2A/challenge/login endpoints, absence of
+  public `Set-Cookie` headers and the denied-by-default analytics settings.
+
+The immediately following evidence-only commit adds this record. It changes no
+site or Worker runtime source; therefore the Worker version above remains the
+deployed version for the tracked Worker code. Cloudflare Pages may still create a
+new, byte-equivalent deployment for that documentation-only Git commit. Re-run
+the commands in `docs/deployment.md` rather than treating any deployment ID as
+permanent current state.
 
 ## How to maintain this history
 
