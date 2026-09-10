@@ -175,25 +175,43 @@ function parseError(id) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function dispatch(message, request, env, workerUrl) {
-  const { id, method, params } = message || {};
+  if (
+    !message ||
+    typeof message !== "object" ||
+    Array.isArray(message) ||
+    message.jsonrpc !== "2.0" ||
+    typeof message.method !== "string"
+  ) {
+    return rpcError(null, -32600, "Invalid Request");
+  }
+
+  const hasId = Object.prototype.hasOwnProperty.call(message, "id");
+  const { id, method, params } = message;
+  let response;
 
   switch (method) {
     case "agent/getAuthenticatedExtendedCard":
-      return rpcResult(id, agentCard(workerUrl));
+      response = rpcResult(id, agentCard(workerUrl));
+      break;
 
     case "message/send":
-      return rpcResult(id, await runMessageSend(params, request, env, workerUrl));
+      response = rpcResult(id, await runMessageSend(params, request, env, workerUrl));
+      break;
 
     case "tasks/get":
-      return rpcResult(id, await getTask(params, env));
+      response = rpcResult(id, await getTask(params, env));
+      break;
 
     case "ping":
-      return rpcResult(id, {});
+      response = rpcResult(id, {});
+      break;
 
     default:
-      if (id == null) return null;
-      return rpcError(id, -32601, `Method not found: ${method}`);
+      response = rpcError(id, -32601, `Method not found: ${method}`);
+      break;
   }
+
+  return hasId ? response : null;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -383,32 +401,63 @@ async function runEnquire(parameters, request, env, workerUrl) {
 // Enquiry validation
 // ─────────────────────────────────────────────────────────────────────────────
 
-function validateEnquiry(p) {
+export function validateEnquiry(p) {
   if (!p || typeof p !== "object") return "Missing parameters.";
   if (!p.celebrant_slug || typeof p.celebrant_slug !== "string") return "celebrant_slug is required.";
+  if (p.celebrant_slug.length > 120) return "celebrant_slug must be 120 characters or fewer.";
   if (!p.couple || typeof p.couple !== "object") return "couple object is required.";
   if (!p.couple.names || String(p.couple.names).trim().length < 3) {
     return "couple.names must be at least 3 characters.";
   }
+  if (String(p.couple.names).length > 200) return "couple.names must be 200 characters or fewer.";
   if (!p.couple.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.couple.email)) {
     return "couple.email must be a valid email address.";
   }
+  if (String(p.couple.email).length > 254) return "couple.email must be 254 characters or fewer.";
   if (!p.wedding || typeof p.wedding !== "object") return "wedding object is required.";
-  if (!p.wedding.date || !/^\d{4}-\d{2}-\d{2}/.test(p.wedding.date)) {
+  if (!isRealIsoDate(p.wedding.date)) {
     return "wedding.date must be ISO-8601 (YYYY-MM-DD).";
   }
   if (!p.wedding.location || String(p.wedding.location).trim().length < 2) {
     return "wedding.location is required.";
   }
+  if (String(p.wedding.location).length > 200) return "wedding.location must be 200 characters or fewer.";
+  if (p.wedding.style && String(p.wedding.style).length > 200) {
+    return "wedding.style must be 200 characters or fewer.";
+  }
   const notes = String(p.wedding.notes || "").trim();
   if (notes.length < 30) {
     return "wedding.notes must be at least 30 characters — tell the celebrant about the couple, ceremony style, and any specifics.";
   }
+  if (notes.length > 5000) return "wedding.notes must be 5000 characters or fewer.";
   if (!p.agent || typeof p.agent !== "object") return "agent object is required.";
   if (!p.agent.name || String(p.agent.name).trim().length < 2) {
     return "agent.name is required (identify yourself, e.g. 'Acme Wedding Planner v1.2').";
   }
+  if (String(p.agent.name).length > 120) return "agent.name must be 120 characters or fewer.";
+  if (p.agent.contact_url) {
+    const contactUrl = String(p.agent.contact_url);
+    if (contactUrl.length > 2048 || !isHttpUrl(contactUrl)) {
+      return "agent.contact_url must be a valid HTTP or HTTPS URL.";
+    }
+  }
   return null;
+}
+
+function isRealIsoDate(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
+function isHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -461,28 +510,32 @@ async function sendEnquiryEmail(env, { taskId, celebrant, parameters, agentName,
   const subject = `Wedding enquiry from ${parameters.couple.names} — ${parameters.wedding.date}, ${parameters.wedding.location} (relayed by ${agentName})`;
   const html = renderEnquiryEmail({ celebrant, parameters, agentName, reportUrl, taskId });
 
-  const res = await fetch("https://api.resend.com/emails", {
+  await postResend(env, {
+    from: `Australian Wedding Celebrants <${fromEmail}>`,
+    to: [celebrant.email],
+    reply_to: [parameters.couple.email],
+    subject,
+    html,
+    tags: [
+      { name: "source", value: "a2a-enquiry" },
+      { name: "task_id", value: taskId.replace(/[^a-zA-Z0-9_]/g, "") },
+    ],
+  });
+}
+
+async function postResend(env, payload) {
+  const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      from: `Australian Wedding Celebrants <${fromEmail}>`,
-      to: [celebrant.email],
-      reply_to: [parameters.couple.email],
-      subject,
-      html,
-      tags: [
-        { name: "source", value: "a2a-enquiry" },
-        { name: "task_id", value: taskId.replace(/[^a-zA-Z0-9_]/g, "") },
-      ],
-    }),
+    body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    const errBody = await res.text();
-    throw new Error(`Resend ${res.status}: ${errBody}`);
+  if (!response.ok) {
+    const errorBody = (await response.text()).slice(0, 1000);
+    throw new Error(`Resend ${response.status}: ${errorBody}`);
   }
 }
 
@@ -668,18 +721,11 @@ async function sendAdminReport(env, { log, blocked, reportCount }) {
     </ul>
     ${blocked ? `<p><strong>Agent has exceeded the block threshold and is now permanently denied.</strong></p>` : ""}
   `;
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: `Australian Wedding Celebrants <${env.FROM_EMAIL}>`,
-      to: [env.ADMIN_EMAIL],
-      subject,
-      html,
-    }),
+  await postResend(env, {
+    from: `Australian Wedding Celebrants <${env.FROM_EMAIL}>`,
+    to: [env.ADMIN_EMAIL],
+    subject,
+    html,
   });
 }
 
@@ -755,17 +801,10 @@ export async function sendWeeklyEnquiryDigest(env) {
     <ul>${agentRows}</ul>
   `;
 
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: `Australian Wedding Celebrants <${env.FROM_EMAIL}>`,
-      to: [env.ADMIN_EMAIL],
-      subject: `[A2A] Weekly enquiry digest — ${recent.length} relayed`,
-      html,
-    }),
+  await postResend(env, {
+    from: `Australian Wedding Celebrants <${env.FROM_EMAIL}>`,
+    to: [env.ADMIN_EMAIL],
+    subject: `[A2A] Weekly enquiry digest — ${recent.length} relayed`,
+    html,
   });
 }

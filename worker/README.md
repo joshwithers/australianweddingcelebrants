@@ -23,7 +23,7 @@ Verified on 10 September 2026:
 | Custom domain                           | `api.australianweddingcelebrants.com.au`                  |
 | Entrypoint                              | `src/index.js`                                            |
 | Wrangler config                         | `wrangler.toml`                                           |
-| Compatibility date                      | `2024-12-01`                                              |
+| Compatibility date / flags              | `2026-09-10`; `nodejs_compat`                             |
 | KV binding                              | `KV`                                                      |
 | Cron                                    | Every five minutes (`*/5 * * * *`)                        |
 | Wrangler                                | 4.130.0 installed from `package-lock.json`                |
@@ -43,15 +43,17 @@ and `wrangler versions list` before treating any ID as current.
 3. `/auth` consumes the token and creates an `awc_session` cookie. The cookie is
    `HttpOnly`, `Secure`, `SameSite=Lax`, scoped to `/`, and lasts 24 hours.
 4. `/form` renders the create/edit form. The authenticated user submits to
-   `/submit`; duplicate requests are briefly locked and submission/media/evidence
-   data is staged in KV for 90 days.
+   `/submit`; valid duplicate requests are briefly locked and
+   submission/media/evidence data is staged in KV for 90 days. Validation errors
+   never set the lock, so a corrected form can be submitted immediately.
 5. The Worker can call Anthropic to clean up submitted text. The admin receives a
    review link.
-6. Admin review can edit, reject, or approve. Approval writes Markdown and assets
-   to the configured GitHub repository/branch through the Contents API, records the
-   email-to-slug mapping, and creates a delayed notification job.
+6. Admin review can edit, reject, or approve. Approval writes YAML-backed Markdown
+   and assets to the configured GitHub repository/branch through the Contents API,
+   preserves profile fields the forms do not manage, records the email-to-slug
+   mapping, and creates a delayed notification job.
 7. The five-minute cron sends due approval notifications, normally about 15
-   minutes after approval.
+   minutes after approval. Failed Resend calls remain queued for a later cron run.
 
 The GitHub write publishes source to `main`; Cloudflare Pages Git integration then
 builds the public site. Worker approval and Pages production activation are
@@ -130,7 +132,8 @@ The Worker applies:
 
 `GET /a2a/report` processes the public report-spam link and notifies the admin.
 The five-minute cron also sends a weekly A2A digest at Monday 09:00 UTC, guarded by
-a seven-day KV key so it runs once.
+a seven-day KV key written only after Resend accepts the digest. A provider failure
+therefore remains retryable during the five-minute dispatch window.
 
 Never call the enquiry action as an ordinary health check: it sends email and
 writes production KV.
@@ -269,11 +272,12 @@ credential until consumed or expired.
 
 ## Validation and deployment
 
-There is currently no Worker unit-test suite. Before deployment:
+Before deployment:
 
 ```sh
 cd worker
 npm ci
+npm test
 npx wrangler deploy --dry-run
 cd ..
 git diff --check

@@ -41,7 +41,7 @@ Verified from the repository on 10 September 2026:
 - 66 published celebrant profiles: 10 Luminary, 13 Endorsed and 43 Registered.
 - 67 directory source files including the draft `-template.md`.
 - 58 location blurbs.
-- 19 Node regression tests.
+- 23 public-site regression tests and 6 Worker regression tests.
 - 152 generated HTML files in the most recent local build, with 150
   sitemap-listed HTML/Markdown pairs. Generated counts can change as routes and
   profiles change; rerun `npm run validate` rather than treating these as constants.
@@ -79,7 +79,7 @@ September 2026. `package.json` remains the authority for accepted version ranges
 | ----------------- | -------------------- | -------------------------------------------------------------------------------------------------- |
 | Node.js           | `>=22.12.0`          | Build and test runtime; `.node-version` selects major 22                                           |
 | Astro             | 7.3.2                | Static generation, routing, Content Layer, assets, fonts and view transitions                      |
-| React / React DOM | 19.2.8               | MDX shortcodes that need React; search itself is now an Astro component with a small native script |
+| React / React DOM | 19.3.0               | MDX shortcodes that need React; search itself is now an Astro component with a small native script |
 | Tailwind CSS      | 4.3.3                | CSS-first design tokens via `@tailwindcss/vite`                                                    |
 | TypeScript        | 6.0.3                | Type checking for Astro and TypeScript code                                                        |
 | Sharp             | 0.35.4               | Build-time local image optimisation                                                                |
@@ -92,6 +92,11 @@ Fuse.js was removed in commit `b128ad8`. Do not reintroduce it based on older
 documentation: `src/layouts/SearchBar.astro` performs case- and diacritic-normalised
 term matching in the browser and uses delegated events that survive
 `<ClientRouter />` navigation.
+
+TypeScript 6.0.3 is deliberate: TypeScript 7.0.2 is newer on the registry, but
+`@astrojs/check` 0.9.10 currently declares support for TypeScript 5 and 6. Do not
+force TypeScript 7 until the checker accepts it; doing so would make the dependency
+graph unsupported and produce peer warnings.
 
 ## Repository map
 
@@ -447,6 +452,7 @@ For a Worker change, also run from `worker/`:
 
 ```sh
 npm ci
+npm test
 npx wrangler deploy --dry-run
 ```
 

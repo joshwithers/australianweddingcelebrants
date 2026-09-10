@@ -115,3 +115,7 @@ routes and the links pointing at them drift apart.
 - Animations must honour `prefers-reduced-motion`.
 - Build with `npm run build`; dev with `npm run dev`. `npm test` builds then runs
   `tests/*.test.mjs`; `npm run validate` adds type-check, link and agent-file checks.
+- Worker profile writes use the `yaml` package and must preserve fields outside the
+  edit forms (including awards, gallery, testimonials, styling and evidence). Valid
+  submissions alone receive duplicate locks; failed Resend notifications/digests
+  remain retryable. Run `npm test` inside `worker/` before a Worker release.

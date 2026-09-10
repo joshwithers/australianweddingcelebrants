@@ -9,12 +9,25 @@
 //   /about/                     → /about.md
 //   /directory/<slug>/         → /directory/<slug>.md
 
-function prefersMarkdown(accept) {
+export function prefersMarkdown(accept) {
   if (!accept) return false;
-  return accept.toLowerCase().includes("text/markdown");
+  return accept.split(",").some((part) => {
+    const [mediaRange, ...parameters] = part
+      .trim()
+      .toLowerCase()
+      .split(";")
+      .map((value) => value.trim());
+    if (mediaRange !== "text/markdown") return false;
+
+    const qualityParameter = parameters.find((value) => value.startsWith("q="));
+    if (!qualityParameter) return true;
+
+    const quality = Number(qualityParameter.slice(2));
+    return Number.isFinite(quality) && quality > 0;
+  });
 }
 
-function toMarkdownPath(pathname) {
+export function toMarkdownPath(pathname) {
   if (pathname === "/" || pathname === "") return "/index.md";
   const clean = pathname.replace(/\/+$/, "");
   if (!clean || clean.endsWith(".md") || clean.includes(".")) return null;
@@ -71,14 +84,22 @@ export const onRequest = async (context) => {
   const body = await mdResponse.text();
   const tokens = Math.ceil(body.length / 4);
 
-  const headers = new Headers();
+  const headers = new Headers(mdResponse.headers);
   headers.set("Content-Type", "text/markdown; charset=utf-8");
   headers.set("X-Markdown-Tokens", String(tokens));
-  headers.set("Vary", "Accept");
-  const cc = mdResponse.headers.get("cache-control");
-  if (cc) headers.set("Cache-Control", cc);
+  const varyValues = (headers.get("Vary") || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  if (!varyValues.some((value) => value.toLowerCase() === "accept")) {
+    varyValues.push("Accept");
+  }
+  headers.set("Vary", varyValues.join(", "));
+  headers.delete("Content-Length");
+  headers.delete("Content-Encoding");
+  headers.delete("ETag");
 
-  return new Response(body, {
+  return new Response(request.method === "HEAD" ? null : body, {
     status: 200,
     headers,
   });

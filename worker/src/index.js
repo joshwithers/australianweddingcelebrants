@@ -20,6 +20,7 @@
 
 import { handleMcp } from "./mcp.js";
 import { handleA2A, handleA2AReport, sendWeeklyEnquiryDigest } from "./a2a.js";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Router
@@ -105,22 +106,24 @@ export default {
     ctx.waitUntil(processDelayedNotifications(env));
     // Weekly A2A enquiry digest: Monday 09:00 UTC (cron runs every 5 minutes
     // so we de-bounce ourselves via a lightweight KV guard).
-    const now = new Date();
+    const now = new Date(event.scheduledTime || Date.now());
     if (now.getUTCDay() === 1 && now.getUTCHours() === 9 && now.getUTCMinutes() < 5) {
-      const guardKey = `a2a:digest_sent:${now.toISOString().slice(0, 10)}`;
-      ctx.waitUntil((async () => {
-        const already = await env.KV.get(guardKey);
-        if (already) return;
-        await env.KV.put(guardKey, "1", { expirationTtl: 7 * 24 * 60 * 60 });
-        try {
-          await sendWeeklyEnquiryDigest(env);
-        } catch (e) {
-          console.error("Weekly A2A digest failed:", e);
-        }
-      })());
+      ctx.waitUntil(processWeeklyEnquiryDigest(env, now));
     }
   },
 };
+
+export async function processWeeklyEnquiryDigest(env, now) {
+  const guardKey = `a2a:digest_sent:${now.toISOString().slice(0, 10)}`;
+  const already = await env.KV.get(guardKey);
+  if (already) return;
+  try {
+    await sendWeeklyEnquiryDigest(env);
+    await env.KV.put(guardKey, "1", { expirationTtl: 7 * 24 * 60 * 60 });
+  } catch (error) {
+    console.error("Weekly A2A digest failed:", error);
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Auth — Magic Links & Sessions
@@ -341,19 +344,7 @@ async function handleForm(request, env, session) {
   ));
 }
 
-async function handleSubmit(request, env, session, ctx) {
-  // Prevent duplicate submissions within a short window
-  const dedupeKey = `submit-lock:${session.email}`;
-  const existing_lock = await env.KV.get(dedupeKey);
-  if (existing_lock) {
-    return htmlResponse(pageShell("Submission Received", `
-      <h1>Already submitted!</h1>
-      <p>Your listing was already submitted a moment ago and is being processed. No need to submit again.</p>
-      <a href="${env.SITE_URL}" class="btn btn-dark mt-6">Back to site</a>
-    `));
-  }
-  await env.KV.put(dedupeKey, "1", { expirationTtl: 60 });
-
+export async function handleSubmit(request, env, session, ctx) {
   const form = await request.formData();
 
   const MAX_IMAGE_SIZE = 20 * 1024 * 1024; // 20 MB
@@ -489,6 +480,19 @@ async function handleSubmit(request, env, session, ctx) {
       <a href="/form" class="btn btn-dark mt-4">Back to form</a>
     `), 400);
   }
+
+  // Lock only a valid submission. Invalid forms must remain immediately
+  // retryable after the celebrant corrects the highlighted fields.
+  const dedupeKey = `submit-lock:${session.email}`;
+  const existingLock = await env.KV.get(dedupeKey);
+  if (existingLock) {
+    return htmlResponse(pageShell("Submission Received", `
+      <h1>Already submitted!</h1>
+      <p>Your listing was already submitted a moment ago and is being processed. No need to submit again.</p>
+      <a href="${env.SITE_URL}" class="btn btn-dark mt-6">Back to site</a>
+    `));
+  }
+  await env.KV.put(dedupeKey, "1", { expirationTtl: 60 });
 
   // Store raw submission
   await env.KV.put(`submission:${submission.id}`, JSON.stringify(submission), { expirationTtl: 90 * 86400 });
@@ -861,11 +865,22 @@ async function handleAdminApprove(request, env, session) {
   submission.meta_title = (form.get("meta_title") || submission.meta_title || "").trim();
   submission.description = (form.get("description") || submission.description).trim();
   submission.bio = (form.get("bio") || submission.bio).trim();
-  const tier = form.get("tier") || "registered";
+  const tier = normaliseTier(form.get("tier"));
   const featured = form.get("featured") === "on";
 
   // Generate slug
   const slug = submission.existing_slug || slugify(submission.brand_name || submission.title) + "-" + generateShortId();
+  let existingFrontmatter = {};
+  if (submission.existing_slug) {
+    const currentFile = await fetchFileFromGitHub(env, submission.existing_slug);
+    if (!currentFile) {
+      return htmlResponse(adminPageShell("Conflict", `
+        <h1>Existing listing not found</h1>
+        <p>The listing <code>${esc(submission.existing_slug)}</code> no longer exists. Nothing was changed.</p>
+      `, "review"), 409);
+    }
+    existingFrontmatter = parseFrontmatter(currentFile.content);
+  }
 
   // Push uploaded images to GitHub first
   try {
@@ -893,7 +908,7 @@ async function handleAdminApprove(request, env, session) {
   }
 
   // Generate frontmatter and push listing
-  const frontmatter = buildFrontmatter(submission, tier, featured);
+  const frontmatter = buildFrontmatter(submission, tier, featured, existingFrontmatter);
   const fileContent = frontmatter + "\n" + (submission.bio || "");
 
   try {
@@ -1112,6 +1127,12 @@ async function handleAdminEditSave(request, env, session, ctx) {
 
   if (!slug) return redirect("/admin/listings");
 
+  const currentFile = await fetchFileFromGitHub(env, slug);
+  if (!currentFile) {
+    return htmlResponse(adminPageShell("Not Found", `<h1>Listing not found</h1><p>No listing found with slug: ${esc(slug)}</p>`, "listings"), 404);
+  }
+  const existingFrontmatter = parseFrontmatter(currentFile.content);
+
   // Handle file uploads
   const imageFile = form.get("image_file");
   const logoFile = form.get("logo_file");
@@ -1174,10 +1195,10 @@ async function handleAdminEditSave(request, env, session, ctx) {
     },
   };
 
-  const tier = form.get("tier") || "registered";
+  const tier = normaliseTier(form.get("tier"));
   const featured = form.get("featured") === "on";
 
-  const frontmatter = buildFrontmatter(submission, tier, featured);
+  const frontmatter = buildFrontmatter(submission, tier, featured, existingFrontmatter);
   const fileContent = frontmatter + "\n" + (submission.bio || "");
 
   try {
@@ -1734,7 +1755,7 @@ function awardNominationEmailHtml(n, confirmed, env) {
 // Scheduled — Delayed notification emails
 // ─────────────────────────────────────────────────────────────────────────────
 
-async function processDelayedNotifications(env) {
+export async function processDelayedNotifications(env) {
   const list = await env.KV.list({ prefix: "notify:" });
   const now = Date.now();
   const DELAY_MS = 15 * 60 * 1000; // 15 minutes
@@ -1764,9 +1785,11 @@ async function processDelayedNotifications(env) {
       });
     } catch (err) {
       console.error("Failed to send notification:", err);
+      continue;
     }
 
-    // Delete the notification key
+    // Delete only after Resend accepts the message. A failed delivery remains
+    // queued for the next scheduled run until the key's TTL expires.
     await env.KV.delete(key.name);
   }
 }
@@ -2065,39 +2088,55 @@ function parseYearStarted(raw) {
   return n;
 }
 
-function buildFrontmatter(s, tier, featured) {
-  const lines = ["---"];
-  lines.push(`title: "${escYaml(s.brand_name || s.title)}"`);
-  if (s.meta_title) lines.push(`meta_title: "${escYaml(s.meta_title)}"`);
-  if (s.description) lines.push(`description: "${escYaml(s.description)}"`);
-  if (s.image) lines.push(`image: "${s.image}"`);
-  if (s.logo) lines.push(`logo: "${s.logo}"`);
-  if (s.website) lines.push(`website: "${s.website}"`);
-  lines.push(`email: "${s.email}"`);
-  if (s.phone) lines.push(`phone: "${escYaml(s.phone)}"`);
-  if (s.address) lines.push(`address: "${escYaml(s.address)}"`);
-  lines.push("location:");
-  s.location.forEach(l => lines.push(`  - ${l}`));
-  lines.push("category:");
-  s.category.forEach(c => lines.push(`  - ${c}`));
-  if (featured) lines.push("featured: true");
-  if (s.australia_wide) lines.push("australia_wide: true");
-  if (s.international) lines.push("international: true");
+export function buildFrontmatter(s, tier, featured, existing = {}) {
+  // Preserve fields that the edit UI does not manage (awards, gallery,
+  // testimonials, evidence, visual styling, and future schema additions).
+  const data = { ...existing };
+  delete data._body;
+
+  const setOrDelete = (key, value) => {
+    if (value === null || value === undefined || value === "") delete data[key];
+    else data[key] = value;
+  };
+
+  data.title = s.brand_name || s.title;
+  setOrDelete("meta_title", s.meta_title);
+  setOrDelete("description", s.description);
+  setOrDelete("image", s.image);
+  setOrDelete("logo", s.logo);
+  setOrDelete("website", s.website);
+  setOrDelete("email", s.email);
+  setOrDelete("phone", s.phone);
+  setOrDelete("address", s.address);
+  data.location = [...s.location];
+  data.category = [...s.category];
+
+  if (featured) data.featured = true;
+  else delete data.featured;
+  if (s.australia_wide) data.australia_wide = true;
+  else delete data.australia_wide;
+  if (s.international) data.international = true;
+  else delete data.international;
+
   // Persist both states so an email relay can never infer consent from absence.
-  lines.push(`accepts_agent_enquiries: ${s.accepts_agent_enquiries === true}`);
-  if (Number.isInteger(s.year_started) && s.year_started > 0) {
-    lines.push(`year_started: ${s.year_started}`);
+  data.accepts_agent_enquiries = s.accepts_agent_enquiries === true;
+  if (Number.isInteger(s.year_started) && s.year_started > 0) data.year_started = s.year_started;
+  else delete data.year_started;
+  data.tier = normaliseTier(tier);
+
+  const social = { ...(existing.social && typeof existing.social === "object" ? existing.social : {}) };
+  for (const key of ["facebook", "instagram", "pinterest"]) {
+    if (s.social?.[key]) social[key] = s.social[key];
+    else delete social[key];
   }
-  lines.push(`tier: ${tier}`);
-  const hasSocial = s.social?.facebook || s.social?.instagram || s.social?.pinterest;
-  if (hasSocial) {
-    lines.push("social:");
-    if (s.social.facebook) lines.push(`  facebook: "${s.social.facebook}"`);
-    if (s.social.instagram) lines.push(`  instagram: "${s.social.instagram}"`);
-    if (s.social.pinterest) lines.push(`  pinterest: "${s.social.pinterest}"`);
-  }
-  lines.push("---");
-  return lines.join("\n");
+  if (Object.keys(social).length > 0) data.social = social;
+  else delete data.social;
+
+  return `---\n${stringifyYaml(data, { lineWidth: 0 }).trimEnd()}\n---`;
+}
+
+function normaliseTier(value) {
+  return ["registered", "endorsed", "luminary"].includes(value) ? value : "registered";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -3331,52 +3370,16 @@ function linkifyLines(str) {
   }).filter(Boolean).join("<br/>");
 }
 
-function escYaml(str) {
-  return (str || "").replace(/"/g, '\\"');
-}
-
-function parseFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+export function parseFrontmatter(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return {};
-  const lines = match[1].split("\n");
-  const obj = {};
-  let currentKey = null;
-  let inObject = null;
-
-  for (const line of lines) {
-    const arrayMatch = line.match(/^  - (.+)/);
-    if (arrayMatch && currentKey) {
-      if (!obj[currentKey]) obj[currentKey] = [];
-      obj[currentKey].push(arrayMatch[1].trim().replace(/^"(.*)"$/, "$1"));
-      continue;
-    }
-
-    const nestedMatch = line.match(/^  (\w+):\s*"?([^"]*)"?\s*$/);
-    if (nestedMatch && inObject) {
-      if (!obj[inObject]) obj[inObject] = {};
-      obj[inObject][nestedMatch[1]] = nestedMatch[2];
-      continue;
-    }
-
-    const kvMatch = line.match(/^(\w+):\s*(.*)$/);
-    if (kvMatch) {
-      currentKey = kvMatch[1];
-      let val = kvMatch[2].trim();
-      if (val === "") {
-        inObject = currentKey;
-        continue;
-      }
-      inObject = null;
-      if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
-      if (val.startsWith("[") && val.endsWith("]")) {
-        val = val.slice(1, -1).split(",").map(s => s.trim().replace(/^"(.*)"$/, "$1")).filter(Boolean);
-      }
-      if (val === "true") val = true;
-      if (val === "false") val = false;
-      obj[currentKey] = val;
-    }
+  try {
+    const parsed = parseYaml(match[1]);
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch (error) {
+    console.error("Invalid listing frontmatter:", error);
+    return {};
   }
-  return obj;
 }
 
 function parseBody(content) {

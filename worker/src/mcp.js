@@ -358,11 +358,23 @@ function capitalize(s) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function handleRpc(message, env) {
-  const { id, method, params } = message || {};
+  if (
+    !message ||
+    typeof message !== "object" ||
+    Array.isArray(message) ||
+    message.jsonrpc !== "2.0" ||
+    typeof message.method !== "string"
+  ) {
+    return rpcError(null, -32600, "Invalid Request");
+  }
+
+  const hasId = Object.prototype.hasOwnProperty.call(message, "id");
+  const { id, method, params } = message;
+  let response;
 
   switch (method) {
     case "initialize":
-      return rpcResult(id, {
+      response = rpcResult(id, {
         protocolVersion: MCP_PROTOCOL_VERSION,
         serverInfo: { name: SERVER_NAME, version: SERVER_VERSION },
         capabilities: {
@@ -372,6 +384,7 @@ async function handleRpc(message, env) {
         instructions:
           "Read-only MCP access to the Australian Wedding Celebrants directory. Use search_celebrants or browse_by_location to find celebrants, then get_celebrant_profile for full details. Tool responses reference ChatGPT Apps SDK UI widgets via _meta['openai/outputTemplate'].",
       });
+      break;
 
     case "notifications/initialized":
     case "initialized":
@@ -379,13 +392,15 @@ async function handleRpc(message, env) {
       return null;
 
     case "ping":
-      return rpcResult(id, {});
+      response = rpcResult(id, {});
+      break;
 
     case "tools/list":
-      return rpcResult(id, { tools: TOOLS });
+      response = rpcResult(id, { tools: TOOLS });
+      break;
 
     case "resources/list":
-      return rpcResult(id, {
+      response = rpcResult(id, {
         resources: Object.entries(WIDGETS).map(([uri, w]) => ({
           uri,
           name: w.name,
@@ -394,14 +409,16 @@ async function handleRpc(message, env) {
           mimeType: "text/html+skybridge",
         })),
       });
+      break;
 
     case "resources/read": {
       const uri = params?.uri;
       if (!uri || !WIDGETS[uri]) {
-        return rpcError(id, -32602, `Unknown resource: ${uri}`);
+        response = rpcError(id, -32602, `Unknown resource: ${uri}`);
+        break;
       }
       const w = WIDGETS[uri];
-      return rpcResult(id, {
+      response = rpcResult(id, {
         contents: [
           {
             uri,
@@ -410,24 +427,31 @@ async function handleRpc(message, env) {
           },
         ],
       });
+      break;
     }
 
     case "tools/call": {
       const toolName = params?.name;
       const args = params?.arguments || {};
-      if (!toolName) return rpcError(id, -32602, "Missing tool name");
+      if (!toolName) {
+        response = rpcError(id, -32602, "Missing tool name");
+        break;
+      }
       try {
         const result = await executeTool(toolName, args, env);
-        return rpcResult(id, result);
+        response = rpcResult(id, result);
       } catch (err) {
-        return rpcError(id, -32603, `Tool execution failed: ${err.message}`);
+        response = rpcError(id, -32603, `Tool execution failed: ${err.message}`);
       }
+      break;
     }
 
     default:
-      if (id == null) return null; // Unknown notification — ignore.
-      return rpcError(id, -32601, `Method not found: ${method}`);
+      response = rpcError(id, -32601, `Method not found: ${method}`);
+      break;
   }
+
+  return hasId ? response : null;
 }
 
 function rpcResult(id, result) {
@@ -668,6 +692,16 @@ export async function handleMcp(request, env) {
 
   // Support batched requests (array of messages).
   const messages = Array.isArray(body) ? body : [body];
+  if (messages.length === 0) {
+    return new Response(JSON.stringify(rpcError(null, -32600, "Invalid Request")), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Mcp-Protocol-Version": MCP_PROTOCOL_VERSION,
+        ...cors,
+      },
+    });
+  }
   const responses = [];
   for (const msg of messages) {
     const resp = await handleRpc(msg, env);

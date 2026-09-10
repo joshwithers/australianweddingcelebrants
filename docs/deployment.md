@@ -72,6 +72,7 @@ host explicitly.
 | KV namespace ID  | `4a441307ae4d4dd1bf700f2729b0adad`                    |
 | Preview KV ID    | `22a7f48f3dfe4ec7a899c1c215590de4`                    |
 | Cron             | `*/5 * * * *`                                         |
+| Compatibility    | `2026-09-10` with `nodejs_compat`                     |
 | Observability    | Invocation logs and traces enabled                    |
 | Required secrets | `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `GITHUB_TOKEN` |
 
@@ -188,16 +189,18 @@ Run these when Worker source, configuration or dependencies changed:
 ```sh
 cd worker
 npm ci
+npm test
 npx wrangler deploy --dry-run
 cd ..
 git diff --check
 ```
 
-The Worker currently has no automated unit-test suite. Compensate with dry-run
-bundling, source review and read-only/negative live smoke tests. Never use a
-production smoke test that sends mail, creates a session, mutates KV, writes to
-GitHub, approves a submission or relays an enquiry unless the task explicitly
-authorises that external effect.
+The Worker tests cover invalid-form retry locks, YAML profile preservation,
+notification/digest retry semantics, A2A validation and JSON-RPC notifications.
+Keep dry-run bundling, source review and read-only/negative live smoke tests as
+separate gates. Never use a production smoke test that sends mail, creates a
+session, mutates KV, writes to GitHub, approves a submission or relays an enquiry
+unless the task explicitly authorises that external effect.
 
 For a contract shared with the site, inspect the generated `/directory.json`,
 Markdown profile shape, discovery file, or consent field before deploying either

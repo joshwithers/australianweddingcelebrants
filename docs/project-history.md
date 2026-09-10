@@ -326,6 +326,41 @@ new, byte-equivalent deployment for that documentation-only Git commit. Re-run
 the commands in `docs/deployment.md` rather than treating any deployment ID as
 permanent current state.
 
+## 10 September 2026 — dependency refresh and workflow hardening
+
+The site dependency graph was refreshed against the npm registry while retaining
+Astro 7.3.2, the current release. React/React DOM moved to 19.3.0, the Astro
+integrations, content utilities and development tools moved to their current
+compatible releases, and Wrangler remained current at 4.130.0. TypeScript stayed
+at 6.0.3 because `@astrojs/check` 0.9.10 does not yet accept TypeScript 7 in its
+peer range. Both package trees reported zero known vulnerabilities.
+
+A source-and-reproduction audit then fixed concrete failure paths:
+
+- invalid celebrant forms had set the duplicate-submit lock before validation,
+  blocking an immediate corrected submission;
+- profile edits rebuilt frontmatter with a partial hand-written YAML serializer,
+  which could misparse input and erase premium or evidence fields outside the
+  form; writes now use the `yaml` package and preserve unmanaged fields;
+- failed approval notifications were deleted instead of retried, while the weekly
+  A2A digest marked itself sent before Resend accepted it;
+- A2A accepted impossible dates, unsafe contact URLs and unbounded fields, and
+  two Resend paths ignored provider error responses;
+- MCP/A2A JSON-RPC notifications returned bodies, MCP accepted invalid requests
+  and empty batches, and Pages served Markdown even for `text/markdown;q=0` while
+  discarding useful upstream headers.
+
+Lasting invariants: only valid submissions receive a retry lock; edits preserve
+unknown frontmatter; notification/digest keys are cleared only after provider
+acceptance; agent enquiry validation happens before lookup, KV mutation or mail;
+JSON-RPC notification calls have no response body; and negotiated Markdown must
+honour quality values, preserve upstream headers and return no body for `HEAD`.
+
+Validation for the implementation recorded 152 built pages, 150 checked Markdown
+companions, 23 public-site tests and 6 Worker tests, all passing without Astro
+diagnostics. Final Git and Cloudflare identifiers are recorded in the release
+report rather than guessed here.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry
