@@ -367,6 +367,35 @@ the exact commit SHA in its version message. Canonical and immutable Pages URLs,
 Markdown negotiation, `HEAD`, MCP/A2A protocol paths and the negative agent-email
 consent path all passed live smoke checks.
 
+## 1 October 2026 — location listing titles
+
+Location listings were headed `<count> Wedding Celebrant Profiles Serving
+<Location>`. The requested wording is now `Top <count> Wedding Celebrants in
+<Location>`, defined once in `src/pages/directory/location/[location].astro` and
+reused by the H1, browser/SEO and social titles, and collection/list schema names.
+The existing build pipeline carries it into Markdown and the `llms.txt` inventory.
+
+The count continues to reflect every rendered published profile matching the
+location or the Australia-wide travel flag. Eligibility, credential priority,
+within-tier ordering, canonical URLs and the shared masonry are unchanged. Future
+title edits must keep these human and machine-readable surfaces in parity and
+derive the count from the displayed listings.
+
+The release gate found three existing vulnerable transitive dependencies. The
+site lockfile now resolves `devalue` 5.9.4, `fast-uri` 3.1.8 and `undici` 8.11.2
+within the existing dependency ranges; direct dependencies and the Worker were
+unchanged. The first sandboxed build could not fetch a remote YouTube thumbnail;
+the subsequent network-enabled clean install and validation passed.
+
+Validation: `npm ci`, full `npm run validate` and `git diff --check` passed with
+75 checked Astro files and no diagnostics, 154 built HTML pages, 152 validated
+sitemap/Markdown pairs, 23 passing regression tests, successful agent/link checks
+and zero audit vulnerabilities. A separate generated-output check verified every
+one of the 67 location routes: title/H1/social/schema/Markdown/inventory parity,
+actual listing counts against the 67-profile JSON dataset, canonical/alternate
+links and unique profile entries. The release smoke checks are documented in
+`docs/deployment.md`.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry

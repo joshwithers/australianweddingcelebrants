@@ -368,6 +368,17 @@ Expected status is `200`. Expected types include HTML, `text/markdown` for direc
 `.md`, text for `llms.txt`/robots, XML for the sitemap, linkset JSON for the API
 catalogue, and JSON for cards/indexes.
 
+### Location listing titles
+
+When location-page title wording changes, check representative city, region and
+state routes on both the immutable deployment and canonical domain. Require the
+H1, `<title>`, `og:title`, `twitter:title`, `CollectionPage.name` and
+`ItemList.name` to match `Top <count> Wedding Celebrants in <Location>`. The count
+must match the unique rendered profile cards and `ItemList.numberOfItems`,
+including Australia-wide travellers. Also check the direct and negotiated
+Markdown heading/frontmatter and the corresponding `llms.txt` inventory title.
+Re-derive counts from the deployed page rather than using an old example.
+
 ### Markdown negotiation
 
 ```sh

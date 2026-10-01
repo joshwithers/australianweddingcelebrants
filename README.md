@@ -98,6 +98,9 @@ TypeScript 6.0.3 is deliberate: TypeScript 7.0.2 is newer on the registry, but
 force TypeScript 7 until the checker accepts it; doing so would make the dependency
 graph unsupported and produce peer warnings.
 
+On 1 October 2026, the public-site lockfile also patched transitive `devalue`
+to 5.9.4, `fast-uri` to 3.1.8 and `undici` to 8.11.2 to satisfy the release audit.
+
 ## Repository map
 
 ```text
@@ -328,6 +331,12 @@ create award-category landing pages.
 
 ## Structured data, authorship and search integrity
 
+- Location listing pages use `Top <count> Wedding Celebrants in <Location>` for
+  the H1, browser/SEO title, social titles and collection/list schema names. One
+  shared title uses the actual rendered listing count, including matching local
+  celebrants and Australia-wide travellers. Generated Markdown and `llms.txt`
+  inherit the same title; do not hard-code a count or change eligibility/order
+  when updating this wording.
 - `src/lib/siteProvenance.ts` is the source of truth for the responsible publisher,
   canonical site and correction URLs.
 - `src/lib/tierStandards.ts` and `src/lib/utils/tierCredential.ts` centralise tier

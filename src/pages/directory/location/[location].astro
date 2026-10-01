@@ -95,7 +95,7 @@ const blurbEntry = locationBlurbs.find(
 const BlurbContent = blurbEntry ? (await render(blurbEntry)).Content : null;
 
 const humanLocation = humanize(location);
-const pageTitle = `${vendors.length} Wedding Celebrant Profiles Serving ${humanLocation}`;
+const pageTitle = `Top ${vendors.length} Wedding Celebrants in ${humanLocation}`;
 
 // Per-page meta description: prefer the blurb's opening sentence; fall back to
 // a generated string when no blurb exists yet.
@@ -213,9 +213,7 @@ const collectionPageSchema = {
           class="mb-4"
           style="font-weight: 700; letter-spacing: -0.44px; line-height: 1.2;"
         >
-          {vendors.length} Wedding Celebrant Profiles Serving {
-            humanize(location)
-          }
+          {pageTitle}
         </h1>
         <p class="text-light text-base" style="font-weight: 400;">
           Meet wedding celebrants serving {humanize(location)}.
