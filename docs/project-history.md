@@ -396,6 +396,20 @@ actual listing counts against the 67-profile JSON dataset, canonical/alternate
 links and unique profile entries. The release smoke checks are documented in
 `docs/deployment.md`.
 
+Release evidence: implementation commit
+`fd8bd34a4845d22402fcb178e06a2e474c557e98` was pushed with matching local,
+tracking and remote SHAs. Git-integrated Pages deployment
+`e81e0cc8-1f67-4525-8182-75a6885ee08d` completed successfully at
+`https://e81e0cc8.australianweddingcelebrants.pages.dev`. Hobart, Gold Coast and
+Tasmania passed title/H1/social/schema/count checks, canonical/alternate linkage,
+direct and negotiated Markdown, `llms.txt` inventory and no-`Set-Cookie` checks
+on both that immutable deployment and the canonical domain. The deployment row
+briefly reported active during the build while its URL returned 404 and the
+canonical domain served the previous title; both converged after the build
+completed. No direct upload was needed. The Worker release unit was unchanged.
+The following evidence-only commit may create a further Pages deployment with
+the same title behaviour.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry
