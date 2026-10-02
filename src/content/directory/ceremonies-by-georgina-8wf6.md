@@ -4,7 +4,7 @@ meta_title: "Ceremonies by Georgina — Whitsundays Wedding Celebrant | Australi
 description: "Personalised wedding ceremonies in Bowen, Whitsundays. Relaxed, heartfelt, and dedicated to making your special day unforgettable."
 image: "../../assets/directory/ceremonies-by-georgina-8wf6.webp"
 website: "https://ceremoniesbygeorgina.com.au/"
-email: "email@ceremoniesbygeorgina.com.au"
+email: "heygeorgie@ceremoniesbygeorgina.com.au"
 phone: "+61439740848"
 address: "6 Howard St, Bowen QLD 4805"
 location:
