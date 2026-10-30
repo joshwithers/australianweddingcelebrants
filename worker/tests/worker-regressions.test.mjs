@@ -129,6 +129,7 @@ test("delayed listing notifications remain queued after a provider failure", asy
 
 test("weekly digest records its guard only after Resend accepts the email", async (t) => {
   const now = new Date("2026-09-07T09:00:00.000Z");
+  t.mock.method(Date, "now", () => now.getTime());
   const KV = createKv({
     "a2a:enquiry:one": JSON.stringify({
       sent_at: "2026-09-06T12:00:00.000Z",

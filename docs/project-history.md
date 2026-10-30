@@ -410,6 +410,43 @@ completed. No direct upload was needed. The Worker release unit was unchanged.
 The following evidence-only commit may create a further Pages deployment with
 the same title behaviour.
 
+## 30 October 2026 — expired signup link recovery
+
+A celebrant reported missing the 15-minute window for the "Create My Listing"
+link. Investigation confirmed that requesting a link creates only a temporary
+magic token and rate counter, not a permanent registration. Read-only production
+checks found no profile mapping or login rate key for the reported address, and
+no matching profile existed in the repository. No account reset or email send was
+needed to restore eligibility.
+
+The Worker now sends expired, unknown or already-used links to
+`/login?expired=1`, with an explicit "Request a new link" heading, same-email
+instructions and "Send new link" form. Signup confirmation pages and future
+magic-link emails also offer recovery links, retaining the profile slug for edit
+requests. The 15-minute link lifetime, single-use consumption, rate limiting and
+matching-email requirement for existing profiles remain unchanged. Requesting a
+link must never permanently reserve an email or prevent a later signup retry.
+
+Four new router-level regression tests use a TTL-aware KV fake, controlled clock
+and mocked GitHub/Resend requests. They cover expiry followed by a same-email
+signup and authenticated listing form, consumed-token rejection, rate-limit
+expiry, existing-profile email verification and recovery links. An existing weekly
+digest test also now fixes its clock to the fixture date; otherwise its sample
+enquiry ages out and stops exercising the provider-failure branch.
+
+The clean Worker install exposed four high-severity development-tooling findings.
+Minimal overrides patch Sharp to 0.35.5 and Undici to 7.30.1 while preserving
+Wrangler 4.130.0, Miniflare and runtime YAML versions. Remove the overrides when
+upstream pins patched versions directly.
+
+Validation: clean `npm ci`, all 10 Worker tests, `wrangler deploy --dry-run`,
+`npm audit --audit-level=low` (zero vulnerabilities), independent code review and
+`git diff --check` passed. No production email, login session or profile was
+created during verification. Only the Worker runtime changes; the accompanying
+documentation still triggers the normal Git-integrated Pages deployment. The
+deployment runbook now includes read-only recovery and unauthenticated-form smoke
+checks.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry

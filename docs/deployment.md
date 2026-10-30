@@ -195,7 +195,9 @@ cd ..
 git diff --check
 ```
 
-The Worker tests cover invalid-form retry locks, YAML profile preservation,
+The Worker tests cover expired-link re-registration with the same email, consumed
+token rejection, rate-limit expiry, existing-listing email verification,
+invalid-form retry locks, YAML profile preservation,
 notification/digest retry semantics, A2A validation and JSON-RPC notifications.
 Keep dry-run bundling, source review and read-only/negative live smoke tests as
 separate gates. Never use a production smoke test that sends mail, creates a
@@ -472,6 +474,13 @@ done
 
 Expected status is `200`. `/mcp` and `/a2a` return public metadata on `GET`; the
 challenge is text and `/login` is HTML.
+
+For signup recovery changes, request `/auth?token=release-smoke-invalid` without
+following redirects first. Require a `302` to `/login?expired=1` and no session
+cookie. The recovery page must render the same-email instructions and a
+`Send new link` form posting to `/login`. Check `/form` without a cookie still
+redirects to login. These checks must not send a login email; use mocked KV/time
+and email delivery in Worker tests for the positive expiry/re-registration flow.
 
 Test JSON-RPC only with read-only methods unless a send is explicitly authorised.
 For MCP, `initialize`, `tools/list`, and read-only directory tool calls are safe.

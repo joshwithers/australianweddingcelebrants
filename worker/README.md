@@ -39,9 +39,17 @@ and `wrangler versions list` before treating any ID as current.
 1. A celebrant opens `/login`, optionally with a profile slug.
 2. `POST /login` rate-limits the email address, checks whether an edit request
    matches a listing, creates a 15-minute single-use magic token in KV, and sends
-   the link through Resend.
+   the link through Resend. Requesting a link does not register/reserve the email
+   or create a listing. The same email can request another link after expiry;
+   only an existing profile mapping or repository profile selects the edit flow.
+   Requests remain limited to three per email until the 15-minute rate key expires.
 3. `/auth` consumes the token and creates an `awc_session` cookie. The cookie is
    `HttpOnly`, `Secure`, `SameSite=Lax`, scoped to `/`, and lasts 24 hours.
+   An expired, unknown or already-used token redirects to `/login?expired=1`,
+   which explains recovery and lets the celebrant request a new link using the
+   same email. The confirmation page and email also link to recovery, retaining
+   the profile slug for edit requests. Recovery never bypasses email verification
+   or revives an old token.
 4. `/form` renders the create/edit form. The authenticated user submits to
    `/submit`; valid duplicate requests are briefly locked and
    submission/media/evidence data is staged in KV for 90 days. Validation errors
@@ -243,6 +251,11 @@ Do not put secret values in command arguments, `.dev.vars` committed to Git,
 documentation, issue text, logs or frontend bundles.
 
 ## Local development
+
+As of 30 October 2026, `package.json` overrides the development toolchain's
+`sharp` to 0.35.5 and `undici` to 7.30.1 to clear published security advisories.
+Wrangler remains 4.130.0. Revisit these overrides when Miniflare's own pinned
+dependencies include the fixes; the deployed Worker's `yaml` dependency is unchanged.
 
 ```sh
 cd worker

@@ -101,6 +101,10 @@ graph unsupported and produce peer warnings.
 On 1 October 2026, the public-site lockfile also patched transitive `devalue`
 to 5.9.4, `fast-uri` to 3.1.8 and `undici` to 8.11.2 to satisfy the release audit.
 
+On 30 October 2026, Worker development tooling overrides patched `sharp` to
+0.35.5 and `undici` to 7.30.1. Wrangler remained 4.130.0; remove the overrides
+when its Miniflare dependency adopts patched versions directly.
+
 ## Repository map
 
 ```text
@@ -277,7 +281,10 @@ unavoidable, run the external-image probe described in `scripts/README.md`.
 
 The normal production flow is through the Worker:
 
-1. The celebrant requests a magic link at the Worker login page.
+1. The celebrant requests a magic link at the Worker login page. Links last 15
+   minutes; if one expires, they can request another with the same email address.
+   Requesting a link does not reserve the email or create a listing. Expired or
+   already-used links open the recovery form; existing listings use the edit flow.
 2. The authenticated form creates or updates a submission.
 3. The Worker stores the submission/media in KV, optionally improves copy through
    Anthropic, and notifies the administrator.

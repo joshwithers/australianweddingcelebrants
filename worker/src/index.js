@@ -133,12 +133,16 @@ function loginPage(url, env) {
   const slug = url.searchParams.get("slug") || "";
   const mode = slug ? "edit" : "new";
   const error = url.searchParams.get("error") || "";
+  const expired = url.searchParams.get("expired") === "1";
+  const title = expired ? "Request a new link" : mode === "edit" ? "Edit Your Listing" : "Join the Directory";
 
   const errorHtml = error ? `<div class="alert alert-error">${esc(error)}</div>` : "";
 
   const body = `
-    <h1>${mode === "edit" ? "Edit Your Listing" : "Join the Directory"}</h1>
-    <p>${mode === "edit"
+    <h1>${title}</h1>
+    <p>${expired
+      ? "Your previous link has expired or has already been used. Enter the same email address below to get a fresh link and continue with your listing."
+      : mode === "edit"
       ? "Enter the email address on file for your listing and we'll send you a magic link to edit it."
       : "Enter your email address to create your free listing. We'll send you a magic link to get started."
     }</p>
@@ -150,12 +154,12 @@ function loginPage(url, env) {
         <label for="email" class="label">Email address</label>
         <input type="email" id="email" name="email" required class="input" placeholder="hello@example.com" />
       </div>
-      <button type="submit" class="btn btn-primary w-full">Send Magic Link</button>
+      <button type="submit" class="btn btn-primary w-full">${expired ? "Send new link" : "Send Magic Link"}</button>
     </form>
-    <p class="hint mt-6">No password needed — we'll email you a secure login link.</p>
+    <p class="hint mt-6">No password needed — we'll email you a secure login link. If it expires, you can request another using the same email address.</p>
   `;
 
-  return htmlResponse(pageShell(mode === "edit" ? "Edit Listing" : "Join Directory", body));
+  return htmlResponse(pageShell(title, body));
 }
 
 async function handleLogin(request, env) {
@@ -215,16 +219,19 @@ async function handleLogin(request, env) {
 
   // Send magic link email
   const authUrl = `${env.WORKER_URL}/auth?token=${token}`;
+  const recoveryPath = `/login?expired=1${mode === "edit" && slug ? `&slug=${encodeURIComponent(slug)}` : ""}`;
   await sendEmail(env, {
     to: email,
     subject: mode === "edit" ? "Edit your listing — Australian Wedding Celebrants" : "Create your listing — Australian Wedding Celebrants",
-    html: magicLinkEmailHtml(authUrl, mode, env),
+    html: magicLinkEmailHtml(authUrl, mode, `${env.WORKER_URL}${recoveryPath}`),
   });
 
   return htmlResponse(pageShell("Check Your Email", `
     <h1>Check your email</h1>
     <p>We've sent a magic link to <strong>${esc(email)}</strong>. Click the link in the email to ${mode === "edit" ? "edit your listing" : "create your listing"}.</p>
     <p class="hint">The link expires in 15 minutes. Check your spam folder if you don't see it.</p>
+    <p>If your link expires, you can request another using the same email address.</p>
+    <a href="${esc(recoveryPath)}" class="btn btn-dark">Request a new link</a>
   `));
 }
 
@@ -233,7 +240,7 @@ async function handleAuth(url, env) {
   if (!token) return redirect("/login?error=Missing token");
 
   const raw = await env.KV.get(`magic:${token}`);
-  if (!raw) return redirect("/login?error=This link has expired. Please request a new one.");
+  if (!raw) return redirect("/login?expired=1");
 
   const magic = JSON.parse(raw);
   await env.KV.delete(`magic:${token}`); // one-time use
@@ -2143,7 +2150,7 @@ function normaliseTier(value) {
 // Email templates
 // ─────────────────────────────────────────────────────────────────────────────
 
-function magicLinkEmailHtml(url, mode, env) {
+function magicLinkEmailHtml(url, mode, recoveryUrl) {
   return emailShell(`
     <h1 style="font-size:24px;font-weight:700;color:#222;margin-bottom:8px;">
       ${mode === "edit" ? "Edit your listing" : "Create your listing"}
@@ -2155,7 +2162,8 @@ function magicLinkEmailHtml(url, mode, env) {
       ${mode === "edit" ? "Edit My Listing" : "Create My Listing"}
     </a>
     <p style="font-size:13px;color:#999;margin-top:32px;line-height:1.5;">
-      This link expires in 15 minutes. If you didn't request this, you can ignore this email.
+      This link expires in 15 minutes. If it expires, <a href="${esc(recoveryUrl)}">request a new link</a> using the same email address.
+      If you didn't request this, you can ignore this email.
     </p>
   `);
 }
