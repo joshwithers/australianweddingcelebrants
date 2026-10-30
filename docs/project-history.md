@@ -447,6 +447,21 @@ documentation still triggers the normal Git-integrated Pages deployment. The
 deployment runbook now includes read-only recovery and unauthenticated-form smoke
 checks.
 
+Release evidence: implementation commit
+`6d4f45fa3c85ce1820c247478a776681b3072025` was pushed with matching local,
+tracking and remote SHAs. Worker version
+`666e517e-629b-41f8-820c-0a0b88909395` carried that full SHA in its version
+message and served 100% of traffic in deployment
+`79999a25-56f7-4915-b595-9abfa91f5260`. The canonical API passed expired-token
+redirect/no-cookie, recovery form, unauthenticated form protection and
+login/MCP/A2A/challenge smoke checks. Git-integrated Pages deployment
+`714408cb-c5bb-478a-973d-28de6f911baf` completed successfully for the same SHA.
+Its immutable URL, `https://714408cb.australianweddingcelebrants.pages.dev`, and
+the canonical site both returned successful homepage, `llms.txt`, `directory.json`
+and negotiated Markdown responses, without cookies. No direct upload was needed.
+The following evidence-only commit changes no Worker runtime source and may
+produce another equivalent Pages deployment.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry
