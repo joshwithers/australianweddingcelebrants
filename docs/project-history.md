@@ -472,7 +472,7 @@ single-run lab observations, not real-user measurements.
 The homepage now disables first-card download priority because its directory sits
 below both the hero and standards section. The unchanged 4,228-byte hero SVG is
 embedded as a data URL, removing its separate critical request. Shared cards use
-container/rem-aware responsive sizes, 320/400/480/600/800px photo candidates,
+container/rem-aware responsive sizes, 320/400/480/600px photo candidates,
 WebP quality 72, and lazy auto-sized logos at quality 70. Natural aspect ratios
 remain intact; eager/high priority remains available on directory landing pages.
 
@@ -503,8 +503,23 @@ non-overlapping cards, no overflow, back/navigation, mobile menu and reduced mot
 An isolated browser kept cookies and storage empty after analytics loaded, made
 one tag request across navigation, and queued one sanitised page view per route.
 A local cold Slow 4G/4x-CPU trace measured 909ms LCP and zero CLS; local hosting is
-not directly comparable to PageSpeed or production. Production evidence follows
-in the release handover. Only the Pages unit changes; the Worker is not deployed.
+not directly comparable to PageSpeed or production. Only the Pages unit changes; the Worker is not deployed.
+
+Initial release commit `65d2312d500e5b4743f632843804b6bf05189d0c` had matching
+local/remote SHAs and successful Pages deployment
+`b1b20fa4-569a-4944-bd42-0bb49d2515ae`. Canonical and immutable HTML, discovery,
+JSON, direct/negotiated Markdown and no-cookie smoke checks passed. An isolated
+production browser confirmed the deferred tag and empty cookies/storage. A cold
+Slow 4G/4x-CPU production trace measured 899ms LCP and zero CLS.
+
+The fresh [mobile PageSpeed run](https://pagespeed.web.dev/analysis/https-australianweddingcelebrants-com-au/mintjofvzi?form_factor=mobile)
+scored 100 performance, accessibility, best practices and SEO, with 1.0s FCP,
+1.7s LCP, 30ms TBT, zero CLS and 2.2s Speed Index. It also exposed a bandwidth
+trade-off: the added 800px photo candidate increased downloads on high-density
+phones. The follow-up keeps the previous 600px maximum plus the new 480px step,
+accurate sizes and lower compression quality. This avoids increasing the existing
+resolution ceiling while retaining the rendering improvements. Scores are lab
+snapshots and can vary; no CrUX field dataset was available.
 
 ## How to maintain this history
 

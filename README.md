@@ -196,7 +196,7 @@ Direct `.md` URLs also work through the static output and `public/_headers`.
   normal `<img>` plus cached dimensions for external URLs. The first important
   card may be eager/high priority, but the homepage passes `prioritizeFirst={false}`
   because all cards are below the hero and standards. Card photographs use WebP
-  quality 72 and 320/400/480/600/800px candidates with container-aware `sizes`;
+  quality 72 and 320/400/480/600px candidates with container-aware `sizes`;
   logos use quality 70 and lazy `sizes="auto"` with explicit fallback sizes. Images
   retain natural aspect ratios. The homepage embeds the existing hero SVG as a
   data URL so it paints without another network request.
