@@ -3,6 +3,7 @@ import StaticDirectoryListings from './StaticDirectoryListings.astro';
 import { getSinglePage } from "@/lib/contentParser.astro";
 
 interface Props {
+  prioritizeFirst?: boolean;
   sortBy?: 'alphabetical' | 'random';
   featuredOnly?: boolean;
   showFilters?: boolean;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const {
+  prioritizeFirst = true,
   sortBy = 'alphabetical',
   featuredOnly = false,
   showFilters = true,
@@ -32,6 +34,7 @@ const directoryItems = await getSinglePage("directory");
 
 <StaticDirectoryListings
   items={directoryItems}
+  prioritizeFirst={prioritizeFirst}
   sortBy={sortBy}
   featuredOnly={featuredOnly}
   showFilters={showFilters}

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
+import matter from "gray-matter";
 import { parse } from "node-html-parser";
 
 import {
@@ -273,11 +274,28 @@ test("agent enquiries require explicit stored opt-in", async () => {
     read("../dist/directory.json").then(JSON.parse),
     read("../dist/ai/index.html"),
   ]);
-  assert.ok(
-    directory.celebrants.every(
-      (item) => item.accepts_agent_enquiries === false,
-    ),
-  );
+  const sourceDirectory = new URL("../src/content/directory/", import.meta.url);
+  const consentByName = new Map();
+  for (const filename of await readdir(sourceDirectory)) {
+    if (!/\.mdx?$/.test(filename)) continue;
+    const { data } = matter(
+      await readFile(new URL(filename, sourceDirectory), "utf8"),
+    );
+    if (filename.startsWith("-") || data.draft === true) continue;
+    assert.ok(
+      !consentByName.has(data.title),
+      `Ambiguous source name ${data.title}`,
+    );
+    consentByName.set(data.title, data.accepts_agent_enquiries === true);
+  }
+  for (const item of directory.celebrants) {
+    assert.ok(consentByName.has(item.name), `Missing source for ${item.slug}`);
+    assert.equal(
+      item.accepts_agent_enquiries,
+      consentByName.get(item.name),
+      `${item.slug} must reflect literal stored consent`,
+    );
+  }
   assert.match(
     article,
     /Agent-relayed enquiries require an explicit profile opt-in/,

@@ -462,6 +462,50 @@ and negotiated Markdown responses, without cookies. No direct upload was needed.
 The following evidence-only commit changes no Worker runtime source and may
 produce another equivalent Pages deployment.
 
+## 31 October 2026 — mobile homepage performance
+
+The supplied PageSpeed mobile report scored 87, with 0.9s FCP, 3.9s LCP,
+50ms TBT and zero CLS. Its largest element was the hero background, and it flagged
+83.5 KiB of image savings, analytics startup work and forced layout. These are
+single-run lab observations, not real-user measurements.
+
+The homepage now disables first-card download priority because its directory sits
+below both the hero and standards section. The unchanged 4,228-byte hero SVG is
+embedded as a data URL, removing its separate critical request. Shared cards use
+container/rem-aware responsive sizes, 320/400/480/600/800px photo candidates,
+WebP quality 72, and lazy auto-sized logos at quality 70. Natural aspect ratios
+remain intact; eager/high priority remains available on directory landing pages.
+
+Masonry uses natural stacking below 768px. On larger screens column writes,
+height reads and row writes are batched, and resize observers are disconnected
+on mobile and before ClientRouter swaps. Every profile still has one DOM card.
+GA4 configuration and sanitised page views queue immediately, but the single tag
+request waits for window load, two animation frames and an idle callback with a
+two-second timeout (timer fallback). All denied consent/privacy settings remain.
+Short visits that end before the tag loads may not be counted.
+
+The clean install exposed security advisories. Compatible updates within existing
+ranges brought Astro to 7.4.4, Sharp to 0.35.5, sanitize-html to 2.18.1 and patched
+transitive packages. Typography still pins vulnerable postcss-selector-parser
+6.0.10, so a scoped root override selects 6.1.5 instead of npm's suggested breaking
+typography downgrade. Remove the override when upstream adopts a patched parser.
+A stale regression test assumed every profile blocked agent enquiries; it now
+compares generated consent with literal stored consent for every member. The
+existing Eliza McAllister opt-in and all member content were left untouched.
+
+Validation: clean install, full `npm run validate` (75 checked files, no Astro
+diagnostics; 154 HTML pages, 152 sitemap/Markdown pairs; 26 tests), agent/internal
+link checks and npm audit (zero vulnerabilities) passed. Added tests exercise
+queued analytics before navigation, single configuration/loader, idle/timer paths,
+privacy, lazy homepage photos, directory priority and exact embedded SVG content.
+Browser checks passed at 390px, 820px and 1280px, including breakpoint changes,
+non-overlapping cards, no overflow, back/navigation, mobile menu and reduced motion.
+An isolated browser kept cookies and storage empty after analytics loaded, made
+one tag request across navigation, and queued one sanitised page view per route.
+A local cold Slow 4G/4x-CPU trace measured 909ms LCP and zero CLS; local hosting is
+not directly comparable to PageSpeed or production. Production evidence follows
+in the release handover. Only the Pages unit changes; the Worker is not deployed.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry

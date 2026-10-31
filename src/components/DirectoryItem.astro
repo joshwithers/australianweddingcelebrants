@@ -77,13 +77,13 @@ const imageDims =
             <Image
               src={item.data.image}
               alt={item.data.title}
-              widths={[320, 400, 600]}
+              widths={[320, 400, 480, 600, 800]}
               class="directory-card-img w-full transition-transform duration-500 group-hover:scale-[1.03]"
               loading={isFirst ? "eager" : "lazy"}
               decoding={isFirst ? "sync" : "async"}
               fetchpriority={isFirst ? "high" : undefined}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              quality={isFirst ? 82 : 75}
+              sizes="(min-width: 1280px) calc((1280px - 8rem) / 3), (min-width: 1024px) calc((100vw - 8rem) / 3), (min-width: 768px) calc((100vw - 6.5rem) / 2), calc(100vw - 3rem)"
+              quality={72}
               format={outputImageFormat(item.data.image)}
             />
           )}
@@ -125,10 +125,10 @@ const imageDims =
                   src={item.data.logo}
                   alt={item.data.title}
                   widths={[240, 320, 400]}
-                  sizes="(max-width: 768px) 80vw, 30vw"
+                  sizes="auto, (min-width: 1280px) calc((1280px - 14rem) * 0.3), (min-width: 1024px) calc((100vw - 14rem) * 0.3), (min-width: 768px) calc((100vw - 10.5rem) * 0.45), calc((100vw - 5rem) * 0.9)"
                   class="h-auto max-h-24 w-auto max-w-full"
                   loading="lazy"
-                  quality={75}
+                  quality={70}
                   format={outputImageFormat(item.data.logo)}
                 />
               )}

@@ -11,7 +11,7 @@ deployment changes. Follow `AGENTS.md` for the complete handover rule.
 
 ## Stack
 
-- **Astro 7.3** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
+- **Astro 7.4** — static site generation, Content Layer API, `<ClientRouter />` view transitions.
 - **Tailwind CSS 4** — via `@tailwindcss/vite`. Project-specific utilities live in `src/styles/`.
 - **React 19** — used for MDX shortcodes; search is `SearchBar.astro` with a
   small native script and no framework hydration.
@@ -60,10 +60,12 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 
 ## Component architecture
 
-- `src/layouts/Base.astro` — root public layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`) and the cookieless GA4 configuration. Consent defaults must remain before `gtag.js`; all four storage/data/personalisation settings remain denied, Google signals and ad personalisation remain off, queries are excluded from `page_location`, and referrers are origin-only. Do not add analytics cookies, local-storage IDs, a consent update, or a banner. Private Worker pages do not use this layout.
+- `src/layouts/Base.astro` — root public layout; sets `<head>` (title, canonical, OG, Twitter, WebSite JSON-LD, fonts, `<ClientRouter />`) and the cookieless GA4 configuration. Consent defaults must remain before `gtag.js`; all four storage/data/personalisation settings remain denied, Google signals and ad personalisation remain off, queries are excluded from `page_location`, and referrers are origin-only. Do not add analytics cookies, local-storage IDs, a consent update, or a banner. The tag loads once after window load, two paint frames and idle time; page views queue immediately. Private Worker pages do not use this layout.
 - `src/layouts/partials/Header.astro` — sticky nav with aria-expanded-driven mobile toggle (no checkbox hack). Uses delegated events across ClientRouter page swaps.
-- `src/components/DirectoryItem.astro` — single card. Uses `<Image>` for local assets, falls back to `<img>` for string URLs. LCP-optimised via `isFirst` prop (eager load, `fetchpriority="high"`, higher quality).
+- `src/components/DirectoryItem.astro` — single card. Uses `<Image>` for local assets, falls back to `<img>` for string URLs. Uses `isFirst` for eager/high priority only where a card is above the fold; the homepage disables it. Photos use quality 72 and container-aware responsive sizes; logos use quality 70 and lazy auto-sizing.
 - `src/components/StaticDirectoryListings.astro` / `DirectoryListingsWrapper.astro` — grid composition with location filtering.
+- `src/components/MasonryGrid.astro` — natural stacking below 768px; batched height reads/row writes and resize observers on larger screens, with observer cleanup before swaps.
+- `src/pages/index.astro` embeds the unchanged hero SVG as a data URL to avoid a separate critical request.
 - `src/layouts/SearchBar.astro` — native term filtering with delegated events and
   `astro:page-load`; Fuse.js is no longer installed.
 

@@ -10,18 +10,16 @@ interface Props {
 const { items, prioritizeFirst = true } = Astro.props;
 ---
 
-{
-  items.length > 0 && (
-    <div class="masonry-grid" data-masonry-grid="true">
-      {items.map((item, index) => (
-        <DirectoryItem item={item} isFirst={prioritizeFirst && index === 0} />
-      ))}
-    </div>
-  )
-}
+{items.length > 0 && (
+  <div class="masonry-grid" data-masonry-grid="true">
+    {items.map((item, index) => (
+      <DirectoryItem item={item} isFirst={prioritizeFirst && index === 0} />
+    ))}
+  </div>
+)}
 
 <script>
-  const masonryObservers = new WeakMap<HTMLElement, ResizeObserver>();
+  const masonryObservers = new Map<HTMLElement, ResizeObserver>();
   let masonryFrame = 0;
 
   const layoutMasonryGrid = (grid: HTMLElement) => {
@@ -30,21 +28,44 @@ const { items, prioritizeFirst = true } = Astro.props;
         element instanceof HTMLElement &&
         element.classList.contains("directory-card-shell"),
     );
-
     if (cards.length === 0) return;
+
+    // A single column needs no measurements, pixel rows or resize observers.
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      masonryObservers.get(grid)?.disconnect();
+      masonryObservers.delete(grid);
+      delete grid.dataset.masonryReady;
+      cards.forEach((card) => {
+        card.style.removeProperty("grid-column-start");
+        card.style.removeProperty("grid-row-end");
+      });
+      return;
+    }
 
     const columnCount = window.matchMedia("(min-width: 1024px)").matches
       ? 3
-      : window.matchMedia("(min-width: 768px)").matches
-        ? 2
-        : 1;
-
+      : 2;
+    // Set columns together, read every height, then write row spans together.
+    // Interleaving these operations forces layout once for each card.
     cards.forEach((card, index) => {
-      card.style.gridColumnStart = String((index % columnCount) + 1);
-      card.style.gridRowEnd = `span ${Math.ceil(card.getBoundingClientRect().height)}`;
+      const column = String((index % columnCount) + 1);
+      if (card.style.gridColumnStart !== column)
+        card.style.gridColumnStart = column;
     });
-
+    const spans = cards.map(
+      (card) => `span ${Math.ceil(card.getBoundingClientRect().height)}`,
+    );
+    cards.forEach((card, index) => {
+      if (card.style.gridRowEnd !== spans[index])
+        card.style.gridRowEnd = spans[index];
+    });
     grid.dataset.masonryReady = "true";
+
+    if (!masonryObservers.has(grid) && "ResizeObserver" in window) {
+      const observer = new ResizeObserver(scheduleMasonryLayout);
+      cards.forEach((card) => observer.observe(card));
+      masonryObservers.set(grid, observer);
+    }
   };
 
   const scheduleMasonryLayout = () => {
@@ -56,20 +77,11 @@ const { items, prioritizeFirst = true } = Astro.props;
     });
   };
 
-  const initializeMasonry = () => {
-    document
-      .querySelectorAll<HTMLElement>("[data-masonry-grid]")
-      .forEach((grid) => {
-        layoutMasonryGrid(grid);
-
-        if (!masonryObservers.has(grid) && "ResizeObserver" in window) {
-          const observer = new ResizeObserver(scheduleMasonryLayout);
-          Array.from(grid.children).forEach((card) => observer.observe(card));
-          masonryObservers.set(grid, observer);
-        }
-      });
-  };
-
-  document.addEventListener("astro:page-load", initializeMasonry);
+  document.addEventListener("astro:before-swap", () => {
+    cancelAnimationFrame(masonryFrame);
+    masonryObservers.forEach((observer) => observer.disconnect());
+    masonryObservers.clear();
+  });
+  document.addEventListener("astro:page-load", scheduleMasonryLayout);
   window.addEventListener("resize", scheduleMasonryLayout, { passive: true });
 </script>

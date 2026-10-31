@@ -74,17 +74,12 @@ body[data-page="home"] .header.header--revealed {
   }
 }
 
-/* One server-rendered card per celebrant. The script measures each card and
-   spans one-pixel rows to create masonry without duplicating hidden cards. */
+/* One server-rendered card per celebrant. Mobile stacks naturally; multi-column
+   layouts measure heights and span pixel rows without duplicating cards. */
 .masonry-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   column-gap: 1.5rem;
-}
-
-.masonry-grid[data-masonry-ready="true"] {
-  grid-auto-flow: row dense;
-  grid-auto-rows: 1px;
 }
 
 .masonry-grid > .directory-card-shell {
@@ -94,6 +89,11 @@ body[data-page="home"] .header.header--revealed {
 }
 
 @media (min-width: 768px) {
+  .masonry-grid[data-masonry-ready="true"] {
+    grid-auto-flow: row dense;
+    grid-auto-rows: 1px;
+  }
+
   .masonry-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

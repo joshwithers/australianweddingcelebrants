@@ -1,12 +1,16 @@
 ---
 import Base from "@/layouts/Base.astro";
 import DirectoryListingsWrapper from "../components/DirectoryListingsWrapper.astro";
+import heroBackground from "../../public/hero-bg.svg?raw";
 import TierIcon from "@/components/TierIcon.astro";
 ---
 
-<Base theme_color="#FFEDEF" preload_image="/hero-bg.svg">
+<Base theme_color="#FFEDEF">
   {/* Hero section */}
-  <section class="hero-section relative overflow-hidden text-center">
+  <section
+    class="hero-section relative overflow-hidden text-center"
+    style={`--hero-background: url("data:image/svg+xml,${encodeURIComponent(heroBackground)}")`}
+  >
     {/* Content */}
     <div class="relative z-10 container py-20 md:py-32">
       <div class="hero-content">
@@ -216,6 +220,7 @@ import TierIcon from "@/components/TierIcon.astro";
         featuredOnly={false}
         showFilters={true}
         maxItems={32}
+        prioritizeFirst={false}
         premiumTiers={["luminary"]}
       />
     </div>
@@ -235,7 +240,7 @@ import TierIcon from "@/components/TierIcon.astro";
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("/hero-bg.svg");
+    background-image: var(--hero-background);
     background-size: cover;
     background-position: center;
     transform: scale(var(--hero-bg-scale, 1));

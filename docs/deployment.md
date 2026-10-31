@@ -411,6 +411,22 @@ When analytics/privacy code changes, also inspect a real browser: verify the GA4
 measurement ID, denied defaults before `gtag.js`, empty `document.cookie`, and no
 analytics IDs in local/session storage. HTTP headers alone cannot prove those.
 
+### Mobile performance changes
+
+On both deployment and canonical URLs, verify the homepage hero background is an
+embedded SVG with no `/hero-bg.svg` request, all homepage card photos are lazy and
+none has high fetch priority, and the first directory photo retains priority.
+Check 390px, 820px and 1280px layouts and transitions between them: one DOM card
+per celebrant, natural photo ratios, no overlap, no horizontal overflow, no
+mobile pixel-row spans, and functional navigation/back and mobile menu.
+
+For analytics, inspect the request timeline: `gtag.js` starts after window load
+and paint, appears once across ClientRouter navigation, and queued page views
+retain the denied defaults and sanitised URLs/referrers. Verify empty cookies and
+no analytics storage after the tag loads, including on a URL with query parameters.
+Use repeated cold mobile traces under the same throttling for before/after
+comparisons; a DevTools trace is not the PageSpeed score or field-user evidence.
+
 ### Alias domains
 
 When domain or canonical behaviour changes, check each attached host. Record

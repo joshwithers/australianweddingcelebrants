@@ -72,18 +72,18 @@ when implementation and documentation disagree.
 
 ## Technology
 
-Versions below are the installed versions recorded by `package-lock.json` on 10
-September 2026. `package.json` remains the authority for accepted version ranges.
+Versions below are the installed versions recorded by `package-lock.json` on 31
+October 2026. `package.json` remains the authority for accepted version ranges.
 
 | Technology        | Version              | Role                                                                                               |
 | ----------------- | -------------------- | -------------------------------------------------------------------------------------------------- |
 | Node.js           | `>=22.12.0`          | Build and test runtime; `.node-version` selects major 22                                           |
-| Astro             | 7.3.2                | Static generation, routing, Content Layer, assets, fonts and view transitions                      |
+| Astro             | 7.4.4                | Static generation, routing, Content Layer, assets, fonts and view transitions                      |
 | React / React DOM | 19.3.0               | MDX shortcodes that need React; search itself is now an Astro component with a small native script |
 | Tailwind CSS      | 4.3.3                | CSS-first design tokens via `@tailwindcss/vite`                                                    |
 | TypeScript        | 6.0.3                | Type checking for Astro and TypeScript code                                                        |
-| Sharp             | 0.35.4               | Build-time local image optimisation                                                                |
-| sanitize-html     | 2.17.7               | Safe generated Markdown/content conversion                                                         |
+| Sharp             | 0.35.5               | Build-time local image optimisation                                                                |
+| sanitize-html     | 2.18.1               | Safe generated Markdown/content conversion                                                         |
 | Wrangler          | 4.130.0 in `worker/` | Cloudflare Pages and Worker inspection/deployment                                                  |
 | Resend            | HTTP API             | Magic links, workflow email, admin mail and A2A relay mail                                         |
 | Anthropic         | HTTP API / SDK       | Submission cleanup, bio editing and award-title drafting                                           |
@@ -104,6 +104,10 @@ to 5.9.4, `fast-uri` to 3.1.8 and `undici` to 8.11.2 to satisfy the release audi
 On 30 October 2026, Worker development tooling overrides patched `sharp` to
 0.35.5 and `undici` to 7.30.1. Wrangler remained 4.130.0; remove the overrides
 when its Miniflare dependency adopts patched versions directly.
+
+On 31 October 2026, compatible public-site security updates moved Astro to 7.4.4
+and patched vulnerable transitive packages. The root override pins typography's `postcss-selector-parser` to 6.1.5 instead of downgrading typography; remove it
+when typography stops pinning the vulnerable 6.0.10 release.
 
 ## Repository map
 
@@ -185,11 +189,17 @@ Direct `.md` URLs also work through the static output and `public/_headers`.
 - `src/layouts/partials/Header.astro` uses delegated events and
   `astro:page-load`, so the mobile menu survives document swaps.
 - `src/components/MasonryGrid.astro` implements one-DOM responsive masonry with
-  measured card heights, one-pixel grid rows, `ResizeObserver` and
-  `astro:page-load`. Each celebrant must appear only once in the DOM.
+  natural single-column stacking below 768px. Larger screens batch height reads
+  and row writes, use one-pixel grid rows and `ResizeObserver`, and disconnect
+  observers before document swaps. Each celebrant appears only once in the DOM.
 - `src/components/DirectoryItem.astro` uses Astro `<Image>` for local assets and a
   normal `<img>` plus cached dimensions for external URLs. The first important
-  card may be eager/high priority. Card images retain natural aspect ratios.
+  card may be eager/high priority, but the homepage passes `prioritizeFirst={false}`
+  because all cards are below the hero and standards. Card photographs use WebP
+  quality 72 and 320/400/480/600/800px candidates with container-aware `sizes`;
+  logos use quality 70 and lazy `sizes="auto"` with explicit fallback sizes. Images
+  retain natural aspect ratios. The homepage embeds the existing hero SVG as a
+  data URL so it paints without another network request.
 - `src/layouts/SearchBar.astro` renders all candidate cards at build time and
   filters them in a small native client script. It requires at least two useful
   characters and updates the query string without navigation.
@@ -375,6 +385,12 @@ cookieless Consent Mode boundary:
 - referrers are reduced to origin;
 - no consent update, analytics cookie, local-storage identifier or consent banner
   is used.
+
+The tag is requested once per document lifetime, after window load, two animation
+frames and an idle callback (with a two-second idle timeout and a timer fallback).
+Consent, configuration and sanitised page views queue immediately; ClientRouter
+navigation must not duplicate the loader or page-view listener. Very short visits
+that end before the deferred tag loads may not be counted.
 
 Private Worker login, account and admin pages do not use `Base.astro` and must not
 load the public analytics tag. Tests inspect the built HTML for this exact boundary.

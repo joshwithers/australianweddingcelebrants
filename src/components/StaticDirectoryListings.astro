@@ -8,6 +8,7 @@ type DirectoryEntry = CollectionEntry<"directory">;
 
 interface Props {
   items: DirectoryEntry[];
+  prioritizeFirst?: boolean;
   sortBy?: "alphabetical" | "random";
   featuredOnly?: boolean;
   showFilters?: boolean;
@@ -19,6 +20,7 @@ interface Props {
 
 const {
   items,
+  prioritizeFirst = true,
   sortBy = "random",
   featuredOnly = false,
   showFilters = true,
@@ -118,7 +120,7 @@ const registeredItems = sortedItems.filter(
   {
     premiumItems.length > 0 && (
       <div class="mb-12">
-        <MasonryGrid items={premiumItems} />
+        <MasonryGrid items={premiumItems} prioritizeFirst={prioritizeFirst} />
       </div>
     )
   }
@@ -184,7 +186,7 @@ const registeredItems = sortedItems.filter(
   {/* Registered celebrants grid */}
   <MasonryGrid
     items={registeredItems}
-    prioritizeFirst={premiumItems.length === 0}
+    prioritizeFirst={prioritizeFirst && premiumItems.length === 0}
   />
 
   {

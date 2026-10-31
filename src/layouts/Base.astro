@@ -98,7 +98,6 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
         ad_personalization: "denied"
       });
     </script>
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-DCYE3SSJQV"></script>
     <script is:inline>
       if (!window.__awcGa4Configured) {
         window.__awcGa4Configured = true;
@@ -111,6 +110,29 @@ const markdownUrl = `${config.site.base_url}${canonicalPath === '/' ? '/index.md
           allow_google_signals: false,
           allow_ad_personalization_signals: false
         });
+
+        // Keep the initial paint ahead of analytics. Configuration and page
+        // views queue immediately, including navigations before the tag loads.
+        const loadAnalytics = function () {
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = "https://www.googletagmanager.com/gtag/js?id=G-DCYE3SSJQV";
+          script.dataset.awcAnalytics = "true";
+          document.head.appendChild(script);
+        };
+        const scheduleAnalytics = function () {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
+              } else {
+                setTimeout(loadAnalytics, 0);
+              }
+            });
+          });
+        };
+        if (document.readyState === "complete") scheduleAnalytics();
+        else window.addEventListener("load", scheduleAnalytics, { once: true });
 
         document.addEventListener("astro:page-load", function () {
           let referrerOrigin = "";
