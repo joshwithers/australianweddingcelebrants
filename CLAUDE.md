@@ -69,6 +69,12 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 - `src/layouts/SearchBar.astro` — native term filtering with delegated events and
   `astro:page-load`; Fuse.js is no longer installed.
 
+The shared footer (`src/layouts/partials/Footer.astro`) has the compact full brand,
+eight capitals from `src/lib/capitalCities.ts`, resource links from `menu.footer`,
+Mafia Publishing copyright, an expandable legal-publisher/corrections disclosure,
+and the playful Unpopular / The Internet sign-off. Keep the capital inventory in
+sync with generated location routes; do not remove the correction route.
+
 ## Routing
 
 - `/directory/` — full directory (index).

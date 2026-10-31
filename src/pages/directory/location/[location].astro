@@ -1,4 +1,5 @@
 ---
+import { CAPITAL_CITIES } from "@/lib/capitalCities";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import {
@@ -21,9 +22,11 @@ export async function getStaticPaths() {
     getCollection("locationBlurbs"),
   ]);
 
-  const locations = [
-    ...new Set(directoryItems.flatMap((item) => item.data.location)),
-  ];
+  // Capital routes also include Australia-wide members; deduplicate by slug.
+  const locations = [...new Map(
+    [...directoryItems.flatMap((item) => item.data.location), ...CAPITAL_CITIES]
+      .map((location) => [slugify(location), location]),
+  ).values()];
 
   return locations.map((location) => {
     return {

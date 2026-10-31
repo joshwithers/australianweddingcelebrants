@@ -427,6 +427,15 @@ no analytics storage after the tag loads, including on a URL with query paramete
 Use repeated cold mobile traces under the same throttling for before/after
 comparisons; a DevTools trace is not the PageSpeed score or field-user evidence.
 
+### Footer changes
+
+Check the footer at 320px, 390px and desktop widths for horizontal overflow,
+readable navigation, 44px navigation targets and the two intact credit phrases.
+Verify all eight capital links, especially `/directory/location/darwin/`, its
+Markdown companion and sitemap/inventory entry. Confirm resource links appear
+once each, Mafia Publishing points to `https://mafia.net.au/`, and the legal
+publisher/correction disclosure remains keyboard accessible.
+
 ### Alias domains
 
 When domain or canonical behaviour changes, check each attached host. Record

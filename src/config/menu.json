@@ -27,12 +27,12 @@
   ],
   "footer": [
     {
-      "name": "Join the Directory",
-      "url": "https://api.australianweddingcelebrants.com.au/login"
+      "name": "Browse the Directory",
+      "url": "/directory/"
     },
     {
-      "name": "hello@australianweddingcelebrants.com.au",
-      "url": "mailto:hello@australianweddingcelebrants.com.au"
+      "name": "Join the Directory",
+      "url": "https://api.australianweddingcelebrants.com.au/login"
     },
     {
       "name": "About AI and SEO",

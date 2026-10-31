@@ -521,6 +521,30 @@ accurate sizes and lower compression quality. This avoids increasing the existin
 resolution ceiling while retaining the rendering improvements. Scores are lab
 snapshots and can vary; no CrUX field dataset was available.
 
+## 31 October 2026 — responsive footer rebuild
+
+The previous footer wrapped mixed navigation, email and credits into cramped mobile
+rows. It now presents a smaller full brand lockup, a softened version of the hero
+background, eight capital-city links and a separate resource navigation. The email
+and GitHub credit are removed from this footer. The requested copyright credits
+Mafia Publishing; the responsible legal publisher, ABN and no-sign-in correction
+route remain in a native details disclosure. The final Unpopular / The Internet
+credit uses two spaced phrases, pastel pill links, gentle opposing tilts and a
+small decorative sparkle. Hover feedback honours reduced motion.
+
+`src/lib/capitalCities.ts` is the shared city inventory. Darwin lacked a route;
+location generation now includes all capitals and deduplicates by slug, retaining
+the existing stored-location/Australia-wide eligibility and ranking rules. No
+profile, credential, location claim or agent consent is edited. Darwin gains the
+normal canonical, Markdown companion, sitemap and llms inventory coverage.
+
+Validation: full `npm run validate` passed with 75 Astro files checked, 155 built
+HTML pages, 153 sitemap/Markdown pairs, 26 regression tests, valid agent files and
+internal links, and zero dependency vulnerabilities. Browser review at 320px,
+390px and 1280px confirmed no horizontal overflow, navigation targets at least
+44px tall, readable credit spacing and an operable publisher disclosure. The
+Worker release unit is unchanged; production identifiers are in the task handover.
+
 ## How to maintain this history
 
 Add a dated entry for material work, not every ordinary profile edit. Each entry
