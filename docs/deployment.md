@@ -434,7 +434,7 @@ readable navigation, 44px navigation targets and intact credit phrases.
 Verify all eight capital links, especially `/directory/location/darwin/`, its
 Markdown companion and sitemap/inventory entry. Confirm resource links appear
 once each, Mafia Publishing points to `https://mafia.net.au/`, and the legal
-publisher/correction text remains visible. Check the Withers Co project line and
+publisher name and ABN remain visible without the removed correction prompt. Check the Withers Co project line and
 the final Josh link to `https://joshwithers.au/`.
 
 ### Alias domains

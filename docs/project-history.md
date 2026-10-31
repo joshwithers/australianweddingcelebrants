@@ -527,11 +527,14 @@ The previous footer wrapped mixed navigation, email and credits into cramped mob
 rows. It now presents a smaller full brand lockup, a softened version of the hero
 background, eight capital-city links and a separate resource navigation. The email
 and GitHub credit are removed from this footer. The requested copyright credits
-Mafia Publishing; the responsible legal publisher, ABN and no-sign-in correction
-route remain as subtle visible text. A small italic “Another Withers Co project”
-line and decorative sparkle sit above the final “Another Unpopular website on
-The Internet by Josh” credit. The three names use matching understated underlines
-and spaced, wrapping phrases. No pill backgrounds or accordion remain. Hover
+Mafia Publishing; the responsible legal publisher and ABN remain as subtle
+visible text. At the user’s request the repeated correction prompt is removed
+from the footer; the contact page and profile/agent-readable correction routes
+remain available. A handwritten-style “Another Withers Co project”
+line, drawn star and double-swoosh underline sit above the final “Another Unpopular
+website on The Internet by Josh” credit. Unpopular and The Internet use matching
+wavy underlines; a curved arrow leads to the italic Josh signature below. The
+credits use system serif typography and inline SVG, with no extra fonts or scripts. No pill backgrounds or accordion remain. Hover
 feedback honours reduced motion.
 
 `src/lib/capitalCities.ts` is the shared city inventory. Darwin lacked a route;

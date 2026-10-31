@@ -213,9 +213,10 @@ brand lockup, capital-city links and the seven resource links in `menu.footer`.
 `src/lib/capitalCities.ts` owns the eight-city inventory and guarantees those
 location routes exist, including Darwin. Routes still match stored locations or
 Australia-wide travel; a capital link does not imply a local member or availability.
-The copyright credits Mafia Publishing; legal publisher details and the public
-correction route remain as subtle visible text. A small “Another Withers Co project” line precedes the
-spaced Unpopular / The Internet / Josh credit links, with reduced-motion support.
+The copyright credits Mafia Publishing; legal publisher details remain as subtle visible text. The correction route
+remains on the contact page and in the existing profile/agent-readable surfaces. A handwritten-style “Another Withers Co project” line precedes the
+Unpopular / The Internet credits and Josh signature, with drawn flourishes, no
+extra fonts/scripts, and reduced-motion support.
 
 ## Routes and public surfaces
 
