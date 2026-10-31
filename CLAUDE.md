@@ -71,10 +71,11 @@ Luminary profiles use a centered hero layout (logo/name top, large centered prof
 
 The shared footer (`src/layouts/partials/Footer.astro`) has the compact full brand,
 eight capitals from `src/lib/capitalCities.ts`, resource links from `menu.footer`,
-Mafia Publishing copyright, subtle visible legal-publisher text,
-and a Withers Co line above the Unpopular / The Internet / Josh sign-off. Keep the capital inventory in
+Mafia Publishing copyright, and a linked Withers Co line above the
+Unpopular / The Internet / Josh sign-off. Keep the capital inventory in
 sync with generated location routes. Corrections remain available on the contact
-page and profile/agent-readable surfaces, without a repeated footer prompt.
+page and profile/agent-readable surfaces, without a repeated footer prompt. The
+footer omits the legal-publisher line; the about page and structured data retain it.
 
 ## Routing
 

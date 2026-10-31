@@ -433,9 +433,9 @@ Check the footer at 320px, 390px and desktop widths for horizontal overflow,
 readable navigation, 44px navigation targets and intact credit phrases.
 Verify all eight capital links, especially `/directory/location/darwin/`, its
 Markdown companion and sitemap/inventory entry. Confirm resource links appear
-once each, Mafia Publishing points to `https://mafia.net.au/`, and the legal
-publisher name and ABN remain visible without the removed correction prompt. Check the Withers Co project line and
-the final Josh link to `https://joshwithers.au/`.
+once each, Mafia Publishing points to `https://mafia.net.au/`, and the repeated
+legal publisher/correction text is absent. Check the Withers Co project link to
+`https://withers.co/` and the final Josh link to `https://joshwithers.au/`.
 
 ### Alias domains
 

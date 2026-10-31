@@ -527,15 +527,16 @@ The previous footer wrapped mixed navigation, email and credits into cramped mob
 rows. It now presents a smaller full brand lockup, a softened version of the hero
 background, eight capital-city links and a separate resource navigation. The email
 and GitHub credit are removed from this footer. The requested copyright credits
-Mafia Publishing; the responsible legal publisher and ABN remain as subtle
-visible text. At the user’s request the repeated correction prompt is removed
-from the footer; the contact page and profile/agent-readable correction routes
-remain available. A handwritten-style “Another Withers Co project”
-line, drawn star and double-swoosh underline sit above the final “Another Unpopular
-website on The Internet by Josh” credit. Unpopular and The Internet use matching
+Mafia Publishing. At the user’s request the repeated legal publisher/ABN line
+and correction prompt are removed from the footer; publisher details remain on
+the about page and in structured data, and the contact/profile/agent-readable
+correction routes remain available. A handwritten-style “Another Withers Co project”
+line linked to `https://withers.co/`, drawn star and double-swoosh underline sit
+above the final “Another Unpopular website on The Internet by Josh” credit. Unpopular and The Internet use matching
 wavy underlines; a curved arrow leads to the italic Josh signature below. The
-credits use system serif typography and inline SVG, with no extra fonts or scripts. No pill backgrounds or accordion remain. Hover
-feedback honours reduced motion.
+credits use system serif typography and inline SVG, with no extra fonts or
+scripts. No pill backgrounds or accordion remain. Hover feedback honours
+reduced motion.
 
 `src/lib/capitalCities.ts` is the shared city inventory. Darwin lacked a route;
 location generation now includes all capitals and deduplicates by slug, retaining
@@ -547,7 +548,7 @@ Validation: full `npm run validate` passed with 75 Astro files checked, 155 buil
 HTML pages, 153 sitemap/Markdown pairs, 26 regression tests, valid agent files and
 internal links, and zero dependency vulnerabilities. Browser review at 320px,
 390px and 1280px confirmed no horizontal overflow, navigation targets at least
-44px tall, readable credit spacing and visible publisher details and accessible credit links. The
+44px tall, readable credit spacing and accessible credit links. The
 Worker release unit is unchanged; production identifiers are in the task handover.
 
 ## How to maintain this history
