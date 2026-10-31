@@ -528,9 +528,11 @@ rows. It now presents a smaller full brand lockup, a softened version of the her
 background, eight capital-city links and a separate resource navigation. The email
 and GitHub credit are removed from this footer. The requested copyright credits
 Mafia Publishing; the responsible legal publisher, ABN and no-sign-in correction
-route remain in a native details disclosure. The final Unpopular / The Internet
-credit uses two spaced phrases, pastel pill links, gentle opposing tilts and a
-small decorative sparkle. Hover feedback honours reduced motion.
+route remain as subtle visible text. A small italic “Another Withers Co project”
+line and decorative sparkle sit above the final “Another Unpopular website on
+The Internet by Josh” credit. The three names use matching understated underlines
+and spaced, wrapping phrases. No pill backgrounds or accordion remain. Hover
+feedback honours reduced motion.
 
 `src/lib/capitalCities.ts` is the shared city inventory. Darwin lacked a route;
 location generation now includes all capitals and deduplicates by slug, retaining
@@ -542,7 +544,7 @@ Validation: full `npm run validate` passed with 75 Astro files checked, 155 buil
 HTML pages, 153 sitemap/Markdown pairs, 26 regression tests, valid agent files and
 internal links, and zero dependency vulnerabilities. Browser review at 320px,
 390px and 1280px confirmed no horizontal overflow, navigation targets at least
-44px tall, readable credit spacing and an operable publisher disclosure. The
+44px tall, readable credit spacing and visible publisher details and accessible credit links. The
 Worker release unit is unchanged; production identifiers are in the task handover.
 
 ## How to maintain this history

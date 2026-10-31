@@ -214,8 +214,8 @@ brand lockup, capital-city links and the seven resource links in `menu.footer`.
 location routes exist, including Darwin. Routes still match stored locations or
 Australia-wide travel; a capital link does not imply a local member or availability.
 The copyright credits Mafia Publishing; legal publisher details and the public
-correction route remain in an accessible disclosure. The final Unpopular / The
-Internet credit uses spaced, gently tilted links with reduced-motion support.
+correction route remain as subtle visible text. A small “Another Withers Co project” line precedes the
+spaced Unpopular / The Internet / Josh credit links, with reduced-motion support.
 
 ## Routes and public surfaces
 

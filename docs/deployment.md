@@ -430,11 +430,12 @@ comparisons; a DevTools trace is not the PageSpeed score or field-user evidence.
 ### Footer changes
 
 Check the footer at 320px, 390px and desktop widths for horizontal overflow,
-readable navigation, 44px navigation targets and the two intact credit phrases.
+readable navigation, 44px navigation targets and intact credit phrases.
 Verify all eight capital links, especially `/directory/location/darwin/`, its
 Markdown companion and sitemap/inventory entry. Confirm resource links appear
 once each, Mafia Publishing points to `https://mafia.net.au/`, and the legal
-publisher/correction disclosure remains keyboard accessible.
+publisher/correction text remains visible. Check the Withers Co project line and
+the final Josh link to `https://joshwithers.au/`.
 
 ### Alias domains
 

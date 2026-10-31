@@ -49,50 +49,46 @@ import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
         class="footer-copyright"
         set:html={markdownify(config.params.copyright)}
       />
-      <details data-site-provenance class="footer-provenance">
-        <summary>Publisher details &amp; corrections</summary>
+      <div data-site-provenance class="footer-provenance">
         <p>
           Responsible publisher: <a href={PUBLISHER.url}>{PUBLISHER.name}</a>,
           ABN {PUBLISHER.abn}.{" "}
-          <a href={CORRECTIONS_PATH}>Request a correction or profile update</a>{" "}—
-          no sign-in required.
+          <a href={CORRECTIONS_PATH}>Request a correction or profile update</a>{" "}
+          — no sign-in required.
         </p>
-      </details>
+      </div>
     </div>
 
-    <p class="footer-signoff">
-      <span class="signoff-phrase">
-        <span class="signoff-small">Another</span>
-        <a
-          class="signoff-sticker signoff-unpopular"
-          href="https://unpopular.au/"
+    <div class="footer-credits">
+      <p class="footer-project">
+        <svg
+          width="12"
+          height="16"
+          viewBox="0 0 20 24"
+          fill="none"
+          aria-hidden="true"
         >
-          Unpopular
-        </a>
-      </span>
-      <span class="signoff-phrase">
-        <span class="signoff-small">website on</span>
-        <a
-          class="signoff-sticker signoff-internet"
-          href="https://theinternet.com.au/"
-        >
-          The Internet
-          <svg
-            class="signoff-sparkle"
-            width="20"
-            height="24"
-            viewBox="0 0 20 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M10 1c0 7-2 10-9 11 7 1 9 4 9 11 0-7 2-10 9-11-7-1-9-4-9-11Z"
-              fill="currentColor"
-            />
-          </svg>
-        </a>
-      </span>
-    </p>
+          <path
+            d="M10 1c0 7-2 10-9 11 7 1 9 4 9 11 0-7 2-10 9-11-7-1-9-4-9-11Z"
+            fill="currentColor"
+          />
+        </svg>
+        <span>
+          Another <strong>Withers Co</strong> project
+        </span>
+      </p>
+      <p class="footer-signoff">
+        <span class="signoff-phrase">
+          Another <a href="https://unpopular.au/">Unpopular</a>
+        </span>
+        <span class="signoff-phrase">
+          website on <a href="https://theinternet.com.au/">The Internet</a>
+        </span>
+        <span class="signoff-phrase">
+          by <a href="https://joshwithers.au/">Josh</a>
+        </span>
+      </p>
+    </div>
   </div>
 </footer>
 
@@ -171,15 +167,15 @@ import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
     color: #86244c;
     text-decoration: underline;
   }
-  .site-footer a:focus-visible,
-  summary:focus-visible {
+  .site-footer a:focus-visible {
     outline: 2px solid #86244c;
     outline-offset: 5px;
     border-radius: 3px;
   }
   .footer-publisher {
     border-top: 1px solid #dcb4c3;
-    padding-top: 24px;
+    padding-top: 28px;
+    text-align: center;
   }
   .footer-copyright {
     margin: 0;
@@ -192,85 +188,78 @@ import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
     text-underline-offset: 4px;
   }
   .footer-provenance {
-    max-width: 620px;
+    max-width: 720px;
+    margin: 12px auto 0;
+    color: #705162;
     font-size: 12px;
-    line-height: 1.7;
-  }
-  .footer-provenance summary {
-    cursor: pointer;
-    padding: 12px 0;
-    min-height: 44px;
-    width: fit-content;
+    line-height: 1.9;
+    text-wrap: pretty;
   }
   .footer-provenance p {
-    margin: 0 0 16px;
+    margin: 0;
   }
   .footer-provenance a {
     color: inherit;
-    text-decoration: underline;
+    text-decoration-color: #ba8c9d;
     text-underline-offset: 3px;
+  }
+  .footer-credits {
+    margin-top: 36px;
+    text-align: center;
+  }
+  .footer-project {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin: 0 0 8px;
+    color: #86244c;
+    font-size: 14px;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+  .footer-project strong {
+    font-weight: 600;
+  }
+  .footer-project svg {
+    flex: none;
+    transform: rotate(12deg);
   }
   .footer-signoff {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 16px 22px;
-    margin: 24px 0 0;
-    padding: 24px 0 8px;
+    gap: 0 9px;
+    margin: 0;
+    color: #705162;
+    font-size: 13px;
+    line-height: 1.6;
   }
   .signoff-phrase {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-  }
-  .signoff-small {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    gap: 5px;
     white-space: nowrap;
   }
-  .signoff-sticker {
-    position: relative;
+  .footer-signoff a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding: 10px 17px;
-    border: 1px solid #86244c;
-    border-radius: 999px;
     color: #86244c;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 3px 0 #86244c;
+    font-weight: 600;
+    text-decoration-line: underline;
+    text-decoration-color: #c78ca4;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
     transition:
-      transform 180ms ease,
-      box-shadow 180ms ease;
+      color 160ms ease,
+      text-decoration-color 160ms ease;
   }
-  .signoff-unpopular {
-    background: #f3c7d8;
-    transform: rotate(-4deg);
-  }
-  .signoff-internet {
-    background: #fff5df;
-    transform: rotate(3deg);
-  }
-  .signoff-sticker:hover {
-    transform: translateY(-3px) rotate(0);
-    box-shadow: 0 6px 0 #86244c;
-  }
-  .signoff-sticker:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 #86244c;
-  }
-  .signoff-sparkle {
-    position: absolute;
-    right: -9px;
-    top: -12px;
-    transform: rotate(12deg);
+  .footer-signoff a:hover {
+    color: #51273b;
+    text-decoration-color: #51273b;
+    text-decoration-style: wavy;
   }
   @media (min-width: 480px) {
     .footer-resources {
@@ -291,27 +280,10 @@ import { CORRECTIONS_PATH, PUBLISHER } from "@/lib/siteProvenance";
     .footer-brand {
       font-size: 22px;
     }
-    .footer-publisher {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 8px 32px;
-    }
-    .footer-provenance {
-      max-width: 480px;
-    }
-    .footer-signoff {
-      margin-top: 24px;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .signoff-sticker {
+    .footer-signoff a {
       transition: none;
-    }
-    .signoff-sticker:hover,
-    .signoff-sticker:active {
-      transform: none;
     }
   }
 </style>
