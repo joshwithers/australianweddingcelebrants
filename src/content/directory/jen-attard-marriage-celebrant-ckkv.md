@@ -1,32 +1,40 @@
 ---
-title: "Jen Attard"
-meta_title: "Jen Attard Adelaide, South Australia Celebrant"
-description: "Jen Attard is a marriage celebrant in Adelaide and Port Douglas, offering personalised ceremonies for big weddings or simple legal ceremonies. Visit: jenattard.com.au"
-image: "../../assets/directory/jen-attard-marriage-celebrant-ckkv-image.jpg"
-website: "https://jenattard.com.au"
-email: "hello@jenattard.com.au"
+title: Jen Attard Marriage Celebrant
+meta_title: Jen Attard — Adelaide & Port Douglas Wedding Celebrant | Australian Wedding Celebrants
+description: Award-winning marriage celebrant creating personalised, heartfelt ceremonies filled with humour and love stories across Adelaide, Barossa Valley and Port Douglas.
+image: ../../assets/directory/jen-attard-marriage-celebrant-ckkv-image.jpg
+website: https://jenattard.com.au
+email: hello@jenattard.com.au
 phone: "+61484841416"
-address: "13 Young St, Glenelg East SA 5045"
-location: ["Adelaide","Barossa Valley","Adelaide Hills","Fleurieu Peninsula","Cairns"]
-category: ["Celebrant","Elopement Planner","Marriage Office","Prop & Furniture Hire"]
-featured: false
-tier: "registered"
+address: 13 Young St, Glenelg East SA 5045
+location:
+  - Adelaide
+  - Barossa Valley
+  - Adelaide Hills
+  - Fleurieu Peninsula
+  - Cairns
+category:
+  - Celebrant
+  - MC
+  - Elopement Planner
+tier: registered
 social:
-  facebook: "https://facebook.com/jenattardmarriagecelebrant"
-  instagram: "https://instagram.com/jen_attard_marriagecelebrant"
+  facebook: https://facebook.com/jenattardmarriagecelebrant
+  instagram: https://instagram.com/jen_attard_marriagecelebrant
 draft: false
+logo: ../../assets/directory/jen-attard-marriage-celebrant-ckkv-logo.webp
+australia_wide: true
+accepts_agent_enquiries: false
+year_started: 2019
 ---
+Jen Attard is an award-winning marriage celebrant based in Adelaide, South Australia, and Port Douglas, Queensland, specialising in creating personalised ceremonies that authentically reflect each couple's unique love story. With hundreds of ceremonies to her name, Jen has perfected the art of blending heartfelt moments with genuine warmth and a touch of humour, ensuring every wedding feels entirely unboring and unforgettable.
 
-**Are you dreaming of a wedding that perfectly encapsulates your love story, whether it's a grand affair or a more intimate gathering?** Look no further than Jen Attard, a highly esteemed and sought-after Marriage Celebrant based in both Adelaide, South Australia, and Port Douglas, Queensland. With a wealth of experience and a talent for creating personalised ceremonies, Jen is the ideal choice for those seeking a meaningful and memorable wedding day.
+Jen's approach to marriage ceremonies is deeply personal and story-driven. She believes that your wedding day should be a celebration that feels completely and authentically you—not a one-size-fits-all affair. From the moment couples meet with her, Jen takes time to truly understand their relationship, their values, and their vision. She then crafts custom-made ceremonies designed to make guests laugh, smile, feel moved, and feel part of the moment. Couples consistently share that they felt completely at ease throughout their ceremony, whilst guests often comment that they've never experienced a wedding quite like it.
 
-**Jen Attard specialises in crafting ceremonies that are as unique as the couples she marries.** Whether you're envisioning a full-scale celebration in the scenic Adelaide Hills or the prestigious Barossa Valley, or a serene beachside elopement in Port Douglas, Jen brings a calm presence and a gift for storytelling to every ceremony. Her approach is engaging and inclusive, ensuring that your special day is authentically you, rather than a one-size-fits-all affair.
+Jen offers a range of services to suit every couple's needs and dreams. Her Our Love Story package is perfect for those dreaming of a full personalised celebration—whether that's a grand affair in a vineyard, an intimate gathering in the Adelaide Hills, or a beachside elopement in Port Douglas. Simply Married is ideal for couples wanting a smaller, sweet celebration that's short and meaningful, with the option to include a photographer. For those seeking a legal-only registry-style ceremony, Simply Signing' provides a meaningful moment without the fuss. Beyond these offerings, Jen also specialises in elopements, micro-weddings, same-sex weddings, and vow renewals.
 
-**For those planning a large wedding, Jen's expertise in orchestrating seamless and beautiful ceremonies is unparalleled.** She collaborates with other vendors, provides all necessary ceremony music, and guides you through each step, from legal processes to vow writing. Her aim is to make your ceremony a highlight of the day, filled with energy and emotion, rather than just another item on the to-do list.
+With extensive experience orchestrating seamless and beautiful ceremonies, Jen brings a calm, professional presence to every detail. She collaborates with other vendors, provides ceremony music, and guides couples through each step—from navigating legal processes to crafting heartfelt vows. Her commitment extends beyond the ceremony itself; through her Love and Confetti Guide and Organiser, she provides exclusive planning tools to ensure the entire wedding planning experience feels simple, enjoyable, and stress-free.
 
-**If a grand wedding isn't your style, Jen also offers Simply Married packages.** These registry-style ceremonies are short, sweet, and imbued with meaning. They are perfect for couples wanting a legal ceremony that feels personal without any of the fuss. Every Simply Married ceremony includes expertly crafted vows and all necessary legal paperwork, ensuring that your day is both stress-free and special.
+Jen serves couples across a stunning array of locations. Based in Adelaide, she regularly marries couples in the picturesque Adelaide Hills, the prestigious Barossa Valley wineries, the scenic Fleurieu Peninsula, and the breathtaking beaches and gardens of Port Douglas. She also travels Australia-wide, bringing her warmth and expertise to ceremonies in backyards, favourite lookouts, and any location meaningful to the couple. Whether you're planning an intimate moment or a celebration with all your loved ones, Jen's gift for storytelling and her talent for creating inclusive, engaging ceremonies make her the ideal choice.
 
-**What sets Jen apart is her commitment to creating story-driven ceremonies that reflect the warmth and light of your relationship, tailored to suit any crowd.** Her Simply Married services are ideal for those seeking a heartfelt legal ceremony without the stress. Jen also provides exclusive planning tools, such as the Love and Confetti Guide and Organiser, to ensure your wedding planning experience is both simple and enjoyable.
-
-**Jen's services include personalised wedding ceremonies, Simply Married legal-only ceremonies, elopements, micro-weddings, same-sex weddings, and vow renewals.** She marries couples in breathtaking locations such as the Adelaide Hills, Barossa Valley wineries, Fleurieu Peninsula, and the stunning beaches and gardens of Port Douglas. Whether it's in a backyard, a favourite lookout, or any place meaningful to you, Jen is there to make your day uniquely yours.
-
-**If you seek a celebrant who blends warmth, professionalism, and personality, Jen Attard is here to assist.** Whether your vision is a grand celebration or a simple, heartfelt ceremony, Jen is dedicated to making your day relaxed, enjoyable, and unforgettable. Visit [Jen Attard's website](https://jenattard.com.au) to learn more and start planning your perfect ceremony. Enquire today and let Jen help you create a ceremony that fits you perfectly.
+What truly sets Jen apart is her unwavering commitment to making your ceremony a highlight of the day—filled with energy, emotion, and authentic connection. Couples trust her to create something unforgettable, and Jen delivers by blending professionalism with genuine personality and warmth. If you're seeking a marriage celebrant who brings heart, humour, and expertise to every ceremony, Jen Attard is ready to help you create your perfect day.
