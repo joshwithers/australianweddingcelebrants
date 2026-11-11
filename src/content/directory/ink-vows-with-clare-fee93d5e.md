@@ -25,7 +25,7 @@ category:
   - Elopement Planner
 australia_wide: true
 accepts_agent_enquiries: true
-year_started: 2022
+year_started: 2026
 tier: registered
 social:
   facebook: https://www.facebook.com/inkvowsAU
